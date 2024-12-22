@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
     if (!text) return conn.reply(m.chat, `❀ Ingresa un link de YouTube`, m);
-
+    await m.react('🕓');
     try {
         let apiResponse = await fetch(`https://api.zenkey.my.id/api/download/ytmp3?apikey=zenkey&url=${text}`);
         let api = await apiResponse.json();
