@@ -17,7 +17,7 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
   user.regTime = +new Date()
   user.registered = true
   let sn = createHash('md5').update(m.sender).digest('hex').slice(0, 6)
-  let img = await (await fetch(`https://pomf2.lain.la/f/rycjgv2t.jpg`)).buffer()
+  let img = await (await fetch(`https://th.bing.com/th/id/R.3c44682163aece471be5e9be31853c5f?rik=ffeQ00G9XjrtnA&riu=http%3a%2f%2fcdn.wallpapersafari.com%2f3%2f96%2fzCEgo6.jpg&ehk=AG0SIiF60d%2fqhZysxXu70HHHGZOSdQ5xhUnW0SeytiI%3d&risl=&pid=ImgRaw&r=0`)).buffer()
   
   let now = new Date()
   let date = now.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })
