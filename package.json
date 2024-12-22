@@ -27,10 +27,10 @@
 	"author": "Tu Nombre o tu Organización",
 	"repository": {
 		"type": "git",
-		"url": "git+"
+		"url": "git+https://github.com/Manuel12yt/dark-ai.git"
 	},
 	"bugs": {
-		"url": ""
+		"url": "https://github.com/Manuel12yt/dark-ai.git"
 	},
 	"license": "GPL-3.0-or-later",
 	"dependencies": {
