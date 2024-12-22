@@ -4,7 +4,7 @@ import yts from "yt-search";
 
 let handler = async (m, { conn, text }) => {
     if (!text) {
-        return conn.reply(m.chat, "❀ Ingresa un enlace de YouTube válido.", m,rcanal);
+        return conn.reply(m.chat, "❀ Ingresa texto \nejenplo: .play ozuna", m,rcanal);
     }
 
     await m.react("🕓");
