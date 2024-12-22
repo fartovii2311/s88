@@ -16,7 +16,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
                 mimetype: "audio/mp3",
                 ptt: true
             }, { quoted: m });
-
+       await m.react('✅');
         } else {
             conn.reply(m.chat, '❀ Hubo un error al obtener el enlace de descarga. Intenta nuevamente.', m);
         }
