@@ -26,7 +26,7 @@
 	"homepage": "",
 	"author": "Tu Nombre o tu Organización",
 	"repository": {
-		"type": "git",
+		"type": "git@github.com:Manuel12yt/dark-ai.git",
 		"url": "git+https://github.com/Manuel12yt/dark-ai.git"
 	},
 	"bugs": {
