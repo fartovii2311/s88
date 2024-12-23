@@ -13,11 +13,11 @@ apt update && apt upgrade && pkg install -y git nodejs ffmpeg imagemagick yarn
 ```
 
 ```bash
-git clone https://github.com/Manuel12yt/Lynx-AI.git
+git clone https://github.com/Manuel12yt/dark-ai.git
 ```
 
 ```bash
-cd Lynx-AI
+cd dark-ai
 ```
 
 ```bash
