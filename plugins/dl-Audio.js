@@ -3,9 +3,21 @@ import fetch from 'node-fetch';
 let handler = async (m, { conn, text, usedPrefix, command }) => {
     if (command !== "Audio") return;  // Verifica si el comando es "Audio" antes de continuar.
 
+    // Busca una URL de YouTube en el texto del mensaje
+    const urlRegex = /(https?:\/\/(?:www\.)?youtube\.com\/(?:watch\?v=|embed\/|v\/|.+\/videos\/(?:youtube|music))[\w-]+)/;
+    const match = text.match(urlRegex);
+
+    // Si no se encuentra ninguna URL de YouTube, termina la ejecución
+    if (!match) {
+        return conn.reply(m.chat, '❀ No se ha encontrado un enlace de YouTube en el mensaje.', m);
+    }
+
+    // Extrae la URL de YouTube del texto
+    const youtubeUrl = match[0];
+
     await m.react('🕓');
     try {
-        let apiResponse = await fetch(`https://api.zenkey.my.id/api/download/ytmp3?apikey=zenkey&url=${text}`);
+        let apiResponse = await fetch(`https://api.zenkey.my.id/api/download/ytmp3?apikey=zenkey&url=${youtubeUrl}`);
         let api = await apiResponse.json();
 
         if (api.status === true) {
@@ -26,6 +38,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     }
 }
 
-handler.command = ['Audio'];  // Añadir 'Audio' como un comando válido.
+handler.command = ['ytmp3', 'Audio'];  // Añadir 'Audio' como un comando válido.
 
 export default handler;
