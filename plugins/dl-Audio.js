@@ -1,18 +1,21 @@
 import fetch from 'node-fetch';
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-    if (command !== "Audio") return;  // Verifica si el comando es "Audio" antes de continuar.
+    // Verificar si el mensaje es una mención
+    if (!m.quoted) return; // Si no es un mensaje citado, no hacer nada
 
-    // Busca una URL de YouTube en el texto del mensaje
+    const quotedMessage = m.quoted; // Obtener el mensaje citado
+
+    // Verificar si el mensaje citado contiene un enlace de YouTube
     const urlRegex = /(https?:\/\/(?:www\.)?youtube\.com\/(?:watch\?v=|embed\/|v\/|.+\/videos\/(?:youtube|music))[\w-]+)/;
-    const match = text.match(urlRegex);
+    const match = quotedMessage.text.match(urlRegex);
 
-    // Si no se encuentra ninguna URL de YouTube, termina la ejecución
+    // Si no se encuentra un enlace de YouTube en el mensaje citado, terminar la ejecución
     if (!match) {
-        return conn.reply(m.chat, '❀ No se ha encontrado un enlace de YouTube en el mensaje. Asegúrate de incluir un enlace de YouTube.', m);
+        return conn.reply(m.chat, '❀ No se ha encontrado un enlace de YouTube en el mensaje citado.', m);
     }
 
-    // Extrae la URL de YouTube del texto
+    // Extraer el enlace de YouTube
     const youtubeUrl = match[0];
 
     await m.react('🕓');
