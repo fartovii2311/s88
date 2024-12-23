@@ -41,7 +41,7 @@ let handler = async (m, { conn, args }) => {
     }
 };
 
-handler.command = /^\.chatbot /i;
+handler.command = /^\chatbot /i;
 handler.register = true;
 
 export default handler;
