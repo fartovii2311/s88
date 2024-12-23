@@ -1,13 +1,15 @@
-const fs = require('fs');
-const respuestas = JSON.parse(fs.readFileSync('./json/chatbot.json', 'utf8'));
+import fs from 'fs';
+
+let respuestas = JSON.parse(fs.readFileSync('./json/chatbot.json', 'utf8'));
+
+let handler = {};
 
 handler.all = async function(m) {
     try {
-        const texto = m.message.conversation || m.message.extendedTextMessage.text;
-        const chatId = m.key.remoteJid;
-        const mensaje = texto.toLowerCase();
+        let texto = m.message.conversation || m.message.extendedTextMessage.text;
+        let chatId = m.key.remoteJid;
+        let mensaje = texto.toLowerCase();
 
-        // Función para obtener la respuesta del archivo JSON
         function obtenerRespuesta(mensaje) {
             if (respuestas.saludos[mensaje]) {
                 return respuestas.saludos[mensaje];
@@ -24,11 +26,10 @@ handler.all = async function(m) {
             return "Lo siento, no entiendo esa pregunta.";
         }
 
-        // Si el mensaje no comienza con .chatbot, no procesar como comando
         if (texto.toLowerCase().startsWith('.chatbot')) {
-            const args = texto.slice(9).trim().toLowerCase(); // Remueve ".chatbot" y obtiene el mensaje
+            let args = texto.slice(9).trim().toLowerCase();
+            let respuesta = obtenerRespuesta(args);
 
-            const respuesta = obtenerRespuesta(args);
             await conn.sendMessage(chatId, { text: respuesta }, { quoted: m });
         }
 
@@ -37,7 +38,7 @@ handler.all = async function(m) {
     }
 };
 
-handler.command = /^\.chatbot$/i; // Comando ".chatbot"
+handler.command = /^\.chatbot /i;
 handler.register = true;
 
 export default handler;
