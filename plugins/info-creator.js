@@ -25,7 +25,7 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
     let vcard = `BEGIN:VCARD
 VERSION:3.0
 N:WhatsApp;   🍃
-FN:Owner Contact
+FN:DARK CORE 🍃
 ORG:Owner
 TEL;TYPE=cell:+51968382008
 EMAIL:@gmail.co
