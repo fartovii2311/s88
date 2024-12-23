@@ -9,7 +9,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
     // Si no se encuentra ninguna URL de YouTube, termina la ejecución
     if (!match) {
-        return conn.reply(m.chat, '❀ No se ha encontrado un enlace de YouTube en el mensaje.', m);
+        return conn.reply(m.chat, '❀ No se ha encontrado un enlace de YouTube en el mensaje. Asegúrate de incluir un enlace de YouTube.', m);
     }
 
     // Extrae la URL de YouTube del texto
