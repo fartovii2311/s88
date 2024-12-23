@@ -1,10 +1,10 @@
 import fetch from 'node-fetch';
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-    // Verificar si el mensaje es una mención
-    if (!m.quoted) return; // Si no es un mensaje citado, no hacer nada
+    // Verifica si el mensaje tiene una cita (mencionando otro mensaje)
+    if (!m.quoted) return conn.reply(m.chat, '❀ Menciona un mensaje que contenga un enlace de YouTube.', m);
 
-    const quotedMessage = m.quoted; // Obtener el mensaje citado
+    const quotedMessage = m.quoted;  // El mensaje citado
 
     // Verificar si el mensaje citado contiene un enlace de YouTube
     const urlRegex = /(https?:\/\/(?:www\.)?youtube\.com\/(?:watch\?v=|embed\/|v\/|.+\/videos\/(?:youtube|music))[\w-]+)/;
@@ -12,10 +12,10 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
     // Si no se encuentra un enlace de YouTube en el mensaje citado, terminar la ejecución
     if (!match) {
-        return conn.reply(m.chat, '❀ No se ha encontrado un enlace de YouTube en el mensaje citado.', m);
+        return conn.reply(m.chat, '❀ El mensaje citado no contiene un enlace de YouTube.', m);
     }
 
-    // Extraer el enlace de YouTube
+    // Extraer la URL de YouTube
     const youtubeUrl = match[0];
 
     await m.react('🕓');
@@ -26,6 +26,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         if (api.status === true) {
             let dl_url = api.result.download.url;
 
+            // Enviar el audio MP3
             conn.sendMessage(m.chat, { 
                 audio: { url: dl_url },
                 mimetype: "audio/mp3",
