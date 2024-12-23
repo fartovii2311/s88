@@ -2,30 +2,76 @@ import fetch from 'node-fetch'
 import yts from 'yt-search'
 
 let handler = async (m, { conn: star, command, args, text, usedPrefix }) => {
-  if (!text) return m.reply('[ ✰ ] Ingresa el título de un video o canción de *YouTube*.\n\n`Ejemplo:`\n' + `> *${usedPrefix + command}* Mc Davo - Debes De Saber`)
+  // Si el mensaje citado no tiene un enlace de YouTube, respondemos.
+  if (m.quoted) {
+    const quotedMessage = m.quoted;  // El mensaje citado
+
+    // Verificar si el mensaje citado contiene un enlace de YouTube
+    const urlRegex = /(https?:\/\/(?:www\.)?youtube\.com\/(?:watch\?v=|embed\/|v\/|.+\/videos\/(?:youtube|music))[\w-]+)/;
+    const match = quotedMessage.text.match(urlRegex);
+
+    // Si no se encuentra un enlace de YouTube en el mensaje citado, termina la ejecución
+    if (!match) {
+      return conn.reply(m.chat, '❀ El mensaje citado no contiene un enlace de YouTube.', m);
+    }
+
+    // Extraer la URL de YouTube
+    const youtubeUrl = match[0];
+    
+    // Responder al usuario con un mensaje indicando que el enlace ha sido detectado
     await m.react('🕓')
     try {
-    let res = await search(args.join(" "))
-    let img = await (await fetch(`${res[0].image}`)).buffer()
-    let txt = '`乂  Y O U T U B E  -  P L A Y`\n\n'
-       txt += `\t\t*» Título* : ${res[0].title}\n`
-       txt += `\t\t*» Duración* : ${secondString(res[0].duration.seconds)}\n`
-       txt += `\t\t*» Publicado* : ${eYear(res[0].ago)}\n`
-       txt += `\t\t*» Canal* : ${res[0].author.name || 'Desconocido'}\n`
-       txt += `\t\t*» ID* : ${res[0].videoId}\n`
-       txt += `\t\t*» Url* : ${'https://youtu.be/' + res[0].videoId}\n\n`
-       txt += `> *-* Para descargar responde a este mensaje con *Video* o *Audio*.`
-await star.sendFile(m.chat, img, 'thumbnail.jpg', txt, m,rcanal,fake)
-await m.react('✅')
-} catch {
-await m.react('✖️')
-}}
+      let apiResponse = await fetch(`https://api.zenkey.my.id/api/download/ytmp3?apikey=zenkey&url=${youtubeUrl}`);
+      let api = await apiResponse.json();
+
+      if (api.status === true) {
+        let dl_url = api.result.download.url;
+
+        // Enviar el audio MP3
+        await star.sendMessage(m.chat, { 
+          audio: { url: dl_url },
+          mimetype: "audio/mp3",
+          ptt: true
+        }, { quoted: m });
+        await m.react('✅');
+      } else {
+        conn.reply(m.chat, '❀ Hubo un error al obtener el enlace de descarga. Intenta nuevamente.', m);
+      }
+    } catch (error) {
+      console.error('Error al obtener el MP3:', error);
+      conn.reply(m.chat, '❀ Ocurrió un error al intentar descargar el MP3. Intenta nuevamente más tarde.', m);
+    }
+
+  } else {
+    // Si el mensaje no es una mención, hacer una búsqueda en YouTube como antes
+    if (!text) return m.reply('[ ✰ ] Ingresa el título de un video o canción de *YouTube*.\n\n`Ejemplo:`\n' + `> *${usedPrefix + command}* Mc Davo - Debes De Saber`);
+    await m.react('🕓');
+    try {
+      let res = await search(args.join(" "))
+      let img = await (await fetch(`${res[0].image}`)).buffer()
+      let txt = '`乂  Y O U T U B E  -  P L A Y`\n\n'
+      txt += `\t\t*» Título* : ${res[0].title}\n`
+      txt += `\t\t*» Duración* : ${secondString(res[0].duration.seconds)}\n`
+      txt += `\t\t*» Publicado* : ${eYear(res[0].ago)}\n`
+      txt += `\t\t*» Canal* : ${res[0].author.name || 'Desconocido'}\n`
+      txt += `\t\t*» ID* : ${res[0].videoId}\n`
+      txt += `\t\t*» Url* : ${'https://youtu.be/' + res[0].videoId}\n\n`
+      txt += `> *-* Para descargar responde a este mensaje con *Video* o *Audio*.`
+      await star.sendFile(m.chat, img, 'thumbnail.jpg', txt, m,rcanal,fake)
+      await m.react('✅')
+    } catch {
+      await m.react('✖️')
+    }
+  }
+}
+
 handler.help = ['play *<búsqueda>*']
 handler.tags = ['downloader']
 handler.command = ['play']
 handler.register = true 
 export default handler
 
+// Función de búsqueda en YouTube
 async function search(query, options = {}) {
   let search = await yts.search({ query, hl: "es", gl: "ES", ...options })
   return search.videos
