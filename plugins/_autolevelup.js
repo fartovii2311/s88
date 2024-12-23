@@ -1,4 +1,4 @@
-*/ import { canLevelUp, xpRange } from '../lib/levelling.js';
+/* import { canLevelUp, xpRange } from '../lib/levelling.js';
 import { levelup } from '../lib/canvas.js';
 
 export async function before(m, { conn }) {
@@ -33,3 +33,4 @@ export async function before(m, { conn }) {
     }
   }
 }
+*/
