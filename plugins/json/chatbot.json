@@ -1,0 +1,69 @@
+{
+  "saludos": {
+    "hola": "¡Hola! ¿En qué puedo ayudarte?",
+    "buenos días": "¡Buenos días! ¿Qué puedo hacer por ti hoy?",
+    "buenas noches": "¡Buenas noches! Espero que hayas tenido un buen día.",
+    "hey": "¡Hey! ¿Cómo te encuentras?",
+    "qué tal": "¡Todo bien! ¿Y tú?",
+    "saludos": "¡Saludos! ¿En qué puedo asistirte?",
+    "hola amigo": "¡Hola! Me alegra que estés aquí."
+  },
+  "despedidas": {
+    "adios": "¡Hasta luego! Que tengas un buen día.",
+    "chau": "¡Nos vemos pronto!",
+    "hasta luego": "¡Hasta luego! No dudes en volver si necesitas más ayuda.",
+    "nos vemos": "¡Nos vemos! Cuídate.",
+    "hasta pronto": "¡Hasta pronto! Estoy aquí cuando me necesites.",
+    "adiós amigo": "¡Hasta pronto! Que te vaya bien."
+  },
+  "preguntas": {
+    "cómo estás": "¡Estoy bien, gracias! ¿Y tú?",
+    "qué haces": "Aquí, listo para ayudarte con lo que necesites.",
+    "cuál es tu nombre": "Soy un chatbot creado para ayudarte. ¿En qué puedo asistirte?",
+    "quién te creó": "Fui creado por un programador para facilitar la interacción automatizada.",
+    "cuál es tu propósito": "Estoy aquí para responder preguntas y ayudarte con cualquier cosa que necesites.",
+    "dónde estás": "¡Estoy en la nube, listo para responder a tus preguntas desde cualquier lugar!",
+    "me ayudas": "¡Por supuesto! Dime en qué te puedo ayudar.",
+    "qué es un chatbot": "Un chatbot es un programa diseñado para interactuar con humanos mediante texto o voz.",
+    "cómo aprendes": "Mi creador me programó para aprender de las interacciones y responder de manera útil."
+  },
+  "información": {
+    "hora": "Lo siento, no tengo acceso a la hora exacta. Intenta con tu dispositivo.",
+    "fecha": "No tengo un calendario, pero puedes consultarlo en tu dispositivo.",
+    "clima": "Para saber el clima, usa alguna app meteorológica en tu dispositivo.",
+    "cómo funciona esto": "Soy un bot que responde según lo que me preguntes. Intenta hacerme alguna pregunta.",
+    "qué día es hoy": "No tengo acceso a un calendario, pero puedes verificarlo en tu dispositivo.",
+    "qué es la inteligencia artificial": "La inteligencia artificial es la simulación de procesos de inteligencia humana por parte de sistemas informáticos."
+  },
+  "chistes": {
+    "cuéntame un chiste": "¿Por qué los pájaros no usan Facebook? ¡Porque ya tienen Twitter!",
+    "otro chiste": "¿Qué le dice una impresora a otra? ¿Esa hoja es tuya o es una impresión mía?",
+    "cuéntame algo gracioso": "¡No confíes en los átomos! Siempre lo están creando todo.",
+    "chiste corto": "¿Qué hace una abeja en el gimnasio? ¡Zum-ba!",
+    "cuéntame un chiste malo": "¿Qué le dice una iguana a su hermana gemela? Somos iguanitas."
+  },
+  "definiciones": {
+    "qué es un algoritmo": "Un algoritmo es una secuencia de pasos lógicos para resolver un problema o realizar una tarea.",
+    "qué es una API": "Una API es una interfaz que permite que diferentes aplicaciones se comuniquen entre sí.",
+    "qué es la programación": "La programación es el proceso de escribir instrucciones para que una computadora realice tareas específicas.",
+    "qué es el machine learning": "El machine learning es una rama de la IA que permite a las máquinas aprender de datos sin ser programadas explícitamente para ello.",
+    "qué es un servidor": "Un servidor es una computadora que proporciona datos o servicios a otras computadoras a través de una red."
+  },
+  "datos_curiosos": {
+    "cuéntame un dato curioso": "¿Sabías que los tiburones han existido por más de 400 millones de años, mucho antes que los dinosaurios?",
+    "dame otro dato curioso": "El corazón humano puede seguir latiendo incluso después de ser extraído del cuerpo, mientras tenga oxígeno.",
+    "sabías que": "Las abejas pueden recordar rostros humanos. Tienen una memoria sorprendentemente avanzada para un insecto.",
+    "cuéntame algo interesante": "El Monte Everest crece unos 4 milímetros al año debido al movimiento de las placas tectónicas."
+  },
+  "conversaciones": {
+    "cuál es tu comida favorita": "Como soy un programa, no como, pero si pudiera, me encantaría probar la pizza digital.",
+    "te gusta la música": "¡Claro! Me gusta todo lo que suene bien, aunque no tengo oídos para escucharla.",
+    "qué te gusta hacer": "Me encanta responder preguntas y ayudar a las personas a resolver problemas.",
+    "eres real": "Soy tan real como la programación que me da vida, ¡pero no tengo un cuerpo físico!"
+  },
+  "trivia": {
+    "cuál es el país más grande del mundo": "Rusia es el país más grande del mundo por superficie.",
+    "cuál es el océano más profundo": "El océano más profundo es el Océano Pacífico, con la Fosa de las Marianas como el punto más profundo.",
+    "cuál es el animal más rápido": "El guepardo es el animal terrestre más rápido, alcanzando velocidades de hasta 112 km/h."
+  }
+}
