@@ -28,8 +28,8 @@ N:WhatsApp;   🍃
 FN:Owner Contact
 ORG:Owner
 TEL;TYPE=cell:+51968382008
-EMAIL:agasistencia2@gmail.com
-ADR:;;🇦🇷 Argentina;;;;;;
+EMAIL:agasistencia2@gmail.co
+ADR:;;🇵🇪 Perú;;;;;;
 BDAY;value=date:🤍 09-12-2007
 END:VCARD`;
 
