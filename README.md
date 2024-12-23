@@ -1,4 +1,4 @@
-# 
+# ai privado
 
 ---------
 
@@ -27,4 +27,3 @@ yarn install && npm install
 ```bash
 npm start
 ```
----------
