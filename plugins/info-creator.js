@@ -24,13 +24,13 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
 
     let vcard = `BEGIN:VCARD
 VERSION:3.0
-N:WhatsApp;   🍃
-FN:DARK CORE 🍃
+N:WhatsApp;
+FN:DARK-CORE 🍃
 ORG:Owner
 TEL;TYPE=cell:+51968382008
-EMAIL:@gmail.co
+EMAIL:darkcoreyt@gmail.com
 ADR:;;🇵🇪 Perú;;;;;;
-BDAY;value=date:🤍 Q7-06-2006
+BDAY;value=date:🤍 anonimous
 END:VCARD`;
 
     const tag_own = await conn.sendMessage(m.chat, { 
