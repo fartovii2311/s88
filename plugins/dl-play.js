@@ -1,84 +1,80 @@
-// [ ❀ PLAY ]
-import fetch from "node-fetch";
-import yts from "yt-search";
+import yts from 'youtube-yts';
+import ytdl from '@distube/ytdl-core';
+import ffmpeg from 'fluent-ffmpeg';
+import { randomBytes } from 'crypto';
+import fs from 'fs';
+import path from 'path';
 
-let handler = async (m, { conn, text }) => {
-    if (!text) {
-        return conn.reply(m.chat, "❀ Ingresa un enlace de YouTube válido.", m,rcanal);
+export default async function handler(m, { conn, args, command }) {
+  try {
+    if (!args[0]) {
+      await m.reply('[ ✰ ] Proporciona un título o URL de YouTube para descargar.');
+      return;
     }
 
-    await m.react("🕓");
+    const query = args.join(' ');
+    let videoInfo;
 
-    try {
-        // Buscar información del video
-        const ytres = await yts(text);
-        const video = ytres.videos[0];
-
-        if (!video) {
-            return m.reply("❀ Video no encontrado.", m);
-        }
-
-        const { title, thumbnail, timestamp, views, ago, url } = video;
-        const vistas = parseInt(views).toLocaleString("es-ES") + " vistas";
-
-        // Preparar información del video
-        const infoMessage = `- 🎵 Título: ${title}
-- ⏳ Duración: ${timestamp}
-- 👀 Vistas: ${vistas}
-- 📆 Subido: ${ago}
-- 🔗 Enlace: ${url}`;
-
-        // Obtener el thumbnail (opcional)
-        let thumbBuffer;
-        try {
-            const thumbFile = await conn.getFile(thumbnail);
-            thumbBuffer = thumbFile?.data;
-        } catch (err) {
-            console.error("Error al obtener el thumbnail:", err);
-            thumbBuffer = null;
-        }
-
-        // Enviar información inicial del video
-        const metadata = {
-            contextInfo: {
-                externalAdReply: {
-                    title: title,
-                    body: "Descargando audio...",
-                    mediaType: 1,
-                    previewType: 0,
-                    mediaUrl: url,
-                    sourceUrl: url,
-                    thumbnail: thumbBuffer,
-                    renderLargerThumbnail: true,
-                },
-            },
-        };
-        await conn.reply(m.chat, infoMessage, m,rcanal,fake, metadata);
-
-        // Descargar audio desde la API
-        const apiResponse = await fetch(`https://api.zenkey.my.id/api/download/ytmp3?apikey=zenkey&url=${url}`);
-        const json = await apiResponse.json();
-
-        if (!json.result || !json.result.download || !json.result.download.url) {
-            throw new Error("Respuesta de la API no contiene el enlace de descarga.");
-        }
-
-        const downloadLink = json.result.download.url;
-
-        // Enviar el audio
-        await conn.sendMessage(
-            m.chat,
-            { audio: { url: downloadLink }, mimetype: "audio/mpeg" },
-            { quoted: m }
-        );
-
-        await m.react("✅");
-    } catch (error) {
-        console.error("Error al manejar el comando:", error);
-        await conn.reply(m.chat, "❀ No se pudo completar la descarga. Inténtalo más tarde.", m);
+    if (command === 'play') {
+      const results = await searchVideos(query);
+      if (results.length === 0) {
+        await m.reply('[ ✰ ] No se encontraron resultados para tu búsqueda.');
+        return;
+      }
+      videoInfo = results[0];
+    } else {
+      videoInfo = { url: args[0] };
     }
-};
 
-handler.command = /^(play)$/i;
+    const audioPath = await downloadAudio(videoInfo.url);
 
-export default handler;
+    const caption = `🎶 *Audio descargado de YouTube* 🎶\n\n` +
+                    `*Título:* ${videoInfo.title || 'Desconocido'}\n` +
+                    `*Duración:* ${videoInfo.duration || 'Desconocido'}\n` +
+                    `*Autor:* ${videoInfo.author || 'Desconocido'}`;
+
+    await conn.sendMessage(m.chat, {
+      audio: { url: audioPath },
+      mimetype: 'audio/mp4',
+      ptt: false,
+      caption
+    });
+
+    fs.unlinkSync(audioPath); // Limpieza del archivo temporal
+  } catch (error) {
+    console.error(error);
+    await m.reply('[ ✖ ] Hubo un error al procesar tu solicitud.');
+  }
+}
+
+async function searchVideos(query) {
+  const result = await yts(query);
+  return result.videos.map(video => ({
+    title: video.title,
+    author: video.author,
+    description: video.description,
+    thumbnail: video.thumbnail,
+    views: video.views,
+    url: video.url,
+    timestamp: video.timestamp,
+    duration: video.duration
+  }));
+}
+
+async function downloadAudio(url) {
+  const videoId = new URL(url).searchParams.get('v');
+  const stream = ytdl(videoId, { filter: 'audioonly', quality: 'highestaudio' });
+  const audioPath = `./tmp/${randomBytes(3).toString('hex')}.mp3`;
+
+  return new Promise((resolve, reject) => {
+    ffmpeg(stream)
+      .audioFrequency(48000)
+      .audioChannels(2)
+      .audioBitrate(320)
+      .audioCodec('libmp3lame')
+      .toFormat('mp3')
+      .save(audioPath)
+      .on('end', () => resolve(audioPath))
+      .on('error', reject);
+  });
+}
