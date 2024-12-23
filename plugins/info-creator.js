@@ -28,9 +28,9 @@ N:WhatsApp;   🍃
 FN:Owner Contact
 ORG:Owner
 TEL;TYPE=cell:+51968382008
-EMAIL:agasistencia2@gmail.co
+EMAIL:@gmail.co
 ADR:;;🇵🇪 Perú;;;;;;
-BDAY;value=date:🤍 09-12-2007
+BDAY;value=date:🤍 Q7-06-2006
 END:VCARD`;
 
     const tag_own = await conn.sendMessage(m.chat, { 
