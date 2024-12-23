@@ -36,14 +36,13 @@ export default async function handler(m, { conn, args, command }) {
     await conn.sendMessage(m.chat, {
       audio: { url: audioPath },
       mimetype: 'audio/mp4',
-      ptt: false,
-      caption
-    });
+      ptt: false
+    }, { quoted: m });
 
     fs.unlinkSync(audioPath); // Limpieza del archivo temporal
   } catch (error) {
     console.error(error);
-    await m.reply('[ ✖ ] Hubo un error al procesar tu solicitud.');
+    await m.reply(`[ ✖ ] Hubo un error al procesar tu solicitud.\n\n${error.message}`);
   }
 }
 
@@ -66,6 +65,11 @@ async function downloadAudio(url) {
   const stream = ytdl(videoId, { filter: 'audioonly', quality: 'highestaudio' });
   const audioPath = `./tmp/${randomBytes(3).toString('hex')}.mp3`;
 
+  // Crear la carpeta 'tmp' si no existe
+  if (!fs.existsSync('./tmp')) {
+    fs.mkdirSync('./tmp');
+  }
+
   return new Promise((resolve, reject) => {
     ffmpeg(stream)
       .audioFrequency(48000)
@@ -78,3 +82,9 @@ async function downloadAudio(url) {
       .on('error', reject);
   });
 }
+
+// Metadata para el handler
+handler.help = ['play'];
+handler.tags = ['downloader'];
+handler.command = /^(play)$/i;
+export default handler;
