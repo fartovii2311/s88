@@ -1,3 +1,4 @@
+import { youtubedl, youtubedlv2 } from '@bochilteam/scraper'
 import yts from 'yt-search'
 import fetch from 'node-fetch'
 
@@ -24,7 +25,7 @@ const handler = async (m, { conn, command, args, text, usedPrefix }) => {
 
   if (command === 'play' || command === 'audio') {
     try {
-      const yt = await yts(yt_play[0].url).catch(async () => await fetchFromPlayApi(yt_play[0].url))
+      const yt = await youtubedl(yt_play[0].url).catch(async () => await fetchFromPlayApi(yt_play[0].url))
       await conn.sendFile(m.chat, await yt.audio.download(), `${yt.title}.mp3`, null, m, false, { mimetype: 'audio/mp4' })
     } catch (e) {
       try {
@@ -40,7 +41,7 @@ const handler = async (m, { conn, command, args, text, usedPrefix }) => {
 
   if (command === 'play2' || command === 'video') {
     try {
-      const yt = await yts(yt_play[0].url).catch(async () => await fetchFromPlayApi(yt_play[0].url))
+      const yt = await youtubedl(yt_play[0].url).catch(async () => await fetchFromPlayApi(yt_play[0].url))
       let q = getBestVideoQuality(yt)
       await conn.sendMessage(m.chat, { video: { url: await yt.video[q].download() }, fileName: `${yt.title}.mp4`, mimetype: 'video/mp4', caption: `⟡ *${yt_play[0].title}*\n⟡ \`${q}\` | ${await yt.video[q].fileSizeH}\n> ${wm}` }, { quoted: m })
     } catch (e) {
@@ -77,7 +78,7 @@ const handler = async (m, { conn, command, args, text, usedPrefix }) => {
     } catch (e) {
       try {
         let q = '128kbps'
-        const yt = await yts(yt_play[0].url).catch(async _ => await fetchFromPlayApi(yt_play[0].url))
+        const yt = await youtubedl(yt_play[0].url).catch(async _ => await fetchFromPlayApi(yt_play[0].url))
         const dl_url = await yt.audio[q].download()
         const ttl = await yt.title
         await conn.sendMessage(m.chat, { document: { url: dl_url }, mimetype: 'audio/mpeg', fileName: `${ttl}.mp3` }, { quoted: m })
@@ -134,4 +135,4 @@ async function fetchFromPlayApi(url) {
     return { audio: { url: data.result.downloadUrl }, mimetype: 'audio/mpeg' }
   }
   throw new Error('Error fetching audio from the API')
-}
+    }
