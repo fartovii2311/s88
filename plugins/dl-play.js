@@ -14,7 +14,7 @@ const handler = async (m, { conn, command, args, text, usedPrefix }) => {
 ★ ${yt_play[0].title}
 ★ ${yt_play[0].ago}
 ★ ${secondString(yt_play[0].duration.seconds)}
-★ ${MilesNumber(yt_play[0].views)}
+★ ${yt_play[0].views}
 ★ ${yt_play[0].author.name}
 ★ ${yt_play[0].url.replace(/^https?:\/\//, '')}
 ⌘━━─≪ ${gt} ≫─━━⌘
@@ -57,7 +57,7 @@ const handler = async (m, { conn, command, args, text, usedPrefix }) => {
     » ${yt_play[0].title}
     » ${yt_play[0].ago}
     » ${secondString(yt_play[0].duration.seconds)}
-    » ${MilesNumber(yt_play[0].views)}
+    » ${yt_play[0].views}
     » ${yt_play[0].author.name}
     » ${yt_play[0].url}
 
@@ -134,4 +134,4 @@ async function fetchFromPlayApi(url) {
     return { audio: { url: data.result.downloadUrl }, mimetype: 'audio/mpeg' }
   }
   throw new Error('Error fetching audio from the API')
-        }
+}
