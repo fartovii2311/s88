@@ -1,3 +1,9 @@
+const search = async (text) => {
+  const response = await fetch(`${apis}/search/apk?query=${text}`);
+  const data = await response.json();
+  return data.results;
+};
+
 const handler = async (m, {conn, usedPrefix: prefix, command, text}) => {
   if (!text) throw conn.reply(m.chat, '*\`Ingrese el nombre de la APK que quiera buscar. 🤍\`*', m);
 
@@ -8,12 +14,9 @@ const handler = async (m, {conn, usedPrefix: prefix, command, text}) => {
       throw '*[❗] No se encontraron resultados para su búsqueda.*';
     }
 
-    const apkId = searchA[0].id;  
-    const data5 = await download(apkId);
+    const { name, size, image, download, developer } = searchA[0];
 
-    const { name, size, image, download: downloadLink, developer } = data5.data;
-
-    let response = `📲 *Descargador de Aptoide* 📲\n\n📌 *Nombre:* ${name}\n📦 *Package:* ${apkId}\n🕒 *Última actualización:* ${data5.data.publish}\n📥 *Tamaño:* ${size}\n👨‍💻 *Desarrollador:* ${developer}`;
+    let response = `📲 *Descargador de Aptoide* 📲\n\n📌 *Nombre:* ${name}\n📦 *Package:* ${searchA[0].id}\n🕒 *Última actualización:* ${searchA[0].publish}\n📥 *Tamaño:* ${size}\n👨‍💻 *Desarrollador:* ${developer}`;
 
     await conn.sendFile(m.chat, image, 'thumbnail.jpg', response, m);
 
@@ -22,14 +25,14 @@ const handler = async (m, {conn, usedPrefix: prefix, command, text}) => {
     }
 
     await conn.sendMessage(m.chat, {
-      document: {url: downloadLink},
+      document: {url: download},
       mimetype: 'application/vnd.android.package-archive',
       fileName: `${name}.apk`,
       caption: null
     }, {quoted: m});
 
   } catch (error) {
-    throw error;  // Devolver el error capturado
+    throw error;
   }
 };
 
