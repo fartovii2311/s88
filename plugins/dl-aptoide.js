@@ -1,5 +1,16 @@
 const search = async (text) => {
   const response = await fetch(`https://deliriussapi-oficial.vercel.app/search/apk?query=${text}`);
+  
+  // Verificamos que la respuesta sea exitosa y un JSON
+  if (!response.ok) {
+    throw new Error(`Error en la respuesta de la API: ${response.status} ${response.statusText}`);
+  }
+
+  const contentType = response.headers.get("content-type");
+  if (!contentType || !contentType.includes("application/json")) {
+    throw new Error("La respuesta de la API no es un JSON válido.");
+  }
+
   const data = await response.json();
   return data.results;
 };
