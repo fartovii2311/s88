@@ -1,5 +1,5 @@
 const search = async (text) => {
-  const response = await fetch(`${apis}/search/apk?query=${text}`);
+  const response = await fetch(`https://deliriussapi-oficial.vercel.app/search/apk?query=${text}`);
   const data = await response.json();
   return data.results;
 };
