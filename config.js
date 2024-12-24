@@ -120,6 +120,37 @@ global.maxwarn = '2' // máxima advertencias
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
+global.APIs = { 
+xteam: 'https://api.xteam.xyz',
+dzx: 'https://api.dhamzxploit.my.id',
+lol: 'https://api.lolhuman.xyz',
+violetics: 'https://violetics.pw',
+neoxr: 'https://api.neoxr.my.id',
+zenzapis: 'https://api.zahwazein.xyz',
+akuari: 'https://api.akuari.my.id',
+akuari2: 'https://apimu.my.id',	
+fgmods: 'https://api.fgmods.xyz', 
+botcahx: 'https://api.botcahx.biz.id',
+ibeng: 'https://api.ibeng.tech/docs',	
+rose: 'https://api.itsrose.site',
+popcat : 'https://api.popcat.xyz',
+xcoders : 'https://api-xcoders.site'
+},
+   
+global.APIKeys = { 
+'https://api.xteam.xyz': `${keysxteam}`,
+'https://api.lolhuman.xyz': `${lolkeysapi}`,
+'https://api.neoxr.my.id': `${keysneoxr}`,	
+'https://violetics.pw': 'beta',
+'https://api.zahwazein.xyz': `${keysxxx}`,
+'https://api.fgmods.xyz': 'DRLg5kY7', 
+'https://api-fgmods.ddns.net': 'fg-dylux',
+'https://api.botcahx.biz.id': 'Admin',
+'https://api.ibeng.tech/docs': 'tamvan',
+'https://api.itsrose.site': 'Rs-Zeltoria',
+'https://api-xcoders.site': 'Frieren'
+}
+
 let file = fileURLToPath(import.meta.url)
 watchFile(file, () => {
   unwatchFile(file)
