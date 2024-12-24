@@ -17,7 +17,7 @@ const handler = async (m, { conn, command, args, text, usedPrefix }) => {
 ★ ${yt_play[0].views}
 ★ ${yt_play[0].author.name}
 ★ ${yt_play[0].url.replace(/^https?:\/\//, '')}
-⌘━━─≪ ${gt} ≫─━━⌘
+⌘━━━≪ ≫━━━⌘
 > _*Descargando... Aguarde un momento por favor*_`.trim()
 
   await conn.sendFile(m.chat, yt_play[0].thumbnail, 'error.jpg', texto1, m, null, fake)
@@ -52,7 +52,7 @@ const handler = async (m, { conn, command, args, text, usedPrefix }) => {
   if (command === 'play3' || command === 'playdoc') {
     try {
       const yt_play = await search(args.join(' '))
-      const texto1 = `*𓆩 𓃠 𓆪 ✧═══ ${vs} ═══✧ 𓆩 𓃠 𓆪*
+      const texto1 = `*𓆩 𓃠 𓆪 ✧═══ ═══✧ 𓆩 𓃠 𓆪*
 
     » ${yt_play[0].title}
     » ${yt_play[0].ago}
@@ -61,7 +61,7 @@ const handler = async (m, { conn, command, args, text, usedPrefix }) => {
     » ${yt_play[0].author.name}
     » ${yt_play[0].url}
 
-    *𓆩 𓃠 𓆪 ✧═══ ${vs} ═══✧ 𓆩 𓃠 𓆪*
+    *𓆩 𓃠 𓆪 ✧═══ ═══✧ 𓆩 𓃠 𓆪*
     > > _*Descargado su audio en documento. Aguarde un momento, por favor*_`.trim()
 
       await conn.sendFile(m.chat, yt_play[0].thumbnail, 'error.jpg', texto1, m, null, fake)
