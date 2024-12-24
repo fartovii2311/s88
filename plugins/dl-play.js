@@ -128,7 +128,7 @@ function getBestVideoQuality(videoData) {
 
 // Function to download audio from an API
 async function fetchFromPlayApi(url) {
-  const apiUrl = `https://api.example.com/download?url=${url}`
+  const apiUrl = `https://api.zenkey.my.id/api/download/ytmp3?apikey=zenkey&url=${url}`
   const response = await fetch(apiUrl)
   const data = await response.json()
   if (data.status && data.result?.downloadUrl) {
