@@ -3,6 +3,11 @@ const handler = async (m, {conn, usedPrefix: prefix, command, text}) => {
 
   try {
     const searchA = await search(text);
+
+    if (!searchA || !searchA.length) {
+      throw '*[❗] No se encontraron resultados para su búsqueda.*';
+    }
+
     const apkId = searchA[0].id;  
     const data5 = await download(apkId);
 
@@ -24,7 +29,7 @@ const handler = async (m, {conn, usedPrefix: prefix, command, text}) => {
     }, {quoted: m});
 
   } catch (error) {
-    throw `*[❗] Error, no se encontraron resultados para su búsqueda.*`;
+    throw error;  // Devolver el error capturado
   }
 };
 
