@@ -117,10 +117,11 @@ global.axios = axios
 
 global.multiplier = 69 
 global.maxwarn = '2' // máxima advertencias
+global.apis = 'https://deliriussapi-oficial.vercel.app'
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
-global.apis = { 
+global.APIS = { 
 xteam: 'https://api.xteam.xyz',
 dzx: 'https://api.dhamzxploit.my.id',
 lol: 'https://api.lolhuman.xyz',
