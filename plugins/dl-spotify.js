@@ -23,16 +23,15 @@ let handler = async (m, { conn, args }) => {
       let text = `*\`【 S P O T I F Y - D L 】\`*
 
 > *\`TÍTULO:\`* ${title}
-> *\`ARTISTA:\`* ${author}
-> ©️`;
+> *\`ARTISTA:\`* ${author}`;
 
       await m.react('✅'); // React con checkmark cuando es exitoso
       await conn.sendFile(m.chat, cover, `cover.jpeg`, text, m); // Envía la imagen del cover y detalles
       await conn.sendMessage(m.chat, {
         audio: audio,
         mimetype: 'audio/mp4',
-        fileName: `${title}.mp3`,
-        caption: ` `
+        fileName: `Ayo.mp3`,  // Se cambia el nombre del archivo a "Ayo"
+        caption: ``
       }, { quoted: m }); // Envía el archivo de audio
     }
   } catch (error) {
