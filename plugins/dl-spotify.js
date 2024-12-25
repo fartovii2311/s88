@@ -8,12 +8,12 @@ let handler = async (m, { conn, args }) => {
   await m.react('🕓'); // React con emoji de reloj mientras procesa
 
   try {
-    // Realiza la solicitud a la API con la URL proporcionada
-    let api = await axios.get(`https://deliriussapi-oficial.vercel.app/download/spotifydlv3?url=${encodeURIComponent(args[0])}`);
+    // Realiza la solicitud a la API con la nueva URL
+    let api = await axios.get(`https://deliriussapi-oficial.vercel.app/download/spotifydl?url=${encodeURIComponent(args[0])}`);
     let json = api.data;
 
     if (json.status) {
-      let { title, author, image, url } = json.data; // Estructura correcta de la respuesta
+      let { title, author, image, cover, url } = json.data; // Estructura correcta de la respuesta
 
       // Descarga el archivo de audio
       let audioGet = await axios.get(url, { responseType: 'arraybuffer' });
@@ -25,11 +25,12 @@ let handler = async (m, { conn, args }) => {
 > *\`TÍTULO:\`* ${title}
 > *\`ARTISTA:\`* ${author}
 > *\`IMAGEN:\`* ${image}
+> *\`COVER:\`* ${cover}
 
 > ©️`;
 
       await m.react('✅'); // React con checkmark cuando es exitoso
-      await conn.sendFile(m.chat, image, `image.jpeg`, text, m); // Envía la imagen y detalles
+      await conn.sendFile(m.chat, cover, `cover.jpeg`, text, m); // Envía la imagen del cover y detalles
       await conn.sendMessage(m.chat, {
         audio: audio,
         mimetype: 'audio/mp4',
