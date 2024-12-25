@@ -24,9 +24,6 @@ let handler = async (m, { conn, args }) => {
 
 > *\`TÍTULO:\`* ${title}
 > *\`ARTISTA:\`* ${author}
-> *\`IMAGEN:\`* ${image}
-> *\`COVER:\`* ${cover}
-
 > ©️`;
 
       await m.react('✅'); // React con checkmark cuando es exitoso
