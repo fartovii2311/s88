@@ -28,12 +28,12 @@ global.prems = []
    
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
-global.packname = '【✫𝚃𝙴𝙰𝙼  乂 𝙳𝙰𝚁𝙺 ✫】'
+global.packname = '【 ✫ 𝚃𝙴𝙰𝙼  乂 𝙳𝙰𝚁𝙺 - 𝙾𝙵𝙸𝙲𝙸𝙰𝙻 ✫ 】'
 global.author = 'DARK/CORE'
 global.namebot = ''
 global.wait = '*Aɢᴜᴀʀᴅᴇ ᴜɴ ᴍᴏᴍᴇɴᴛᴏ ฅ^•ﻌ•^ฅ*'
 global.wm = ''
-global.stickpack = `【✫𝚃𝙴𝙰𝙼  乂 𝙳𝙰𝚁𝙺 ✫】`
+global.stickpack = `【 ✫ 𝚃𝙴𝙰𝙼  乂 𝙳𝙰𝚁𝙺 - 𝙾𝙵𝙸𝙲𝙸𝙰𝙻 ✫ 】`
 global.titulowm = ''
 global.titulowm2 = ''
 global.igfg = ''
