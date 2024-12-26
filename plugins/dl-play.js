@@ -34,7 +34,6 @@ const handler = async (m, { conn, command, args, text, usedPrefix }) => {
         await conn.sendMessage(m.chat, { audio: { url: await result.download.url }, mimetype: 'audio/mpeg' }, { quoted: m })
       } catch (e) {
         await m.react('❌')
-        console.log(e)
       }
     }
   }
@@ -46,7 +45,6 @@ const handler = async (m, { conn, command, args, text, usedPrefix }) => {
       await conn.sendMessage(m.chat, { video: { url: await yt.video[q].download() }, fileName: `${yt.title}.mp4`, mimetype: 'video/mp4', caption: `⟡ *${yt_play[0].title}*\n⟡ \`${q}\` | ${await yt.video[q].fileSizeH}\n> ${wm}` }, { quoted: m })
     } catch (e) {
       await m.react('❌')
-      console.log(e)
     }
   }
 
