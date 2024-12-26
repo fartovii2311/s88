@@ -5,12 +5,12 @@
 	"main": "index.js",
 	"type": "module",
 	"directories": {
-        "lib": "lib",
-        "src": "src",
-        "plugins": "plugins"
-        },
+		"lib": "lib",
+		"src": "src",
+		"plugins": "plugins"
+	},
 	"scripts": {
-		"start": "npm start"
+		"start": "npm start",
 		"test": "node test.js"
 	},
 	"keywords": [
