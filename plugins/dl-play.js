@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-const yts = require('yt-search');
+import yts from 'yt-search';
 
 let handler = async (m, { conn, args }) => {
   let searchQuery = args.join(' ');
