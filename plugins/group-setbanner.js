@@ -5,19 +5,22 @@ let handler = async (m, { conn, isRowner }) => {
   }
 
   try {
-    // Verificar si el mensaje es una imagen o contiene un archivo multimedia
-    if (!m.quoted || !m.quoted.mtype.includes('imageMessage')) {
-      return m.reply('🌲 Por favor, envía una imagen para cambiar el banner.');
+    // Verificar si el mensaje tiene una imagen mencionada
+    let media;
+    if (m.quoted && m.quoted.mtype.includes('imageMessage')) {
+      media = await m.quoted.download();
+    } else if (m.hasMedia) {
+      // Verificar si el mensaje tiene un archivo multimedia directamente
+      media = await m.downloadMedia();
+    } else {
+      return m.reply('🌲 Por favor, menciona una imagen o envíala directamente para cambiar el banner.');
     }
-
-    // Descargar el archivo multimedia
-    const media = await m.quoted.download();
 
     if (!isImageValid(media)) {
       return m.reply('🌲 El archivo enviado no es una imagen válida.');
     }
 
-    global.icono = media;
+    global.icono = media; // Guarda la imagen para el banner
     m.reply('❄️ El banner fue actualizado');
   } catch (error) {
     console.error(error);
