@@ -67,7 +67,7 @@ const handler = async (m, { conn, command, args, text, usedPrefix }) => {
 
       await conn.sendFile(m.chat, yt_play[0].thumbnail, 'error.jpg', texto1, m, null, fake)
 
-      const apiUrl = `${apis}/download/ytmp4?url=${encodeURIComponent(yt_play[0].url)}`
+      const apiUrl = `https://deliriussapi-oficial.vercel.app/download/ytmp4?url=${encodeURIComponent(yt_play[0].url)}`
       const apiResponse = await fetch(apiUrl)
       const delius = await apiResponse.json()
       if (!delius.status) {
@@ -89,7 +89,7 @@ const handler = async (m, { conn, command, args, text, usedPrefix }) => {
   }
 }
 
-handler.command = /^(play[2-4]?|audio|video|playdoc2?)$/i
+handler.command = /^(play|audio|video|playdoc2?)$/i
 handler.register = true
 export default handler
 
