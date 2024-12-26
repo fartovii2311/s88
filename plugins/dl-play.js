@@ -11,6 +11,10 @@ const handler = async (m, { conn, command, args, text, usedPrefix }) => {
   }
 
   const yt_play = await search(args.join(' '))
+  if (!yt_play.length) {
+    return conn.reply(m.chat, `*No se encontraron resultados para: ${text}*`, m)
+  }
+
   const texto1 = `⌘━─━─≪ *YOUTUBE* ≫─━─━⌘
 ★ ${yt_play[0].title}
 ★ ${yt_play[0].ago}
@@ -21,11 +25,12 @@ const handler = async (m, { conn, command, args, text, usedPrefix }) => {
 ⌘━━━≪ ≫━━━⌘
 > _*Descargando... Aguarde un momento por favor*_`.trim()
 
-  await conn.sendFile(m.chat, yt_play[0].thumbnail, 'error.jpg', texto1, m, null, fake)
+  await conn.sendFile(m.chat, yt_play[0].thumbnail, 'error.jpg', texto1, m)
 
   if (command === 'play' || command === 'audio') {
     try {
       const yt = await youtubedl(yt_play[0].url).catch(async () => await fetchFromPlayApi(yt_play[0].url))
+      if (!yt.audio || !yt.audio.download) throw new Error('Audio download not available')
       await conn.sendFile(m.chat, await yt.audio.download(), `${yt.title}.mp3`, null, m, false, { mimetype: 'audio/mp4' })
     } catch (e) {
       try {
@@ -42,6 +47,7 @@ const handler = async (m, { conn, command, args, text, usedPrefix }) => {
     try {
       const yt = await youtubedl(yt_play[0].url).catch(async () => await fetchFromPlayApi(yt_play[0].url))
       let q = getBestVideoQuality(yt)
+      if (!yt.video[q] || !yt.video[q].download) throw new Error('Video quality not available')
       await conn.sendMessage(m.chat, { video: { url: await yt.video[q].download() }, fileName: `${yt.title}.mp4`, mimetype: 'video/mp4', caption: `⟡ *${yt_play[0].title}*\n⟡ \`${q}\` | ${await yt.video[q].fileSizeH}\n> ${wm}` }, { quoted: m })
     } catch (e) {
       await m.react('❌')
@@ -50,7 +56,6 @@ const handler = async (m, { conn, command, args, text, usedPrefix }) => {
 
   if (command === 'play3' || command === 'playdoc') {
     try {
-      const yt_play = await search(args.join(' '))
       const texto1 = `*𓆩 𓃠 𓆪 ✧═══ ═══✧ 𓆩 𓃠 𓆪*
 
     » ${yt_play[0].title}
@@ -63,7 +68,7 @@ const handler = async (m, { conn, command, args, text, usedPrefix }) => {
     *𓆩 𓃠 𓆪 ✧═══ ═══✧ 𓆩 𓃠 𓆪*
     > > _*Descargado su audio en documento. Aguarde un momento, por favor*_`.trim()
 
-      await conn.sendFile(m.chat, yt_play[0].thumbnail, 'error.jpg', texto1, m, null, fake)
+      await conn.sendFile(m.chat, yt_play[0].thumbnail, 'error.jpg', texto1, m)
 
       const apiUrl = `https://deliriussapi-oficial.vercel.app/download/ytmp4?url=${encodeURIComponent(yt_play[0].url)}`
       const apiResponse = await fetch(apiUrl)
@@ -87,7 +92,7 @@ const handler = async (m, { conn, command, args, text, usedPrefix }) => {
   }
 }
 
-handler.command = /^(play|audio|video|playdoc2?)$/i
+handler.command = /^(play|audio|video|playdoc)$/i
 handler.register = true
 export default handler
 
@@ -117,7 +122,7 @@ function getBestVideoQuality(videoData) {
   const availableQualities = Object.keys(videoData.video)
   for (let quality of preferredQualities) {
     if (availableQualities.includes(quality)) {
-      return videoData.video[quality].quality
+      return quality
     }
   }
   return '360p'
@@ -132,4 +137,4 @@ async function fetchFromPlayApi(url) {
     return { audio: { url: data.result.downloadUrl }, mimetype: 'audio/mpeg' }
   }
   throw new Error('Error fetching audio from the API')
-    }
+}
