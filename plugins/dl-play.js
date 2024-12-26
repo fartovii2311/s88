@@ -32,3 +32,9 @@ let handler = async (m, { conn, args }) => {
 
   await conn.sendFile(m.chat, buffer, `${video.title}.mp3`, null, m);
 };
+
+handler.help = ['play *<búsqueda>*'];
+handler.tags = ['downloader'];
+handler.command = ['play'];
+
+export default handler;
