@@ -12,7 +12,7 @@ let handler = async (m, { conn, isRowner }) => {
       return m.reply('🌲 Por favor, envía una imagen para cambiar el banner.');
     }
 
-    const media = await conn.downloadMediaMessage(m.message);
+    const media = await conn.downloadMessage(m.message);
 
     if (!isImageValid(media)) {
       return m.reply('🌲 El archivo enviado no es una imagen válida.');
