@@ -5,12 +5,10 @@ let handler = async (m, { conn, isRowner }) => {
   }
 
   try {
-    // Verificar si el mensaje tiene una imagen mencionada
     let media;
     if (m.quoted && m.quoted.mtype.includes('imageMessage')) {
       media = await m.quoted.download();
     } else if (m.hasMedia) {
-      // Verificar si el mensaje tiene un archivo multimedia directamente
       media = await m.downloadMedia();
     } else {
       return m.reply('🌲 Por favor, menciona una imagen o envíala directamente para cambiar el banner.');
@@ -20,8 +18,10 @@ let handler = async (m, { conn, isRowner }) => {
       return m.reply('🌲 El archivo enviado no es una imagen válida.');
     }
 
-    global.icono = media; // Guarda la imagen para el banner
-    m.reply('❄️ El banner fue actualizado');
+    global.icono = media;
+    console.log('Banner actualizado con éxito');
+
+    m.reply('❄️ El banner fue actualizado correctamente.');
   } catch (error) {
     console.error(error);
     m.reply('✧ Hubo un error al intentar cambiar el banner.');
@@ -31,13 +31,13 @@ let handler = async (m, { conn, isRowner }) => {
 const isImageValid = (buffer) => {
   const magicBytes = buffer.slice(0, 4).toString('hex');
   if (magicBytes === 'ffd8ffe0' || magicBytes === 'ffd8ffe1' || magicBytes === 'ffd8ffe2') {
-    return true; // JPEG
+    return true;
   }
   if (magicBytes === '89504e47') {
-    return true; // PNG
+    return true;
   }
   if (magicBytes === '47494638') {
-    return true; // GIF
+    return true;
   }
   return false; 
 };
