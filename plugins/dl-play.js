@@ -15,20 +15,13 @@ let handler = async (m, { conn, args }) => {
     return conn.sendMessage(m.chat, "No se encontró ningún video.", { quoted: m });
   }
 
-  let message = `
-*Título:* ${video.title}
-*Duración:* ${video.timestamp}
-*Vistas:* ${video.views}
-*Publicado:* ${video.ago}
-*Link:* ${video.url}
-`;
-
-  await conn.sendFile(m.chat, video.thumbnail, 'thumbnail.jpg', message, m);
-
   let apiUrl = `https://deliriussapi-oficial.vercel.app/download/ytmp3?url=${video.url}`;
 
   let response = await fetch(apiUrl);
-  let buffer = await response.buffer();
+  let data = await response.json();
+  
+  let mp3Buffer = await fetch(data.data.download.url);
+  let buffer = await mp3Buffer.buffer();
 
   await conn.sendFile(m.chat, buffer, `${video.title}.mp3`, null, m);
 };
