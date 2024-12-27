@@ -4,7 +4,7 @@ import ytdl from '@distube/ytdl-core';
 import ffmpeg from 'fluent-ffmpeg';
 import NodeID3 from 'node-id3';
 import { randomBytes } from 'crypto';
-import yts from 'yt-search';  // Importamos yt-search
+import yts from 'yt-search';
 
 const ytIdRegex = /(?:youtube\.com\/\S*(?:(?:\/e(?:mbed))?\/|watch\?(?:\S*?&?v\=))|youtu\.be\/)([a-zA-Z0-9_-]{6,11})/;
 
@@ -80,20 +80,20 @@ class YT {
                 size: fs.statSync(songPath).size,
             };
         } catch (error) {
-            throw error;
+            console.error(error);
+            throw new Error('Error en el procesamiento del audio');
         }
     }
 
-    // Nueva función para realizar la búsqueda
     static async search(query) {
         try {
             const results = await yts(query);
             if (results && results.videos.length > 0) {
-                return results.videos[0].url;  // Devuelve la URL del primer video
+                return results.videos[0].url;
             }
             throw new Error('No se encontraron resultados.');
         } catch (error) {
-            throw error;
+            throw new Error('Error al buscar en YouTube: ' + error.message);
         }
     }
 }
@@ -106,34 +106,28 @@ let handler = async (m, { conn, args }) => {
             return m.reply('❌ Por favor, proporciona un enlace de YouTube válido o un término de búsqueda.');
         }
 
-        // Si el argumento es una URL, procesar directamente
         if (YT.isYTUrl(args[0])) {
             url = args[0];
         } else {
-            // Si es texto, buscar en YouTube
             m.reply('⏳ Buscando en YouTube...');
-            url = await YT.search(args.join(' '));  // Unimos los argumentos para realizar la búsqueda
+            url = await YT.search(args.join(' '));
         }
 
         m.reply('⏳ Descargando y procesando el audio... Esto puede tardar unos minutos.');
 
-        // Descargar el audio y convertirlo a MP3
         const result = await YT.mp3(url, {}, true);
 
-        // Enviar información del archivo antes de enviarlo
         await conn.sendMessage(m.chat, {
             image: { url: result.meta.image },
             caption: `🎵 *Título:* ${result.meta.title}\n📡 *Canal:* ${result.meta.channel}\n⏳ *Duración:* ${(result.meta.seconds / 60).toFixed(2)} minutos\n📥 *Tamaño:* ${(result.size / 1024 / 1024).toFixed(2)} MB`,
         });
 
-        // Enviar el archivo MP3
         await conn.sendMessage(m.chat, {
             document: { url: result.path },
             mimetype: 'audio/mpeg',
             fileName: `${result.meta.title}.mp3`,
         });
 
-        // Eliminar el archivo temporal
         try {
             fs.unlinkSync(result.path);
         } catch (error) {
