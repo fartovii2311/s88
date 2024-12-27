@@ -3,6 +3,9 @@ import fs from 'fs';
 import path from 'path';
 import ffmpeg from 'fluent-ffmpeg';
 
+// Reemplazar __dirname para que sea válido en módulos ES
+const __dirname = path.resolve(); // Esto te dará la ruta absoluta del directorio
+
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!text) return conn.reply(m.chat, `❀ Ingresa un link de YouTube válido`, m);
 
@@ -21,7 +24,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     let dl_url = api.data.dl;
 
     // Asegúrate de que la carpeta tmp exista
-    const tmpDir = path.join(__dirname, '../tmp');
+    const tmpDir = path.join(__dirname, 'tmp'); // Cambié __dirname por la variable corregida
     if (!fs.existsSync(tmpDir)) {
       fs.mkdirSync(tmpDir);
     }
