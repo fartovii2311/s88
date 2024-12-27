@@ -7,14 +7,14 @@ import yts from 'yt-search';
 const __dirname = path.resolve();
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) return conn.reply(m.chat, `❀ Ingresa el nombre del video que deseas buscar`, m);
+  if (!text) return conn.reply(m.chat, `❀ Ingresa el nombre del video que deseas buscar`, m,rcanal);
 
   await m.react('🕓');
 
   try {
     const { videos } = await yts(text);
     if (!videos.length) {
-      return conn.reply(m.chat, '❌ No se encontraron resultados en YouTube para tu búsqueda.', m);
+      return conn.reply(m.chat, '❌ No se encontraron resultados en YouTube para tu búsqueda.', m,rcanal);
     }
 
     const video = videos[0];
