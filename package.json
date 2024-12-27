@@ -9,7 +9,7 @@
 		"plugins": "plugins"
 	},
 	"scripts": {
-		"start": "npm start",
+		"start": "node index",
 		"test": "node test.js"
 	},
 	"keywords": [
