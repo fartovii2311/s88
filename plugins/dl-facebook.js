@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 
 const handler = async (m, { text, conn, args, usedPrefix, command }) => {
   if (!args[0]) {
-    return conn.reply(m.chat, '*\`Ingresa El link Del vídeo a descargar 🤍\`*', m);
+    return conn.reply(m.chat, '*\`Ingresa El link Del vídeo a descargar 🤍\`*', m,rcanal);
   }
 
   await m.react('🕒');
@@ -12,13 +12,13 @@ const handler = async (m, { text, conn, args, usedPrefix, command }) => {
     const data = await res.json();
     
     if (!data.urls || !data.urls.length) {
-      return conn.reply(m.chat, '*`No se encontraron resultados.`*', m);
+      return conn.reply(m.chat, '*`No se encontraron resultados.`*', m,rcanal);
     }
 
     // Obtener la URL SD
     let video = data.urls.find(i => i.sd);
     if (!video) {
-      return conn.reply(m.chat, '*`No se encontró la resolución SD.`*', m);
+      return conn.reply(m.chat, '*`No se encontró la resolución SD.`*', m),rcanal;
     }
 
     video = video.sd; // Usar la URL SD
