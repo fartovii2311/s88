@@ -37,8 +37,8 @@ let handler = async (m, { conn, args }) => {
     }
 };
 
-handler.help = ['mp3 <url>'];
+handler.help = ['play <url>'];
 handler.tags = ['downloader'];
-handler.command = /^(mp3|ytmp3|descargamp3)$/i;
+handler.command = /^(play)$/i;
 
 export default handler;
