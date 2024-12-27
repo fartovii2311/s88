@@ -41,6 +41,7 @@
     "@distube/ytdl-core": "^4.11.2",
     "acrcloud": "^1.4.0",
     "aptoide-scraper": "^1.0.1",
+    "canvas": "^2.11.2",
     "awesome-phonenumber": "^6.7.8",
     "axios": "^1.5.0",
     "cfonts": "^3.3.0",
