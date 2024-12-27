@@ -11,101 +11,79 @@ import { randomBytes } from 'crypto';
 const ytIdRegex = /(?:youtube\.com\/\S*(?:(?:\/e(?:mbed))?\/|watch\?(?:\S*?&?v\=))|youtu\.be\/)([a-zA-Z0-9_-]{6,11})/;
 
 class YT {
-    constructor() { }
+    constructor() {}
 
-    /**
-     * Checks if it is yt link
-     * @param {string|URL} url youtube url
-     * @returns Returns true if the given YouTube URL.
-     */
     static isYTUrl = (url) => {
         return ytIdRegex.test(url);
     }
 
-    /**
-     * VideoID from url
-     * @param {string|URL} url to get videoID
-     * @returns
-     */
     static getVideoID = (url) => {
         if (!this.isYTUrl(url)) throw new Error('is not YouTube URL');
         return ytIdRegex.exec(url)[1];
     }
 
-    /**
-     * Write Track Tag Metadata
-     * @param {string} filePath
-     * @param {IMetadata} Metadata
-     */
     static WriteTags = async (filePath, Metadata) => {
-        NodeID3.write(
-            {
-                title: Metadata.Title,
-                artist: Metadata.Artist,
-                originalArtist: Metadata.Artist,
-                image: {
-                    mime: 'jpeg',
-                    type: {
-                        id: 3,
-                        name: 'front cover',
-                    },
-                    imageBuffer: (await fetchBuffer(Metadata.Image)).buffer,
-                    description: `Cover of ${Metadata.Title}`,
-                },
-                album: Metadata.Album,
-                year: Metadata.Year || ''
-            },
-            filePath
-        );
-    }
-
-    /**
-     *
-     * @param {string} query
-     * @returns
-     */
-    static search = async (query, options = {}) => {
-        const search = await yts.search({ query, hl: 'id', gl: 'ID', ...options });
-        return search.videos;
-    }
-
-    /**
-     * search track with details
-     * @param {string} query
-     * @returns {Promise<TrackSearchResult[]>}
-     */
-    static searchTrack = (query) => {
-        return new Promise(async (resolve, reject) => {
-            try {
-                let ytMusic = await ytM.searchMusics(query);
-                let result = [];
-                for (let i = 0; i < ytMusic.length; i++) {
-                    result.push({
-                        isYtMusic: true,
-                        title: `${ytMusic[i].title} - ${ytMusic[i].artists.map(x => x.name).join(' ')}`,
-                        artist: ytMusic[i].artists.map(x => x.name).join(' '),
-                        id: ytMusic[i].youtubeId,
-                        url: 'https://youtu.be/' + ytMusic[i].youtubeId,
-                        album: ytMusic[i].album,
-                        duration: {
-                            seconds: ytMusic[i].duration.totalSeconds,
-                            label: ytMusic[i].duration.label
+        try {
+            NodeID3.write(
+                {
+                    title: Metadata.Title,
+                    artist: Metadata.Artist,
+                    originalArtist: Metadata.Artist,
+                    image: {
+                        mime: 'jpeg',
+                        type: {
+                            id: 3,
+                            name: 'front cover',
                         },
-                        image: ytMusic[i].thumbnailUrl.replace('w120-h120', 'w600-h600')
-                    });
-                }
-                resolve(result);
-            } catch (error) {
-                reject(error);
-            }
-        });
+                        imageBuffer: (await fetchBuffer(Metadata.Image)).buffer,
+                        description: `Cover of ${Metadata.Title}`,
+                    },
+                    album: Metadata.Album,
+                    year: Metadata.Year || ''
+                },
+                filePath
+            );
+        } catch (error) {
+            console.error('Error writing tags:', error);
+        }
     }
 
-    /**
-     * Download music with full tag metadata
-     * @param {string|TrackSearchResult[]} query title of track want to download
-     * @returns {Promise<MusicResult>} filepath of the result
-     */
+    static search = async (query, options = {}) => {
+        try {
+            const search = await yts.search({ query, hl: 'id', gl: 'ID', ...options });
+            return search.videos;
+        } catch (error) {
+            console.error('Error searching videos:', error);
+            return [];
+        }
+    }
+
+    static searchTrack = async (query) => {
+        try {
+            let ytMusic = await ytM.searchMusics(query);
+            let result = [];
+            for (let i = 0; i < ytMusic.length; i++) {
+                result.push({
+                    isYtMusic: true,
+                    title: `${ytMusic[i].title} - ${ytMusic[i].artists.map(x => x.name).join(' ')}`,
+                    artist: ytMusic[i].artists.map(x => x.name).join(' '),
+                    id: ytMusic[i].youtubeId,
+                    url: 'https://youtu.be/' + ytMusic[i].youtubeId,
+                    album: ytMusic[i].album,
+                    duration: {
+                        seconds: ytMusic[i].duration.totalSeconds,
+                        label: ytMusic[i].duration.label
+                    },
+                    image: ytMusic[i].thumbnailUrl.replace('w120-h120', 'w600-h600')
+                });
+            }
+            return result;
+        } catch (error) {
+            console.error('Error searching track:', error);
+            throw error;
+        }
+    }
+
     static downloadMusic = async (query) => {
         try {
             const getTrack = Array.isArray(query) ? query : await this.searchTrack(query);
@@ -133,45 +111,11 @@ class YT {
                 size: fs.statSync(songPath).size
             };
         } catch (error) {
+            console.error('Error downloading music:', error);
             throw new Error(error);
         }
     }
 
-    /**
-     * get downloadable video urls
-     * @param {string|URL} query videoID or YouTube URL
-     * @param {string} quality
-     * @returns
-     */
-    static mp4 = async (query, quality = 134) => {
-        try {
-            if (!query) throw new Error('Video ID or YouTube Url is required');
-            const videoId = this.isYTUrl(query) ? this.getVideoID(query) : query;
-            const videoInfo = await ytdl.getInfo('https://www.youtube.com/watch?v=' + videoId, { lang: 'id' });
-            const format = ytdl.chooseFormat(videoInfo.formats, { format: quality, filter: 'videoandaudio' });
-            return {
-                title: videoInfo.videoDetails.title,
-                thumb: videoInfo.videoDetails.thumbnails.slice(-1)[0],
-                date: videoInfo.videoDetails.publishDate,
-                duration: videoInfo.videoDetails.lengthSeconds,
-                channel: videoInfo.videoDetails.ownerChannelName,
-                quality: format.qualityLabel,
-                contentLength: format.contentLength,
-                description: videoInfo.videoDetails.description,
-                videoUrl: format.url
-            };
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    /**
-     * Download YouTube to mp3
-     * @param {string|URL} url YouTube link want to download to mp3
-     * @param {IMetadata} metadata track metadata
-     * @param {boolean} autoWriteTags if set true, it will auto write tags meta following the YouTube info
-     * @returns
-     */
     static mp3 = async (url, metadata = {}, autoWriteTags = false) => {
         try {
             if (!url) throw new Error('Video ID or YouTube Url is required');
@@ -191,8 +135,8 @@ class YT {
                 readline.cursorTo(process.stdout, 0);
                 process.stdout.write(`${(percent * 100).toFixed(2)}% downloaded `);
                 process.stdout.write(`(${(downloaded / 1024 / 1024).toFixed(2)}MB of ${(total / 1024 / 1024).toFixed(2)}MB)\n`);
-                process.stdout.write(`running for: ${downloadedMinutes.toFixed(2)}minutes`);
-                process.stdout.write(`, estimated time left: ${estimatedDownloadTime.toFixed(2)}minutes `);
+                process.stdout.write(`running for: ${downloadedMinutes.toFixed(2)} minutes`);
+                process.stdout.write(`, estimated time left: ${estimatedDownloadTime.toFixed(2)} minutes `);
                 readline.moveCursor(process.stdout, 0, -1);
             });
             stream.on('end', () => process.stdout.write('\n\n'));
@@ -228,7 +172,8 @@ class YT {
                 size: fs.statSync(songPath).size
             };
         } catch (error) {
-            throw error;
+            console.error('Error processing MP3:', error);
+            throw new Error(error);
         }
     }
 }
