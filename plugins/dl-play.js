@@ -2,7 +2,6 @@ import fetch from 'node-fetch';
 import fs from 'fs';
 import path from 'path';
 import ffmpeg from 'fluent-ffmpeg';
-import { exec } from 'child_process';
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!text) return conn.reply(m.chat, `❀ Ingresa un link de YouTube válido`, m);
@@ -21,9 +20,15 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     // Obtener el enlace de descarga MP4
     let dl_url = api.data.dl;
 
+    // Asegúrate de que la carpeta tmp exista
+    const tmpDir = path.join(__dirname, '../tmp');
+    if (!fs.existsSync(tmpDir)) {
+      fs.mkdirSync(tmpDir);
+    }
+
     // Ruta temporal para guardar el archivo MP4
-    const tmpMp4Path = path.join(__dirname, 'tmp', 'video.mp4');
-    const tmpMp3Path = path.join(__dirname, 'tmp', 'audio.mp3');
+    const tmpMp4Path = path.join(tmpDir, 'video.mp4');
+    const tmpMp3Path = path.join(tmpDir, 'audio.mp3');
 
     // Descargar el MP4
     await fetch(dl_url)
