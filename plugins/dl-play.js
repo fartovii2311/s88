@@ -2,18 +2,28 @@ import fetch from 'node-fetch';
 import fs from 'fs';
 import path from 'path';
 import ffmpeg from 'fluent-ffmpeg';
+import yts from 'yt-search'; // Importamos yt-search
 
 // Reemplazar __dirname para que sea válido en módulos ES
 const __dirname = path.resolve(); // Esto te dará la ruta absoluta del directorio
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) return conn.reply(m.chat, `❀ Ingresa un link de YouTube válido`, m);
+  if (!text) return conn.reply(m.chat, `❀ Ingresa el nombre del video que deseas buscar`, m);
 
   await m.react('🕓');
 
   try {
-    // Hacer la petición a la API
-    let api = await (await fetch(`https://api.siputzx.my.id/api/d/ytmp4?url=${text}`)).json();
+    // Usamos yt-search para buscar el video en YouTube
+    const { videos } = await yts(text); // 'videos' contiene la lista de resultados de búsqueda
+    if (!videos.length) {
+      return conn.reply(m.chat, '❌ No se encontraron resultados en YouTube para tu búsqueda.', m);
+    }
+
+    // Obtenemos el enlace del primer video de los resultados
+    const videoUrl = videos[0].url;
+
+    // Hacer la petición a la API para obtener el enlace de descarga
+    let api = await (await fetch(`https://api.siputzx.my.id/api/d/ytmp4?url=${videoUrl}`)).json();
 
     // Verificar que la respuesta contiene los datos esperados
     if (!api || !api.data || !api.data.dl) {
@@ -48,7 +58,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         throw new Error('Error al descargar el video');
       });
 
-    // Convertir MP4 a MP3
+    // Una vez descargado, proceder con la conversión MP4 a MP3
     await new Promise((resolve, reject) => {
       ffmpeg(tmpMp4Path)
         .output(tmpMp3Path)
@@ -75,7 +85,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   } catch (error) {
     console.error(error);
     await m.react('❌');
-    conn.reply(m.chat, '❌ Ocurrió un error al procesar el enlace de YouTube. Por favor intenta de nuevo.', m);
+    conn.reply(m.chat, '❌ Ocurrió un error al procesar tu solicitud. Por favor intenta de nuevo.', m);
   }
 };
 
