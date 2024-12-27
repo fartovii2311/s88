@@ -100,8 +100,5 @@
   },
   "optionalDependencies": {
     "@vitalets/google-translate-api": "^9.2.0"
-  },
-  "engines": {
-    "node": ">=18.0.0"
   }
 }
