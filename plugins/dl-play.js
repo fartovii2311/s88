@@ -131,22 +131,28 @@ let handler = async (m, { conn, args }) => {
 
         const result = await YT.mp3(url, {}, true);
 
+        // Enviar imagen con metadatos
         await conn.sendMessage(m.chat, {
             image: { url: result.meta.image },
             caption: `🎵 *Título:* ${result.meta.title}\n📡 *Canal:* ${result.meta.channel}\n⏳ *Duración:* ${(result.meta.seconds / 60).toFixed(2)} minutos\n📥 *Tamaño:* ${(result.size / 1024 / 1024).toFixed(2)} MB`,
         });
 
+        // Enviar el archivo de audio
         await conn.sendMessage(m.chat, {
             document: { url: result.path },
             mimetype: 'audio/mpeg',
             fileName: `${result.meta.title}.mp3`,
         });
 
-        try {
-            fs.unlinkSync(result.path);
-        } catch (error) {
-            console.error(`No se pudo eliminar el archivo temporal: ${result.path}`, error);
-        }
+        // Eliminar archivo después de un pequeño retraso
+        setTimeout(() => {
+            try {
+                fs.unlinkSync(result.path);  // Eliminar el archivo temporal
+            } catch (error) {
+                console.error(`No se pudo eliminar el archivo temporal: ${result.path}`, error);
+            }
+        }, 5000); // Espera de 5 segundos antes de eliminar el archivo
+
     } catch (error) {
         console.error(error);
         m.reply('❌ Ocurrió un error al procesar tu solicitud. Inténtalo nuevamente más tarde.');
