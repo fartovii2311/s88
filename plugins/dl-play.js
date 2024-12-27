@@ -1,33 +1,44 @@
-import fetch from 'node-fetch';
-import yts from 'yt-search';
+import YT from '../lib/scrapers/yt.js';
+import fs from 'fs';
 
 let handler = async (m, { conn, args }) => {
-  let searchQuery = args.join(' ');
+    try {
+        if (!args[0]) {
+            return m.reply('❌ Por favor, proporciona un enlace de YouTube válido.');
+        }
+        const url = args[0];
+        if (!YT.isYTUrl(url)) {
+            return m.reply('❌ El enlace proporcionado no es válido o no pertenece a YouTube.');
+        }
 
-  if (!searchQuery) {
-    return conn.sendMessage(m.chat, "Por favor, proporciona una búsqueda o enlace de YouTube.", { quoted: m });
-  }
+        m.reply('⏳ Descargando y procesando el audio... Esto puede tardar unos minutos.');
 
-  let searchResults = await yts(searchQuery);
-  let video = searchResults.videos[0];
+        // Descargar el audio y convertirlo a MP3
+        const result = await YT.mp3(url, {}, true);
 
-  if (!video) {
-    return conn.sendMessage(m.chat, "No se encontró ningún video.", { quoted: m });
-  }
+        // Enviar información del archivo antes de enviarlo
+        await conn.sendMessage(m.chat, {
+            image: { url: result.meta.image },
+            caption: `🎵 *Título:* ${result.meta.title}\n📡 *Canal:* ${result.meta.channel}\n⏳ *Duración:* ${(result.meta.seconds / 60).toFixed(2)} minutos\n📥 *Tamaño:* ${(result.size / 1024 / 1024).toFixed(2)} MB`,
+        });
 
-  let apiUrl = `https://deliriussapi-oficial.vercel.app/download/ytmp3?url=${video.url}`;
+        // Enviar el archivo MP3
+        await conn.sendMessage(m.chat, {
+            document: { url: result.path },
+            mimetype: 'audio/mpeg',
+            fileName: `${result.meta.title}.mp3`,
+        });
 
-  let response = await fetch(apiUrl);
-  let data = await response.json();
-  
-  let mp3Buffer = await fetch(data.data.download.url);
-  let buffer = await mp3Buffer.buffer();
-
-  await conn.sendFile(m.chat, buffer, `${video.title}.mp3`, null, m);
+        // Eliminar el archivo temporal
+        fs.unlinkSync(result.path);
+    } catch (error) {
+        console.error(error);
+        m.reply('❌ Ocurrió un error al procesar tu solicitud. Inténtalo nuevamente más tarde.');
+    }
 };
 
-handler.help = ['play *<búsqueda>*'];
+handler.help = ['mp3 <url>'];
 handler.tags = ['downloader'];
-handler.command = ['play'];
+handler.command = /^(mp3|ytmp3|descargamp3)$/i;
 
 export default handler;
