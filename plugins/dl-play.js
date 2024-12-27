@@ -1,5 +1,5 @@
 import fs from 'fs';
-import YT  from './dl-scraper.js';
+import YT  from 'dl-scraper.js';
 import yts from 'yt-search';
 
 let handler = async (m, { conn, args }) => {
