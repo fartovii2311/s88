@@ -19,8 +19,12 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       return conn.reply(m.chat, '❌ No se encontraron resultados en YouTube para tu búsqueda.', m);
     }
 
-    // Obtenemos el enlace del primer video de los resultados
-    const videoUrl = videos[0].url;
+    // Obtenemos el primer video de los resultados
+    const video = videos[0];
+    const videoUrl = video.url;
+    const title = video.title; // Título del video
+    const thumbnail = video.thumbnail; // Miniatura del video
+    const duration = video.timestamp; // Duración del video
 
     // Hacer la petición a la API para obtener el enlace de descarga
     let api = await (await fetch(`https://api.siputzx.my.id/api/d/ytmp4?url=${videoUrl}`)).json();
@@ -39,9 +43,10 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       fs.mkdirSync(tmpDir);
     }
 
-    // Ruta temporal para guardar el archivo MP4
-    const tmpMp4Path = path.join(tmpDir, 'video.mp4');
-    const tmpMp3Path = path.join(tmpDir, 'audio.mp3');
+    // Generar nombres únicos usando un timestamp
+    const timestamp = Date.now();
+    const tmpMp4Path = path.join(tmpDir, `video_${timestamp}.mp4`);
+    const tmpMp3Path = path.join(tmpDir, `audio_${timestamp}.mp3`);
 
     // Descargar el MP4
     await fetch(dl_url)
@@ -58,7 +63,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         throw new Error('Error al descargar el video');
       });
 
-    // Una vez descargado, proceder con la conversión MP4 a MP3
+    // Convertir MP4 a MP3
     await new Promise((resolve, reject) => {
       ffmpeg(tmpMp4Path)
         .output(tmpMp3Path)
@@ -74,8 +79,18 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         .run();
     });
 
+    // Enviar imagen, título y duración antes de enviar el archivo MP3
+    await conn.sendMessage(
+      m.chat,
+      {
+        image: { url: thumbnail },
+        caption: `*Título:* ${title}\n*Duración:* ${duration}\n*¡Aquí tienes tu audio!*`
+      },
+      { quoted: m }
+    );
+
     // Enviar el archivo MP3
-    await conn.sendMessage(m.chat, { audio: { url: tmpMp3Path }, mimetype: 'audio/mp4', caption: `*Aqui tienes tu audio*` }, { quoted: m });
+    await conn.sendMessage(m.chat, { audio: { url: tmpMp3Path }, mimetype: 'audio/mp4', caption: `*Aquí tienes tu audio*` }, { quoted: m });
 
     // Limpiar archivos temporales
     fs.unlinkSync(tmpMp4Path);
