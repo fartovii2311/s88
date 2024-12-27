@@ -1,64 +1,68 @@
-import YT from './YT';  // Ruta al archivo donde está la clase YT
+import fetch from 'node-fetch';
+import ffmpeg from 'fluent-ffmpeg';
+import fs from 'fs';
+import path from 'path';
+import yts from 'yt-search';  // Para buscar videos en YouTube
 
-let handler = async (m, { conn, args }) => {
-    try {
-        let url;
+let handler = async (m, { conn, text, usedPrefix, command }) => {
+  if (!text) return conn.reply(m.chat, `❀ Ingresa un término de búsqueda de YouTube`, m);
 
-        // Verifica si el usuario proporcionó un término de búsqueda o URL
-        if (!args[0]) {
-            return m.reply('❌ Por favor, proporciona un enlace de YouTube válido o un término de búsqueda.');
-        }
+  await m.react('🕓');
 
-        // Verifica si el primer argumento es un URL de YouTube
-        if (YT.isYTUrl(args[0])) {
-            url = args[0];
-        } else {
-            m.reply('⏳ Buscando en YouTube...');
-            const searchResult = await YT.search(args.join(' '));  // Realiza la búsqueda en YouTube
-            if (!searchResult || searchResult.length === 0) {
-                return m.reply('❌ No se encontraron resultados para tu búsqueda.');
-            }
-            url = searchResult[0].url;  // Usa el URL del primer resultado de la búsqueda
-        }
-
-        m.reply('⏳ Descargando y procesando el audio... Esto puede tardar unos minutos.');
-
-        // Descarga el MP3 usando la función mp3 de YT
-        const result = await YT.mp3(url);
-        if (!result || !result.path) {
-            return m.reply('❌ No se pudo descargar el audio, intenta con otro enlace.');
-        }
-
-        // Enviar una imagen con los metadatos del video
-        await conn.sendMessage(m.chat, {
-            image: { url: result.meta.image },
-            caption: `🎵 *Título:* ${result.meta.title}\n📡 *Canal:* ${result.meta.channel}\n⏳ *Duración:* ${(result.meta.seconds / 60).toFixed(2)} minutos\n📥 *Tamaño:* ${(result.size / 1024 / 1024).toFixed(2)} MB`,
-        });
-
-        // Enviar el archivo de audio MP3
-        await conn.sendMessage(m.chat, {
-            document: { url: result.path },
-            mimetype: 'audio/mpeg',
-            fileName: `${result.meta.title}.mp3`,
-        });
-
-        // Eliminar el archivo temporal después de enviarlo
-        setTimeout(() => {
-            try {
-                fs.unlinkSync(result.path);  // Eliminar el archivo temporal
-            } catch (error) {
-                console.error(`No se pudo eliminar el archivo temporal: ${result.path}`, error);
-            }
-        }, 5000); // Espera de 5 segundos antes de eliminar el archivo
-
-    } catch (error) {
-        console.error(error);
-        m.reply('❌ Ocurrió un error al procesar tu solicitud. Inténtalo nuevamente más tarde.');
+  try {
+    // Buscar el video en YouTube usando yt-search
+    const results = await yts(text);
+    if (!results.videos || results.videos.length === 0) {
+      return conn.reply(m.chat, `❀ No se encontraron resultados para "${text}"`, m);
     }
+
+    // Tomar el primer video encontrado
+    const video = results.videos[0];
+    const videoUrl = video.url;
+
+    // Obtener la URL de descarga del video MP4
+    let api = await (await fetch(`https://api.siputzx.my.id/api/d/ytmp4?url=${videoUrl}`)).json();
+    let dl_url = api.data.dl;
+
+    // Descargamos el video MP4
+    const videoPath = path.join(__dirname, 'video.mp4');
+    const videoStream = await fetch(dl_url);
+    const videoBuffer = await videoStream.buffer();
+    fs.writeFileSync(videoPath, videoBuffer);
+
+    // Convertir el video MP4 a MP3
+    const mp3Path = path.join(__dirname, 'audio.mp3');
+    ffmpeg(videoPath)
+      .output(mp3Path)
+      .audioCodec('libmp3lame')
+      .on('end', async () => {
+        // Enviar el archivo MP3 como respuesta
+        await conn.sendMessage(m.chat, {
+          audio: fs.createReadStream(mp3Path),
+          mimetype: 'audio/mp3',
+          caption: `*Aquí está tu archivo MP3*`,
+        }, { quoted: m });
+
+        // Limpiar los archivos temporales
+        fs.unlinkSync(videoPath);
+        fs.unlinkSync(mp3Path);
+        await m.react('✅');
+      })
+      .on('error', async (err) => {
+        console.error('Error al convertir el video:', err);
+        await m.react('❌');
+      })
+      .run();
+
+  } catch (error) {
+    console.error('Error al obtener el video:', error);
+    await m.react('❌');
+  }
 };
 
-handler.help = ['play <url|texto>'];
+handler.help = ['play *<texto>*'];
 handler.tags = ['downloader'];
-handler.command = /^(play)$/i;
+handler.command = ['play'];
+handler.register = true;
 
 export default handler;
