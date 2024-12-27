@@ -45,8 +45,8 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
     // Generar nombres únicos usando un timestamp
     const timestamp = Date.now();
-    const tmpMp4Path = path.join(tmpDir, `video_${timestamp}.mp4`);
-    const tmpMp3Path = path.join(tmpDir, `audio_${timestamp}.mp3`);
+    const tmpMp4Path = path.join(tmpDir, `${timestamp}.mp4`);
+    const tmpMp3Path = path.join(tmpDir, `${timestamp}.mp3`);
 
     // Descargar el MP4
     await fetch(dl_url)
