@@ -1,6 +1,4 @@
-import fs from 'fs';
-import YT  from 'dl-scraper.js';
-import yts from 'yt-search';
+import YT from './YT';  // Ruta al archivo donde está la clase YT
 
 let handler = async (m, { conn, args }) => {
     try {
@@ -17,16 +15,16 @@ let handler = async (m, { conn, args }) => {
         } else {
             m.reply('⏳ Buscando en YouTube...');
             const searchResult = await YT.search(args.join(' '));  // Realiza la búsqueda en YouTube
-            if (!searchResult) {
+            if (!searchResult || searchResult.length === 0) {
                 return m.reply('❌ No se encontraron resultados para tu búsqueda.');
             }
-            url = searchResult.url;  // Usa el URL del primer resultado de la búsqueda
+            url = searchResult[0].url;  // Usa el URL del primer resultado de la búsqueda
         }
 
         m.reply('⏳ Descargando y procesando el audio... Esto puede tardar unos minutos.');
 
-        // Descarga el MP3 usando la función mp3 de la clase YT
-        const result = await YT.mp3(url, {}, true);
+        // Descarga el MP3 usando la función mp3 de YT
+        const result = await YT.mp3(url);
         if (!result || !result.path) {
             return m.reply('❌ No se pudo descargar el audio, intenta con otro enlace.');
         }
