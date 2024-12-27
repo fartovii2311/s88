@@ -44,7 +44,6 @@ class YT {
             url = this.isYTUrl(url) ? 'https://www.youtube.com/watch?v=' + this.getVideoID(url) : url;
             const { videoDetails } = await ytdl.getInfo(url);
 
-            // Verificar si los detalles del video están disponibles
             if (!videoDetails) {
                 throw new Error('No se pudo obtener los detalles del video.');
             }
