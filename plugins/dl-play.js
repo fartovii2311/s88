@@ -1,11 +1,12 @@
 import fs from 'fs';
-import { YT } from './dl-scraper';  // Importa la clase o función encargada de la descarga en otro archivo
+import { YT } from './dl-scraper';  // Asegúrate de que la clase YT esté correctamente exportada
 import yts from 'yt-search';
 
 let handler = async (m, { conn, args }) => {
     try {
         let url;
 
+        // Verifica si el usuario proporcionó un término de búsqueda o URL
         if (!args[0]) {
             return m.reply('❌ Por favor, proporciona un enlace de YouTube válido o un término de búsqueda.');
         }
@@ -15,13 +16,20 @@ let handler = async (m, { conn, args }) => {
             url = args[0];
         } else {
             m.reply('⏳ Buscando en YouTube...');
-            url = await YT.search(args.join(' '));  // Utiliza la función de búsqueda
+            const searchResult = await YT.search(args.join(' '));  // Realiza la búsqueda en YouTube
+            if (!searchResult) {
+                return m.reply('❌ No se encontraron resultados para tu búsqueda.');
+            }
+            url = searchResult.url;  // Usa el URL del primer resultado de la búsqueda
         }
 
         m.reply('⏳ Descargando y procesando el audio... Esto puede tardar unos minutos.');
 
         // Descarga el MP3 usando la función mp3 de la clase YT
         const result = await YT.mp3(url, {}, true);
+        if (!result || !result.path) {
+            return m.reply('❌ No se pudo descargar el audio, intenta con otro enlace.');
+        }
 
         // Enviar una imagen con los metadatos del video
         await conn.sendMessage(m.chat, {
