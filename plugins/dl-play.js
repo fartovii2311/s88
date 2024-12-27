@@ -26,7 +26,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     let api = await (await fetch(`https://api.siputzx.my.id/api/d/ytmp4?url=${videoUrl}`)).json();
 
     if (!api || !api.data || !api.data.dl) {
-      return conn.reply(m.chat, '❌ No se pudo obtener el enlace de descarga. Por favor verifica el enlace de YouTube.', m);
+      return conn.reply(m.chat, '❌ No se pudo obtener el enlace de descarga. Por favor verifica el enlace de YouTube.', m,rcanal);
     }
 
     let dl_url = api.data.dl;
@@ -69,6 +69,32 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         .run();
     });
 
+    const sendAudio = async (audioPath, sizeLimit = 25 * 1024 * 1024) => {
+      const stats = fs.statSync(audioPath);
+      const fileSize = stats.size;
+
+      if (fileSize <= sizeLimit) {
+        await conn.sendMessage(m.chat, { audio: { url: audioPath }, mimetype: 'audio/mp4', caption: `*Aquí tienes tu audio*` }, { quoted: m });
+      } else {
+        const numParts = Math.ceil(fileSize / sizeLimit);
+        for (let i = 0; i < numParts; i++) {
+          const partPath = path.join(tmpDir, `${timestamp}_part${i + 1}.mp3`);
+          await new Promise((resolve, reject) => {
+            ffmpeg(audioPath)
+              .setStartTime(i * sizeLimit / 1000000) // Definir el inicio de cada parte
+              .setDuration(sizeLimit / 1000000) // Limitar la duración de la parte
+              .output(partPath)
+              .on('end', () => resolve())
+              .on('error', reject)
+              .run();
+          });
+
+          await conn.sendMessage(m.chat, { audio: { url: partPath }, mimetype: 'audio/mp4', caption: `*Parte ${i + 1} de ${numParts}*` }, { quoted: m });
+          fs.unlinkSync(partPath); // Eliminar la parte después de enviarla
+        }
+      }
+    };
+
     await conn.sendMessage(
       m.chat,
       {
@@ -78,10 +104,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       { quoted: m }
     );
 
-    await conn.sendMessage(m.chat, { audio: { url: tmpMp3Path }, mimetype: 'audio/mp4', caption: `*Aquí tienes tu audio*` }, { quoted: m });
-
-    const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
-    await delay(500);
+    await sendAudio(tmpMp3Path);
 
     fs.unlinkSync(tmpMp4Path);
     fs.unlinkSync(tmpMp3Path);
@@ -90,7 +113,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   } catch (error) {
     console.error(error);
     await m.react('❌');
-    conn.reply(m.chat, '❌ Ocurrió un error al procesar tu solicitud. Por favor intenta de nuevo.', m);
+    conn.reply(m.chat, '❌ Ocurrió un error al procesar tu solicitud. Por favor intenta de nuevo.', m,rcanal);
   }
 };
 
