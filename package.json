@@ -61,6 +61,7 @@
     "google-it": "^1.6.4",
     "google-libphonenumber": "^3.2.40",
     "jsdom": "^20.0.1",
+    "jimp": "^0.22.10",
     "link-preview-js": "^3.0.0",
     "lodash": "^4.17.21",
     "lowdb": "^3.0.0",
@@ -93,9 +94,13 @@
     "wa-sticker-formatter": "^4.4.4",
     "yargs": "^17.6.0",
     "youtube-yts": "^2.0.0",
-    "yt-search": "^2.10.3"
+    "yt-search": "^2.10.3",
+    "sharp": "^0.31.3"
   },
   "optionalDependencies": {
     "@vitalets/google-translate-api": "^9.2.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
