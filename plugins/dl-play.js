@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { YT } from './dl-scraper';  // Asegúrate de que la clase YT esté correctamente exportada
+import YT  from './dl-scraper';  // Asegúrate de que la clase YT esté correctamente exportada
 import yts from 'yt-search';
 
 let handler = async (m, { conn, args }) => {
