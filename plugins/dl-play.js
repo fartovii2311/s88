@@ -43,10 +43,23 @@ class YT {
             if (!url) throw new Error('YouTube URL is required');
             url = this.isYTUrl(url) ? 'https://www.youtube.com/watch?v=' + this.getVideoID(url) : url;
             const { videoDetails } = await ytdl.getInfo(url);
-            const stream = ytdl(url, { filter: 'audioonly', quality: 140 });
+
+            // Verificar si los detalles del video están disponibles
+            if (!videoDetails) {
+                throw new Error('No se pudo obtener los detalles del video.');
+            }
+
+            const stream = ytdl(url, { 
+                filter: 'audioonly', 
+                quality: 140, 
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36'
+                }
+            });
+
             const songPath = `./tmp/${randomBytes(3).toString('hex')}.mp3`;
 
-            const file = await new Promise((resolve) => {
+            const file = await new Promise((resolve, reject) => {
                 ffmpeg(stream)
                     .audioFrequency(44100)
                     .audioChannels(2)
@@ -54,12 +67,14 @@ class YT {
                     .audioCodec('libmp3lame')
                     .toFormat('mp3')
                     .save(songPath)
-                    .on('end', () => resolve(songPath));
+                    .on('end', () => resolve(songPath))
+                    .on('error', (err) => reject(err)); // Manejo de errores en ffmpeg
             });
 
             if (Object.keys(metadata).length !== 0) {
                 await this.WriteTags(file, metadata);
             }
+
             if (autoWriteTags) {
                 await this.WriteTags(file, {
                     Title: videoDetails.title,
