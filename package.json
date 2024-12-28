@@ -11,6 +11,7 @@
   "scripts": {
     "start": "node index",
     "test": "node test.js"
+    "check-modules": "node checkModules.js"
   },
   "keywords": [
     "termux-whatsapp-bot",
