@@ -14,6 +14,11 @@ class YT {
      */
     static downloadMP3FromURL = async (url) => {
         try {
+            // Verificar que la URL sea válida
+            if (!ytdl.validateURL(url)) {
+                throw new Error('URL de YouTube no válida');
+            }
+
             // Obtener información del video usando ytdl-core
             const videoInfo = await ytdl.getInfo(url);
             
@@ -34,7 +39,7 @@ class YT {
                     .toFormat('mp3')
                     .save(songPath)
                     .on('end', () => resolve(songPath))
-                    .on('error', reject);
+                    .on('error', (err) => reject(new Error('Error al procesar el archivo de audio: ' + err.message)));
             });
 
             // Retornar el resultado con el archivo y los metadatos
@@ -49,6 +54,7 @@ class YT {
                 size: fs.statSync(file).size
             };
         } catch (error) {
+            console.error('Error al obtener MP3:', error);
             throw new Error('Error descargando el MP3: ' + error.message);
         }
     }
