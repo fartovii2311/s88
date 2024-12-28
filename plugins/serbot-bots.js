@@ -1,4 +1,5 @@
 import fetch from 'node-fetch'
+import ws from 'ws'
 
 async function handler(m, { conn: stars, usedPrefix }) {
   let uniqueUsers = new Map()
