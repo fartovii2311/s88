@@ -4,6 +4,7 @@ let handler = async (m, { conn, text }) => {
     const userId = m.sender;
     const db = global.db.data.users;
 
+    // Asegurarse de que el usuario tenga datos válidos
     if (!db[userId]) {
         db[userId] = { hearts: 0, skins: [], bank: 0 };
     }
@@ -56,15 +57,25 @@ let handler = async (m, { conn, text }) => {
             return conn.reply(m.chat, `🚩 No se encontró la skin con ID ${skinId}.`, m);
         }
 
-        if (user.hearts < selectedSkin.cost) {
-            return conn.reply(m.chat, `🚩 No tienes suficientes corazones blancos. Necesitas ${selectedSkin.cost - user.hearts} más.`, m);
+        let totalHearts = user.hearts + user.bank; // Corazones disponibles sumando los del banco
+
+        if (totalHearts < selectedSkin.cost) {
+            return conn.reply(m.chat, `🚩 No tienes suficientes corazones. Necesitas ${selectedSkin.cost - totalHearts} más.`, m);
+        }
+
+        // Usar corazones de la cuenta principal primero, luego del banco si es necesario
+        if (user.hearts >= selectedSkin.cost) {
+            user.hearts -= selectedSkin.cost;
+        } else {
+            let remainingCost = selectedSkin.cost - user.hearts;
+            user.hearts = 0;
+            user.bank -= remainingCost;
         }
 
         if (user.skins.includes(selectedSkin.id)) {
             return conn.reply(m.chat, `🚩 Ya tienes esta skin.`, m);
         }
 
-        user.hearts -= selectedSkin.cost;
         user.skins.push(selectedSkin.id);
         return conn.reply(m.chat, `✅ Compraste la skin *${selectedSkin.name}*. ¡Disfrútala!`, m);
     }
@@ -73,8 +84,9 @@ let handler = async (m, { conn, text }) => {
     conn.reply(m.chat, `🚩 Comando no válido. Usa *.tienda* para ver la tienda y *.comprar <ID de skin>* para comprar.`, m);
 };
 
-handler.help = ['tienda']
+handler.help = ['tienda'];
 handler.command = ['tienda', 'comprar'];
-handler.tags = ['rpg']
-handler.register = true 
+handler.tags = ['rpg'];
+handler.register = true;
+
 export default handler;
