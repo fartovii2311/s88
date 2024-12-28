@@ -8,7 +8,7 @@ let handler = async (m, { conn, text }) => {
     if (!db[userId]) db[userId] = { hearts: 0, skins: [] };
 
     const user = db[userId];
-    const skins = JSON.parse(fs.readFileSync('./skins.json', 'utf-8'));
+    const skins = JSON.parse(fs.readFileSync('./storage/database/skins.json', 'utf-8'));
 
     // Mostrar la tienda si no se especifica texto
     if (!text) {
@@ -48,6 +48,6 @@ let handler = async (m, { conn, text }) => {
     conn.reply(m.chat, `🚩 Comando no válido. Usa *.shop* para ver la tienda.`, m);
 };
 
-handler.command = ['shop', 'comprar'];
+handler.command = ['tienda', 'comprar'];
 
 export default handler;
