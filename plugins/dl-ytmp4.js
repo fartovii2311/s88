@@ -51,5 +51,5 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 };
 
 handler.command = ['ytmp4'];
-
+handler.register = true;
 export default handler;
