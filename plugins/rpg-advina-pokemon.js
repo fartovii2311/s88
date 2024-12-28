@@ -19,7 +19,11 @@ let handler = async (m, { conn }) => {
   
   pokemonGame[m.sender] = { correctAnswer: randomPokemon.name, description: randomPokemon.description, attempts: 3 }
 
-  conn.sendMessage(m.chat, { text: `🚩 ¡Hola @${name}! ¿Puedes adivinar el nombre de este Pokémon? \n\nDescripción: *${randomPokemon.description}* \n\nTienes 3 intentos para adivinar. ¡Buena suerte!` }, { mentions: [m.sender] })
+  // Enviar la pregunta y añadir reacción con un ícono
+  let message = await conn.sendMessage(m.chat, { text: `🚩 ¡Hola @${name}! ¿Puedes adivinar el nombre de este Pokémon? \n\nDescripción: *${randomPokemon.description}* \n\nTienes 3 intentos para adivinar. ¡Buena suerte!` }, { mentions: [m.sender] })
+  
+  // Añadir reacción de pregunta (icono)
+  await conn.react(message.key.id, '❓')  // Reacción con un ícono de pregunta
 
   // Este bloque se activa cuando el usuario envía su respuesta
   if (m.text.startsWith('!respuesta')) {
