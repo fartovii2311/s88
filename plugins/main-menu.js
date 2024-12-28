@@ -44,9 +44,9 @@ const defaultMenu = {
 let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
 
   let tags = {
-    'main': 'ᴘʀɪɴᴄɪᴘᴀʟ',
+    'main': '𝙿𝚛𝚒𝚗𝚌𝚒𝚙𝚊𝚕',
     'rpg': '𝙹𝚞𝚎𝚐𝚘𝚜',
-    'search': 'ʙᴜꜱQᴜᴇᴅᴀ',
+    'search': '𝙱𝚞𝚜𝚚𝚞𝚎𝚍𝚊',
     'start': 'ꜱᴛᴀʀᴛ',
     'sticker': 'ꜱᴛɪᴄᴋᴇʀ',
     'dl': 'ᴅᴇꜱᴄᴀʀɢᴀꜱ',
