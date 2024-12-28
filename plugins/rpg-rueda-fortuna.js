@@ -15,25 +15,26 @@ let handler = async (m, { conn, text, command }) => {
   cooldowns[m.sender] = Date.now()
 
   // Simulación de rueda de la fortuna
-  let resultados = ['💰 100 monedas', '🎁 1 Skin', '💎 50 diamantes', '🤍 5 corazones rojos', '🚫 Nada']
+  let resultados = ['🤍 100 corazones blancos', '🎁 1 Skin', '🤍 50 corazones blancos', '✨ 30 XP', '🚫 Nada']
   let resultado = resultados[Math.floor(Math.random() * resultados.length)]
 
   switch (resultado) {
-    case '💰 100 monedas':
-      users[senderId].coins += 100
-      return conn.reply(m.chat, `🎰 ¡Felicidades, ${senderName}! Has ganado *100 💰 monedas*.`, m)
+    case '🤍 100 corazones blancos':
+      users[senderId].corazones = users[senderId].corazones || 0
+      users[senderId].corazones += 100
+      return conn.reply(m.chat, `🎰 ¡Felicidades, ${senderName}! Has ganado *100 🤍 corazones blancos*.`, m)
     case '🎁 1 Skin':
       users[senderId].skins = users[senderId].skins || []
       users[senderId].skins.push('Skin Especial')
       return conn.reply(m.chat, `🎰 ¡Felicidades, ${senderName}! Has ganado una *Skin Especial*!`, m)
-    case '💎 50 diamantes':
-      users[senderId].diamonds = users[senderId].diamonds || 0
-      users[senderId].diamonds += 50
-      return conn.reply(m.chat, `🎰 ¡Felicidades, ${senderName}! Has ganado *50 💎 diamantes*.`, m)
-    case '🤍 5 corazones rojos':
-      users[senderId].hearts = users[senderId].hearts || 0
-      users[senderId].hearts += 5
-      return conn.reply(m.chat, `🎰 ¡Felicidades, ${senderName}! Has ganado *5 🤍 corazones rojos*.`, m)
+    case '🤍 50 corazones blancos':
+      users[senderId].corazones = users[senderId].corazones || 0
+      users[senderId].corazones += 50
+      return conn.reply(m.chat, `🎰 ¡Felicidades, ${senderName}! Has ganado *50 🤍 corazones blancos*.`, m)
+    case '✨ 30 XP':
+      users[senderId].xp = users[senderId].xp || 0
+      users[senderId].xp += 30
+      return conn.reply(m.chat, `🎰 ¡Felicidades, ${senderName}! Has ganado *30 ✨ XP*.`, m)
     case '🚫 Nada':
       return conn.reply(m.chat, `🎰 Lo siento, ${senderName}, no ganaste nada esta vez. ¡Intenta de nuevo más tarde!`, m)
   }
