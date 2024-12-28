@@ -30,7 +30,7 @@ let handler = async (m, { conn, text }) => {
     }
 
     // Mostrar tienda
-    if (!text) {
+    if (m.text === '.tienda') {
         let shopMessage = '🛒 *Tienda de Skins*\n\n';
         for (let skin of skins) {
             shopMessage += `🆔 *ID:* ${skin.id}\n📛 *Nombre:* ${skin.name}\n🤍 *Costo:* ${skin.cost} 🤍\n\n`;
@@ -42,10 +42,14 @@ let handler = async (m, { conn, text }) => {
     }
 
     // Procesar comando comprar
-    let args = text.trim().split(' '); // Asegurarnos de que el texto está limpio
+    if (m.text.startsWith('.comprar')) {
+        let args = m.text.split(' '); // Separar el texto en partes
+        let skinId = parseInt(args[1]); // Asegurarnos de que el ID sea un número
 
-    if (args[0] === 'comprar' && args[1]) {
-        let skinId = parseInt(args[1]); // Asegurarnos de que el ID es un número
+        if (!skinId) {
+            return conn.reply(m.chat, `🚩 Por favor ingresa un ID válido de skin.`, m);
+        }
+
         let selectedSkin = skins.find(skin => skin.id === skinId);
 
         if (!selectedSkin) {
@@ -65,8 +69,8 @@ let handler = async (m, { conn, text }) => {
         return conn.reply(m.chat, `✅ Compraste la skin *${selectedSkin.name}*. ¡Disfrútala!`, m);
     }
 
-    // Si no es un comando válido
-    conn.reply(m.chat, `🚩 Comando no válido. Usa *.tienda* para ver la tienda.`, m);
+    // Comando no válido
+    conn.reply(m.chat, `🚩 Comando no válido. Usa *.tienda* para ver la tienda y *.comprar <ID de skin>* para comprar.`, m);
 };
 
 handler.help = ['tienda']
