@@ -52,7 +52,7 @@ global.fcontact = {
     }
 }
 
-handler.help = ["mega"]
+handler.help = ["mega *<url>*"]
 handler.tags = ["dl"]
 handler.command = /^(mega)$/i
 export default handler
