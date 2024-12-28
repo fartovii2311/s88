@@ -28,25 +28,25 @@ let handler = async (m, { conn, text, command }) => {
     case '🤍 100 corazones blancos':
       users[senderId].corazones = users[senderId].corazones || 0
       users[senderId].corazones += 100
-      return conn.reply(m.chat, `🎰 ¡Felicidades, ${senderName}! Has ganado *100 🤍 corazones blancos*.`, m)
+      return conn.reply(m.chat, `🎰 ¡Felicidades, ${senderName}! Has ganado *100 🤍 corazones blancos*.`, m,rcanal)
     case '🎁 1 Skin':
       users[senderId].skins = users[senderId].skins || []
       users[senderId].skins.push('Skin Especial')
-      return conn.reply(m.chat, `🎰 ¡Felicidades, ${senderName}! Has ganado una *Skin Especial*!`, m)
+      return conn.reply(m.chat, `🎰 ¡Felicidades, ${senderName}! Has ganado una *Skin Especial*!`, m,rcanal)
     case '🤍 50 corazones blancos':
       users[senderId].corazones = users[senderId].corazones || 0
       users[senderId].corazones += 50
-      return conn.reply(m.chat, `🎰 ¡Felicidades, ${senderName}! Has ganado *50 🤍 corazones blancos*.`, m)
+      return conn.reply(m.chat, `🎰 ¡Felicidades, ${senderName}! Has ganado *50 🤍 corazones blancos*.`, m,rcanal)
     case '✨ 30 XP':
       users[senderId].xp = users[senderId].xp || 0
       users[senderId].xp += 30
-      return conn.reply(m.chat, `🎰 ¡Felicidades, ${senderName}! Has ganado *30 ✨ XP*.`, m)
+      return conn.reply(m.chat, `🎰 ¡Felicidades, ${senderName}! Has ganado *30 ✨ XP*.`, m,rcanal)
     case '🚫 Nada':
-      return conn.reply(m.chat, `🎰 Lo siento, ${senderName}, no ganaste nada esta vez. ¡Intenta de nuevo más tarde!`, m)
+      return conn.reply(m.chat, `🎰 Lo siento, ${senderName}, no ganaste nada esta vez. ¡Intenta de nuevo más tarde!`, m,rcanal)
     case '🌟 Premium por 1 hora':
       users[senderId].premium = true
       users[senderId].premiumTime = Date.now() + 1 * 60 * 60 * 1000  // 1 hora en milisegundos
-      return conn.reply(m.chat, `🎰 ¡Felicidades, ${senderName}! Has ganado *Premium por 1 hora*!`, m)
+      return conn.reply(m.chat, `🎰 ¡Felicidades, ${senderName}! Has ganado *Premium por 1 hora*!`, m,rcanal)
   }
 }
 
