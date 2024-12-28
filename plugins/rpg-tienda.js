@@ -80,12 +80,27 @@ let handler = async (m, { conn, text }) => {
         return conn.reply(m.chat, `✅ Compraste la skin *${selectedSkin.name}*. ¡Disfrútala!`, m);
     }
 
+    // Comando para ver las skins que tiene el usuario
+    if (m.text === '.skins') {
+        if (user.skins.length === 0) {
+            return conn.reply(m.chat, `🚩 No tienes ninguna skin aún.`, m);
+        }
+
+        let skinsList = '🎮 *Tus Skins*\n\n';
+        for (let skinId of user.skins) {
+            let skin = skins.find(skin => skin.id === skinId);
+            skinsList += `🆔 *ID:* ${skin.id}\n📛 *Nombre:* ${skin.name}\n\n`;
+        }
+
+        return conn.reply(m.chat, skinsList, m);
+    }
+
     // Comando no válido
     conn.reply(m.chat, `🚩 Comando no válido. Usa *.tienda* para ver la tienda y *.comprar <ID de skin>* para comprar.`, m);
 };
 
 handler.help = ['tienda'];
-handler.command = ['tienda', 'comprar'];
+handler.command = ['tienda', 'comprar', 'skins'];
 handler.tags = ['rpg'];
 handler.register = true;
 
