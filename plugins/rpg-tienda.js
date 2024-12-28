@@ -10,7 +10,7 @@ let handler = async (m, { conn, text }) => {
 
     let skins = [];
     try {
-        skins = JSON.parse(fs.readFileSync('../storage/database/skins.json', 'utf-8'));
+        skins = JSON.parse(fs.readFileSync('./storage/databases/skins.json', 'utf-8'));
     } catch (error) {
         if (error.code === 'ENOENT') {
             // Si el archivo no existe, crea uno con datos predeterminados
