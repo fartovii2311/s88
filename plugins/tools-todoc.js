@@ -16,7 +16,7 @@ return conn.sendMessage(m.chat, { document: media, mimetype: 'audio/mpeg', fileN
 }
 handler.help = ['document *<audio/video>*']
 handler.tags = ['tools']
-handler.command = ['toducument', 'todoc']
+handler.command = ['toducument', 'todoc', 'document]
 handler.register = true
 
 export default handler
