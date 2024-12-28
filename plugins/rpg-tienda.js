@@ -66,4 +66,5 @@ let handler = async (m, { conn, text }) => {
 };
 
 handler.command = ['tienda', 'comprar'];
+handler.register = true 
 export default handler;
