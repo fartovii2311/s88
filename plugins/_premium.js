@@ -1,48 +1,50 @@
 let handler = async (m, { conn }) => {
-  let user = global.db.data.users[m.sender]; // Obtener los datos del usuario
-  
-  // Si no existe el usuario en la base de datos, crear los datos iniciales
+  // Obtener los datos del usuario
+  let user = global.db.data.users[m.sender];
+
+  // Si el usuario no existe, inicializar los datos
   if (!user) {
     user = global.db.data.users[m.sender] = {
-      premium: false,  // Estado de Premium
-      premiumTime: 0,  // Tiempo de Premium
-      points: 0,  // Puntos del usuario
+      premium: false,
+      premiumTime: 0,
+      points: 0,
     };
   }
 
-  // Comando para verificar los puntos del usuario
-  if (/^\.misPuntos$/i.test(m.text)) {
-    await conn.reply(m.chat, `🚩 Tienes *${user.points}* puntos.`, m);
-  }
-  
-  // Comando para ganar Premium al alcanzar puntos
-  if (/^\.ganoPremium$/i.test(m.text)) {
-    let puntosNecesarios = 1000; // Puntos necesarios para obtener Premium
-    
-    // Si el usuario tiene suficientes puntos
-    if (user.points >= puntosNecesarios) {
-      let tiempoPremium = 30 * 24 * 60 * 60 * 1000; // 30 días en milisegundos
-      user.premium = true;
-      user.premiumTime = new Date().getTime() + tiempoPremium; // Establecer el tiempo premium
+  // Definir los puntos necesarios para ganar Premium
+  const puntosNecesarios = 1000;
 
-      // Notificar al usuario que ha ganado Premium
-      await conn.reply(m.chat, `🎉 ¡Felicidades! Has ganado el estatus de *Premium* por 30 días.`, m);
+  // Comando para verificar los puntos del usuario
+  if (m.text === '.misPuntos') {
+    await conn.reply(m.chat, `🚩 Tienes *${user.points}* puntos.`, m);
+    return; // Detener la ejecución para no continuar con otros comandos
+  }
+
+  // Comando para ganar Premium si se alcanzan los puntos necesarios
+  if (m.text === '.ganoPremium') {
+    if (user.points >= puntosNecesarios) {
+      const tiempoPremium = 30 * 24 * 60 * 60 * 1000; // 30 días en milisegundos
+      user.premium = true;
+      user.premiumTime = Date.now() + tiempoPremium; // Establecer la fecha de expiración del Premium
+
+      await conn.reply(m.chat, `🎉 ¡Felicidades! Has ganado *Premium* por 30 días.`, m);
     } else {
-      // Si el usuario no tiene suficientes puntos
       await conn.reply(m.chat, `🚩 No tienes suficientes puntos. Necesitas *${puntosNecesarios - user.points}* puntos más para obtener Premium.`, m);
     }
-  }
-  
-  // Comando para aumentar puntos (solo por pruebas)
-  if (/^\.ganarPuntos$/i.test(m.text)) {
-    user.points += 100; // Otorgar 100 puntos al usuario como ejemplo
-    await conn.reply(m.chat, `🚩 ¡Has ganado 100 puntos! Ahora tienes *${user.points}* puntos.`, m);
+    return; // Detener la ejecución para no continuar con otros comandos
   }
 
-  // Comando para ver si el usuario tiene Premium activo
-  if (/^\.premiumStatus$/i.test(m.text)) {
-    if (user.premium && new Date().getTime() < user.premiumTime) {
-      let tiempoRestante = Math.floor((user.premiumTime - new Date().getTime()) / (1000 * 60 * 60 * 24)); // Calcular días restantes
+  // Comando para ganar puntos (para pruebas)
+  if (m.text === '.ganarPuntos') {
+    user.points += 100; // Otorgar 100 puntos al usuario
+    await conn.reply(m.chat, `🚩 ¡Has ganado 100 puntos! Ahora tienes *${user.points}* puntos.`, m);
+    return; // Detener la ejecución para no continuar con otros comandos
+  }
+
+  // Comando para ver el estado del Premium
+  if (m.text === '.premiumStatus') {
+    if (user.premium && Date.now() < user.premiumTime) {
+      const tiempoRestante = Math.floor((user.premiumTime - Date.now()) / (1000 * 60 * 60 * 24)); // Días restantes
       await conn.reply(m.chat, `🎉 ¡Tienes Premium activo por *${tiempoRestante}* días más!`, m);
     } else {
       await conn.reply(m.chat, `🚩 No tienes Premium activo. Usa el comando *.ganoPremium* para obtenerlo.`, m);
