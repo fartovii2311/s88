@@ -60,7 +60,7 @@ async function tiktokdl(url) {
   };
   
   handler.help = ['tiktok *<url>*'];
-  handler.tags = ['downloader'];
+  handler.tags = ['dl'];
   handler.command = /^(tiktok)$/i;
   
   export default handler;
