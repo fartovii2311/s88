@@ -73,7 +73,6 @@ async function createSticker(img, url, packName, authorName, quality) {
 
 
 
-
 /* import { sticker } from '../lib/sticker.js'
 import uploadFile from '../lib/uploadFile.js'
 import { addExif } from '../lib/sticker.js'
