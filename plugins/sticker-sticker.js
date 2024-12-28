@@ -63,7 +63,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
   } finally {
     // Si se generó un sticker, lo enviamos
     if (stiker) {
-      conn.sendFile(m.chat, stiker, 'sticker.webp', '', m)  // Enviar sticker
+      conn.sendFile(m.chat, stiker, 'sticker.webp', '', m)  
     } else {
       m.reply('Ocurrió un error al generar el sticker')  // Mensaje si no se generó el sticker
     }
