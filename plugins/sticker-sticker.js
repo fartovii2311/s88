@@ -13,7 +13,6 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     let q = m.quoted ? m.quoted : m
     let mime = (q.msg || q).mimetype || q.mediaType || ''
     
-    // Verificar si el tipo de archivo es webp, imagen o video
     if (/webp|image|video/g.test(mime)) {
       if (/video/g.test(mime) && ((q.msg || q).seconds > 11)) {
         return m.reply('Máximo 10 segundos')
@@ -24,25 +23,23 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
       let out
       try {
-        // Intentar crear el sticker a partir del archivo recibido
         stiker = await sticker(img, false, h, i)
       } catch (e) {
         console.error('Error al crear sticker:', e)
-        stiker = false // Si falla, continuar con la siguiente opción
+        stiker = false
       } finally {
         if (!stiker) {
-          // Si no se creó el sticker, intentar procesar el archivo dependiendo del tipo
           try {
             if (/webp/g.test(mime)) {
-              out = await webp2png(img)  // Convierte WebP a PNG si es necesario
+              out = await webp2png(img)
             } else if (/image/g.test(mime)) {
-              out = await uploadImage(img)  // Sube la imagen
+              out = await uploadImage(img)
             } else if (/video/g.test(mime)) {
-              out = await uploadFile(img)  // Sube el video
+              out = await uploadFile(img)
             }
 
-            if (typeof out !== 'string') out = await uploadImage(img)  // Si no es una URL, sube la imagen
-            stiker = await sticker(false, out, h, i)  // Crea el sticker con la imagen o video procesado
+            if (typeof out !== 'string') out = await uploadImage(img)
+            stiker = await sticker(false, out, h, i)
           } catch (e) {
             console.error('Error al procesar la imagen/video:', e)
             stiker = 'Error al generar el sticker'
@@ -50,32 +47,32 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
         }
       }
     } else if (args[0]) {
-      // Si se pasa una URL en los argumentos
       if (isUrl(args[0])) {
-        stiker = await sticker(false, args[0], global.packname, global.author)  // Usa la URL directamente
+        stiker = await sticker(false, args[0], global.packname, global.author)
       } else {
-        return m.reply('URL inválido')  // Mensaje si la URL no es válida
+        return m.reply('URL inválido')
       }
     }
   } catch (e) {
     console.error('Error principal:', e)
     stiker = 'Ocurrió un error al procesar el sticker'
   } finally {
-    // Si se generó un sticker, lo enviamos
+    // Aquí corregimos el error de 'rpl' y lo sustituimos por 'm' para citar el mensaje
     if (stiker) {
-      conn.sendFile(m.chat, stiker, 'sticker.webp', '', m)  
+      conn.sendFile(m.chat, stiker, 'sticker.webp', '', m)  // El parámetro rpl ha sido eliminado
     } else {
-      m.reply('Ocurrió un error al generar el sticker')  // Mensaje si no se generó el sticker
+      m.reply('Ocurrió un error al generar el sticker')
     }
   }
 }
 
 handler.help = ['sticker']
 handler.tags = ['sticker']
-handler.command = ['s', 'sticker'] 
+handler.command = ['s', 'sticker']
 
 export default handler
 
+// Función para verificar si un texto es una URL válida
 const isUrl = (text) => {
   return text.match(new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)(jpg|jpeg|png|gif)/, 'gi'))
 }
