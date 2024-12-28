@@ -13,6 +13,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     let q = m.quoted ? m.quoted : m
     let mime = (q.msg || q).mimetype || q.mediaType || ''
     
+    // Si es una imagen, video o webp
     if (/webp|image|video/g.test(mime)) {
       if (/video/g.test(mime) && ((q.msg || q).seconds > 11)) {
         return m.reply('Máximo 10 segundos')
@@ -23,38 +24,41 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
       let out
       try {
+        // Crear sticker a partir de la imagen/video
         stiker = await sticker(img, false, h, i)
       } catch (e) {
         console.error(e)
       } finally {
         if (!stiker) {
           if (/webp/g.test(mime)) {
-            out = await webp2png(img)
+            out = await webp2png(img)  // Convierte WebP a PNG si es necesario
           } else if (/image/g.test(mime)) {
-            out = await uploadImage(img)
+            out = await uploadImage(img)  // Sube la imagen
           } else if (/video/g.test(mime)) {
-            out = await uploadFile(img)
+            out = await uploadFile(img)  // Sube el video
           }
 
-          if (typeof out !== 'string') out = await uploadImage(img)
-          stiker = await sticker(false, out, h, i)
+          if (typeof out !== 'string') out = await uploadImage(img)  // Si no es una URL, sube la imagen
+          stiker = await sticker(false, out, h, i)  // Crea el sticker con la imagen o video procesado
         }
       }
     } else if (args[0]) {
+      // Si se pasa una URL
       if (isUrl(args[0])) {
-        stiker = await sticker(false, args[0], global.packname, global.author)
+        stiker = await sticker(false, args[0], global.packname, global.author)  // Usa la URL directamente
       } else {
-        return m.reply('URL inválido')
+        return m.reply('URL inválido')  // Mensaje si la URL no es válida
       }
     }
   } catch (e) {
     console.error(e)
-    if (!stiker) stiker = 'Error procesando el sticker'
+    if (!stiker) stiker = 'Error procesando el sticker'  // Mensaje de error si no se pudo generar el sticker
   } finally {
+    // Si se generó un sticker, lo enviamos
     if (stiker) {
-      conn.sendFile(m.chat, stiker, 'sticker.webp', '', m)
+      conn.sendFile(m.chat, stiker, 'sticker.webp', '', m)  // Enviar sticker
     } else {
-      m.reply('Ocurrió un error al generar el sticker')
+      m.reply('Ocurrió un error al generar el sticker')  // Mensaje si no se generó el sticker
     }
   }
 }
