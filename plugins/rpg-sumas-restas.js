@@ -57,5 +57,5 @@ let handler = async (m, { conn }) => {
   conn.on('message', checkAnswer)
 }
 
-handler.command = ['matematica', 'sumar', 'restar']
+handler.command = ['mate','matematica', 'sumar', 'restar']
 export default handler
