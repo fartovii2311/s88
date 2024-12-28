@@ -25,8 +25,9 @@ let handler = async (m, { conn, text }) => {
     await m.react('❌');
 };
 
-handler.command = ['ytmp3'];
+handler.help = ["ytmp3 *<url>*"]
 handler.tags = ['downloader'];
+handler.command = ['ytmp3'];
 handler.register = true;
 
 export default handler;
