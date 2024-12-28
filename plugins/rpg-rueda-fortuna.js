@@ -5,17 +5,22 @@ let handler = async (m, { conn, text, command }) => {
   let senderId = m.sender
   let senderName = conn.getName(senderId)
 
-  let tiempoEspera = 30 * 60  // Espera de 30 minutos entre giros
+  let tiempoEspera = 30 * 60
+
   if (cooldowns[m.sender] && Date.now() - cooldowns[m.sender] < tiempoEspera * 1000) {
     let tiempoRestante = segundosAHMS(Math.ceil((cooldowns[m.sender] + tiempoEspera * 1000 - Date.now()) / 1000))
-    m.reply(`🎰 Espera *${tiempoRestante}* para girar la rueda nuevamente.`)
-    return
+    return m.reply(`🎰 Espera *${tiempoRestante}* para girar la rueda nuevamente.`)
   }
 
   cooldowns[m.sender] = Date.now()
 
-  // Simulación de rueda de la fortuna
-  let resultados = ['🤍 100 corazones blancos', '🎁 1 Skin', '🤍 50 corazones blancos', '✨ 30 XP', '🚫 Nada']
+  let resultados = [
+    '🤍 100 corazones blancos', 
+    '🎁 1 Skin', 
+    '🤍 50 corazones blancos', 
+    '✨ 30 XP', 
+    '🚫 Nada'
+  ]
   let resultado = resultados[Math.floor(Math.random() * resultados.length)]
 
   switch (resultado) {
