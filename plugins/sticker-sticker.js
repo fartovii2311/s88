@@ -1,4 +1,6 @@
-import { Sticker } from 'wa-sticker-formatter'
+import ffmpeg from 'fluent-ffmpeg'
+import fs from 'fs'
+import path from 'path'
 
 let handler = async (m, { conn, args, usedPrefix, command }) => {
   let stiker = false
@@ -9,7 +11,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
   try {
     let q = m.quoted ? m.quoted : m
     let mime = (q.msg || q).mimetype || q.mediaType || ''
-    
+
     if (/webp|image|video/g.test(mime)) {
       if (/video/g.test(mime) && ((q.msg || q).seconds > 11)) {
         return m.reply('Máximo 10 segundos')
@@ -18,34 +20,30 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
       let img = await q.download?.()
       if (!img) throw new Error(`✳️ Responde a una imagen o video con *${usedPrefix + command}*`)
 
-      let out
-      try {
-        stiker = await new Sticker(img, { pack: h, author: i }).toBuffer()  // Usamos 'toBuffer' para obtener un Buffer
-      } catch (e) {
-        console.error('Error al crear sticker:', e)
-        stiker = false
-      } finally {
-        if (!stiker) {
-          try {
-            if (/webp/g.test(mime)) {
-              out = await webp2png(img)
-            } else if (/image/g.test(mime)) {
-              out = await uploadImage(img)
-            } else if (/video/g.test(mime)) {
-              out = await uploadFile(img)
-            }
+      const tmpPath = path.join(__dirname, 'temp', `sticker-${Date.now()}.webp`) // Ruta temporal para almacenar el sticker
 
-            if (typeof out !== 'string') out = await uploadImage(img)
-            stiker = await new Sticker(out, { pack: h, author: i }).toBuffer()  // Usamos 'toBuffer' aquí también
-          } catch (e) {
-            console.error('Error al procesar la imagen/video:', e)
-            stiker = 'Error al generar el sticker'
-          }
-        }
+      // Usamos ffmpeg para crear un sticker en formato webp
+      try {
+        await new Promise((resolve, reject) => {
+          ffmpeg(img)
+            .inputFormat('image2') // Si es una imagen, usa 'image2', si es video usa 'mov'
+            .output(tmpPath)
+            .outputOptions('-vcodec', 'libwebp', '-preset', 'default', '-an', '-y', '-f', 'webp')
+            .on('end', resolve)
+            .on('error', reject)
+            .run()
+        })
+
+        // Enviamos el archivo generado
+        stiker = tmpPath
+      } catch (e) {
+        console.error('Error al generar sticker con ffmpeg:', e)
+        stiker = false
       }
     } else if (args[0]) {
       if (isUrl(args[0])) {
-        stiker = await new Sticker(args[0], { pack: global.packname, author: global.author }).toBuffer()  // Usamos 'toBuffer' aquí también
+        // Si el argumento es una URL, procesamos como una imagen o video
+        stiker = await new Sticker(args[0], { pack: global.packname, author: global.author }).toBuffer()  // Puedes seguir usando 'toBuffer' si prefieres
       } else {
         return m.reply('URL inválido')
       }
@@ -55,9 +53,11 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     stiker = 'Ocurrió un error al procesar el sticker'
   } finally {
     if (stiker) {
-      // Verificamos si el sticker es un Buffer antes de enviarlo
-      if (Buffer.isBuffer(stiker)) {
+      // Verificamos si el sticker es un archivo válido
+      if (fs.existsSync(stiker)) {
         conn.sendFile(m.chat, stiker, 'sticker.webp', '', m)
+        // Eliminamos el archivo temporal después de enviarlo
+        fs.unlinkSync(stiker)
       } else {
         m.reply('El sticker generado no es un archivo válido.')
       }
@@ -75,4 +75,4 @@ export default handler
 
 const isUrl = (text) => {
   return text.match(new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)(jpg|jpeg|png|gif)/, 'gi'))
-  }
+}
