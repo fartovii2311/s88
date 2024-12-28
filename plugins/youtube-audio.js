@@ -1,55 +1,43 @@
 import fetch from 'node-fetch';
-import Sph from 'ytdl-mp3';
 
 let handler = async (m, { conn, text }) => {
-    // Verificar si se cita un mensaje
-    if (!m.quoted) {
+    if (!text || !/^https?:\/\/(www\.)?youtube\.com\/.+/.test(text)) {
         await m.react('✖️');
-        return conn.reply(m.chat, `🚩 Por favor, etiqueta el mensaje que contenga el resultado de YouTube Play.`, m);
+        return conn.reply(m.chat, `🚩 Por favor, proporciona un enlace válido de YouTube para descargar el audio.`, m);
     }
 
-    // Validar que el mensaje citado contenga el marcador específico
-    if (!m.quoted.text || !m.quoted.text.includes("*`【Y O U T U B E - P L A Y】`*")) {
-        await m.react('✖️');
-        return conn.reply(m.chat, `🚩 El mensaje citado no parece ser un resultado de YouTube Play.`, m);
-    }
-
-    // Extraer URL del mensaje citado
-    let urls = m.quoted.text.match(/(?:https?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed|shorts)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9_-]+)/gi);
-    if (!urls) {
-        await m.react('✖️');
-        return conn.reply(m.chat, `🚩 No se encontró ninguna URL válida en el mensaje citado.`, m);
-    }
-
-    // Elegir la primera URL
-    let videoUrl = urls[0];
-
-    // Reacción inicial
     await m.react('🕓');
 
     try {
-        // Descargar el audio con Sph.ytdl
-        let cxf = await Sph.ytdl(videoUrl);
+        // Realizar la solicitud a la API
+        let api = await fetch(`https://api.giftedtech.my.id/api/download/dlmp3?apikey=gifted&url=${text}`);
+        let json = await api.json();
+
+        // Validar la respuesta de la API
+        if (!json.result || !json.result.download_url) {
+            await m.react('✖️');
+            return conn.reply(m.chat, `🚩 No se pudo procesar el enlace. Verifica que sea un enlace válido de YouTube.`, m);
+        }
+
+        let { quality, title, download_url } = json.result;
 
         // Enviar el archivo como audio
-        await conn.sendMessage(m.chat, {
-            audio: { url: cxf.dl_url },
-            fileName: `${cxf.title}.mp3`,
-            mimetype: 'audio/mp4'
+        await conn.sendMessage(m.chat, { 
+            audio: { url: download_url }, 
+            fileName: `${title}.mp3`, 
+            mimetype: 'audio/mpeg' 
         }, { quoted: m });
 
-        // Reacción de éxito
-        await m.react('✅');
+        await m.react('✅'); // Reacción de éxito
     } catch (error) {
-        // Manejar errores
+        // Manejo de errores
         console.error(error);
         await m.react('✖️');
-        return conn.reply(m.chat, `🚩 Ocurrió un error al procesar tu solicitud. Intenta nuevamente más tarde.`, m);
+        conn.reply(m.chat, `🚩 Ocurrió un error al procesar tu solicitud. Intenta nuevamente más tarde.`, m);
     }
 };
 
 // Configuración del comando
-handler.customPrefix = /^(Audio|A)/i; // Prefijo personalizado (opcional)
-handler.command = ['audiofromyt']; // Alias del comando (opcional)
+handler.customPrefix = /^(Audio|A)/i;
 
 export default handler;
