@@ -11,12 +11,12 @@ let handler = async (m, { conn }) => {
   }
 
   // Comando para verificar los puntos del usuario
-  if (m.text === '.misPuntos') {
+  if (/^\.misPuntos$/i.test(m.text)) {
     await conn.reply(m.chat, `🚩 Tienes *${user.points}* puntos.`, m);
   }
   
   // Comando para ganar Premium al alcanzar puntos
-  if (m.text === '.ganoPremium') {
+  if (/^\.ganoPremium$/i.test(m.text)) {
     let puntosNecesarios = 1000; // Puntos necesarios para obtener Premium
     
     // Si el usuario tiene suficientes puntos
@@ -34,13 +34,13 @@ let handler = async (m, { conn }) => {
   }
   
   // Comando para aumentar puntos (solo por pruebas)
-  if (m.text === '.ganarPuntos') {
+  if (/^\.ganarPuntos$/i.test(m.text)) {
     user.points += 100; // Otorgar 100 puntos al usuario como ejemplo
     await conn.reply(m.chat, `🚩 ¡Has ganado 100 puntos! Ahora tienes *${user.points}* puntos.`, m);
   }
 
   // Comando para ver si el usuario tiene Premium activo
-  if (m.text === '.premiumStatus') {
+  if (/^\.premiumStatus$/i.test(m.text)) {
     if (user.premium && new Date().getTime() < user.premiumTime) {
       let tiempoRestante = Math.floor((user.premiumTime - new Date().getTime()) / (1000 * 60 * 60 * 24)); // Calcular días restantes
       await conn.reply(m.chat, `🎉 ¡Tienes Premium activo por *${tiempoRestante}* días más!`, m);
