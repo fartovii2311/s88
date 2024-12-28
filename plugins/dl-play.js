@@ -38,7 +38,7 @@ let handler = async (m, { conn, text, args }) => {
 
 handler.tags = ['downloader'];
 handler.command = /^(play)$/i;
-
+handler.register = true;
 export default handler;
 
 async function search(query, options = {}) {
