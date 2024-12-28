@@ -55,7 +55,12 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     stiker = 'Ocurrió un error al procesar el sticker'
   } finally {
     if (stiker) {
-      conn.sendFile(m.chat, stiker, 'sticker.webp', '', m)
+      // Asegúrate de que el sticker sea un Buffer válido antes de enviarlo
+      if (Buffer.isBuffer(stiker)) {
+        conn.sendFile(m.chat, stiker, 'sticker.webp', '', m)
+      } else {
+        m.reply('El sticker generado no es un archivo válido.')
+      }
     } else {
       m.reply('Ocurrió un error al generar el sticker')
     }
@@ -70,4 +75,4 @@ export default handler
 
 const isUrl = (text) => {
   return text.match(new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)(jpg|jpeg|png|gif)/, 'gi'))
-      }
+}
