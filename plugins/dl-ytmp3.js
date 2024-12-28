@@ -26,7 +26,7 @@ let handler = async (m, { conn, text }) => {
 };
 
 handler.help = ["ytmp3 *<url>*"]
-handler.tags = ['downloader'];
+handler.tags = ['dl'];
 handler.command = ['ytmp3'];
 handler.register = true;
 
