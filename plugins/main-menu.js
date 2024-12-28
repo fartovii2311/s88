@@ -55,7 +55,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
     'anime': 'ᴀɴɪᴍᴇ',
     'group': 'ɢʀᴜᴘᴏꜱ',
     'owner': 'ᴏᴡɴᴇʀ',
-    'audio': '`𝙲𝚘𝚗𝚟𝚎𝚛𝚝𝚒𝚍𝚘𝚛`',
+    'audio': '𝙲𝚘𝚗𝚟𝚎𝚛𝚝𝚒𝚍𝚘𝚛',
   }
 
   try {
