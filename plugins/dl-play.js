@@ -36,6 +36,7 @@ let handler = async (m, { conn, text, args }) => {
   }
 };
 
+handler.help = ["play *<texto>*"]
 handler.tags = ['downloader'];
 handler.command = /^(play)$/i;
 handler.register = true;
