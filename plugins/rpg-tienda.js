@@ -65,6 +65,7 @@ let handler = async (m, { conn, text }) => {
     conn.reply(m.chat, `🚩 Comando no válido. Usa *.tienda* para ver la tienda.`, m);
 };
 
+handler.help = ['tienda']
 handler.command = ['tienda', 'comprar'];
 handler.tags = ['rpg']
 handler.register = true 
