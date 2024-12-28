@@ -4,7 +4,7 @@ let handler = async (m, { conn }) => {
   let name = conn.getName(m.sender)
 
   if (pokemonGame[m.sender]) {
-    return conn.sendMessage(m.chat, { text: `🚩 ${name}, ya estás jugando a adivinar el Pokémon! Espera a que termine para jugar otro.` }, { quoted: m })
+    return conn.sendMessage(m.chat, { text: `🚩 ${name}, ya estás jugando a adivinar el Pokémon! Espera a que termine para jugar otro.` }, { mentions: [m.sender] })
   }
 
   const pokemons = [
@@ -28,7 +28,7 @@ let handler = async (m, { conn }) => {
       const userAnswer = msg.body.split(' ')[1]?.toLowerCase()
 
       if (!userAnswer) {
-        return conn.sendMessage(m.chat, { text: "🚩 Por favor, ingresa el nombre del Pokémon como respuesta (por ejemplo: !respuesta Pikachu)." }, { quoted: m })
+        return conn.sendMessage(m.chat, { text: "🚩 Por favor, ingresa el nombre del Pokémon como respuesta (por ejemplo: !respuesta Pikachu)." }, { mentions: [m.sender] })
       }
 
       if (userAnswer === pokemonGame[m.sender].correctAnswer.toLowerCase()) {
