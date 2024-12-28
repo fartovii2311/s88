@@ -58,4 +58,6 @@ let handler = async (m, { conn }) => {
 }
 
 handler.command = ['mate','matematica', 'sumar', 'restar']
+handler.tags = ['rpg']
+handler.register = true 
 export default handler
