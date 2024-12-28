@@ -26,6 +26,7 @@ let handler = async (m, { conn, text }) => {
 };
 
 handler.command = ['ytmp3'];
+handler.tags = ['downloader'];
 handler.register = true;
 
 export default handler;
