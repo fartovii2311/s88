@@ -1,34 +1,48 @@
 // [ ❀ PLAY ]
-import fetch from 'node-fetch'
-import yts from 'yt-search'
+import fetch from 'node-fetch';
+import yts from 'yt-search';
 
 let handler = async (m, { conn, text, args }) => {
-if (!text) {
-return m.reply("❀ ingresa un texto de lo que quieres buscar")
-}
+  if (!text) {
+    return m.reply("❀ Ingresa un texto de lo que quieres buscar");
+  }
+
+  await m.react('🕓');  // Reacción de carga
+
+  try {
+    let ytres = await search(args.join(" "));
+    let txt = `- Título: ${ytres[0].title}
+- Duración: ${ytres[0].timestamp}
+- Publicado: ${ytres[0].ago}
+- Canal: ${ytres[0].author.name || 'Desconocido'}
+- Url: ${'https://youtu.be/' + ytres[0].videoId}`;
+
+    await conn.sendFile(m.chat, ytres[0].image, 'thumbnail.jpg', txt, m);
     
-let ytres = await search(args.join(" "))
-let txt = `- Título : ${ytres[0].title}
-- Duración : ${ytres[0].timestap}
-- Publicado : ${ytres[0].ago}
-- Canal : ${ytres[0].author.name || 'Desconocido'}
-- Url : ${'https://youtu.be/' + ytres[0].videoId}`
-await conn.sendFile(m.chat, ytres[0].image, 'thumbnail.jpg', txt, m)
-    
-try {
-let api = await fetch(`https://api.giftedtech.my.id/api/download/dlmp3?apikey=gifted&url=${ytres[0].url}`)
-let json = await api.json()
-let { quality, title, download_url } = json.result
-await conn.sendMessage(m.chat, { audio: { url: download_url }, fileName: ${title}.mp3, mimetype: 'audio/mp4' }, { quoted: m })
-} catch (error) {
-console.error(error)
-}}
+    let api = await fetch(`https://api.giftedtech.my.id/api/download/dlmp3?apikey=gifted&url=${ytres[0].url}`);
+    let json = await api.json();
+    let { quality, title, download_url } = json.result;
+
+    await conn.sendMessage(m.chat, { 
+      audio: { url: download_url }, 
+      fileName: `${title}.mp3`, 
+      mimetype: 'audio/mp4' 
+    }, { quoted: m });
+
+    await m.react('✅');  // Reacción de éxito
+  } catch (error) {
+    console.error('Error al obtener el MP3:', error);
+    m.reply('❀ Ocurrió un error al intentar obtener el MP3. Intenta nuevamente.');
+    await m.react('❌');  // Reacción de error
+  }
+};
 
 handler.tags = ['downloader'];
-handler.command = /^(play)$/i
-export default handler
+handler.command = /^(play)$/i;
+
+export default handler;
 
 async function search(query, options = {}) {
-  let search = await yts.search({ query, hl: "es", gl: "ES", ...options })
-  return search.videos
+  let search = await yts.search({ query, hl: "es", gl: "ES", ...options });
+  return search.videos;
 }
