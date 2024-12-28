@@ -5,7 +5,7 @@ let handler = async (m, { conn, text, command }) => {
   let senderId = m.sender
   let senderName = conn.getName(senderId)
 
-  let tiempoEspera = 30 * 60
+  let tiempoEspera = 60 * 60  // Espera de 1 hora entre giros
 
   if (cooldowns[m.sender] && Date.now() - cooldowns[m.sender] < tiempoEspera * 1000) {
     let tiempoRestante = segundosAHMS(Math.ceil((cooldowns[m.sender] + tiempoEspera * 1000 - Date.now()) / 1000))
@@ -19,7 +19,8 @@ let handler = async (m, { conn, text, command }) => {
     '🎁 1 Skin', 
     '🤍 50 corazones blancos', 
     '✨ 30 XP', 
-    '🚫 Nada'
+    '🚫 Nada',
+    '🌟 Premium por 1 hora'
   ]
   let resultado = resultados[Math.floor(Math.random() * resultados.length)]
 
@@ -42,6 +43,10 @@ let handler = async (m, { conn, text, command }) => {
       return conn.reply(m.chat, `🎰 ¡Felicidades, ${senderName}! Has ganado *30 ✨ XP*.`, m)
     case '🚫 Nada':
       return conn.reply(m.chat, `🎰 Lo siento, ${senderName}, no ganaste nada esta vez. ¡Intenta de nuevo más tarde!`, m)
+    case '🌟 Premium por 1 hora':
+      users[senderId].premium = true
+      users[senderId].premiumTime = Date.now() + 1 * 60 * 60 * 1000  // 1 hora en milisegundos
+      return conn.reply(m.chat, `🎰 ¡Felicidades, ${senderName}! Has ganado *Premium por 1 hora*!`, m)
   }
 }
 
