@@ -1,5 +1,5 @@
 import ytdl from 'ytdl-core';
-import ffmpeg from 'fluent-ffmpeg';
+import ffmpeg from 'fluent-ffmpeg-7';
 import { randomBytes } from 'crypto';
 import fs from 'fs';
 
