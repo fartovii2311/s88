@@ -36,6 +36,7 @@
   "dependencies": {
     "@whiskeysockets/baileys": "^6.7.9",
     "@adiwajshing/keyed-db": "^0.2.4",
+    "yt-dlp": "^1.0.0",  
     "@ibaraki-douji/pixivts": "^2.4.1",
     "@bochilteam/scraper": "^4.2.4",
     "@distube/ytdl-core": "^4.11.2",
