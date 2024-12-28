@@ -4,9 +4,16 @@ let handler = async (m, { conn, text }) => {
     const userId = m.sender;
     const db = global.db.data.users;
 
-    if (!db[userId]) db[userId] = { hearts: 0, skins: [], bank: 0 };
+    // Asegurarse de que el usuario tenga datos válidos
+    if (!db[userId]) {
+        db[userId] = { hearts: 0, skins: [], bank: 0 };
+    }
 
     const user = db[userId];
+
+    // Asegurarse de que las propiedades 'hearts' y 'bank' estén correctamente inicializadas
+    if (user.hearts === undefined) user.hearts = 0;
+    if (user.bank === undefined) user.bank = 0;
 
     let skins = [];
     try {
@@ -29,8 +36,9 @@ let handler = async (m, { conn, text }) => {
         for (let skin of skins) {
             shopMessage += `🆔 *ID:* ${skin.id}\n📛 *Nombre:* ${skin.name}\n🤍 *Costo:* ${skin.cost} 🤍\n\n`;
         }
-        shopMessage += `💰 *Tus corazones blancos:* ${user.hearts} 🤍\n`;
-        shopMessage += `🏦 *Tus corazones en el banco:* ${user.bank} 🤍\n\n`;
+        // Asegurarse de que los valores estén definidos
+        shopMessage += `💰 *Tus corazones blancos:* ${user.hearts || 0} 🤍\n`;
+        shopMessage += `🏦 *Tus corazones en el banco:* ${user.bank || 0} 🤍\n\n`;
         shopMessage += `Usa: *.comprar <ID de skin>* para comprar.`;
         return conn.reply(m.chat, shopMessage, m);
     }
