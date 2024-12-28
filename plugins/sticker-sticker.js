@@ -13,37 +13,44 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     let q = m.quoted ? m.quoted : m
     let mime = (q.msg || q).mimetype || q.mediaType || ''
     
-    // Si es una imagen, video o webp
+    // Verificar si el tipo de archivo es webp, imagen o video
     if (/webp|image|video/g.test(mime)) {
       if (/video/g.test(mime) && ((q.msg || q).seconds > 11)) {
         return m.reply('Máximo 10 segundos')
       }
 
       let img = await q.download?.()
-      if (!img) throw `✳️ Responde a una imagen o video con *${usedPrefix + command}*`
+      if (!img) throw new Error(`✳️ Responde a una imagen o video con *${usedPrefix + command}*`)
 
       let out
       try {
-        // Crear sticker a partir de la imagen/video
+        // Intentar crear el sticker a partir del archivo recibido
         stiker = await sticker(img, false, h, i)
       } catch (e) {
-        console.error(e)
+        console.error('Error al crear sticker:', e)
+        stiker = false // Si falla, continuar con la siguiente opción
       } finally {
         if (!stiker) {
-          if (/webp/g.test(mime)) {
-            out = await webp2png(img)  // Convierte WebP a PNG si es necesario
-          } else if (/image/g.test(mime)) {
-            out = await uploadImage(img)  // Sube la imagen
-          } else if (/video/g.test(mime)) {
-            out = await uploadFile(img)  // Sube el video
-          }
+          // Si no se creó el sticker, intentar procesar el archivo dependiendo del tipo
+          try {
+            if (/webp/g.test(mime)) {
+              out = await webp2png(img)  // Convierte WebP a PNG si es necesario
+            } else if (/image/g.test(mime)) {
+              out = await uploadImage(img)  // Sube la imagen
+            } else if (/video/g.test(mime)) {
+              out = await uploadFile(img)  // Sube el video
+            }
 
-          if (typeof out !== 'string') out = await uploadImage(img)  // Si no es una URL, sube la imagen
-          stiker = await sticker(false, out, h, i)  // Crea el sticker con la imagen o video procesado
+            if (typeof out !== 'string') out = await uploadImage(img)  // Si no es una URL, sube la imagen
+            stiker = await sticker(false, out, h, i)  // Crea el sticker con la imagen o video procesado
+          } catch (e) {
+            console.error('Error al procesar la imagen/video:', e)
+            stiker = 'Error al generar el sticker'
+          }
         }
       }
     } else if (args[0]) {
-      // Si se pasa una URL
+      // Si se pasa una URL en los argumentos
       if (isUrl(args[0])) {
         stiker = await sticker(false, args[0], global.packname, global.author)  // Usa la URL directamente
       } else {
@@ -51,8 +58,8 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
       }
     }
   } catch (e) {
-    console.error(e)
-    if (!stiker) stiker = 'Error procesando el sticker'  // Mensaje de error si no se pudo generar el sticker
+    console.error('Error principal:', e)
+    stiker = 'Ocurrió un error al procesar el sticker'
   } finally {
     // Si se generó un sticker, lo enviamos
     if (stiker) {
