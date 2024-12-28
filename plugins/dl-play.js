@@ -1,121 +1,79 @@
-import fetch from 'node-fetch';
-import fs from 'fs';
-import path from 'path';
+import ytdlp from 'yt-dlp';
 import ffmpeg from 'fluent-ffmpeg';
-import yts from 'yt-search';
+import { randomBytes } from 'crypto';
+import fs from 'fs';
 
-const __dirname = path.resolve();
+class YT {
+    static downloadMP3FromURL = async (url) => {
+        try {
+            // Descargar la mejor calidad de audio disponible utilizando yt-dlp
+            const info = await ytdlp.getInfo(url);
+            const audioStream = ytdlp(url, { format: 'bestaudio' });
 
-let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) return conn.reply(m.chat, `❀ Ingresa el nombre del video que deseas buscar`, m,rcanal);
+            // Generar el archivo MP3 en una ruta temporal
+            const songPath = `./tmp/${randomBytes(3).toString('hex')}.mp3`;
 
-  await m.react('🕓');
+            // Usar ffmpeg para convertir el flujo de audio a MP3
+            await new Promise((resolve, reject) => {
+                ffmpeg(audioStream)
+                    .audioFrequency(44100)
+                    .audioChannels(2)
+                    .audioBitrate(128)
+                    .audioCodec('libmp3lame')
+                    .toFormat('mp3')
+                    .save(songPath)
+                    .on('end', resolve)
+                    .on('error', reject);
+            });
 
-  try {
-    const { videos } = await yts(text);
-    if (!videos.length) {
-      return conn.reply(m.chat, '❌ No se encontraron resultados en YouTube para tu búsqueda.', m,rcanal);
-    }
-
-    const video = videos[0];
-    const videoUrl = video.url;
-    const title = video.title;
-    const thumbnail = video.thumbnail;
-    const duration = video.timestamp;
-
-    let api = await (await fetch(`https://api.siputzx.my.id/api/d/ytmp4?url=${videoUrl}`)).json();
-
-    if (!api || !api.data || !api.data.dl) {
-      return conn.reply(m.chat, '❌ No se pudo obtener el enlace de descarga. Por favor verifica el enlace de YouTube.', m,rcanal);
-    }
-
-    let dl_url = api.data.dl;
-
-    const tmpDir = path.join(__dirname, 'tmp');
-    if (!fs.existsSync(tmpDir)) {
-      fs.mkdirSync(tmpDir);
-    }
-
-    const timestamp = Date.now();
-    const tmpMp4Path = path.join(tmpDir, `${timestamp}.mp4`);
-    const tmpMp3Path = path.join(tmpDir, `${timestamp}.mp3`);
-
-    await fetch(dl_url)
-      .then(res => {
-        const dest = fs.createWriteStream(tmpMp4Path);
-        res.body.pipe(dest);
-        return new Promise((resolve, reject) => {
-          res.body.on('end', resolve);
-          res.body.on('error', reject);
-        });
-      })
-      .catch(err => {
-        console.error('Error al descargar el MP4:', err);
-        throw new Error('Error al descargar el video');
-      });
-
-    await new Promise((resolve, reject) => {
-      ffmpeg(tmpMp4Path)
-        .output(tmpMp3Path)
-        .audioCodec('libmp3lame')
-        .on('end', () => {
-          console.log('Conversión a MP3 finalizada');
-          resolve();
-        })
-        .on('error', (err) => {
-          console.error('Error durante la conversión:', err);
-          reject(err);
-        })
-        .run();
-    });
-
-    const sendAudio = async (audioPath, sizeLimit = 25 * 1024 * 1024) => {
-      const stats = fs.statSync(audioPath);
-      const fileSize = stats.size;
-
-      if (fileSize <= sizeLimit) {
-        await conn.sendMessage(m.chat, { audio: { url: audioPath }, mimetype: 'audio/mp4', caption: `*Aquí tienes tu audio*` }, { quoted: m });
-      } else {
-        const numParts = Math.ceil(fileSize / sizeLimit);
-        for (let i = 0; i < numParts; i++) {
-          const partPath = path.join(tmpDir, `${timestamp}_part${i + 1}.mp3`);
-          await new Promise((resolve, reject) => {
-            ffmpeg(audioPath)
-              .setStartTime(i * sizeLimit / 1000000) // Definir el inicio de cada parte
-              .setDuration(sizeLimit / 1000000) // Limitar la duración de la parte
-              .output(partPath)
-              .on('end', () => resolve())
-              .on('error', reject)
-              .run();
-          });
-
-          await conn.sendMessage(m.chat, { audio: { url: partPath }, mimetype: 'audio/mp4', caption: `*Parte ${i + 1} de ${numParts}*` }, { quoted: m });
-          fs.unlinkSync(partPath); // Eliminar la parte después de enviarla
+            return {
+                meta: {
+                    title: info.title,
+                    duration: info.duration,
+                },
+                path: songPath,
+                size: fs.statSync(songPath).size,
+            };
+        } catch (error) {
+            console.error('Error al descargar el MP3 con yt-dlp:', error);
+            throw new Error('Error descargando el MP3: ' + error.message);
         }
-      }
-    };
-
-    await conn.sendMessage(
-      m.chat,
-      {
-        image: { url: thumbnail },
-        caption: `*Título:* ${title}\n*Duración:* ${duration}\n*¡Aquí tienes tu audio!*`
-      },
-      { quoted: m }
-    );
-
-    await sendAudio(tmpMp3Path);
-
-    fs.unlinkSync(tmpMp4Path);
-    fs.unlinkSync(tmpMp3Path);
-
-    await m.react('✅');
-  } catch (error) {
-    console.error(error);
-    await m.react('❌');
-    conn.reply(m.chat, '❌ Ocurrió un error al procesar tu solicitud. Por favor intenta de nuevo.', m,rcanal);
-  }
+    }
 };
+
+// Comando para descargar el MP3 desde YouTube
+let handler = async (m, { conn, text, usedPrefix, command }) => {
+    if (!text) return conn.reply(m.chat, `❀ Ingresa un link de YouTube`, m);
+    await m.react('🕓');
+
+    try {
+        // Usar la clase YT para descargar el MP3 desde el link de YouTube
+        const result = await YT.downloadMP3FromURL(text);
+
+        // Verificar si el archivo existe y es válido
+        if (result && result.path) {
+            // Enviar el MP3 descargado
+            await conn.sendMessage(m.chat, { 
+                audio: { url: result.path },
+                mimetype: 'audio/mp4',
+                caption: `*Aquí tienes tu audio:* ${result.meta.title}`
+            }, { quoted: m });
+
+            // Limpiar archivos temporales
+            fs.unlinkSync(result.path);
+
+            await m.react('✅');
+        } else {
+            // Si hay un error en la descarga del MP3
+            conn.reply(m.chat, '❀ Hubo un error al intentar descargar el MP3. Intenta nuevamente.', m);
+        }
+    } catch (error) {
+        // Si hay un error en el proceso
+        console.error('Error al obtener el MP3:', error);
+        conn.reply(m.chat, '❀ Ocurrió un error al intentar descargar el MP3. Intenta nuevamente más tarde.', m);
+        await m.react('❌');
+    }
+}
 
 handler.help = ['play *<texto>*'];
 handler.tags = ['downloader'];
