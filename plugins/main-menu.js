@@ -45,8 +45,8 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
 
   let tags = {
     'main': 'ᴘʀɪɴᴄɪᴘᴀʟ',
+    'rpg': '𝙹𝚞𝚎𝚐𝚘𝚜',
     'search': 'ʙᴜꜱQᴜᴇᴅᴀ',
-    'rpg': 'ʀᴏʟᴇᴘʟᴀʏ',
     'start': 'ꜱᴛᴀʀᴛ',
     'sticker': 'ꜱᴛɪᴄᴋᴇʀ',
     'dl': 'ᴅᴇꜱᴄᴀʀɢᴀꜱ',
@@ -55,7 +55,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
     'anime': 'ᴀɴɪᴍᴇ',
     'group': 'ɢʀᴜᴘᴏꜱ',
     'owner': 'ᴏᴡɴᴇʀ',
-    'audio': '`Covertidores`',
+    'audio': '`𝙲𝚘𝚗𝚟𝚎𝚛𝚝𝚒𝚍𝚘𝚛`',
   }
 
   try {
