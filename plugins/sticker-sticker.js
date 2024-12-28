@@ -1,85 +1,55 @@
-import ffmpeg from 'fluent-ffmpeg'
-import fs from 'fs'
-import path from 'path'
+
+import { sticker } from '../lib/sticker.js'
+//import uploadFile from '../lib/uploadFile.js'
+//import uploadImage from '../lib/uploadImage.js'
+//import { webp2png } from '../lib/webp2mp4.js'
 
 let handler = async (m, { conn, args, usedPrefix, command }) => {
-  let stiker = false
-  const user = conn.getName(m.sender)
-  const h = ` ㌹ Dark-ia`
-  const i = `By Staff`
 
-  try {
-    let q = m.quoted ? m.quoted : m
-    let mime = (q.msg || q).mimetype || q.mediaType || ''
+let stiker = false
+try {
+let q = m.quoted ? m.quoted : m
+let mime = (q.msg || q).mimetype || q.mediaType || ''
+if (/webp|image|video/g.test(mime)) {
+if (/video/g.test(mime)) if ((q.msg || q).seconds > 8) return m.reply(`☁️ *¡El video no puede durar mas de 8 segundos!*`)
+let img = await q.download?.()
 
-    if (/webp|image|video/g.test(mime)) {
-      if (/video/g.test(mime) && ((q.msg || q).seconds > 11)) {
-        return m.reply('Máximo 10 segundos')
-      }
+if (!img) return conn.reply(m.chat, `🍁 *_Y el video ?, intenta enviar primero imagen/video/gif y luego responde con el comando._*`, m, rcanal)
 
-      let img = await q.download?.()
-      if (!img) throw new Error(`✳️ Responde a una imagen o video con *${usedPrefix + command}*`)
+let out
+try {
+stiker = await sticker(img, false, global.packname, global.author)
+} catch (e) {
+console.error(e)
+} finally {
+if (!stiker) {
+if (/webp/g.test(mime)) out = await webp2png(img)
+else if (/image/g.test(mime)) out = await uploadImage(img)
+else if (/video/g.test(mime)) out = await uploadFile(img)
+if (typeof out !== 'string') out = await uploadImage(img)
+stiker = await sticker(false, out, global.packname, global.author)
+}}
+} else if (args[0]) {
+if (isUrl(args[0])) stiker = await sticker(false, args[0], global.packname, global.author)
 
-      // Asegurarse de usar la ruta 'tmp' correctamente para los archivos temporales
-      const tmpPath = path.join(__dirname, 'tmp', `sticker-${Date.now()}.webp`) // Ruta temporal para almacenar el sticker
+else return m.reply(`💫 El url es incorrecto`)
 
-      // Crear la carpeta 'tmp' si no existe
-      if (!fs.existsSync(path.join(__dirname, 'tmp'))) {
-        fs.mkdirSync(path.join(__dirname, 'tmp'))
-      }
-
-      // Usamos ffmpeg para crear un sticker en formato webp
-      try {
-        await new Promise((resolve, reject) => {
-          ffmpeg(img)
-            .inputFormat('image2') // Si es una imagen, usa 'image2', si es video usa 'mov'
-            .output(tmpPath)
-            .outputOptions('-vcodec', 'libwebp', '-preset', 'default', '-an', '-y', '-f', 'webp')
-            .on('end', resolve)
-            .on('error', reject)
-            .run()
-        })
-
-        // Enviamos el archivo generado
-        stiker = tmpPath
-      } catch (e) {
-        console.error('Error al generar sticker con ffmpeg:', e)
-        stiker = false
-      }
-    } else if (args[0]) {
-      if (isUrl(args[0])) {
-        // Si el argumento es una URL, procesamos como una imagen o video
-        stiker = await new Sticker(args[0], { pack: global.packname, author: global.author }).toBuffer()  // Puedes seguir usando 'toBuffer' si prefieres
-      } else {
-        return m.reply('URL inválido')
-      }
-    }
-  } catch (e) {
-    console.error('Error principal:', e)
-    stiker = 'Ocurrió un error al procesar el sticker'
-  } finally {
-    if (stiker) {
-      // Verificamos si el sticker es un archivo válido
-      if (fs.existsSync(stiker)) {
-        conn.sendFile(m.chat, stiker, 'sticker.webp', '', m)
-        // Eliminamos el archivo temporal después de enviarlo
-        fs.unlinkSync(stiker)
-      } else {
-        m.reply('El sticker generado no es un archivo válido.')
-      }
-    } else {
-      m.reply('Ocurrió un error al generar el sticker')
-    }
-  }
 }
+} catch (e) {
+console.error(e)
+if (!stiker) stiker = e
+} finally {
+if (stiker) conn.sendFile(m.chat, stiker, 'sticker.webp', '',m, true, { contextInfo: { 'forwardingScore': 200, 'isForwarded': false, externalAdReply:{ showAdAttribution: false, title: packname, body: `CrowBot - ST 🚩`, mediaType: 2, sourceUrl: redes, thumbnail: icons}}}, { quoted: m })
 
-handler.help = ['sticker']
+else return conn.reply(m.chat, `🌲 *_La conversión ha fallado, intenta enviar primero imagen/video/gif y luego responde con el comando._*\n\n> ⛄𝐅𝐄𝐋𝐈𝐙 𝐍𝐀𝐕𝐈𝐃𝐀𝐃❄️`, m, rcanal)
+
+
+}}
+handler.help = ['stiker <img>', 'sticker <url>']
 handler.tags = ['sticker']
-handler.command = ['s', 'sticker']
+handler.command = ['s', 'sticker', 'stiker']
 
 export default handler
 
-// Función para verificar si un texto es una URL válida
 const isUrl = (text) => {
-  return text.match(new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)(jpg|jpeg|png|gif)/, 'gi'))
-}
+return text.match(new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)(jpe?g|gif|png)/, 'gi'))} 
