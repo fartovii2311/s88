@@ -12,7 +12,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
       // Jalankan kode untuk video di sini
       if ((q.msg || q).seconds > 10) return m.reply('✧ Máximo 10 segundos.')
       let img = await q.download?.()
-      if (!img) throw m.reply(`✧ Responde a un Vídeo con el comando*${usedPrefix + command}*`)
+      if (!img) throw m.reply(` `✧ Responde a un Vídeo con el comando*${usedPrefix + command}*` `)
       let stiker = false
       try {
         stiker = await sticker(img, false, global.stickpack, global.stickauth)
@@ -44,7 +44,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
       }
       m.reply(stiker)
     } else {
-      m.reply('     `✧ Responde a una Imagen o Video.`')
+      conn.reply(m.chat, `✧ `Responde a una Imagen o Video *${usedPrefix + command}`*`, m, rcanal)
     }
   } catch (e) {
     console.error(e)
@@ -84,7 +84,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
        let stick = args.join(" ").split("|");
        let f = stick[0] !== "" ? stick[0] : packname;
        let g = typeof stick[1] !== "undefined" ? stick[1] : author;
-  try { 	
+  try {         
     let q = m.quoted ? m.quoted : m
     let mime = (q.msg || q).mimetype || q.mediaType || ''
     if (/webp|image|video/g.test(mime)) {
