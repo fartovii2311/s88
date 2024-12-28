@@ -1,81 +1,67 @@
-import ytdl from 'ytdl-core';
-import ffmpeg from 'fluent-ffmpeg-7';
+import ytdlp from 'yt-dlp';
+import ffmpeg from 'fluent-ffmpeg';
 import { randomBytes } from 'crypto';
 import fs from 'fs';
 
-// Clase YT para manejar la descarga de MP3 desde YouTube
 class YT {
-    constructor() {}
-
-    /**
-     * Descarga un archivo MP3 desde un URL de YouTube.
-     * @param {string} url - URL del video de YouTube.
-     * @returns {Promise<MusicResult>} - Archivo MP3 descargado.
-     */
     static downloadMP3FromURL = async (url) => {
         try {
-            // Verificar que la URL sea válida
-            if (!ytdl.validateURL(url)) {
-                throw new Error('URL de YouTube no válida');
-            }
+            // Descargar la mejor calidad de audio disponible
+            const info = await ytdlp.getInfo(url);
+            const audioStream = ytdlp(url, { format: 'bestaudio' });
 
-            // Obtener información del video usando ytdl-core
-            const videoInfo = await ytdl.getInfo(url);
-            
-            // Generar un nombre de archivo aleatorio para guardar el MP3
-            let songPath = `./tmp/${randomBytes(3).toString('hex')}.mp3`;
+            // Generar el archivo MP3
+            const songPath = `./tmp/${randomBytes(3).toString('hex')}.mp3`;
 
-            // Crear un stream de solo audio con la mejor calidad disponible
-            const stream = ytdl(url, { filter: 'audioonly', quality: 'highestaudio' });
-
-            // Convertir el stream de audio a formato MP3
-            const file = await new Promise((resolve, reject) => {
-                ffmpeg(stream)
+            // Usar ffmpeg para guardar el audio
+            await new Promise((resolve, reject) => {
+                ffmpeg(audioStream)
                     .audioFrequency(44100)
                     .audioChannels(2)
                     .audioBitrate(128)
                     .audioCodec('libmp3lame')
-                    .audioQuality(5)
                     .toFormat('mp3')
                     .save(songPath)
-                    .on('end', () => resolve(songPath))
-                    .on('error', (err) => reject(new Error('Error al procesar el archivo de audio: ' + err.message)));
+                    .on('end', resolve)
+                    .on('error', reject);
             });
 
-            // Retornar el resultado con el archivo y los metadatos
             return {
                 meta: {
-                    title: videoInfo.videoDetails.title,
-                    channel: videoInfo.videoDetails.author.name,
-                    duration: videoInfo.videoDetails.lengthSeconds,
-                    image: videoInfo.videoDetails.thumbnails.slice(-1)[0].url,
+                    title: info.title,
+                    duration: info.duration,
                 },
-                path: file,
-                size: fs.statSync(file).size
+                path: songPath,
+                size: fs.statSync(songPath).size,
             };
         } catch (error) {
-            console.error('Error al obtener MP3:', error);
+            console.error('Error al descargar el MP3 con yt-dlp:', error);
             throw new Error('Error descargando el MP3: ' + error.message);
         }
     }
-}
+};
 
-// Comando para descargar MP3 desde YouTube
+// Comando para descargar el MP3 desde YouTube
 let handler = async (m, { conn, text, usedPrefix, command }) => {
     if (!text) return conn.reply(m.chat, `❀ Ingresa un link de YouTube`, m);
     await m.react('🕓');
+
     try {
         // Usar la clase YT para descargar el MP3 desde el link de YouTube
         const result = await YT.downloadMP3FromURL(text);
-        
+
         // Verificar si el archivo existe y es válido
         if (result && result.path) {
             // Enviar el MP3 descargado
-            conn.sendMessage(m.chat, { 
+            await conn.sendMessage(m.chat, { 
                 audio: { url: result.path },
-                mimetype: "audio/mp3",
-                ptt: true
+                mimetype: 'audio/mp4',
+                caption: `*Aquí tienes tu audio:* ${result.meta.title}`
             }, { quoted: m });
+
+            // Limpiar archivos temporales
+            fs.unlinkSync(result.path);
+
             await m.react('✅');
         } else {
             // Si hay un error en la descarga del MP3
@@ -85,9 +71,13 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         // Si hay un error en el proceso
         console.error('Error al obtener el MP3:', error);
         conn.reply(m.chat, '❀ Ocurrió un error al intentar descargar el MP3. Intenta nuevamente más tarde.', m);
+        await m.react('❌');
     }
 }
 
-handler.command = ['ytmp3']; // Comando para activar el proceso de descarga de MP3
+handler.help = ['play *<texto>*'];
+handler.tags = ['downloader'];
+handler.command = ['play'];
+handler.register = true;
 
 export default handler;
