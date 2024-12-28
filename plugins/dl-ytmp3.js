@@ -3,7 +3,6 @@ import fetch from 'node-fetch';
 let handler = async (m, { conn, text }) => {
   if (!text) return m.reply("❀ Ingresa un link de YouTube");
   
-
   await m.react('🕓');
 
   try {
@@ -22,9 +21,10 @@ let handler = async (m, { conn, text }) => {
     console.error('Error al obtener el MP3:', error);
     m.reply('❀ Ocurrió un error al intentar obtener el MP3. Intenta nuevamente.');
     await m.react('❌');
+  }
 };
 
-handler.help = ["ytmp3 *<url>*"]
+handler.help = ["ytmp3 *<url>*"];
 handler.tags = ['dl'];
 handler.command = ['ytmp3'];
 handler.register = true;
