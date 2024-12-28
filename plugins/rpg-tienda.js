@@ -1,4 +1,5 @@
 import fs from 'fs';
+import path from 'path';
 
 let handler = async (m, { conn, text }) => {
     const userId = m.sender;
@@ -8,7 +9,21 @@ let handler = async (m, { conn, text }) => {
     if (!db[userId]) db[userId] = { hearts: 0, skins: [] };
 
     const user = db[userId];
-    const skins = JSON.parse(fs.readFileSync('./storage/database/skins', 'utf-8'));
+    
+    // Verificar si el archivo de skins existe, si no, crearlo
+    const skinsFilePath = path.join('./storage/database', 'skins');
+    
+    // Si el archivo no existe, crear uno con datos predeterminados
+    if (!fs.existsSync(skinsFilePath)) {
+        const defaultSkins = [
+            { "id": 1, "name": "Skin Samurai", "cost": 50 },
+            { "id": 2, "name": "Skin Dragón", "cost": 100 },
+            { "id": 3, "name": "Skin Ninja", "cost": 75 }
+        ];
+        fs.writeFileSync(skinsFilePath, JSON.stringify(defaultSkins, null, 2));
+    }
+
+    const skins = JSON.parse(fs.readFileSync(skinsFilePath, 'utf-8'));
 
     // Mostrar la tienda si no se especifica texto
     if (!text) {
@@ -45,7 +60,7 @@ let handler = async (m, { conn, text }) => {
         return conn.reply(m.chat, `✅ Compraste la skin *${selectedSkin.name}*. ¡Disfrútala!`, m);
     }
 
-    conn.reply(m.chat, `🚩 Comando no válido. Usa *.shop* para ver la tienda.`, m);
+    conn.reply(m.chat, `🚩 Comando no válido. Usa *.tienda* para ver la tienda.`, m);
 };
 
 handler.command = ['tienda', 'comprar'];
