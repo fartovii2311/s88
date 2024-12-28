@@ -19,25 +19,22 @@ let handler = async (m, { conn, text }) => {
             return conn.reply(m.chat, `🚩 No se pudo procesar el enlace. Verifica que sea un enlace válido de YouTube.`, m);
         }
 
-        let { quality, title, download_url } = json.result;
+        let { title, download_url } = json.result;
 
         // Enviar el archivo como audio
-        await conn.sendMessage(m.chat, { 
-            audio: { url: download_url }, 
-            fileName: `${title}.mp3`, 
-            mimetype: 'audio/mpeg' 
+        await conn.sendMessage(m.chat, {
+            audio: { url: download_url },
+            fileName: `${title}.mp3`,
+            mimetype: 'audio/mpeg'
         }, { quoted: m });
 
-        await m.react('✅'); // Reacción de éxito
+        await m.react('✅');
     } catch (error) {
-        // Manejo de errores
         console.error(error);
         await m.react('✖️');
         conn.reply(m.chat, `🚩 Ocurrió un error al procesar tu solicitud. Intenta nuevamente más tarde.`, m);
     }
 };
 
-// Configuración del comando
-handler.customPrefix = /^(Audio|A)/i;
-
+// Exportar el handler sin prefijo personalizado
 export default handler;
