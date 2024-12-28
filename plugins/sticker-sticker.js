@@ -39,7 +39,7 @@ const i =
     if (!stiker) stiker = e
   } finally {
     if (stiker) conn.sendFile(m.chat, stiker, 'sticker.webp', '', m, null, rpl)
-    else throw `${mssg.stickError}`
+    else throw `error`
   }
 }
 handler.help = ['sticker']
