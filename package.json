@@ -40,7 +40,6 @@
     "@whiskeysockets/baileys": "^6.7.9",
     "@distube/ytdl-core": "^4.11.2",
     "acrcloud": "^1.4.0",
-    "youtube-yts": "^2.0.2",
     "fluent-ffmpeg": "^2.1.2",
     "fluent-ffmpeg-7": "^2.1.2",
     "node-id3": "^3.0.0",
