@@ -4,15 +4,13 @@ let handler = async (m, { conn, text }) => {
     const userId = m.sender;
     const db = global.db.data.users; // Base de datos de usuarios
 
-    // Verificar si el usuario existe en la base de datos
     if (!db[userId]) db[userId] = { hearts: 0, skins: [] };
 
     const user = db[userId];
 
-    // Verificar si el archivo de skins existe, si no, crearlo
     let skins = [];
     try {
-        skins = JSON.parse(fs.readFileSync('./storage/database/skins', 'utf-8'));
+        skins = JSON.parse(fs.readFileSync('../storage/database/skins.json', 'utf-8'));
     } catch (error) {
         if (error.code === 'ENOENT') {
             // Si el archivo no existe, crea uno con datos predeterminados
