@@ -57,6 +57,7 @@ let handler = async (m, { conn }) => {
   conn.on('message', checkAnswer)
 }
 
+handler.help = ["mate"]
 handler.command = ['mate','matematica', 'sumar', 'restar']
 handler.tags = ['rpg']
 handler.register = true 
