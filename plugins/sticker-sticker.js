@@ -1,7 +1,4 @@
-import { sticker } from '../lib/sticker.js'
-import uploadFile from '../lib/uploadFile.js'
-import uploadImage from '../lib/uploadImage.js'
-import { webp2png } from '../lib/webp2mp4.js'
+import { Sticker } from 'wa-sticker-formatter'
 
 let handler = async (m, { conn, args, usedPrefix, command }) => {
   let stiker = false
@@ -23,7 +20,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
       let out
       try {
-        stiker = await sticker(img, false, h, i)
+        stiker = await new Sticker(img, { pack: h, author: i }).toFile()  // Usando la clase Sticker de 'wa-sticker-formatter'
       } catch (e) {
         console.error('Error al crear sticker:', e)
         stiker = false
@@ -39,7 +36,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
             }
 
             if (typeof out !== 'string') out = await uploadImage(img)
-            stiker = await sticker(false, out, h, i)
+            stiker = await new Sticker(out, { pack: h, author: i }).toFile()  // Generando el sticker a partir de la URL
           } catch (e) {
             console.error('Error al procesar la imagen/video:', e)
             stiker = 'Error al generar el sticker'
@@ -48,7 +45,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
       }
     } else if (args[0]) {
       if (isUrl(args[0])) {
-        stiker = await sticker(false, args[0], global.packname, global.author)
+        stiker = await new Sticker(args[0], { pack: global.packname, author: global.author }).toFile()  // Generando sticker desde URL
       } else {
         return m.reply('URL inválido')
       }
@@ -57,9 +54,8 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     console.error('Error principal:', e)
     stiker = 'Ocurrió un error al procesar el sticker'
   } finally {
-    // Aquí corregimos el error de 'rpl' y lo sustituimos por 'm' para citar el mensaje
     if (stiker) {
-      conn.sendFile(m.chat, stiker, 'sticker.webp', '', m)  // El parámetro rpl ha sido eliminado
+      conn.sendFile(m.chat, stiker, 'sticker.webp', '', m)
     } else {
       m.reply('Ocurrió un error al generar el sticker')
     }
@@ -72,7 +68,6 @@ handler.command = ['s', 'sticker']
 
 export default handler
 
-// Función para verificar si un texto es una URL válida
 const isUrl = (text) => {
   return text.match(new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)(jpg|jpeg|png|gif)/, 'gi'))
-}
+      }
