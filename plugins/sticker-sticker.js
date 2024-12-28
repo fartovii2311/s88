@@ -15,42 +15,16 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     author = (author || []).join('|') || global.stickauth || 'WhatsApp';
 
     if (/video/g.test(mime)) {
-      // Validación para videos
-      if ((q.msg || q).seconds > 10) {
-        return m.reply('✧ Máximo 10 segundos.');
-      }
+      if ((q.msg || q).seconds > 10) return m.reply('✧ Máximo 10 segundos.');
       if (!img) throw `✧ Responde a un video con el comando *${usedPrefix + command}*`;
 
-      try {
-        stiker = await sticker(img, false, packname, author);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        if (!stiker) {
-          let out = await uploadFile(img);
-          stiker = await sticker(false, out, packname, author);
-        }
-      }
+      stiker = await new Sticker(img, { type: 'full', pack: packname, author: author }).toBuffer();
     } else if (/image/g.test(mime)) {
-      // Validación para imágenes
       if (!img) throw `✧ Responde a una imagen con el comando *${usedPrefix + command}*`;
 
-      try {
-        stiker = await new Sticker(img, {
-          type: 'full',
-          pack: packname,
-          author: author,
-        }).toBuffer();
-      } catch (e) {
-        console.error(e);
-      }
+      stiker = await new Sticker(img, { type: 'full', pack: packname, author: author }).toBuffer();
     } else if (args[0] && isUrl(args[0])) {
-      // Validación para URLs
-      try {
-        stiker = await sticker(false, args[0], packname, author);
-      } catch (e) {
-        console.error(e);
-      }
+      stiker = await new Sticker(args[0], { type: 'full', pack: packname, author: author }).toBuffer();
     } else {
       return m.reply('✧ Responde a una imagen, video o envía una URL válida.');
     }
@@ -73,7 +47,4 @@ handler.register = true;
 
 export default handler;
 
-// Validación de URLs
-const isUrl = (text) => {
-  return /^https?:\/\/[^\s$.?#].[^\s]*$/gi.test(text);
-};
+const isUrl = (text) => /^(https?:\/\/[^\s$.?#].[^\s]*)$/i.test(text);
