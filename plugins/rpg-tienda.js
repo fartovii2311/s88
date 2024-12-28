@@ -29,6 +29,7 @@ let handler = async (m, { conn, text }) => {
         }
     }
 
+    // Mostrar tienda
     if (!text) {
         let shopMessage = '🛒 *Tienda de Skins*\n\n';
         for (let skin of skins) {
@@ -40,10 +41,11 @@ let handler = async (m, { conn, text }) => {
         return conn.reply(m.chat, shopMessage, m);
     }
 
-    let args = text.split(' ');
+    // Procesar comando comprar
+    let args = text.trim().split(' '); // Asegurarnos de que el texto está limpio
 
     if (args[0] === 'comprar' && args[1]) {
-        let skinId = parseInt(args[1]);
+        let skinId = parseInt(args[1]); // Asegurarnos de que el ID es un número
         let selectedSkin = skins.find(skin => skin.id === skinId);
 
         if (!selectedSkin) {
@@ -63,6 +65,7 @@ let handler = async (m, { conn, text }) => {
         return conn.reply(m.chat, `✅ Compraste la skin *${selectedSkin.name}*. ¡Disfrútala!`, m);
     }
 
+    // Si no es un comando válido
     conn.reply(m.chat, `🚩 Comando no válido. Usa *.tienda* para ver la tienda.`, m);
 };
 
