@@ -8,7 +8,7 @@ let handler = async (m, { conn, text }) => {
     if (!db[userId]) db[userId] = { hearts: 0, skins: [] };
 
     const user = db[userId];
-    const skins = JSON.parse(fs.readFileSync('./storage/database/skins.json', 'utf-8'));
+    const skins = JSON.parse(fs.readFileSync('../storage/database/skins.json', 'utf-8'));
 
     // Mostrar la tienda si no se especifica texto
     if (!text) {
