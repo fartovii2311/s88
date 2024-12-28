@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "node index",
-    "test": "node test.js"
+    "test": "node test.js",
     "check-modules": "node checkModules.js"
   },
   "keywords": [
