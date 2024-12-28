@@ -4,7 +4,7 @@ let handler = async (m, { conn }) => {
   let name = conn.getName(m.sender)
 
   if (pokemonGame[m.sender]) {
-    return conn.sendMessage(m.chat, `🚩 ${name}, ya estás jugando a adivinar el Pokémon! Espera a que termine para jugar otro.`, m)
+    return conn.sendMessage(m.chat, { text: `🚩 ${name}, ya estás jugando a adivinar el Pokémon! Espera a que termine para jugar otro.` }, { quoted: m })
   }
 
   const pokemons = [
@@ -19,7 +19,7 @@ let handler = async (m, { conn }) => {
   
   pokemonGame[m.sender] = { correctAnswer: randomPokemon.name, description: randomPokemon.description, attempts: 3 }
 
-  conn.sendMessage(m.chat, `🚩 ¡Hola @${name}! ¿Puedes adivinar el nombre de este Pokémon? \n\nDescripción: *${randomPokemon.description}* \n\nTienes 3 intentos para adivinar. ¡Buena suerte!`, m, { mentions: [m.sender] })
+  conn.sendMessage(m.chat, { text: `🚩 ¡Hola @${name}! ¿Puedes adivinar el nombre de este Pokémon? \n\nDescripción: *${randomPokemon.description}* \n\nTienes 3 intentos para adivinar. ¡Buena suerte!` }, { mentions: [m.sender] })
 
   let checkAnswer = async (msg) => {
     if (msg.sender !== m.sender) return
@@ -28,27 +28,27 @@ let handler = async (m, { conn }) => {
       const userAnswer = msg.body.split(' ')[1]?.toLowerCase()
 
       if (!userAnswer) {
-        return conn.sendMessage(m.chat, "🚩 Por favor, ingresa el nombre del Pokémon como respuesta (por ejemplo: !respuesta Pikachu).", m)
+        return conn.sendMessage(m.chat, { text: "🚩 Por favor, ingresa el nombre del Pokémon como respuesta (por ejemplo: !respuesta Pikachu)." }, { quoted: m })
       }
 
       if (userAnswer === pokemonGame[m.sender].correctAnswer.toLowerCase()) {
-        conn.sendMessage(m.chat, `🎉 ¡Felicidades @${name}! Adivinaste correctamente. Ganaste 50 XP.`, m, { mentions: [m.sender] })
+        conn.sendMessage(m.chat, { text: `🎉 ¡Felicidades @${name}! Adivinaste correctamente. Ganaste 50 XP.` }, { mentions: [m.sender] })
         global.db.data.users[m.sender].exp += 50
         delete pokemonGame[m.sender]
       } else {
         pokemonGame[m.sender].attempts--
         if (pokemonGame[m.sender].attempts === 0) {
-          conn.sendMessage(m.chat, `🚩 Lo siento @${name}, se te acabaron los intentos. El Pokémon era *${pokemonGame[m.sender].correctAnswer}*.`, m, { mentions: [m.sender] })
+          conn.sendMessage(m.chat, { text: `🚩 Lo siento @${name}, se te acabaron los intentos. El Pokémon era *${pokemonGame[m.sender].correctAnswer}*.` }, { mentions: [m.sender] })
           delete pokemonGame[m.sender]
         } else {
-          conn.sendMessage(m.chat, `🚩 Incorrecto, te quedan ${pokemonGame[m.sender].attempts} intentos. Intenta de nuevo.`, m, { mentions: [m.sender] })
+          conn.sendMessage(m.chat, { text: `🚩 Incorrecto, te quedan ${pokemonGame[m.sender].attempts} intentos. Intenta de nuevo.` }, { mentions: [m.sender] })
         }
       }
     }
   }
 
   setTimeout(() => {
-    conn.sendMessage(checkAnswer)
+    conn.onMessage(checkAnswer)
   }, 1000)
 }
 
