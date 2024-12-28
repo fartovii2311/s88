@@ -17,7 +17,7 @@ let handler = async (m, { conn, text }) => {
                 { id: 1, name: "Skin 1", cost: 100 },
                 { id: 2, name: "Skin 2", cost: 200 }
             ];
-            fs.writeFileSync('./storage/database/skins.json', JSON.stringify(skins, null, 2));
+            fs.writeFileSync('./storage/databases/skins.json', JSON.stringify(skins, null, 2));
         } else {
             console.error(error);
             return conn.reply(m.chat, `🚩 Ocurrió un error al acceder a la tienda de skins.`, m);
@@ -61,5 +61,4 @@ let handler = async (m, { conn, text }) => {
 };
 
 handler.command = ['tienda', 'comprar'];
-
 export default handler;
