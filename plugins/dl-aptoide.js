@@ -31,7 +31,9 @@ let handler = async (m, { conn, text }) => {
   }
 };
 
+handler.help = ["apk *<text>*"]
 handler.command = /^(apk)$/i;
 handler.tags = ['dl'];
+handler.register = true;
 
 export default handler;
