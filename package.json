@@ -98,11 +98,5 @@
   },
   "optionalDependencies": {
     "@vitalets/google-translate-api": "^9.2.0"
-  },
-  "resolutions": {
-    "jimp": "^0.16.1"
-  },
-  "overrides": {
-    "sharp": "^0.32.2"
   }
 }
