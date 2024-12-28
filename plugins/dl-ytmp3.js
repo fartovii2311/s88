@@ -2,7 +2,6 @@ import ytdl from 'ytdl-core';
 import ffmpeg from 'fluent-ffmpeg';
 import { randomBytes } from 'crypto';
 import fs from 'fs';
-import fetch from 'node-fetch';
 
 // Clase YT para manejar la descarga de MP3 desde YouTube
 class YT {
@@ -60,23 +59,21 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     if (!text) return conn.reply(m.chat, `❀ Ingresa un link de YouTube`, m);
     await m.react('🕓');
     try {
-        // Intentar usar la API externa si se proporciona una URL de YouTube
-        let apiResponse = await fetch(`https://api.zenkey.my.id/api/download/ytmp3?apikey=zenkey&url=${text}`);
-        let api = await apiResponse.json();
-
-        if (api.status === true) {
-            let dl_url = api.result.download.url;
-
+        // Usar la clase YT para descargar el MP3 desde el link de YouTube
+        const result = await YT.downloadMP3FromURL(text);
+        
+        // Verificar si el archivo existe y es válido
+        if (result && result.path) {
             // Enviar el MP3 descargado
             conn.sendMessage(m.chat, { 
-                audio: { url: dl_url },
+                audio: { url: result.path },
                 mimetype: "audio/mp3",
                 ptt: true
             }, { quoted: m });
             await m.react('✅');
         } else {
-            // Si ocurre un error en la API externa
-            conn.reply(m.chat, '❀ Hubo un error al obtener el enlace de descarga. Intenta nuevamente.', m);
+            // Si hay un error en la descarga del MP3
+            conn.reply(m.chat, '❀ Hubo un error al intentar descargar el MP3. Intenta nuevamente.', m);
         }
     } catch (error) {
         // Si hay un error en el proceso
