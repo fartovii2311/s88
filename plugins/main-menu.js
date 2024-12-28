@@ -53,8 +53,6 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
     'dl': 'ᴅᴇꜱᴄᴀʀɢᴀꜱ',
     'ai': 'ꜰᴜɴᴄɪᴏɴᴇꜱ ᴀɪ',
     'tools': 'ʜᴇʀʀᴀᴍɪᴇɴᴛᴀꜱ',
-    'anonymous': 'ᴄʜᴀᴛ ᴀɴᴏɴɪᴍᴏ',
-    'confesar': 'ᴄᴏɴꜰᴇᴄɪᴏɴᴇꜱ',
     'internet': 'ɪɴᴛᴇʀɴᴇᴛ',
     'anime': 'ᴀɴɪᴍᴇ',
     'group': 'ɢʀᴜᴘᴏꜱ',
