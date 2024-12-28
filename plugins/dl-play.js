@@ -1,79 +1,40 @@
-import ytdlp from 'yt-dlp-bin';
-import ffmpeg from 'fluent-ffmpeg';
-import { randomBytes } from 'crypto';
-import fs from 'fs';
+import fetch from 'node-fetch';
+import yts from 'yt-search';
 
-class YT {
-    static downloadMP3FromURL = async (url) => {
-        try {
-            // Descargar información del video
-            const info = await ytdlp.getInfo(url);
-            const audioStream = ytdlp(url, { format: 'bestaudio' });
+let handler = async (m, { conn, text, args }) => {
+  if (!text) {
+    return m.reply("❀ Ingresa un texto de lo que quieres buscar");
+  }
 
-            // Generar el archivo MP3 en una ruta temporal
-            const songPath = `./tmp/${randomBytes(3).toString('hex')}.mp3`;
+  // Realizar la búsqueda en YouTube
+  let ytres = await search(args.join(" "));
+  let txt = `- Título: ${ytres[0].title}
+- Duración: ${ytres[0].timestamp}
+- Publicado: ${ytres[0].ago}
+- Canal: ${ytres[0].author.name || 'Desconocido'}
+- Url: ${'https://youtu.be/' + ytres[0].videoId}`;
 
-            // Usar ffmpeg para convertir el flujo de audio a MP3
-            await new Promise((resolve, reject) => {
-                ffmpeg(audioStream)
-                    .audioFrequency(44100)
-                    .audioChannels(2)
-                    .audioBitrate(128)
-                    .audioCodec('libmp3lame')
-                    .toFormat('mp3')
-                    .save(songPath)
-                    .on('end', resolve)
-                    .on('error', reject);
-            });
+  // Enviar la imagen de la miniatura y la información del video
+  await conn.sendFile(m.chat, ytres[0].image, 'thumbnail.jpg', txt, m);
 
-            return {
-                meta: {
-                    title: info.title,
-                    duration: info.duration,
-                },
-                path: songPath,
-                size: fs.statSync(songPath).size,
-            };
-        } catch (error) {
-            console.error('Error al descargar el MP3 con yt-dlp-bin:', error);
-            throw new Error('Error descargando el MP3: ' + error.message);
-        }
-    }
-}
+  try {
+    // Descargar el video desde el enlace
+    let api = await fetch(`https://api.giftedtech.my.id/api/download/dlmp4?apikey=gifted&url=${ytres[0].url}`);
+    let json = await api.json();
+    let { quality, title, download_url } = json.result;
 
-// Comando para descargar el MP3 desde YouTube
-let handler = async (m, { conn, text, usedPrefix, command }) => {
-    if (!text) return conn.reply(m.chat, `❀ Ingresa un link de YouTube`, m);
-    await m.react('🕓');
-
-    try {
-        // Usar la clase YT para descargar el MP3 desde el link de YouTube
-        const result = await YT.downloadMP3FromURL(text);
-
-        // Verificar si el archivo existe y es válido
-        if (result && result.path) {
-            // Enviar el MP3 descargado
-            await conn.sendMessage(m.chat, { 
-                audio: { url: result.path },
-                mimetype: 'audio/mp4',
-                caption: `*Aquí tienes tu audio:* ${result.meta.title}`
-            }, { quoted: m });
-
-            // Limpiar archivos temporales
-            fs.unlinkSync(result.path);
-
-            await m.react('✅');
-        } else {
-            // Si hay un error en la descarga del MP3
-            conn.reply(m.chat, '❀ Hubo un error al intentar descargar el MP3. Intenta nuevamente.', m);
-        }
-    } catch (error) {
-        // Si hay un error en el proceso
-        console.error('Error al obtener el MP3:', error);
-        conn.reply(m.chat, '❀ Ocurrió un error al intentar descargar el MP3. Intenta nuevamente más tarde.', m);
-        await m.react('❌');
-    }
-}
+    // Enviar el video descargado
+    await conn.sendMessage(m.chat, {
+      video: { url: download_url },
+      caption: `${title}`,
+      mimetype: 'video/mp4',
+      fileName: `${title}.mp4`
+    }, { quoted: m });
+  } catch (error) {
+    console.error('Error al obtener el video:', error);
+    m.reply('❀ Ocurrió un error al intentar obtener el video. Intenta nuevamente.');
+  }
+};
 
 handler.help = ['play *<texto>*'];
 handler.tags = ['downloader'];
@@ -81,3 +42,9 @@ handler.command = ['play'];
 handler.register = true;
 
 export default handler;
+
+// Función para realizar la búsqueda en YouTube
+async function search(query, options = {}) {
+  let search = await yts.search({ query, hl: "es", gl: "ES", ...options });
+  return search.videos;
+}
