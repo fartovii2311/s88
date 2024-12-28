@@ -2,9 +2,8 @@ import fetch from 'node-fetch';
 import yts from 'yt-search';
 
 let handler = async (m, { conn, text, args }) => {
-  if (!text) {
-    return m.reply("❀ Ingresa un texto de lo que quieres buscar");
-  }
+  if (!text) return m.reply("❀ Ingresa un texto de lo que quieres buscar",m,rcanal);
+  
 
   // Realizar la búsqueda en YouTube
   let ytres = await search(args.join(" "));
@@ -15,7 +14,7 @@ let handler = async (m, { conn, text, args }) => {
 - Url: ${'https://youtu.be/' + ytres[0].videoId}`;
 
   // Enviar la imagen de la miniatura y la información del video
-  await conn.sendFile(m.chat, ytres[0].image, 'thumbnail.jpg', txt, m);
+  await conn.sendFile(m.chat, ytres[0].image, 'thumbnail.jpg', txt, m,rcanal);
 
   try {
     // Descargar el video desde el enlace
