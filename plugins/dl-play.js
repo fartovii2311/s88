@@ -4,7 +4,7 @@ import yts from 'yt-search';
 
 let handler = async (m, { conn, text, args }) => {
   if (!text) {
-    return m.reply("❀ Ingresa un texto de lo que quieres buscar");
+    return m.reply("❀ Ingresa un texto de lo que quieres buscar",m,rcanal);
   }
 
   await m.react('🕓');  // Reacción de carga
@@ -17,7 +17,7 @@ let handler = async (m, { conn, text, args }) => {
 - Canal: ${ytres[0].author.name || 'Desconocido'}
 - Url: ${'https://youtu.be/' + ytres[0].videoId}`;
 
-    await conn.sendFile(m.chat, ytres[0].image, 'thumbnail.jpg', txt, m);
+    await conn.sendFile(m.chat, ytres[0].image, 'thumbnail.jpg', txt,m,rcanal);
     
     let api = await fetch(`https://api.giftedtech.my.id/api/download/dlmp3?apikey=gifted&url=${ytres[0].url}`);
     let json = await api.json();
