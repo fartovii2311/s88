@@ -89,7 +89,11 @@ let handler = async (m, { conn, text }) => {
         let skinsList = '🎮 *Tus Skins*\n\n';
         for (let skinId of user.skins) {
             let skin = skins.find(skin => skin.id === skinId);
-            skinsList += `🆔 *ID:* ${skin.id}\n📛 *Nombre:* ${skin.name}\n\n`;
+
+            // Verificamos que la skin exista antes de acceder a sus propiedades
+            if (skin) {
+                skinsList += `🆔 *ID:* ${skin.id}\n📛 *Nombre:* ${skin.name}\n\n`;
+            }
         }
 
         return conn.reply(m.chat, skinsList, m);
