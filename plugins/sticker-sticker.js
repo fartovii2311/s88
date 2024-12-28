@@ -20,7 +20,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
       let out
       try {
-        stiker = await new Sticker(img, { pack: h, author: i }).toFile()  // Usando la clase Sticker de 'wa-sticker-formatter'
+        stiker = await new Sticker(img, { pack: h, author: i }).toBuffer()  // Usamos 'toBuffer' para obtener un Buffer
       } catch (e) {
         console.error('Error al crear sticker:', e)
         stiker = false
@@ -36,7 +36,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
             }
 
             if (typeof out !== 'string') out = await uploadImage(img)
-            stiker = await new Sticker(out, { pack: h, author: i }).toFile()  // Generando el sticker a partir de la URL
+            stiker = await new Sticker(out, { pack: h, author: i }).toBuffer()  // Usamos 'toBuffer' aquí también
           } catch (e) {
             console.error('Error al procesar la imagen/video:', e)
             stiker = 'Error al generar el sticker'
@@ -45,7 +45,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
       }
     } else if (args[0]) {
       if (isUrl(args[0])) {
-        stiker = await new Sticker(args[0], { pack: global.packname, author: global.author }).toFile()  // Generando sticker desde URL
+        stiker = await new Sticker(args[0], { pack: global.packname, author: global.author }).toBuffer()  // Usamos 'toBuffer' aquí también
       } else {
         return m.reply('URL inválido')
       }
@@ -55,7 +55,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     stiker = 'Ocurrió un error al procesar el sticker'
   } finally {
     if (stiker) {
-      // Asegúrate de que el sticker sea un Buffer válido antes de enviarlo
+      // Verificamos si el sticker es un Buffer antes de enviarlo
       if (Buffer.isBuffer(stiker)) {
         conn.sendFile(m.chat, stiker, 'sticker.webp', '', m)
       } else {
@@ -75,4 +75,4 @@ export default handler
 
 const isUrl = (text) => {
   return text.match(new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)(jpg|jpeg|png|gif)/, 'gi'))
-}
+  }
