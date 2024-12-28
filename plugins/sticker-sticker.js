@@ -20,7 +20,13 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
       let img = await q.download?.()
       if (!img) throw new Error(`✳️ Responde a una imagen o video con *${usedPrefix + command}*`)
 
-      const tmpPath = path.join(__dirname, 'temp', `sticker-${Date.now()}.webp`) // Ruta temporal para almacenar el sticker
+      // Asegurarse de usar la ruta 'tmp' correctamente para los archivos temporales
+      const tmpPath = path.join(__dirname, 'tmp', `sticker-${Date.now()}.webp`) // Ruta temporal para almacenar el sticker
+
+      // Crear la carpeta 'tmp' si no existe
+      if (!fs.existsSync(path.join(__dirname, 'tmp'))) {
+        fs.mkdirSync(path.join(__dirname, 'tmp'))
+      }
 
       // Usamos ffmpeg para crear un sticker en formato webp
       try {
@@ -73,6 +79,7 @@ handler.command = ['s', 'sticker']
 
 export default handler
 
+// Función para verificar si un texto es una URL válida
 const isUrl = (text) => {
   return text.match(new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)(jpg|jpeg|png|gif)/, 'gi'))
 }
