@@ -1,37 +1,51 @@
-let handler = async m => m;
-
-export async function all(m) {
+let handler = async (m, { conn }) => {
   let user = global.db.data.users[m.sender]; // Obtener los datos del usuario
-
-  // Evitar que se ejecute en los chats de broadcast
-  if (m.chat.endsWith('broadcast')) return;
-
-  // Verificar si el usuario existe en la base de datos
+  
+  // Si no existe el usuario en la base de datos, crear los datos iniciales
   if (!user) {
-    return m.reply('🚩 No se encontraron datos para este usuario.');
+    user = global.db.data.users[m.sender] = {
+      premium: false,
+      premiumTime: 0,
+      points: 0,  // Establece puntos para obtener Premium
+    };
+  }
+  
+  // Recompensa por completar una tarea o desafío
+  if (m.text.startsWith('.ganoPremium')) {
+    let puntosNecesarios = 1000; // Número de puntos necesarios para ganar Premium
+    if (user.points >= puntosNecesarios) {
+      // Si el usuario tiene suficientes puntos
+      let tiempoPremium = 30 * 24 * 60 * 60 * 1000; // 30 días en milisegundos
+      user.premium = true;
+      user.premiumTime = new Date().getTime() + tiempoPremium; // Establecer el tiempo premium
+
+      // Notificar al usuario
+      await conn.reply(m.chat, `🎉 ¡Felicidades! Has ganado el estatus de *Premium* por 30 días.`, m);
+    } else {
+      // Si el usuario no tiene suficientes puntos
+      await conn.reply(m.chat, `🚩 No tienes suficientes puntos para obtener Premium. Necesitas *${puntosNecesarios - user.points}* puntos más.`, m);
+    }
+  }
+  
+  // Comando para ver los puntos del usuario
+  if (m.text.startsWith('.misPuntos')) {
+    await conn.reply(m.chat, `🚩 Tienes *${user.points}* puntos.`, m);
   }
 
-  // Verificar si el usuario tiene tiempo premium activo
-  if (user.premiumTime != 0 && user.premium) {
-    // Si el tiempo premium ha expirado
-    if (new Date() * 1 >= user.premiumTime) {
-      // Notificar al usuario que su tiempo premium ha terminado
-      await m.reply(
-        `🚩 @${m.sender.split('@')[0]} tu tiempo como usuario *Premium* ha terminado.`,
-        false,
-        { mentions: [m.sender] }  // Mencionamos correctamente al usuario
-      );
-
-      // Desactivar el estado premium del usuario
-      user.premiumTime = 0;
-      user.premium = false;
+  // Comando para ver si el usuario tiene Premium activo
+  if (m.text.startsWith('.premiumStatus')) {
+    if (user.premium && new Date().getTime() < user.premiumTime) {
+      let tiempoRestante = Math.floor((user.premiumTime - new Date().getTime()) / (1000 * 60 * 60 * 24)); // Calcular días restantes
+      await conn.reply(m.chat, `🎉 ¡Tienes Premium activo por *${tiempoRestante}* días más!`, m);
+    } else {
+      await conn.reply(m.chat, `🚩 No tienes Premium activo. Usa el comando *.ganoPremium* para obtenerlo.`, m);
     }
   }
 }
 
-handler.help = ['checkpremium']; // Comando de ayuda
-handler.tags = ['dl']; // Categoría del comando
-handler.command = ['checkpremium']; // Nombre del comando
-handler.register = true; // Hacer que el handler esté registrado
+handler.help = ['ganoPremium', 'misPuntos', 'premiumStatus']; // Comandos disponibles
+handler.tags = ['rpg']; // Categoría
+handler.command = ['ganoPremium', 'misPuntos', 'premiumStatus']; // Nombres de los comandos
+handler.register = true; // Registrar el handler
 
 export default handler;
