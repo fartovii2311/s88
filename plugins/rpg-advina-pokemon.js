@@ -21,35 +21,28 @@ let handler = async (m, { conn }) => {
 
   conn.sendMessage(m.chat, { text: `🚩 ¡Hola @${name}! ¿Puedes adivinar el nombre de este Pokémon? \n\nDescripción: *${randomPokemon.description}* \n\nTienes 3 intentos para adivinar. ¡Buena suerte!` }, { mentions: [m.sender] })
 
-  let checkAnswer = async (msg) => {
-    if (msg.sender !== m.sender) return
+  // Este bloque se activa cuando el usuario envía su respuesta
+  if (m.text.startsWith('!respuesta')) {
+    const userAnswer = m.text.split(' ')[1]?.toLowerCase()
 
-    if (msg.body.startsWith('!respuesta')) {
-      const userAnswer = msg.body.split(' ')[1]?.toLowerCase()
+    if (!userAnswer) {
+      return conn.sendMessage(m.chat, { text: "🚩 Por favor, ingresa el nombre del Pokémon como respuesta (por ejemplo: !respuesta Pikachu)." }, { mentions: [m.sender] })
+    }
 
-      if (!userAnswer) {
-        return conn.sendMessage(m.chat, { text: "🚩 Por favor, ingresa el nombre del Pokémon como respuesta (por ejemplo: !respuesta Pikachu)." }, { mentions: [m.sender] })
-      }
-
-      if (userAnswer === pokemonGame[m.sender].correctAnswer.toLowerCase()) {
-        conn.sendMessage(m.chat, { text: `🎉 ¡Felicidades @${name}! Adivinaste correctamente. Ganaste 50 XP.` }, { mentions: [m.sender] })
-        global.db.data.users[m.sender].exp += 50
+    if (userAnswer === pokemonGame[m.sender].correctAnswer.toLowerCase()) {
+      conn.sendMessage(m.chat, { text: `🎉 ¡Felicidades @${name}! Adivinaste correctamente. Ganaste 50 XP.` }, { mentions: [m.sender] })
+      global.db.data.users[m.sender].exp += 50
+      delete pokemonGame[m.sender]
+    } else {
+      pokemonGame[m.sender].attempts--
+      if (pokemonGame[m.sender].attempts === 0) {
+        conn.sendMessage(m.chat, { text: `🚩 Lo siento @${name}, se te acabaron los intentos. El Pokémon era *${pokemonGame[m.sender].correctAnswer}*.` }, { mentions: [m.sender] })
         delete pokemonGame[m.sender]
       } else {
-        pokemonGame[m.sender].attempts--
-        if (pokemonGame[m.sender].attempts === 0) {
-          conn.sendMessage(m.chat, { text: `🚩 Lo siento @${name}, se te acabaron los intentos. El Pokémon era *${pokemonGame[m.sender].correctAnswer}*.` }, { mentions: [m.sender] })
-          delete pokemonGame[m.sender]
-        } else {
-          conn.sendMessage(m.chat, { text: `🚩 Incorrecto, te quedan ${pokemonGame[m.sender].attempts} intentos. Intenta de nuevo.` }, { mentions: [m.sender] })
-        }
+        conn.sendMessage(m.chat, { text: `🚩 Incorrecto, te quedan ${pokemonGame[m.sender].attempts} intentos. Intenta de nuevo.` }, { mentions: [m.sender] })
       }
     }
   }
-
-  setTimeout(() => {
-    conn.onMessage(checkAnswer)
-  }, 1000)
 }
 
 handler.command = ['pokemon', 'adivinarpokemon', 'pokemongame']
