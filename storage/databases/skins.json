@@ -1,5 +1,12 @@
 [
-    { "id": 1, "name": "Skin Samurai", "cost": 50 },
-    { "id": 2, "name": "Skin Dragón", "cost": 100 },
-    { "id": 3, "name": "Skin Ninja", "cost": 75 }
+  {
+    "id": 1,
+    "name": "Skin 1",
+    "cost": 100
+  },
+  {
+    "id": 2,
+    "name": "Skin 2",
+    "cost": 200
+  }
 ]
