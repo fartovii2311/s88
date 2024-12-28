@@ -1,5 +1,5 @@
 const xppercorazones = 450
-const xpperlimit = 2
+const xpperlimit = 450
 let handler = async (m, { conn, command, args }) => {
   let count = command.replace(/^buycoins/i, '')
   count = count ? /all/i.test(count) ? Math.floor(global.db.data.users[m.sender].exp / xpperlimit) : parseInt(count) : args[0] ? parseInt(args[0]) : 1
