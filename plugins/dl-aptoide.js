@@ -33,6 +33,7 @@ let handler = async (m, { conn, text }) => {
 
 handler.help = ["apk *<text>*"]
 handler.command = /^(apk)$/i;
+handler.corazones = 2;
 handler.tags = ['dl'];
 handler.register = true;
 
