@@ -73,6 +73,7 @@ console.error(error)
 }}
 
 handler.help = ["spotifysearch *<text>*"]
+handler.corazones = 2
 handler.tags = ["search"]
 handler.command = /^(spotifysearch)$/i
 
