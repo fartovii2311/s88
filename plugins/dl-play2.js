@@ -14,7 +14,7 @@ let handler = async (m, { conn, text, args }) => {
 - Url: ${'https://youtu.be/' + ytres[0].videoId}`;
 
   // Enviar la imagen de la miniatura y la información del video
-  await conn.sendFile(m.chat, ytres[0].image, 'thumbnail.jpg', txt, m,rcanal);
+  await conn.sendFile(m.chat, ytres[0].image, 'thumbnail.jpg', txt, m,rcanal,fake);
 
   try {
     // Descargar el video desde el enlace
