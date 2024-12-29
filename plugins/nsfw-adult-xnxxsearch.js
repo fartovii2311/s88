@@ -43,7 +43,7 @@ const handler = async (m, { text, usedPrefix, command, conn, rcanal }) => {
 };
 
 handler.help = ['xnxxsearch'].map(v => v + ' <query>');
-handler.tags = ['downloader', 'premium'];
+handler.tags = ['search'];
 handler.command = ['xnxxsearch', 'xnxxs'];
 handler.register = true;
 
