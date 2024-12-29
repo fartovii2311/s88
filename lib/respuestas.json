@@ -1,7 +1,1 @@
-{
-  "bot": {
-    "pregunta": ["bot"],
-    "respuesta": ["🤍 ¡Hola! Soy una IA, ¿en qué puedo ayudarte hoy?\n\n✰ Usa *!menu* para ver mis comandos."],
-    "audio": "./media/audios/bot.mp3"
-  },
-}
+
