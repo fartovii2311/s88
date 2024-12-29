@@ -1,7 +1,9 @@
 import fetch from 'node-fetch';
 
 let handler = async (m, { conn, text }) => {
-  if (!text) return m.reply("❀ Ingresa un link de YouTube", m, rcanal, fake);
+ if (!text) {
+    return conn.reply(m.chat, '❀ Ingresa un link de YouTube', m,fake,rcanal);
+  }
 
   await m.react('🕓');
 
