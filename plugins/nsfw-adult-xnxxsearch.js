@@ -1,15 +1,13 @@
 import fetch from 'node-fetch';
-import cheerio from 'cheerio'; // Asegúrate de tener esta librería instalada.
+import cheerio from 'cheerio';
 
-const handler = async (m, { text, usedPrefix, command }) => {
-  if (!db.data) db.data = {};
-  if (!db.data.chats) db.data.chats = {};
-  if (!db.data.chats[m.chat]) db.data.chats[m.chat] = { modohorny: false };
+const handler = async (m, { text, usedPrefix, command, conn, rcanal }) => {
+  if (!global.db.data) global.db.data = {};
+  if (!global.db.data.chats) global.db.data.chats = {};
+  if (!global.db.data.chats[m.chat]) global.db.data.chats[m.chat] = { nsfw: false };
 
-  console.log(`[DEBUG] Estado de modohorny en ${m.chat}:`, db.data.chats[m.chat]?.modohorny);
-
-  if (!db.data.chats[m.chat].modohorny && m.isGroup) {
-    throw `*[❗] Los comandos +18 están desactivados en este grupo. Si eres administrador, usa ${usedPrefix}enable modohorny para activarlos.*`;
+  if (!global.db.data.chats[m.chat].nsfw) {
+    return conn.reply(m.chat, `🚩 El grupo no admite contenido *Nsfw.*\n\n> Para activarlo un *Administrador* debe usar el comando */nsfw on*`, m, rcanal);
   }
 
   if (!text) {
@@ -18,7 +16,9 @@ const handler = async (m, { text, usedPrefix, command }) => {
 
   try {
     const vids_ = { from: m.sender, urls: [] };
+
     if (!global.videoListXXX) global.videoListXXX = [];
+
     if (global.videoListXXX[0]?.from === m.sender) global.videoListXXX.splice(0);
 
     const res = await xnxxsearch(text);
@@ -46,6 +46,7 @@ handler.help = ['xnxxsearch'].map(v => v + ' <query>');
 handler.tags = ['downloader', 'premium'];
 handler.command = ['xnxxsearch', 'xnxxs'];
 handler.register = true;
+
 export default handler;
 
 async function xnxxsearch(query) {
