@@ -103,6 +103,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
 handler.help = ["ytsearch *<text>*", "yts *<text>*"];
 handler.tags = ["search"];
+handler.corazones = 2
 handler.command = ["ytsearch", "yts"];
 
 export default handler;
