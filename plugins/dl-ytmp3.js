@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 
 let handler = async (m, { conn, text }) => {
-  if (!text) return m.reply("❀ Ingresa un link de YouTube");
+  if (!text) return m.reply("❀ Ingresa un link de YouTube",m,rcanal,fake);
   
   await m.react('🕓');
 
@@ -19,7 +19,7 @@ let handler = async (m, { conn, text }) => {
     await m.react('✅'); 
   } catch (error) {
     console.error('Error al obtener el MP3:', error);
-    m.reply('❀ Ocurrió un error al intentar obtener el MP3. Intenta nuevamente.');
+    m.reply('❀ Ocurrió un error al intentar obtener el MP3. Intenta nuevamente.',m,rcanal,fake);
     await m.react('❌');
   }
 };
