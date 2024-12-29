@@ -1,4 +1,3 @@
-
 import { promises } from 'fs'
 import { join } from 'path'
 import { xpRange } from '../lib/levelling.js'
@@ -38,7 +37,7 @@ const defaultMenu = {
  %readmore
   `.trimStart(),
   header: '╭─(❀)❝┊ *_`%category`_* ┊❝(❀)',
-  body: '┊➫ %cmd\n',
+  body: '┊❄️⃟🎄┊%cmd\n',
   footer: '╰───────────── –\n',
   after: `> DARK CORE VIP SUPREMO`,
   }
