@@ -18,7 +18,7 @@ let handler = async (m, { conn }) => {
 
   // Enviamos el problema al usuario
   let operation = isAddition ? 'suma' : 'resta'
-  conn.sendMessage(m.chat, `🚩 Hola @${name}, resuelve el siguiente problema: ¿Cuánto es *${num1} ${operation} ${num2}*? Tienes 3 intentos. ¡Buena suerte!`, m,rcanal { mentions: [m.sender] })
+  conn.sendMessage(m.chat, `🚩 Hola @${name}, resuelve el siguiente problema: ¿Cuánto es *${num1} ${operation} ${num2}*? Tienes 3 intentos. ¡Buena suerte!`, m,rcanal, { mentions: [m.sender] })
   
   // Función para manejar la respuesta del usuario
   const checkAnswer = async (msg) => {
@@ -29,21 +29,21 @@ let handler = async (m, { conn }) => {
       const userAnswer = parseInt(msg.body.split(' ')[1]) // Extraemos la respuesta del mensaje
 
       if (isNaN(userAnswer)) {
-        return conn.sendMessage(m.chat, "🚩 Por favor, ingresa un número válido como respuesta.", m)
+        return conn.sendMessage(m.chat, "🚩 Por favor, ingresa un número válido como respuesta.", m,rcanal)
       }
 
       // Comprobamos si la respuesta es correcta
       if (userAnswer === mathGame[m.sender].correctAnswer) {
-        conn.sendMessage(m.chat, `🎉 ¡Felicidades @${name}! Adivinaste correctamente. Ganaste 50 XP.`, m, { mentions: [m.sender] })
+        conn.sendMessage(m.chat, `🎉 ¡Felicidades @${name}! Adivinaste correctamente. Ganaste 50 XP.`, m,rcanal , { mentions: [m.sender] })
         global.db.data.users[m.sender].exp += 50
         delete mathGame[m.sender]
       } else {
         mathGame[m.sender].attempts--
         if (mathGame[m.sender].attempts === 0) {
-          conn.sendMessage(m.chat, `🚩 Lo siento @${name}, se te acabaron los intentos. La respuesta correcta era ${mathGame[m.sender].correctAnswer}.`, m, { mentions: [m.sender] })
+          conn.sendMessage(m.chat, `🚩 Lo siento @${name}, se te acabaron los intentos. La respuesta correcta era ${mathGame[m.sender].correctAnswer}.`, m,rcanal { mentions: [m.sender] })
           delete mathGame[m.sender]
         } else {
-          conn.sendMessage(m.chat, `🚩 Incorrecto, te quedan ${mathGame[m.sender].attempts} intentos. Intenta de nuevo.`, m, { mentions: [m.sender] })
+          conn.sendMessage(m.chat, `🚩 Incorrecto, te quedan ${mathGame[m.sender].attempts} intentos. Intenta de nuevo.`, m, rcanal ,{ mentions: [m.sender] })
         }
       }
     }
