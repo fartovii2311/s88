@@ -17,7 +17,7 @@ conn.sendFile(m.chat, img, 'thumbnail.jpg', teks, m).then(_ => m.react('✅'))
 })
 }
 handler.help = ['google *<texto>*']
-handler.tags = ['tools', 'search']
+handler.tags = ['search']
 handler.command = /^googlef?$/i
 //handler.limit = 1
 handler.register = true 
