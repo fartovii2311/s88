@@ -55,7 +55,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
     'anime': '𝙰𝚗𝚒𝚖𝚎',
     'group': '𝙶𝚛𝚞𝚙𝚘𝚜',
     'owner': '𝙾𝚠𝚗𝚎𝚛',
-    'audio': '𝙲𝚘𝚗𝚟𝚎𝚛𝚝𝚒𝚍𝚘𝚛',
+    'nsfw': 'hot',  
   }
 
   try {
