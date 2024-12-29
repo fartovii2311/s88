@@ -1,37 +1,16 @@
 {
-  "bot": {
-    "pregunta": ["bot"],
-    "respuesta": ["🤍 ¡Hola! Soy una IA, ¿en qué puedo ayudarte hoy?\n\n✰ Usa *!menu* para ver mis comandos."],
-    "audio": "./media/audios/bot.mp3"
-  },
-  "sexo": {
-    "pregunta": ["sexo"],
-    "respuesta": ["*pervertido* 🫣"],
-    "audio": null
-  },
-  "saludos": {
-    "pregunta": ["hola", "holi", "hey", "buenos días", "buenas tardes", "buenas noches"],
-    "respuesta": ["¡Hola! ¿Cómo estás?", "¡Holi! ¿Qué tal?", "¡Hey! ¿Cómo te va?", "¡Buenos días! ¿Cómo amaneces?", "¡Buenas tardes! Espero que estés bien.", "¡Buenas noches! ¿Cómo estuvo tu día?"],
-    "audio": null
-  },
-  "despedidas": {
-    "pregunta": ["adios", "bye", "chao", "nos vemos"],
-    "respuesta": ["¡Adiós! Cuídate.", "¡Bye! Hasta pronto.", "¡Chao! Nos vemos luego.", "¡Nos vemos! Que tengas un buen día."],
-    "audio": null
-  },
-  "estado": {
-    "pregunta": ["¿cómo estás?", "¿qué tal?", "¿cómo te va?"],
-    "respuesta": ["Estoy genial, ¿y tú?", "¡Todo bien por aquí! ¿Y tú?", "Estoy aquí para ayudarte. ¿Tú cómo estás?"],
-    "audio": null
-  },
-  "gracias": {
-    "pregunta": ["gracias", "muchas gracias", "te agradezco"],
-    "respuesta": ["¡De nada! 😊", "Para eso estoy. 🌟", "No hay de qué. ¡Siempre aquí para ayudarte!"],
-    "audio": null
-  },
-  "amor": {
-    "pregunta": ["amor", "te amo", "me gustas"],
-    "respuesta": ["El amor es maravilloso. 💖", "¡Qué lindo! Yo también te aprecio. 💕", "¡Gracias! Me haces feliz. 😊"],
-    "audio": null
-  }
+  "saludos": [
+    {
+      "pregunta": ["hola", "buenos días", "buenas tardes"],
+      "respuesta": ["¡Hola! ¿Cómo estás?", "¡Buenos días! ¿Qué tal?", "¡Buenas tardes! ¿En qué puedo ayudarte?"],
+      "audio": "https://example.com/audio/saludo.mp3"
+    }
+  ],
+  "despedidas": [
+    {
+      "pregunta": ["adiós", "hasta luego", "nos vemos"],
+      "respuesta": ["¡Adiós! Que tengas un buen día", "¡Hasta luego! Cuídate"],
+      "audio": "https://example.com/audio/despedida.mp3"
+    }
+  ]
 }
