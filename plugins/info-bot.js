@@ -1,7 +1,8 @@
 import fs from 'fs';
 const handler = (m) => m;
 
-const respuestas = JSON.parse(fs.readFileSync('./lib/respuestas.json', 'utf-8'));
+// Cargar el JSON de respuestas
+const respuestas = JSON.parse(fs.readFileSync('./respuestas.json', 'utf-8'));
 
 handler.all = async function (m) {
   const chat = global.db.data.chats[m.chat];
@@ -26,10 +27,12 @@ handler.all = async function (m) {
     }
   }
 
+  // Respuesta predeterminada
   conn.reply(
     m.chat,
     "Lo siento, no entendí eso. ¿Puedes intentarlo de otra manera? 🤔",
-    m,
-    rcanal
+    m
   );
 };
+
+export default handler;
