@@ -2,6 +2,7 @@ import speed from 'performance-now';
 import { exec } from 'child_process';
 import { totalmem, freemem } from 'os';
 import { sizeFormatter } from 'human-readable';
+import speedTest from 'speedtest-net';
 
 let handler = async (m, { conn }) => {
   let format = sizeFormatter({
@@ -25,6 +26,9 @@ let handler = async (m, { conn }) => {
   });
   let muptime = clockString(_muptime);
 
+  // Obtener velocidades de internet
+  let internetSpeeds = await testInternetSpeed();
+
   // Información del sistema
   exec('uname -a', (error, stdout, stderr) => {
     let systemInfo = stdout.toString('utf-8').trim();
@@ -34,32 +38,17 @@ let handler = async (m, { conn }) => {
       let procesador = (cpuInfo.match(/model name\s*:\s*(.*)/i) || [])[1]?.trim() || 'Unknown';
       let cpu = (cpuInfo.match(/cpu MHz\s*:\s*(.*)/i) || [])[1]?.trim() || 'Unknown';
 
-      exec('uptime -p', (error, stdout, stderr) => {
-        let uptime = stdout.toString('utf-8').trim();
+      // Formatear respuesta
+      let txt = '`乂  S P E E D - T E S T`\n\n';
+      txt += `	✩   *Ping* : ${latensi.toFixed(4)} ms\n`;
+      txt += `	✩   *Procesador* : ${procesador}\n`;
+      txt += `	✩   *CPU* : ${cpu} MHz\n`;
+      txt += `	✩   *RAM* : ${format(totalmem() - freemem())} / ${format(totalmem())}\n`;
+      txt += `	✩   *Tiempo de actividad* : ${muptime}\n`;
+      txt += `	✩   *Velocidad Descarga* : ${internetSpeeds.downloadSpeed} Mbps\n`;
+      txt += `	✩   *Velocidad Subida* : ${internetSpeeds.uploadSpeed} Mbps\n`;
 
-        // Información del servidor (personalizable)
-        let serverName = 'MyServer'; // Reemplaza con el nombre de tu servidor
-        let serverLocation = 'Unknown'; // Reemplaza con la ubicación real si aplica
-        let ping = `${latensi.toFixed(4)} ms`;
-        let downloadSpeed = 'N/A'; // Puedes integrar una librería para medir velocidad
-        let uploadSpeed = 'N/A';
-
-        // Formatear respuesta
-        let txt = '`乂  S P E E D - T E S T`\n\n';
-        txt += `	✩   *Hosted By* : ${serverName}\n`;
-        txt += `	✩   *Ubicación* : ${serverLocation}\n`;
-        txt += `	✩   *Ping* : ${ping}\n`;
-        txt += `	✩   *Speed Descarga* : ${downloadSpeed}\n`;
-        txt += `	✩   *Speed Subida* : ${uploadSpeed}\n\n`;
-        txt += `	✩   *Sistema* : ${systemInfo}\n`;
-        txt += `	✩   *Procesador* : ${procesador}\n`;
-        txt += `	✩   *CPU* : ${cpu} MHz\n`;
-        txt += `	✩   *RAM* : ${format(totalmem() - freemem())} / ${format(totalmem())}\n`;
-        txt += `	✩   *Tiempo de actividad* : ${muptime}\n\n`;
-        txt += '> 🚩 Powered by MyBot';
-
-        conn.reply(m.chat, txt, m);
-      });
+      conn.reply(m.chat, txt, m);
     });
   });
 };
@@ -69,6 +58,21 @@ handler.tags = ['main'];
 handler.command = ['ping', 'speed', 'p'];
 export default handler;
 
+// Función para medir velocidad de internet
+async function testInternetSpeed() {
+  try {
+    const result = await speedTest({ acceptLicense: true, acceptGdpr: true });
+    return {
+      downloadSpeed: result.download.bandwidth / 125000, // Convertir a Mbps
+      uploadSpeed: result.upload.bandwidth / 125000, // Convertir a Mbps
+    };
+  } catch (error) {
+    console.error('Error midiendo velocidad de internet:', error);
+    return { downloadSpeed: 'N/A', uploadSpeed: 'N/A' };
+  }
+}
+
+// Función para formatear tiempo
 function clockString(ms) {
   let d = isNaN(ms) ? '--' : Math.floor(ms / 86400000);
   let h = isNaN(ms) ? '--' : Math.floor(ms / 3600000) % 24;
