@@ -54,7 +54,6 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
     'tools': '𝙷𝚎𝚛𝚛𝚊𝚖𝚒𝚎𝚗𝚝𝚊𝚜',
     'group': '𝙶𝚛𝚞𝚙𝚘𝚜',
     'owner': '𝙾𝚠𝚗𝚎𝚛',
-    'nsfw': 'nsfw',  
   }
 
   try {
