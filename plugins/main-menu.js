@@ -52,7 +52,6 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
     'sticker': 'ꜱᴛɪᴄᴋᴇʀ',
     'ai': '𝙵𝚞𝚗𝚌𝚒𝚘𝚗𝚎𝚜 𝙰𝙸',
     'tools': '𝙷𝚎𝚛𝚛𝚊𝚖𝚒𝚎𝚗𝚝𝚊𝚜',
-    'anime': '𝙰𝚗𝚒𝚖𝚎',
     'group': '𝙶𝚛𝚞𝚙𝚘𝚜',
     'owner': '𝙾𝚠𝚗𝚎𝚛',
     'nsfw': 'hot',  
