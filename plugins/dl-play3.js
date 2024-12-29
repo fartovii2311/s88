@@ -1,7 +1,3 @@
-/* 
-- Play Botones By Angel-OFC 
-- https://whatsapp.com/channel/0029VaJxgcB0bIdvuOwKTM2Y
-*/
 import fetch from 'node-fetch';
 import yts from 'yt-search';
 
@@ -24,22 +20,30 @@ let handler = async (m, { conn, args }) => {
     await conn.sendMessage(m.chat, {
   image: img,
   caption: txt,
-  footer: 'Selecciona una opción',
-  buttons: [
+  footer: 'Selecciona una opción:',
+  templateButtons: [
     {
-      buttonId: `.ytmp3 https://youtu.be/${video.videoId}`,
-      buttonText: {
-        displayText: '🎵 Audio',
+      index: 1,
+      urlButton: {
+        displayText: 'Ver en YouTube',
+        url: `https://youtu.be/${video.videoId}`,
       },
     },
     {
-      buttonId: `.ytmp4 https://youtu.be/${video.videoId}`,
-      buttonText: {
+      index: 2,
+      quickReplyButton: {
+        displayText: '🎵 Audio',
+        id: `.ytmp3 https://youtu.be/${video.videoId}`,
+      },
+    },
+    {
+      index: 3,
+      quickReplyButton: {
         displayText: '🎥 Video',
+        id: `.ytmp4 https://youtu.be/${video.videoId}`,
       },
     },
   ],
-  headerType: 4,
 }, { quoted: m });
 
     await m.react('✅');
