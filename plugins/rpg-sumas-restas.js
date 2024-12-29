@@ -4,7 +4,7 @@ let handler = async (m, { conn }) => {
   let name = conn.getName(m.sender)
   
   if (mathGame[m.sender]) {
-    return conn.sendMessage(m.chat, `🚩 ${name}, ya estás en una partida de matemáticas! Espera que termine para jugar otra.`, m)
+    return conn.sendMessage(m.chat, `🚩 ${name}, ya estás en una partida de matemáticas! Espera que termine para jugar otra.`, m,rcanal)
   }
 
   // Generamos un problema matemático aleatorio (suma o resta)
@@ -18,7 +18,7 @@ let handler = async (m, { conn }) => {
 
   // Enviamos el problema al usuario
   let operation = isAddition ? 'suma' : 'resta'
-  conn.sendMessage(m.chat, `🚩 Hola @${name}, resuelve el siguiente problema: ¿Cuánto es *${num1} ${operation} ${num2}*? Tienes 3 intentos. ¡Buena suerte!`, m, { mentions: [m.sender] })
+  conn.sendMessage(m.chat, `🚩 Hola @${name}, resuelve el siguiente problema: ¿Cuánto es *${num1} ${operation} ${num2}*? Tienes 3 intentos. ¡Buena suerte!`, m,rcanal { mentions: [m.sender] })
   
   // Función para manejar la respuesta del usuario
   const checkAnswer = async (msg) => {
