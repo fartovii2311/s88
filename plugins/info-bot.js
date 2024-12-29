@@ -16,15 +16,15 @@ handler.all = async function(m) {
   }
 
   if (/^sexo$/i.test(m.text)) {
-    conn.reply(m.chat, `*pervertido* 🫣`, m, null,rcanal);
+    conn.reply(m.chat, `*pervertido* 🫣`, m,rcanal);
   }
 
   if (/^tetas|teta$/i.test(m.text)) {
-    conn.reply(m.chat, `*qué caliente eres* 🥵`, m, null,rcanal);
+    conn.reply(m.chat, `*qué caliente eres* 🥵`, m,rcanal);
   }
 
   if (/^bug$/i.test(m.text)) {
-    conn.reply(m.chat, `*tu mamá we* 😹`, m, null,rcanal);
+    conn.reply(m.chat, `*tu mamá we* 😹`, m,rcanal);
   }
 
   if (/^pene$/i.test(m.text)) {
