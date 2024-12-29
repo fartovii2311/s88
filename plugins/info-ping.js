@@ -31,8 +31,8 @@ let handler = async (m, { conn }) => {
 
     exec('cat /proc/cpuinfo', (error, stdout, stderr) => {
       let cpuInfo = stdout.toString('utf-8');
-      let procesador = (cpuInfo.match(/model name\s*:\s*(.*)/) || [])[1] || 'Unknown';
-      let cpu = (cpuInfo.match(/cpu MHz\s*:\s*(.*)/) || [])[1] || 'Unknown';
+      let procesador = (cpuInfo.match(/model name\s*:\s*(.*)/i) || [])[1]?.trim() || 'Unknown';
+      let cpu = (cpuInfo.match(/cpu MHz\s*:\s*(.*)/i) || [])[1]?.trim() || 'Unknown';
 
       exec('uptime -p', (error, stdout, stderr) => {
         let uptime = stdout.toString('utf-8').trim();
