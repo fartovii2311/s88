@@ -2,7 +2,7 @@ import fs from 'fs';
 const handler = (m) => m;
 
 // Cargar el JSON de respuestas
-const respuestas = JSON.parse(fs.readFileSync('./respuestas.json', 'utf-8'));
+const respuestas = JSON.parse(fs.readFileSync('./lib/respuestas.json', 'utf-8'));
 
 handler.all = async function (m) {
   const chat = global.db.data.chats[m.chat];
