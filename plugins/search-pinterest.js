@@ -93,7 +93,7 @@ let handler = async (_0x10bd40, {
   });
 };
 handler.help = ["pinterest"];
-handler.tags = ["buscador"];
+handler.tags = ["search"];
 handler.corazones = 2;
 handler.register = true
 handler.command = ['pinterest'];
