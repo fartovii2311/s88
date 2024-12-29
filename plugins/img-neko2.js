@@ -6,7 +6,7 @@ await m.react('🕓')
 let response = await fetch('https://nekos.life/api/v2/img/neko')
 let data = await response.json()
 let imageUrl = data.url
-await conn.sendFile(m.chat, imageUrl, 'thumbnail.jpg', listo, m,rcanal)
+await conn.sendFile(m.chat, imageUrl, 'thumbnail.jpg', listo, m,rcanal,fake)
 await m.react('✅')
 } catch {
 await m.react('✖️')
