@@ -209,6 +209,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
   }
 }
 
+handler.help = ['menuhot'];
 handler.command = /^(hotmenu|menuxxx|menuhot|\?)$/i
 handler.tags = ['menuhot'];
 handler.exp = 3
