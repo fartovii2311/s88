@@ -4,7 +4,7 @@ import fetch from 'node-fetch';
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   let [url, resolution] = text.split(' ');
   if (!url) {
-    return conn.reply(m.chat, `Ingresa el link de un video de YouTube y una calidad. Ejemplo: ${usedPrefix + command} link 360`, m);
+    return conn.reply(m.chat, `Ingresa el link de un video de YouTube y una calidad. Ejemplo: ${usedPrefix + command} link 360`, m,rcanal);
   }
 
   await m.react('🕓'); // Reacción de carga
