@@ -3,6 +3,7 @@ import { exec } from 'child_process';
 import { totalmem, freemem } from 'os';
 import { sizeFormatter } from 'human-readable';
 import speedTest from 'speedtest-net';
+import os from 'os-utils';
 
 let handler = async (m, { conn }) => {
   let format = sizeFormatter({
@@ -29,20 +30,20 @@ let handler = async (m, { conn }) => {
   // Obtener velocidades de internet
   let internetSpeeds = await testInternetSpeed();
 
-  // Información del sistema
-  exec('uname -a', (error, stdout, stderr) => {
-    let systemInfo = stdout.toString('utf-8').trim();
-
+  // Obtener uso del CPU
+  os.cpuUsage((cpuUsage) => {
+    // Información del sistema
     exec('cat /proc/cpuinfo', (error, stdout, stderr) => {
       let cpuInfo = stdout.toString('utf-8');
       let procesador = (cpuInfo.match(/model name\s*:\s*(.*)/i) || [])[1]?.trim() || 'Unknown';
-      let cpu = (cpuInfo.match(/cpu MHz\s*:\s*(.*)/i) || [])[1]?.trim() || 'Unknown';
+      let cpuFreq = (cpuInfo.match(/cpu MHz\s*:\s*(.*)/i) || [])[1]?.trim() || 'Unknown';
 
       // Formatear respuesta
       let txt = '`乂  S P E E D - T E S T`\n\n';
       txt += `	✩   *Ping* : ${latensi.toFixed(4)} ms\n`;
       txt += `	✩   *Procesador* : ${procesador}\n`;
-      txt += `	✩   *CPU* : ${cpu} MHz\n`;
+      txt += `	✩   *CPU Frecuencia* : ${cpuFreq} MHz\n`;
+      txt += `	✩   *Uso del CPU* : ${(cpuUsage * 100).toFixed(2)}%\n`;
       txt += `	✩   *RAM* : ${format(totalmem() - freemem())} / ${format(totalmem())}\n`;
       txt += `	✩   *Tiempo de actividad* : ${muptime}\n`;
       txt += `	✩   *Velocidad Descarga* : ${internetSpeeds.downloadSpeed} Mbps\n`;
