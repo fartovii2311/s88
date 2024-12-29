@@ -22,26 +22,25 @@ let handler = async (m, { conn, args }) => {
     txt += `• *\`Url:\`* _https://youtu.be/${video.videoId}_\n\n`;
 
     await conn.sendMessage(m.chat, {
-      image: img,
-      caption: txt,
-      footer: 'Selecciona una opción',
-      buttons: [
-        {
-          buttonId: `.ytmp3 https://youtu.be/${video.videoId}`,
-          buttonText: {
-            displayText: '🎵 Audio',
-          },
-        },
-        {
-          buttonId: `.ytmp4 https://youtu.be/${video.videoId}`,
-          buttonText: {
-            displayText: '🎥 Video',
-          },
-        },
-      ],
-      viewOnce: true,
-      headerType: 4,
-    }, { quoted: m });
+  image: img,
+  caption: txt,
+  footer: 'Selecciona una opción',
+  buttons: [
+    {
+      buttonId: `.ytmp3 https://youtu.be/${video.videoId}`,
+      buttonText: {
+        displayText: '🎵 Audio',
+      },
+    },
+    {
+      buttonId: `.ytmp4 https://youtu.be/${video.videoId}`,
+      buttonText: {
+        displayText: '🎥 Video',
+      },
+    },
+  ],
+  headerType: 4,
+}, { quoted: m });
 
     await m.react('✅');
   } catch (e) {
