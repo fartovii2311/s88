@@ -7,7 +7,7 @@ let res = await fetch('https://api.waifu.pics/sfw/neko')
 if (!res.ok) return 
 let json = await res.json()
 if (!json.url) return 
-await conn.sendFile(m.chat, json.url, 'thumbnail.jpg', listo, m,fake)
+await conn.sendFile(m.chat, json.url, 'thumbnail.jpg', listo, m,rcanal,fake)
 await m.react('✅')
 } catch {
 await m.react('✖️')
