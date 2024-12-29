@@ -13,12 +13,16 @@ handler.all = async function (m) {
 
   let responded = false; // Flag para saber si ya se respondió
 
+  console.log("Texto recibido:", texto); // Depuración: Ver qué texto llega
+
   // Respuestas dinámicas desde el JSON
   for (const categoria in respuestas) {
     const { pregunta, respuesta, audio } = respuestas[categoria];
 
     // Comprobamos si alguna de las preguntas coincide con el texto del mensaje
     for (const p of pregunta) {
+      console.log("Comparando con pregunta:", p); // Depuración: Ver qué pregunta se está comparando
+
       if (texto.includes(p.toLowerCase())) {
         const mensaje = respuesta[Math.floor(Math.random() * respuesta.length)];
         await conn.reply(m.chat, mensaje, m);
