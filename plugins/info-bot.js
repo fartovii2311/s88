@@ -10,7 +10,7 @@ handler.all = async function(m) {
     conn.reply(
       m.chat,
       `🤍 ¡Hola! Soy una ia, ¿en qué puedo ayudarte hoy?\n\n✰ Usa *!menu* para ver mis comandos.`,
-      m,
+      m,,rcanal
       null
     );
   }
