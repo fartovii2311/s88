@@ -2,7 +2,7 @@ import axios from 'axios';
 let enviando = false;
 
 const handler = async (m, {conn, text, usedPrefix, command, args}) => {
-    if (!args || !args[0]) return conn.reply(m.chat, '*Ingresa un enlace de Twitter*', m)
+    if (!args || !args[0]) return conn.reply(m.chat, '*Ingresa un enlace de Twitter*', m,rcanal,fake)
     if (enviando) return; 
     enviando = true;
 
