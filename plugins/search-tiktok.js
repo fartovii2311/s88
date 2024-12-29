@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 const {
   proto,
@@ -101,7 +100,7 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
 };
 
 handler.help = ["tiktoksearch <txt>"];
-handler.estrellas = 1;
+handler.corazones = 2;
 handler.register = true
 handler.tags = ["search"];
 handler.command = ["tiktoksearch", "ttss", "tiktoks"];
