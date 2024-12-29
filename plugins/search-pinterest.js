@@ -92,7 +92,7 @@ let handler = async (_0x10bd40, {
     'messageId': _0x1ca5c6.key.id
   });
 };
-handler.help = ["pinterest"];
+handler.help = ["pinterest *<text>*"];
 handler.tags = ["search"];
 handler.corazones = 2;
 handler.register = true
