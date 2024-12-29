@@ -1,4 +1,5 @@
 import fs from 'fs';
+
 const handler = (m) => m;
 
 const respuestas = JSON.parse(fs.readFileSync('./lib/respuestas.json', 'utf-8'));
@@ -10,32 +11,39 @@ handler.all = async function (m) {
   // Comprobar si el chat está bloqueado
   if (chat.isBanned) return;
 
+  let responded = false; // Flag para saber si ya se respondió
+
   // Respuestas dinámicas desde el JSON
   for (const categoria in respuestas) {
     const { pregunta, respuesta, audio } = respuestas[categoria];
 
-    // Comprobar si el texto incluye alguna de las preguntas
+    // Comprobamos si alguna de las preguntas coincide con el texto del mensaje
     for (const p of pregunta) {
       if (texto.includes(p.toLowerCase())) {
         const mensaje = respuesta[Math.floor(Math.random() * respuesta.length)];
-        conn.reply(m.chat, mensaje, m);
+        await conn.reply(m.chat, mensaje, m);
 
-        // Enviar audio si está definido
+        // Si hay un audio, lo enviamos también
         if (audio) {
-          conn.sendMessage(m.chat, { audio: { url: audio }, mimetype: 'audio/mp3' }, { quoted: m });
+          await conn.sendMessage(m.chat, { audio: { url: audio }, mimetype: 'audio/mp3' }, { quoted: m });
         }
-        return;
+        
+        responded = true; // Indicamos que ya se respondió
+        break; // Salimos del bucle de preguntas
       }
     }
+
+    if (responded) break; // Si ya respondió, salimos del bucle de categorías
   }
 
-  // Respuesta predeterminada si no hay coincidencias
-  conn.reply(
-    m.chat,
-    "Lo siento, no entendí eso. ¿Puedes intentarlo de otra manera? 🤔",
-    m
-  );
+  // Si no hay ninguna coincidencia, respondemos con un mensaje por defecto
+  if (!responded) {
+    await conn.reply(
+      m.chat,
+      "Lo siento, no entendí eso. ¿Puedes intentarlo de otra manera? 🤔",
+      m
+    );
+  }
 };
 
 export default handler;
-
