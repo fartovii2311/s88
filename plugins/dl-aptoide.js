@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 
 let handler = async (m, { conn, text }) => {
   if (!text) {
-    return m.reply("❀ Ingresa el nombre de la app que quieres buscar");
+    return m.reply(m.chat, "❀ Ingresa el nombre de la app que quieres buscar", m,rcanal);
   }
 
   await m.react('🕓');  // Reacción de carga
