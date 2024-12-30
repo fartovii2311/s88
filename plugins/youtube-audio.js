@@ -23,21 +23,13 @@ let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) =
     /(?:https?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed|shorts)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9_-]+)/gi
   );
 
-  if (!urls) {
-    return conn.reply(m.chat, '✰ Resultado no encontrado.', m).then(() => m.react('✖'));
-  }
-
   await m.react('🕓');
 
   try {
     let api = await fetch(`https://api.giftedtech.my.id/api/download/dlmp3?apikey=gifted&url=${urls[0]}`);
     let json = await api.json();
 
-    if (!json.result) {
-      throw new Error('No se pudo obtener el resultado de la API.');
-    }
-
-    let { quality, title, download_url } = json.result;
+    let { type, quality, title, thumbail,download_url } = json.result;
 
     await conn.sendMessage(
       m.chat,
