@@ -1,7 +1,7 @@
 // [ ❀ YTMP4 ]
 import fetch from 'node-fetch';
 
-let HS = async (m, { conn, text }) => {
+let handler  = async (m, { conn, text }) => {
   if (!text) return conn.reply(m.chat, '❀ Ingresa un link de youtube', m);
 
   try {
