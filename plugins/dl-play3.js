@@ -2,7 +2,7 @@ import fetch from 'node-fetch'
 import yts from 'yt-search'
 
 let handler = async (m, { conn: star, command, args, text, usedPrefix }) => {
-  if (!text) return m.reply('[ ✰ ] Ingresa el título de un video o canción de *YouTube*.\n\n`Ejemplo:`\n' + `> *${usedPrefix + command}* Mc Davo - Debes De Saber`)
+  if (!text) return m.reply(m.chat, '[ ✰ ] Ingresa el título de un video o canción de *YouTube*.\n\n`Ejemplo:`\n' + `> *${usedPrefix + command}* Mc Davo - Debes De Saber` ,m, rcanal)
     await m.react('🕓')
     try {
     let res = await search(args.join(" "))
@@ -15,7 +15,7 @@ let handler = async (m, { conn: star, command, args, text, usedPrefix }) => {
        txt += `\t\t*» ID* : ${res[0].videoId}\n`
        txt += `\t\t*» Url* : ${'https://youtu.be/' + res[0].videoId}\n\n`
        txt += `> *-* Para descargar responde a este mensaje con *Video* o *Audio*.`
-await star.sendFile(m.chat, img, 'thumbnail.jpg', txt, m)
+await star.sendFile(m.chat, img, 'thumbnail.jpg', txt, m,rcanal)
 await m.react('✅')
 } catch {
 await m.react('✖️')
