@@ -18,7 +18,7 @@ let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) =
       m
     ).then(() => m.react('✖️'));
   }
-  
+
   let urls = m.quoted.text.match(
     /(?:https?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed|shorts)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9_-]+)/gi
   );
@@ -27,11 +27,9 @@ let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) =
     return conn.reply(m.chat, `Resultado no Encontrado.`, m).then(() => m.react('✖️'));
   }
 
-  // React inicial para indicar que el proceso comenzó
   await m.react('🕓');
 
   try {
-    // Llamada a la API para obtener información del video
     let api = await fetch(
       `https://api.giftedtech.my.id/api/download/dlmp4?apikey=gifted&url=${urls[0]}`
     );
@@ -43,7 +41,10 @@ let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) =
 
     let { quality, title, size, download_url } = json.result;
 
-    // Validar tamaño del archivo
+    if (!size) {
+      throw new Error('El tamaño del archivo no está disponible.');
+    }
+
     let sizeMB = parseFloat(size.replace('MB', '').trim());
     if (isNaN(sizeMB)) {
       throw new Error(`No se pudo determinar el tamaño del archivo: ${size}`);
@@ -56,7 +57,6 @@ let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) =
       ).then(() => m.react('✖️'));
     }
 
-    // Enviar el video descargado
     await conn.sendMessage(
       m.chat,
       {
@@ -68,7 +68,6 @@ let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) =
       { quoted: m }
     );
 
-    // React final para indicar éxito
     await m.react('✅');
   } catch (err) {
     console.error(`[Error] ${err.message}`, err);
@@ -80,7 +79,6 @@ let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) =
   }
 };
 
-// Configuración del comando
 handler.help = ['Video'];
 handler.tags = ['downloader'];
 handler.customPrefix = /^(Video|video|vídeo|Vídeo)/;
