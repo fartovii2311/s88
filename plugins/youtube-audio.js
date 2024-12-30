@@ -1,40 +1,71 @@
-import fetch from 'node-fetch';
+let limit = 200; // Límite de tamaño en MB
 
-let handler = async (m, { conn, text }) => {
-    if (!text || !/^https?:\/\/(www\.)?youtube\.com\/.+/.test(text)) {
-        await m.react('✖️');
-        return conn.reply(m.chat, `🚩 Por favor, proporciona un enlace válido de YouTube para descargar el audio.`, m);
+let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) => {
+  if (!m.quoted) {
+    return conn.reply(
+      m.chat,
+      '✰ Etiqueta el mensaje que contenga el resultado de YouTube Play.',
+      m
+    ).then(() => m.react('✖'));
+  }
+
+  if (!m.quoted.text.includes("乂  Y O U T U B E  -  P L A Y")) {
+    return conn.reply(
+      m.chat,
+      '✰ Etiqueta el mensaje que contenga el resultado de YouTube Play.',
+      m
+    ).then(() => m.react('✖'));
+  }
+
+  let urls = m.quoted.text.match(
+    /(?:https?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed|shorts)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9_-]+)/gi
+  );
+
+  if (!urls) {
+    return conn.reply(m.chat, '✰ Resultado no encontrado.', m).then(() => m.react('✖'));
+  }
+
+  if (urls.length < text) {
+    return conn.reply(m.chat, '✰ Resultado no encontrado.', m).then(() => m.react('✖'));
+  }
+
+  let user = global.db.data.users[m.sender];
+  await m.react('🕓');
+
+  try {
+    let v = urls[0];
+    let { title, size, quality, thumbnail, dl_url } = await Starlights.ytmp3(v);
+
+    // Comparar tamaño con el límite
+    if (parseFloat(size.split('MB')[0]) >= limit) {
+      return m.reply(`✰ El archivo pesa más de ${limit} MB. Se canceló la descarga.`).then(() => m.react('✖'));
     }
 
-    await m.react('🕓');
+    // Enviar el archivo de audio
+    await conn.sendFile(
+      m.chat,
+      dl_url,
+      `${title}.mp3`,
+      null,
+      m,
+      false,
+      { mimetype: 'audio/mpeg', asDocument: user.useDocument }
+    );
 
-    try {
-        // Realizar la solicitud a la API
-        let api = await fetch(`https://api.giftedtech.my.id/api/download/dlmp3?apikey=gifted&url=${text}`);
-        let json = await api.json();
-
-        // Validar la respuesta de la API
-        if (!json.result || !json.result.download_url) {
-            await m.react('✖️');
-            return conn.reply(m.chat, `🚩 No se pudo procesar el enlace. Verifica que sea un enlace válido de YouTube.`, m);
-        }
-
-        let { title, download_url } = json.result;
-
-        // Enviar el archivo como audio
-        await conn.sendMessage(m.chat, {
-            audio: { url: download_url },
-            fileName: `${title}.mp3`,
-            mimetype: 'audio/mpeg'
-        }, { quoted: m });
-
-        await m.react('✅');
-    } catch (error) {
-        console.error(error);
-        await m.react('✖️');
-        conn.reply(m.chat, `🚩 Ocurrió un error al procesar tu solicitud. Intenta nuevamente más tarde.`, m);
-    }
+    await m.react('✅');
+  } catch (err) {
+    console.error(err);
+    await conn.reply(
+      m.chat,
+      '✰ Hubo un error al intentar descargar el audio. Inténtalo nuevamente más tarde.',
+      m
+    ).then(() => m.react('✖'));
+  }
 };
 
-// Exportar el handler sin prefijo personalizado
+handler.help = ['Audio'];
+handler.tags = ['downloader'];
+handler.customPrefix = /^(Audio|audio)/i; // Prefijo para detectar el comando
+handler.command = new RegExp; // El comando puede activarse sin texto adicional
+
 export default handler;
