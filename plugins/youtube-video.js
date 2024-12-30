@@ -39,14 +39,14 @@ let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) =
 
     let { title, download_url, filename } = json.data;
 
-    // Enviamos el video descargado
+    // Enviar el video MP4
     await conn.sendMessage(
       m.chat,
       {
-        video: { url: download_url },
-        caption: `*» Título* : ${title}`,
-        mimetype: 'video/mp4',
-        fileName: `${filename}.mp4`,
+        video: { url: download_url }, // Usamos la URL de descarga
+        caption: `*» Título* : ${title}`, // El título del video
+        mimetype: 'video/mp4', // Especificamos que es un video MP4
+        fileName: `${filename}.mp4`, // Nombre del archivo
       },
       { quoted: m }
     );
