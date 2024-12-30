@@ -24,21 +24,17 @@ let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) =
   await m.react('🕓');
 
   try {
-    // Hacer la solicitud a la API
     let api = await fetch(`https://restapi.apibotwa.biz.id/api/ytmp4?url=${urls[0]}`);
     let json = await api.json();
 
-    // Verificar si la respuesta de la API contiene los datos esperados
     if (!json || !json.data || !json.data.metadata || !json.data.download || !json.data.download.url) {
       throw new Error('Respuesta inválida de la API. No se encontraron los datos esperados.');
     }
 
-    // Extraer datos de la respuesta
     let title = json.data.metadata.title;
     let dl_url = json.data.download.url;
     let filename = json.data.filename;
 
-    // Enviar el video MP4
     await conn.sendMessage(m.chat, {
       video: { url: dl_url },
       fileName: `${filename}.mp4`,
