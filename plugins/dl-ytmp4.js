@@ -1,57 +1,29 @@
 // [ ❀ YTMP4 ]
 import fetch from 'node-fetch';
 
-let handler = async (m, { conn, text, usedPrefix, command }) => {
-  let [url, resolution] = text.split(' ');
-  if (!url) {
-    return conn.reply(m.chat, `Ingresa el link de un video de YouTube y una calidad. Ejemplo: ${usedPrefix + command} link 360`, m,rcanal);
-  }
-
-  await m.react('🕓'); // Reacción de carga
+let HS = async (m, { conn, text }) => {
+  if (!text) return conn.reply(m.chat, '❀ Ingresa un link de youtube', m);
 
   try {
-    let apiinfo = await fetch(`https://ytdownloader.nvlgroup.my.id/info?url=${url}`);
-    let jsoninfo = await apiinfo.json();
-    let titulo = jsoninfo.title;
-    let duracion = jsoninfo.duration || '-';
-    let calidad = resolution || '360';
-    let img = jsoninfo.thumbnail;
-    let dl_url = `https://ytdownloader.nvlgroup.my.id/download?url=${url}&resolution=${calidad}`;
-    let vidFetch = await fetch(dl_url);
-    let video = await vidFetch.buffer();
-    let Tamaño = video.length / (1024 * 1024); // Tamaño en MB
-
-    let HS = `- Titulo: ${titulo}
-- Link: ${url}
-- Duración: ${duracion}
-- Calidad: ${calidad}`;
-
-    if (Tamaño > 100) {
-      await conn.sendMessage(m.chat, { 
-        document: video, 
-        caption: HS, 
-        mimetype: 'video/mp4', 
-        fileName: `${titulo}.mp4` 
-      });
-    } else {
-      await conn.sendMessage(m.chat, { 
-        video: video, 
-        caption: HS, 
-        mimetype: 'video/mp4' 
-      });
-    }
-
-    await m.react('✅'); // Reacción de éxito
+    let api = await fetch(`https://restapi.apibotwa.biz.id/api/ytmp4?url=${text}`);
+    let json = await api.json();
+    let title = json.data.metadata.title;
+    let dl_url = json.data.download.url;
+    await conn.sendMessage(m.chat, { 
+      video: { url: dl_url }, 
+      fileName: `${json.data.filename}.mp4`, 
+      mimetype: 'video/mp4' 
+    }, { quoted: m });
 
   } catch (error) {
-    console.error('Error al descargar el video:', error);
-    m.reply('❀ Ocurrió un error al intentar obtener el video. Intenta nuevamente.');
-    await m.react('❌'); // Reacción de error
+    console.error(error);
+    conn.reply(m.chat, '🚩 Ocurrió un error al procesar la solicitud. Intenta nuevamente más tarde.', m);
   }
-};
+}
 
-handler.help = ["ytmp4 *<url>*"]
+handler.help = ["ytmp4 *<url>*"];
 handler.tags = ['dl'];
 handler.command = ['ytmp4'];
 handler.register = true;
+
 export default handler;
