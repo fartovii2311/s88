@@ -1,4 +1,6 @@
-let limit = 200; // Límite de tamaño en MB
+import fetch from 'node-fetch';
+
+let limit = 200;
 
 let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) => {
   if (!m.quoted) {
@@ -25,31 +27,26 @@ let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) =
     return conn.reply(m.chat, '✰ Resultado no encontrado.', m).then(() => m.react('✖'));
   }
 
-  if (urls.length < text) {
-    return conn.reply(m.chat, '✰ Resultado no encontrado.', m).then(() => m.react('✖'));
-  }
-
-  let user = global.db.data.users[m.sender];
   await m.react('🕓');
 
   try {
-    let v = urls[0];
-    let { title, size, quality, thumbnail, dl_url } = await Starlights.ytmp3(v);
+    let api = await fetch(`https://api.giftedtech.my.id/api/download/dlmp3?apikey=gifted&url=${urls[0]}`);
+    let json = await api.json();
 
-    // Comparar tamaño con el límite
-    if (parseFloat(size.split('MB')[0]) >= limit) {
-      return m.reply(`✰ El archivo pesa más de ${limit} MB. Se canceló la descarga.`).then(() => m.react('✖'));
+    if (!json.result) {
+      throw new Error('No se pudo obtener el resultado de la API.');
     }
 
-    // Enviar el archivo de audio
-    await conn.sendFile(
+    let { quality, title, download_url } = json.result;
+
+    await conn.sendMessage(
       m.chat,
-      dl_url,
-      `${title}.mp3`,
-      null,
-      m,
-      false,
-      { mimetype: 'audio/mpeg', asDocument: user.useDocument }
+      {
+        audio: { url: download_url },
+        fileName: `${title}.mp3`,
+        mimetype: 'audio/mp4',
+      },
+      { quoted: m }
     );
 
     await m.react('✅');
@@ -65,7 +62,7 @@ let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) =
 
 handler.help = ['Audio'];
 handler.tags = ['downloader'];
-handler.customPrefix = /^(Audio|audio)/i; // Prefijo para detectar el comando
-handler.command = new RegExp; // El comando puede activarse sin texto adicional
+handler.customPrefix = /^(Audio|audio)/i;
+handler.command = new RegExp;
 
 export default handler;
