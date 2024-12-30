@@ -447,7 +447,7 @@ global.dfail = (type, m, conn) => {
         private: "¡ESTA FUNCIÓN SOLO PUEDE SER USADA EN CHAT PRIVADO!", 
         admin: "¡ESTE COMANDO SOLO PUEDE SER USADO POR ADMINS!", 
         botAdmin: "¡PARA USAR ESTA FUNCIÓN DEBO SER ADMIN DEL GRUPO!", 
-        unreg: "¡NECESITAS ESTAR REGISTRADO(A) PARA USAR ESTE COMANDO, ESCRIBE \n\n>/reg dark.18  PARA REGISTRARTE!!",
+        unreg: "¡NECESITAS ESTAR REGISTRADO(A) PARA USAR ESTE COMANDO, ESCRIBE \n\n> /reg dark.18  PARA REGISTRARTE!!",
         restrict: "¡ESTA CARACTERÍSTICA ESTA DESACTIVADA!"
     }[type]
     if (msg) return conn.reply(m.chat, msg, m, rcanal).then(_ => m.react('✖️'))}
