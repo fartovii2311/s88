@@ -1,5 +1,4 @@
 import { Sticker } from 'wa-sticker-formatter'
-import { sticker } from '../lib/sticker.js'
 //import uploadFile from '../lib/uploadFile.js'
 //import uploadImage from '../lib/uploadImage.js'
 //import { webp2png } from '../lib/webp2mp4.js'
@@ -25,27 +24,35 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
         })
         stiker = await sticker.toBuffer() // Convertir a buffer de sticker
       } catch (e) {
-        console.error(e)
+        console.error(`[Error en Sticker] ${e.message}`, e)
       } finally {
         if (!stiker) {
           if (/webp/g.test(mime)) out = await webp2png(img)
           else if (/image/g.test(mime)) out = await uploadImage(img)
           else if (/video/g.test(mime)) out = await uploadFile(img)
           if (typeof out !== 'string') out = await uploadImage(img)
-          const sticker = new Sticker(out, {
-            pack: global.packname,
-            author: global.author,
-            type: 'full'
-          })
-          stiker = await sticker.toBuffer()
+
+          try {
+            const sticker = new Sticker(out, {
+              pack: global.packname,
+              author: global.author,
+              type: 'full'
+            })
+            stiker = await sticker.toBuffer()
+          } catch (e) {
+            console.error(`[Error en Sticker fallback] ${e.message}`, e)
+          }
         }
       }
     } else if (args[0]) {
-      if (isUrl(args[0])) stiker = await sticker(false, args[0], global.packname, global.author)
-      else return m.reply(`💫 El url es incorrecto`)
+      if (isUrl(args[0])) {
+        stiker = await sticker(false, args[0], global.packname, global.author)
+      } else {
+        return m.reply(`💫 El url es incorrecto`)
+      }
     }
   } catch (e) {
-    console.error(e)
+    console.error(`[Error general] ${e.message}`, e)
     if (!stiker) stiker = e
   } finally {
     if (stiker) {
