@@ -27,7 +27,7 @@ let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) =
     let dl_url = json.data.download.url;
     let filename = json.data.filename;
 
-    await conn.sendFile(m.chat, dl_url, title + '.mp4', `*» Aquí está tu pedido*`, m, false, { asDocument: user.useDocument });
+    await conn.sendFile(m.chat, dl_url, title + '.mp4', `*» Aquí está tu pedido*`, m, 'defoult.bin', false, { asDocument: user.useDocument });
 
     await m.react('✅');
   } catch (err) {
