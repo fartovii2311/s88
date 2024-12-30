@@ -28,37 +28,20 @@ let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) =
   await m.react('🕓');
 
   try {
-    let api = await fetch(
-      `https://restapi.apibotwa.biz.id/api/ytmp4?url=${urls[0]}`
-    );
+      let api = await fetch(`https://restapi.apibotwa.biz.id/api/ytmp4?url=${text}`);
     let json = await api.json();
-
-    if (!json.data) {
-      throw new Error('No se pudo obtener el resultado de la API.');
-    }
-
-    let { title, download_url, filename } = json.data;
-
-    // Enviar el video MP4
-    await conn.sendMessage(
-      m.chat,
-      {
-        video: { url: download_url }, // Usamos la URL de descarga
-        caption: `*» Título* : ${title}`, // El título del video
-        mimetype: 'video/mp4', // Especificamos que es un video MP4
-        fileName: `${filename}.mp4`, // Nombre del archivo
-      },
-      { quoted: m }
-    );
+    let title = json.data.metadata.title;
+    let dl_url = json.data.download.url;
+    await conn.sendMessage(m.chat, { 
+      video: { url: dl_url }, 
+      fileName: `${json.data.filename}.mp4`, 
+      mimetype: 'video/mp4' 
+    }, { quoted: m });
 
     await m.react('✅');
   } catch (err) {
     console.error(`[Error] ${err.message}`, err);
-    await conn.reply(
-      m.chat,
-      `✰ Hubo un error al intentar descargar el video. Inténtalo nuevamente más tarde.`,
-      m
-    ).then(() => m.react('✖️'));
+    await conn.reply(m.chat,`✰ Hubo un error al intentar descargar el video. Inténtalo nuevamente más tarde.`,m).then(() => m.react('✖️'));
   }
 };
 
