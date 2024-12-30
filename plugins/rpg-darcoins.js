@@ -5,6 +5,7 @@ let handler = async (m, { conn, text }) => {
     let who;
     if (m.isGroup) who = m.mentionedJid[0]; // Obtiene el primer usuario mencionado
     else who = m.chat; // Si no es grupo, usa el chat como destinatario
+
     if (!who) throw '🤍 Menciona al usuario con *@user.*';
 
     let txt = text.replace('@' + who.split`@`[0], '').trim(); // Extrae el texto restante
@@ -30,12 +31,14 @@ let handler = async (m, { conn, text }) => {
     }
 
     // Agrega corazones al destinatario
+    if (!users[who]) users[who] = { corazones: 0 }; // Asegura que el destinatario tenga un registro
     users[who].corazones += poin;
 
     await m.reply(
-        `*${poin}* 🤍 corazones enviados exitosamente.
-Impuesto del 2%: *${imt}* 🤍 corazones.
-${isOwner ? '*Nota: Tienes corazones ilimitados como propietario.*' : `Total gastado: *${corazones}* 🤍 corazones.`}`
+        `🤍 *Transferencia completada exitosamente.*\n\n` +
+        `Enviado: *${poin}* 🤍 corazones\n` +
+        `Impuesto del 2%: *${imt}* 🤍 corazones\n` +
+        `${isOwner ? '*Nota: Eres propietario y tienes corazones ilimitados.*' : `Total gastado: *${corazones}* 🤍 corazones.`}`
     );
 
     // Notifica al destinatario sobre la recepción de los corazones
