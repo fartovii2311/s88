@@ -31,15 +31,16 @@ let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) =
 
   try {
     let api = await fetch(
-      `https://api.giftedtech.my.id/api/download/dlmp4?apikey=gifted&url=${urls[0]}`
+      `https://restapi.apibotwa.biz.id/api/ytmp4?url=${urls[0]}`
     );
     let json = await api.json();
 
-    if (!json.result) {
+    if (!json.data) {
       throw new Error('No se pudo obtener el resultado de la API.');
     }
 
-    let { quality, title, size, download_url } = json.result;
+    let { title, download_url, filename } = json.data;
+    let size = json.data.metadata.size;
 
     if (!size) {
       throw new Error('El tamaño del archivo no está disponible.');
@@ -49,6 +50,8 @@ let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) =
     if (isNaN(sizeMB)) {
       throw new Error(`No se pudo determinar el tamaño del archivo: ${size}`);
     }
+    
+    // Verificamos si el tamaño es mayor que el límite
     if (sizeMB > limit) {
       return conn.reply(
         m.chat,
@@ -57,13 +60,14 @@ let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) =
       ).then(() => m.react('✖️'));
     }
 
+    // Enviamos el video descargado
     await conn.sendMessage(
       m.chat,
       {
         video: { url: download_url },
-        caption: `*» Título* : ${title}\n*» Calidad* : ${quality}\n*» Tamaño* : ${size}`,
+        caption: `*» Título* : ${title}\n*» Tamaño* : ${size}`,
         mimetype: 'video/mp4',
-        fileName: `${title}.mp4`,
+        fileName: `${filename}.mp4`,
       },
       { quoted: m }
     );
