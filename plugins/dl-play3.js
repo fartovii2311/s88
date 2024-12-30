@@ -20,7 +20,7 @@ await m.react('✅')
 } catch {
 await m.react('✖️')
 }}
-handler.help = ['play3 *<búsqueda>*']
+handler.help = ['play *<búsqueda>*']
 handler.tags = ['downloader']
 handler.command = ['play']
 handler.register = true 
