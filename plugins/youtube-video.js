@@ -50,7 +50,7 @@ let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) =
     if (isNaN(sizeMB)) {
       throw new Error(`No se pudo determinar el tamaño del archivo: ${size}`);
     }
-    
+
     // Verificamos si el tamaño es mayor que el límite
     if (sizeMB > limit) {
       return conn.reply(
