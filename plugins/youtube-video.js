@@ -2,11 +2,11 @@ import fetch from 'node-fetch';
 
 let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) => {
   if (!m.quoted) {
-    return conn.reply(m.chat, `[ ✰ ] Etiqueta el mensaje que contenga el resultado de YouTube Play.`, m).then(() => m.react('✖️'));
+    return conn.reply(m.chat, `[ ✰ ] Etiqueta el mensaje que contenga el resultado de YouTube Play.`, m,rcanal).then(() => m.react('✖️'));
   }
 
   if (!m.quoted.text.includes("乂  Y O U T U B E  -  P L A Y")) {
-    return conn.reply(m.chat, `[ ✰ ] Etiqueta el mensaje que contenga el resultado de YouTube Play.`, m).then(() => m.react('✖️'));
+    return conn.reply(m.chat, `[ ✰ ] Etiqueta el mensaje que contenga el resultado de YouTube Play.`, m,rcanal).then(() => m.react('✖️'));
   }
 
   let urls = m.quoted.text.match(
@@ -14,7 +14,7 @@ let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) =
   );
 
   if (!urls) {
-    return conn.reply(m.chat, `Resultado no Encontrado.`, m).then(() => m.react('✖️'));
+    return conn.reply(m.chat, `Resultado no Encontrado.`, m,rcanal).then(() => m.react('✖️'));
   }
 
   await m.react('🕓');
