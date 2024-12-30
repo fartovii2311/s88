@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-let limit = 300;
+let limit = 300; // Límite de tamaño en MB
 let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) => {
   if (!m.quoted) {
     return conn.reply(
@@ -26,10 +26,6 @@ let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) =
     return conn.reply(m.chat, `Resultado no Encontrado.`, m).then(() => m.react('✖️'));
   }
 
-  if (urls.length < text) {
-    return conn.reply(m.chat, `Resultado no Encontrado.`, m).then(() => m.react('✖️'));
-  }
-
   await m.react('🕓');
 
   try {
@@ -42,10 +38,10 @@ let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) =
       throw new Error('No se pudo obtener el resultado de la API.');
     }
 
-    let { quality, title, download_url } = json.result;
+    let { quality, title, size, download_url } = json.result;
 
     // Validar tamaño del archivo
-    if (parseFloat(json.result.size.replace('MB', '')) > limit) {
+    if (parseFloat(size.replace('MB', '')) > limit) {
       return conn.reply(
         m.chat,
         `El archivo pesa más de ${limit} MB, se canceló la Descarga.`,
@@ -58,7 +54,7 @@ let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) =
       m.chat,
       {
         video: { url: download_url },
-        caption: `*» Título* : ${title}\n*» Calidad* : ${quality}`,
+        caption: `*» Título* : ${title}\n*» Calidad* : ${quality}\n*» Tamaño* : ${size}`,
         mimetype: 'video/mp4',
         fileName: `${title}.mp4`,
       },
