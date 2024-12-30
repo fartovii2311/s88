@@ -35,10 +35,10 @@ let handler = async (m, { conn, text, args }) => {
   }
 };
 
-handler.help = ["play *<texto>*"]
+handler.help = ["play3 *<texto>*"]
 handler.tags = ['dl'];
 handler.corazones = 2;
-handler.command = /^(play)$/i;
+handler.command = /^(play3)$/i;
 handler.register = true;
 export default handler;
 
