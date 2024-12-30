@@ -3,9 +3,8 @@ import fetch from 'node-fetch';
 import yts from 'yt-search';
 
 let handler = async (m, { conn, text, args }) => {
-  if (!text) return conn.reply(m.chat '❀ Ingresa un texto de lo que quieres buscar',m,rcanal,fake);
+  if (!text) return conn.reply(m.chat,'❀ Ingresa un texto de lo que quieres buscar',m,rcanal);
   
-
   await m.react('🕓'); 
 
   try {
