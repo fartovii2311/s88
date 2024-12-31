@@ -1,11 +1,5 @@
-import {
-  useMultiFileAuthState,
-  DisconnectReason,
-  fetchLatestBaileysVersion,
-  MessageRetryMap,
-  makeCacheableSignalKeyStore,
-  jidNormalizedUser
-} from '@whiskeysockets/baileys'
+import baileys from '@whiskeysockets/baileys';
+const { useMultiFileAuthState, DisconnectReason, fetchLatestBaileysVersion, MessageRetryMap, makeCacheableSignalKeyStore, jidNormalizedUser } = baileys;
 import moment from 'moment-timezone'
 import NodeCache from 'node-cache'
 import readline from 'readline'
