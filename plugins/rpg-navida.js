@@ -33,7 +33,7 @@ var handler = async (m, { conn, isPrems }) => {
     user.corazones += corazonesReward; 
     user.exp = (user.exp || 0) + expReward;
 
-    conn.reply(m,chat,`🎄 *¡Feliz Navidad! ¡Disfruta de tu regalo navideño!* 🎁
+    conn.reply(m.chat,`🎄 *¡Feliz Navidad! ¡Disfruta de tu regalo navideño!* 🎁
 
 🪙 *Coins*: +${coinReward.toLocaleString()}
 🤍 *Corazones*: +${corazonesReward}
