@@ -1,11 +1,13 @@
-
 const baseCoinReward = 100000; // Aumento en la recompensa base de monedas
+const premXP = 1000; // XP para usuarios premium
+const freeXP = 500; // XP para usuarios no premium
 
-var handler = async (m, { conn }) => {
+var handler = async (m, { conn, isPrems }) => {
     if (!m.isGroup) return m.reply("❌ Este comando solo puede usarse en grupos.");
 
     let user = global.db.data.users[m.sender] || {};
     user.christmas = user.christmas || 0; // Asegurarse de que user.christmas esté definido
+    user.corazones = user.corazones || 0; // Asegurarse de que los corazones estén definidos
 
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear();
@@ -25,24 +27,20 @@ var handler = async (m, { conn }) => {
 
     // Aumento en las recompensas
     let coinReward = pickRandom([20000, 30000, 40000, baseCoinReward]);
-    let yenesReward = pickRandom([5, 10, 15, 20]);
-    let expReward = pickRandom([2000, 3000, 4000, 5000]);
-    let giftReward = pickRandom([2, 3, 4, 5]); // Regalos navideños
+    let corazonesReward = pickRandom([1, 2, 3, 4]); // Corazones
+    let expReward = isPrems ? premXP : freeXP; // XP según el estado del usuario
 
     user.coin = (user.coin || 0) + coinReward;
-    user.dragones = (user.dragones || 0) + yenesReward;
-    user.exp = (user.exp || 0) + expReward;
-    user.gifts = (user.gifts || 0) + giftReward; // Añadir regalos navideños
+    user.corazones += corazonesReward; // Añadir corazones
+    user.exp = (user.exp || 0) + expReward; // Añadir experiencia
 
-    m.reply(`
-\`\`\`🎄 ¡Feliz Navidad! ¡Disfruta de tu regalo navideño! 🎁\`\`\`
+    conn.reply(m,chat,`🎄 *¡Feliz Navidad! ¡Disfruta de tu regalo navideño!* 🎁
 
-🪙 *Corazones* : +${coinReward.toLocaleString()}
-🐉 *dragones* : +${yenesReward}
-✨ *Experiencia* : +${expReward}
-🎁 *Regalos Navideños* : +${giftReward}`);
+🪙 *Coins*: +${coinReward.toLocaleString()}
+🤍 *Corazones*: +${corazonesReward}
+✨ *Experiencia*: +${expReward} (${isPrems ? "Premium" : "Gratis"})`,m,rcanal,fake);
 
-    user.christmas = new Date().getTime(); // Actualizar la fecha de reclamación
+    user.christmas = new Date().getTime();
 }
 
 handler.help = ['navidad', 'christmas'];
