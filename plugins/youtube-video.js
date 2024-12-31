@@ -21,19 +21,26 @@ let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) =
   await m.react('🕓');
 
   try {
+    // Use the correct YouTube video URL
     let api = await fetch(`https://api.giftedtech.my.id/api/download/dlmp4?apikey=gifted&url=${urls[0]}`);
     let json = await api.json();
 
-    let { quality, title, download_url } = json.result;
-
-    let size = parseFloat(json.data.metadata.size.split('MB')[0]);
-
-    if (size >= limit) {
-      return m.reply(`El archivo pesa más de ${limit} MB, se canceló la Descarga.`).then(() => m.react('✖️'));
+    if (!json.success) {
+      return m.reply(`Error al obtener el video. Intenta de nuevo más tarde.`).then(() => m.react('✖️'));
     }
 
-    // Send the video
-    await conn.sendMessage(m.chat, { video: { url: download_url }, fileName: `${json.data.filename}.mp4`, mimetype: "video/mp4" }, { quoted: m });
+    let { quality, title, thumbail, download_url } = json.result;
+
+    let size = 0;
+
+    await conn.sendMessage(m.chat, { 
+      video: { url: download_url }, 
+      fileName: `${title}.mp4`, 
+      mimetype: "video/mp4", 
+      caption: `Título: ${title}\nCalidad: ${quality}`, 
+      thumbnail: thumbail
+    }, { quoted: m });
+
     await m.react('✅');
   } catch (error) {
     console.error(error);
