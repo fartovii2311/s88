@@ -15,25 +15,32 @@ const handler = async (m, { conn }) => {
     // Iterar sobre las carpetas y eliminarlas si existen
     carpetasEliminar.forEach((carpeta) => {
       if (fs.existsSync(carpeta)) {
-        // Leer todo el contenido de la carpeta
-        const archivos = fs.readdirSync(carpeta);
+        try {
+          // Verificar permisos de acceso
+          fs.accessSync(carpeta, fs.constants.R_OK | fs.constants.W_OK);
 
-        // Iterar sobre el contenido
-        archivos.forEach((archivo) => {
-          const archivoPath = path.join(carpeta, archivo);
+          // Leer todo el contenido de la carpeta
+          const archivos = fs.readdirSync(carpeta);
 
-          if (fs.lstatSync(archivoPath).isDirectory()) {
-            // Si es una subcarpeta, eliminarla recursivamente
-            fs.rmSync(archivoPath, { recursive: true, force: true });
-          } else {
-            // Si es un archivo, eliminarlo
-            fs.unlinkSync(archivoPath);
-          }
-        });
+          // Iterar sobre el contenido
+          archivos.forEach((archivo) => {
+            const archivoPath = path.join(carpeta, archivo);
 
-        // Eliminar la carpeta principal después de vaciarla
-        fs.rmdirSync(carpeta);
-        conn.reply(m.chat, `La carpeta '${path.basename(carpeta)}' ha sido eliminada exitosamente.`, m);
+            if (fs.lstatSync(archivoPath).isDirectory()) {
+              // Si es una subcarpeta, eliminarla recursivamente
+              fs.rmSync(archivoPath, { recursive: true, force: true });
+            } else {
+              // Si es un archivo, eliminarlo
+              fs.unlinkSync(archivoPath);
+            }
+          });
+
+          // Eliminar la carpeta principal después de vaciarla
+          fs.rmdirSync(carpeta);
+          conn.reply(m.chat, `La carpeta '${path.basename(carpeta)}' ha sido eliminada exitosamente.`, m);
+        } catch (error) {
+          conn.reply(m.chat, `No se tienen permisos suficientes para eliminar la carpeta '${path.basename(carpeta)}'.`, m);
+        }
       } else {
         conn.reply(m.chat, `La carpeta '${path.basename(carpeta)}' no existe.`, m);
       }
