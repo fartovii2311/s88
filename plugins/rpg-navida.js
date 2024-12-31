@@ -13,10 +13,9 @@ var handler = async (m, { conn, isPrems }) => {
     const currentYear = currentDate.getFullYear();
     const isDecember = currentDate.getMonth() === 11;
 
-    const cooldown = 365 * 24 * 60 * 60 * 1000; // 1 año en milisegundos
+    const cooldown = 365 * 24 * 60 * 60 * 1000;
     let timeRemaining = user.christmas + cooldown - currentDate.getTime();
 
-    // Verificar si el usuario puede reclamar el regalo solo en diciembre
     if (!isDecember) {
         return conn.reply(m.chat,`🎄 ¡Solo puedes reclamar tu regalo navideño en diciembre! Vuelve en diciembre de ${currentYear}.`,m,rcanal);
     }
