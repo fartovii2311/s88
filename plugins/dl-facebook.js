@@ -8,7 +8,6 @@ try {
 let api = await fetch(`https://api.siputzx.my.id/api/d/facebook?url=${text}`)
 let json = await api.json()
 
-await conn.sendFile(m.chat, json.data.thumbnail, 'defoult.jpg', null, m)
 await conn.sendFile(m.chat, json.data.video, 'defoult.mp4', null, m)
 await m.react('✅');
 } catch (error) {
