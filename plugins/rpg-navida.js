@@ -3,7 +3,7 @@ const premXP = 1000;
 const freeXP = 500; 
 
 var handler = async (m, { conn, isPrems }) => {
-    if (!m.isGroup) return m.reply("❌ Este comando solo puede usarse en grupos.");
+    if (!m.isGroup) return conn.reply(m.chat,"❌ Este comando solo puede usarse en grupos.",m,rcanal);
 
     let user = global.db.data.users[m.sender] || {};
     user.christmas = user.christmas || 0; 
