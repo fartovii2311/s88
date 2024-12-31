@@ -37,9 +37,9 @@ let handler = async (m, { conn }) => {
   conn.reply(m.chat,`🤍 *¡Has robado ${corazonesRobados} corazones de ${targetUser.name || `@${usuarioObjetivo.split('@')[0]}`}!* Ahora tienes *${user.corazones} corazones*.`,m,rcanal,{ mentions: [usuarioObjetivo] });
 };
 
-handler.help = ['steal'];
+handler.help = ['robar'];
 handler.tags = ['rpg'];
-handler.command = ['robar'];
+handler.command = ['robar', 'rb';
 handler.register = true;
 
 export default handler;
