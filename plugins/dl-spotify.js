@@ -14,7 +14,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 - Calidad : ${quality}
 - Duracion : ${duration}`;
 
-    await conn.sendFile(m.chat, thumbnail, 'defoult.jpg', HS, m,rcanal);
+    await conn.sendFile(m.chat, thumbnail, 'defoult.jpg', HS, m,rcanal,fake);
     await conn.sendFile(m.chat, dl_url, 'defoult.mp3', null, m);
   } catch (error) {
     console.error(error);
