@@ -42,7 +42,7 @@ var handler = async (m, { conn, isPrems }) => {
     user.christmas = new Date().getTime();
 }
 
-handler.help = ['navidad', 'christmas'];
+handler.help = ['navidad'];
 handler.tags = ['rpg'];
 handler.command = ['navidad', 'christmas'];
 
