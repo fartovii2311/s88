@@ -8,8 +8,7 @@ try {
 let api = await fetch(`https://restapi.apibotwa.biz.id/api/mediafire?url=${text}`)
 let json = await api.json()
 let { filename, type, size, uploaded, ext, mimetype, download:dl_url } = json.data.response
-conn.reply(m.chat,`⇏ 𝙼𝙴𝙳𝙸𝙰𝙵𝙸𝚁𝙴
-\n
+conn.reply(m.chat,`⇏ 𝙼𝙴𝙳𝙸𝙰𝙵𝙸𝚁𝙴\n
 - Titulo:* ${filename}
 - *Tipo :* ${type}
 - *Tamaño :* ${size}
