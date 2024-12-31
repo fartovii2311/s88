@@ -1,3 +1,8 @@
+// Define the pickRandom function
+function pickRandom(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
 let cooldowns = {};
 
 let handler = async (m, { conn }) => {
