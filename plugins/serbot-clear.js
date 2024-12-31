@@ -5,34 +5,42 @@ const handler = async (m, { conn }) => {
   try {
     // Obtener la ruta del directorio actual
     const __dirname = path.dirname(new URL(import.meta.url).pathname);
-    
-    // Ruta de la carpeta 'serbot' (puede ser oculta, como .serbot)
-    const carpetaEliminar = path.join(__dirname, 'serbot');
 
-    if (fs.existsSync(carpetaEliminar)) {
-      // Leer todo el contenido de la carpeta, incluidas las carpetas ocultas
-      const archivos = fs.readdirSync(carpetaEliminar);
+    // Carpetas a eliminar
+    const carpetasEliminar = [
+      path.join(__dirname, 'LynxJadiBots'),
+      path.join(__dirname, 'LynxJadiBot'),
+    ];
 
-      // Iterar sobre el contenido
-      archivos.forEach(archivo => {
-        const archivoPath = path.join(carpetaEliminar, archivo);
-        
-        if (fs.lstatSync(archivoPath).isDirectory()) {
-          // Si es una subcarpeta, eliminarla recursivamente
-          fs.rmSync(archivoPath, { recursive: true, force: true });
-        } else {
-          // Si es un archivo, eliminarlo
-          fs.unlinkSync(archivoPath);
-        }
-      });
+    // Iterar sobre las carpetas y eliminarlas si existen
+    carpetasEliminar.forEach((carpeta) => {
+      if (fs.existsSync(carpeta)) {
+        // Leer todo el contenido de la carpeta
+        const archivos = fs.readdirSync(carpeta);
 
-      conn.reply(m.chat, `El contenido dentro de la carpeta 'serbot' ha sido eliminado exitosamente.`, m);
-    } else {
-      conn.reply(m.chat, `La carpeta 'serbot' no existe.`, m);
-    }
+        // Iterar sobre el contenido
+        archivos.forEach((archivo) => {
+          const archivoPath = path.join(carpeta, archivo);
+
+          if (fs.lstatSync(archivoPath).isDirectory()) {
+            // Si es una subcarpeta, eliminarla recursivamente
+            fs.rmSync(archivoPath, { recursive: true, force: true });
+          } else {
+            // Si es un archivo, eliminarlo
+            fs.unlinkSync(archivoPath);
+          }
+        });
+
+        // Eliminar la carpeta principal después de vaciarla
+        fs.rmdirSync(carpeta);
+        conn.reply(m.chat, `La carpeta '${path.basename(carpeta)}' ha sido eliminada exitosamente.`, m);
+      } else {
+        conn.reply(m.chat, `La carpeta '${path.basename(carpeta)}' no existe.`, m);
+      }
+    });
   } catch (err) {
-    console.error(`Error al eliminar el contenido de la carpeta:`, err);
-    conn.reply(m.chat, `Hubo un error al intentar eliminar el contenido de la carpeta.`, m);
+    console.error(`Error al eliminar carpetas:`, err);
+    conn.reply(m.chat, `Hubo un error al intentar eliminar las carpetas.`, m);
   }
 };
 
