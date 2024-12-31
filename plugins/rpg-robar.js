@@ -1,8 +1,3 @@
-// Define the pickRandom function
-function pickRandom(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
-
 let cooldowns = {};
 
 let handler = async (m, { conn }) => {
@@ -39,7 +34,10 @@ let handler = async (m, { conn }) => {
 
   cooldowns[m.sender] = Date.now();
 
-  conn.reply(m.chat, `🤍 *¡Has robado ${corazonesRobados} corazones de ${targetUser.name || `@${usuarioObjetivo.split('@')[0]}`}!* Ahora tienes *${user.corazones} corazones*.`, m, rcanal, { mentions: [usuarioObjetivo] });
+  // Aquí cambiamos para usar el nombre del usuario que hizo la acción
+  const userName = (await conn.getName(m.sender)) || 'Este usuario';
+  
+  conn.reply(m.chat, `🤍 *¡${userName} ha robado ${corazonesRobados} corazones de ${targetUser.name || `@${usuarioObjetivo.split('@')[0]}`}!* Ahora tienes *${user.corazones} corazones*.`, m, rcanal, { mentions: [usuarioObjetivo] });
 };
 
 handler.help = ['robar'];
