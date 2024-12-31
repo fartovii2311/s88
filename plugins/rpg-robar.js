@@ -32,14 +32,14 @@ let handler = async (m, { conn }) => {
   targetUser.corazones -= corazonesRobados;
   user.corazones += corazonesRobados;
 
-  cooldowns[m.sender] = Date.now(); // Registrar tiempo de uso
+  cooldowns[m.sender] = Date.now();
 
   conn.reply(m.chat,`🤍 *¡Has robado ${corazonesRobados} corazones de ${targetUser.name || `@${usuarioObjetivo.split('@')[0]}`}!* Ahora tienes *${user.corazones} corazones*.`,m,rcanal,{ mentions: [usuarioObjetivo] });
 };
 
 handler.help = ['steal'];
 handler.tags = ['rpg'];
-handler.command = ['steal', 'robar'];
+handler.command = ['robar'];
 handler.register = true;
 
 export default handler;
