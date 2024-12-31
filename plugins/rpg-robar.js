@@ -1,10 +1,9 @@
-
 let cooldowns = {};
 
-let handler = async (m, { conn, isPrems }) => {
-  const tiempoEspera = 2 * 60 * 60;
-  const users = Object.keys(global.db.data.users); 
-  const usuarioObjetivo = pickRandom(users.filter((u) => u !== m.sender)); 
+let handler = async (m, { conn }) => {
+  const tiempoEspera = 2 * 60 * 60; // 2 horas en segundos
+  const users = Object.keys(global.db.data.users); // Obtener todos los usuarios registrados
+  const usuarioObjetivo = pickRandom(users.filter((u) => u !== m.sender)); // Seleccionar un usuario al azar que no sea el que ejecuta el comando
 
   if (cooldowns[m.sender] && Date.now() - cooldowns[m.sender] < tiempoEspera * 1000) {
     const tiempoRestante = segundosAHMS(Math.ceil((cooldowns[m.sender] + tiempoEspera * 1000 - Date.now()) / 1000));
@@ -19,10 +18,10 @@ let handler = async (m, { conn, isPrems }) => {
   user.corazones = user.corazones || 0;
   targetUser.corazones = targetUser.corazones || 0;
 
-  const corazonesRobados = Math.floor(Math.random() * 5) + 1;
+  const corazonesRobados = Math.floor(Math.random() * 5) + 1; // Entre 1 y 5 corazones robados
 
   if (targetUser.corazones < corazonesRobados) {
-    conn.reply(m.chat, `🤍 ${pickRandom(failMessages)} *${targetUser.name || usuarioObjetivo}* no tiene suficientes corazones para robar.`, m,rcanal);
+    conn.reply(m.chat, `🤍 ${pickRandom(failMessages)} *${targetUser.name || usuarioObjetivo}* no tiene suficientes corazones para robar.`, m);
     return;
   }
 
@@ -35,7 +34,7 @@ let handler = async (m, { conn, isPrems }) => {
   conn.reply(
     m.chat,
     `🤍 *¡Has robado ${corazonesRobados} corazones de ${targetUser.name || `@${usuarioObjetivo.split('@')[0]}`}!* Ahora tienes *${user.corazones} corazones*.`,
-    m,rcanal
+    m,
     { mentions: [usuarioObjetivo] }
   );
 };
