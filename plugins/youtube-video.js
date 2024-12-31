@@ -4,12 +4,12 @@ const limit = 300;
 
 let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) => {
   if (!m.quoted) {
-    return conn.reply(m.chat, `[ ✰ ] Etiqueta el mensaje que contenga el resultado de YouTube Play.`, m)
+    return conn.reply(m.chat, `[ ✰ ] Etiqueta el mensaje que contenga el resultado de YouTube Play.`, m,rcanal)
       .then(() => m.react('✖️'));
   }
 
   if (!m.quoted.text.includes("乂  Y O U T U B E  -  P L A Y")) {
-    return conn.reply(m.chat, `[ ✰ ] Etiqueta el mensaje que contenga el resultado de YouTube Play.`, m)
+    return conn.reply(m.chat, `[ ✰ ] Etiqueta el mensaje que contenga el resultado de YouTube Play.`, m,rcanal)
       .then(() => m.react('✖️'));
   }
 
