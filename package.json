@@ -36,7 +36,6 @@
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "@whiskeysockets/baileys": "^6.7.9",
-    "@StarlightsTeam/Scraper": "github:StarlightsTeam/StarlightsTeam-Scraper",
     "@adiwajshing/keyed-db": "^0.2.4",
     "@ibaraki-douji/pixivts": "^2.4.1",
     "@bochilteam/scraper": "^4.2.4",
