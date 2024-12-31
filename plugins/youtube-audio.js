@@ -25,7 +25,7 @@ let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) =
 
     let audioBuffer = await fetch(download_url).then(res => res.buffer());
 
-    await conn.sendFile(m.chat, audioBuffer, `${title}.mp3`, null, m, false, { mimetype: 'audio/mpeg' });
+    await conn.sendFile(m.chat, audioBuffer, `${title}.mp3`, null, m,rcanal,fake, false, { mimetype: 'audio/mpeg' });
 
     await m.react('✅');
   } catch (err) {
