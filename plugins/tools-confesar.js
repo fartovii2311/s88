@@ -26,7 +26,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
             contextInfo: {
                 mentionedJid: [data.jid],
                 externalAdReply: {
-                    title: 'C O N F E S A R - G E N E S I S',
+                    title: 'C O N F E S A R - D A R K - AI',
                     body: '¡responder! .respuesta (id) (Mensaje)',
                     mediaType: 1,
                     renderLargerThumbnail: true,
