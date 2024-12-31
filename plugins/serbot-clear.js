@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
 const handler = async (m, { conn, args }) => {
   if (args[0]) {
@@ -22,8 +22,8 @@ const handler = async (m, { conn, args }) => {
   }
 };
 
-handler.help = ['serbotdel'];
+handler.help = ['borrarfolder'];
 handler.tags = ['serbot'];
-handler.command = ['serbotdel'];
+handler.command = ['borrarfolder'];
 
 export default handler;
