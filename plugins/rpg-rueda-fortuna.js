@@ -51,6 +51,7 @@ let handler = async (m, { conn, text, command }) => {
 }
 
 handler.command = ['rueda', 'wheel']
+handler.tags = ['rpg'];
 handler.help = ['rueda']
 handler.register = true
 
