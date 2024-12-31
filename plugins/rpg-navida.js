@@ -18,11 +18,11 @@ var handler = async (m, { conn, isPrems }) => {
 
     // Verificar si el usuario puede reclamar el regalo solo en diciembre
     if (!isDecember) {
-        return conn.reply(m,chat,`🎄 ¡Solo puedes reclamar tu regalo navideño en diciembre! Vuelve en diciembre de ${currentYear}.`,m,rcanal);
+        return conn.reply(m.chat,`🎄 ¡Solo puedes reclamar tu regalo navideño en diciembre! Vuelve en diciembre de ${currentYear}.`,m,rcanal);
     }
 
     if (timeRemaining > 0) {
-        return conn.reply(m,chat,`⏱️ ¡Ya reclamaste tu regalo navideño este año! Vuelve en:\n *${msToTime(timeRemaining)}*`,m,rcanal);
+        return conn.reply(m.chat,`⏱️ ¡Ya reclamaste tu regalo navideño este año! Vuelve en:\n *${msToTime(timeRemaining)}*`,m,rcanal);
     }
 
     // Aumento en las recompensas
