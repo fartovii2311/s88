@@ -3,6 +3,9 @@ import path from 'path';
 
 const handler = async (m, { conn }) => {
   try {
+    // Obtener la ruta del directorio actual
+    const __dirname = path.dirname(new URL(import.meta.url).pathname);
+    
     const carpetaEliminar = path.join(__dirname, 'serbot');
 
     if (fs.existsSync(carpetaEliminar)) {
