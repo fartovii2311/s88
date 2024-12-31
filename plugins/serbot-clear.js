@@ -6,13 +6,17 @@ const handler = async (m, { conn }) => {
     // Obtener la ruta del directorio actual
     const __dirname = path.dirname(new URL(import.meta.url).pathname);
     
+    // Ruta de la carpeta 'serbot' (puede ser oculta, como .serbot)
     const carpetaEliminar = path.join(__dirname, 'serbot');
 
     if (fs.existsSync(carpetaEliminar)) {
-      // Obtener los archivos y subcarpetas dentro de 'serbot'
+      // Leer todo el contenido de la carpeta, incluidas las carpetas ocultas
       const archivos = fs.readdirSync(carpetaEliminar);
+
+      // Iterar sobre el contenido
       archivos.forEach(archivo => {
         const archivoPath = path.join(carpetaEliminar, archivo);
+        
         if (fs.lstatSync(archivoPath).isDirectory()) {
           // Si es una subcarpeta, eliminarla recursivamente
           fs.rmSync(archivoPath, { recursive: true, force: true });
