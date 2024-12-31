@@ -2,7 +2,7 @@
 import fetch from 'node-fetch';
 
 let handler = async (m, { conn, text }) => {
-if (!text) return conn.reply(m.chat, `❀ Ingresa un link de mediafire`, m)
+if (!text) return conn.reply(m.chat, `❀ Ingresa un link de mediafire`, m,rcanal)
 
 try {
 let api = await fetch(`https://restapi.apibotwa.biz.id/api/mediafire?url=${text}`)
