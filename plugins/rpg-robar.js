@@ -42,7 +42,7 @@ let handler = async (m, { conn }) => {
 
 handler.help = ['robar'];
 handler.tags = ['rpg'];
-handler.command = ['robar', 'rb'];
+handler.command = ['robar', 'rb', 'rob',];
 handler.register = true;
 
 export default handler;
