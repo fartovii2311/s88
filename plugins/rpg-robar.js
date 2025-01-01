@@ -2,8 +2,8 @@ let cooldowns = {};
 
 let handler = async (m, { conn }) => {
   const tiempoEspera = 2 * 60 * 60;
-  const users = Object.keys(global.db.data.users);
-  const usuarioObjetivo = pickRandom(users.filter((u) => u !== m.sender)); 
+  let participants = await conn.groupMetadata(m.chat).then((res) => res.participants);
+  const usuarioObjetivo = pickRandom(participants).id; 
 
   if (!usuarioObjetivo) {
     conn.reply(m.chat, `⚠️ No hay suficientes usuarios registrados para robar corazones.`, m, rcanal);
@@ -53,6 +53,7 @@ function segundosAHMS(segundos) {
   let segundosRestantes = segundos % 60;
   return `${horas.toString().padStart(2, '0')}:${minutos.toString().padStart(2, '0')}:${segundosRestantes.toString().padStart(2, '0')}`;
 }
+
 function pickRandom(array) {
   return array[Math.floor(Math.random() * array.length)];
 }
