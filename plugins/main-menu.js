@@ -39,7 +39,7 @@ const defaultMenu = {
   header: '╭─(❀)❝┊ *_`%category`_* ┊❝(❀)',
   body: '┊❄️⃟🎄┊ %cmd\n',
   footer: '╰───────────── –\n',
-  after: `> DARK CORE VIP SUPREMO`,
+  after: `\n> DARK CORE VIP SUPREMO`,
   }
 let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
 
