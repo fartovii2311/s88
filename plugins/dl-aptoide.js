@@ -15,7 +15,7 @@ let handler = async (m, { conn, text }) => {
     let txt = `- Nombre: ${appname}
 - Creador: ${developer}`;
 
-    await conn.sendFile(m.chat, appicon, 'HasumiBotFreeCodes.jpg', txt, m);
+    await conn.sendFile(m.chat, appicon, 'HasumiBotFreeCodes.jpg', txt, m,rcanal,fake);
     await conn.sendMessage(m.chat, { 
       document: { url: download_url }, 
       mimetype: mimetype, 
