@@ -1,23 +1,33 @@
 import fetch from 'node-fetch';
 
-const limit = 300;
+const limit = 300 * 1024 * 1024;
 
 let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) => {
   if (!m.quoted) {
-    return conn.reply(m.chat, `[ ✰ ] Etiqueta el mensaje que contenga el resultado de YouTube Play.`, m,rcanal)
-      .then(() => m.react('✖️'));
+    return conn.reply(
+      m.chat, 
+      `[ ✰ ] Etiqueta el mensaje que contenga el resultado de YouTube Play.`, 
+      m
+    ).then(() => m.react('✖️'));
   }
 
   if (!m.quoted.text.includes("乂  Y O U T U B E  -  P L A Y")) {
-    return conn.reply(m.chat, `[ ✰ ] Etiqueta el mensaje que contenga el resultado de YouTube Play.`, m,rcanal)
-      .then(() => m.react('✖️'));
+    return conn.reply(
+      m.chat, 
+      `[ ✰ ] Etiqueta el mensaje que contenga el resultado de YouTube Play.`, 
+      m
+    ).then(() => m.react('✖️'));
   }
 
   let urls = m.quoted.text.match(/(?:https?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed|shorts)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9\_-]+)/gi);
-  if (!urls) return conn.reply(m.chat, `Resultado no Encontrado.`, m).then(() => m.react('✖️'));
-  if (urls.length < text) return conn.reply(m.chat, `Resultado no Encontrado.`, m).then(() => m.react('✖️'));
+  if (!urls) {
+    return conn.reply(m.chat, `Resultado no Encontrado.`, m).then(() => m.react('✖️'));
+  }
 
-  let user = global.db.data.users[m.sender];
+  if (urls.length < text) {
+    return conn.reply(m.chat, `Resultado no Encontrado.`, m).then(() => m.react('✖️'));
+  }
+
   await m.react('🕓');
 
   try {
@@ -25,21 +35,35 @@ let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) =
     let json = await api.json();
 
     if (!json.success) {
-      return m.reply(`Error al obtener el video. Intenta de nuevo más tarde.`).then(() => m.react('✖️'));
+      return conn.reply(
+        m.chat, 
+        `Error al obtener el video. Intenta de nuevo más tarde.`, 
+        m
+      ).then(() => m.react('✖️'));
     }
 
     let { quality, title, download_url } = json.result;
 
-    let size = 0;
+    // Obtener el tamaño del archivo
+    let response = await fetch(download_url);
+    let size = Number(response.headers.get('content-length')) || 0;
 
-    await conn.sendMessage(m.chat,{
-    video: { url: download_url },
-    fileName: `${title}.mp4`,
-    mimetype: "video/mp4",
-    caption: `*Título:* ${title}\n*Calidad:* ${quality}`,
-  },
-  { quoted: m } // Mensaje citado como referencia
-);
+    // Determinar cómo enviar el archivo
+    if (size > limit) {
+      await conn.sendMessage(m.chat, {
+        document: { url: download_url },
+        fileName: `${title}.mp4`,
+        mimetype: "video/mp4",
+        caption: `*Título:* ${title}\n*Calidad:* ${quality}\n*Nota:* El archivo es grande, enviado como documento.`,
+      }, { quoted: m });
+    } else {
+      await conn.sendMessage(m.chat, {
+        video: { url: download_url },
+        fileName: `${title}.mp4`,
+        mimetype: "video/mp4",
+        caption: `*Título:* ${title}\n*Calidad:* ${quality}`,
+      }, { quoted: m });
+    }
 
     await m.react('✅');
   } catch (error) {
