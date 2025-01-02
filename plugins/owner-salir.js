@@ -4,16 +4,7 @@ let handler = async (m, { conn, text, command }) => {
   let pp = 'https://telegra.ph/file/5ab1ca8bf65c1ddb36c20.mp4';
 
   try {
-    await conn.sendMessage(
-      m.chat,
-      {
-        video: { url: pp },
-        gifPlayback: true,
-        caption: '*Adiós a todos, el Bot se despide! (≧ω≦)ゞ*',
-        mentions: [m.sender],
-      },
-      { quoted: m }
-    );
+    await conn.sendMessage(m.chat,{ video: { url: pp }, gifPlayback: true, caption: '*Adiós a todos, el Bot se despide! (≧ω≦)ゞ*', mentions: [m.sender],},{ quoted: m });
 
     await conn.groupLeave(id);
   } catch (error) {
