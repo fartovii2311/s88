@@ -67,10 +67,7 @@ let handler = async (m, { conn, usedPrefix }) => {
    let timestamp = speed()
    let latensi = speed() - timestamp
    let txt = '`*⭒─ׄ─ׅ─ׄ─⭒ Info Bot ⭒─ׄ─ׅ─ׄ─⭒*`\n\n'
-       txt += `╭── ︿︿︿︿︿ *⭒   ⭒   ⭒   ⭒   ⭒   ⭒*\n`
-       txt += `┊ ‹‹ *Status De* :: * *\n`
-       txt += `┊•*⁀➷ °⭒⭒⭒ *【 ✯  ✰ 】*\n`
-       txt += `╰─── ︶︶︶︶ ✰⃕  ⌇ *⭒ ⭒ ⭒*   ˚̩̥̩̥*̩̩͙✩\n`
+       txt += `╭───────────`
        txt += `┊🪴 [ *Moneda* :: *Corazones 🤍*\n`
        txt += `┊🍟 [ *Prefijo* :: *【  ${usedPrefix}  】*\n`
        txt += `┊✨ [ *Plugins* :: *${totalf}*\n`
