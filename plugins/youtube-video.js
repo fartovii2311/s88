@@ -29,11 +29,11 @@ let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) =
       return m.reply(`Error al obtener el video. Intenta de nuevo más tarde.`).then(() => m.react('✖️'));
     }
 
-    let { quality, title, thumbail, download_url } = json.result;
+    let { quality, title, download_url } = json.result;
 
     let size = 0;
 
-   await conn.sendFile(m.chat, { video: { url: download_url } }, `${title}.mp4`, "video/mp4",`Título: ${title}\nCalidad: ${quality}`,thumbnail,m,rcanal,fake);
+   await conn.sendFile(m.chat, { video: { url: download_url } }, `${title}.mp4`, "video/mp4",`Título: ${title}\nCalidad: ${quality}`,m,rcanal,fake);
 
     await m.react('✅');
   } catch (error) {
