@@ -2,10 +2,10 @@ import fetch from 'node-fetch';
 
 let handler = async (m, { conn, args, usedPrefix, command }) => {
   if (!args || args.length === 0) {
-    return conn.reply(m.chat, `[ ✰ ] Por favor, ingresa un término de búsqueda.`, m);
+    return conn.reply(m.chat, `[ ✰ ] Por favor, ingresa un término de búsqueda.`, m,rcanal);
   }
 
-  let query = args.join(' '); // Obtener la consulta de búsqueda
+  let query = args.join(' ');
   let apiUrl = `https://darkcore-api.onrender.com/api/xnxn?url=${encodeURIComponent(query)}`;
 
   try {
@@ -14,21 +14,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
     if (data.success && data.result.estado === 200) {
       let { titulo, descripcion, duracion, imagen, urlVideo, vistas } = data.result.datos;
-
-      // Crear el mensaje con los detalles del video
-      let resultMessage = `
-*Titulo:* ${titulo}
-*Descripción:* ${descripcion}
-*Duración:* ${duracion}
-*Vistas:* ${vistas}
-
-*Imagen:* 
-${imagen}
-`;
-
-      // Enviar el texto primero
-      await conn.reply(m.chat, resultMessage, m,rcanal,fake);
-
+      
       // Luego enviar el video con caption debajo
       await conn.sendMessage(m.chat, {
         video: { url: urlVideo },
@@ -38,16 +24,16 @@ ${imagen}
       }, { quoted: m });
 
     } else {
-      return conn.reply(m.chat, `No se encontraron resultados o hubo un problema con la búsqueda.`, m);
+      return conn.reply(m.chat, `No se encontraron resultados o hubo un problema con la búsqueda.`, m,rcanal);
     }
   } catch (error) {
     console.error(error);
-    return conn.reply(m.chat, `Hubo un error al procesar tu solicitud. Intenta de nuevo más tarde.`, m);
+    return conn.reply(m.chat, `Hubo un error al procesar tu solicitud. Intenta de nuevo más tarde.`, m,rcanal);
   }
 };
 
 handler.help = ['xnxx'].map(v => v + ' <url>');
-handler.tags = ['search'];
+handler.tags = ['dl'];
 handler.command = ['xnxx', 'xnxn'];
 handler.register = true;
 
