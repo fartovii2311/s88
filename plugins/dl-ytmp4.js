@@ -20,7 +20,7 @@ let handler  = async (m, { conn, text }) => {
    await m.react('✅'); 
   } catch (error) {
     console.error(error);
-    conn.reply(m.chat, '🚩 Ocurrió un error al procesar la solicitud. Intenta nuevamente más tarde.', m,rcanal);
+    await m.react('❌');
   }
 }
 
