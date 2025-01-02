@@ -6,7 +6,7 @@ let handler = async (m, { conn, text }) => {
     return conn.reply(m.chat, '❀ Ingresa el nombre de la app que quieres buscar', m,rcanal);
   }
 
-  await m.react('🕓');  // Reacción de carga
+  await m.react('🕓');
 
   try {
     let api = await fetch(`https://api.giftedtech.my.id/api/download/apkdl?apikey=gifted&appName=${text}`);
@@ -23,11 +23,10 @@ let handler = async (m, { conn, text }) => {
       caption: null 
     }, { quoted: m });
 
-    await m.react('✅');  // Reacción de éxito
+    await m.react('✅'); 
   } catch (error) {
     console.error('Error al obtener el APK:', error);
-    m.reply('❀ Ocurrió un error al intentar obtener el APK. Intenta nuevamente.');
-    await m.react('❌');  // Reacción de error
+    await m.react('❌');
   }
 };
 
