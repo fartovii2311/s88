@@ -21,7 +21,6 @@ let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) =
   await m.react('🕓');
 
   try {
-    // Use the correct YouTube video URL
     let api = await fetch(`https://api.giftedtech.my.id/api/download/dlmp4?apikey=gifted&url=${urls[0]}`);
     let json = await api.json();
 
@@ -33,7 +32,14 @@ let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) =
 
     let size = 0;
 
-   await conn.sendFile(m.chat, { video: { url: download_url } }, `${title}.mp4`, "video/mp4",`Título: ${title}\nCalidad: ${quality}`,m,rcanal,fake);
+    await conn.sendMessage(m.chat,{
+    video: { url: download_url },
+    fileName: `${title}.mp4`,
+    mimetype: "video/mp4",
+    caption: `*Título:* ${title}\n*Calidad:* ${quality}`,
+  },
+  { quoted: m } // Mensaje citado como referencia
+);
 
     await m.react('✅');
   } catch (error) {
