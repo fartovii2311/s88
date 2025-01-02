@@ -13,8 +13,8 @@ let handler = async (m, { conn, text }) => {
     let json = await api.json();
     let { appname, appicon, developer, download_url, mimetype } = json.result;
     let txt = `- Nombre: ${appname}
-- Creador: ${developer}`;
-
+- Creador: ${developer}`\n> Porfavor un momento se este enviando su pedido..;
+    
     await conn.sendFile(m.chat, appicon, 'HasumiBotFreeCodes.jpg', txt, m,rcanal,fake);
     await conn.sendMessage(m.chat, { 
       document: { url: download_url }, 
