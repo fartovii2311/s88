@@ -13,8 +13,8 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     let data = await response.json();
 
     if (data.success && data.result.estado === 200) {
-      let { titulo, descripcion, duracion, imagen, urlVideo, vistas } = data.result.datos;
-      
+      let { titulo, descripcion, duracion, urlVideo, vistas } = data.result.datos;
+
       // Luego enviar el video con caption debajo
       await conn.sendMessage(m.chat, {
         video: { url: urlVideo },
@@ -23,18 +23,19 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
         fileName: `${titulo}.mp4`
       }, { quoted: m });
 
+      await m.react('✅')
+      
     } else {
       return conn.reply(m.chat, `No se encontraron resultados o hubo un problema con la búsqueda.`, m,rcanal);
     }
   } catch (error) {
     console.error(error);
-    return conn.reply(m.chat, `Hubo un error al procesar tu solicitud. Intenta de nuevo más tarde.`, m,rcanal);
   }
 };
 
 handler.help = ['xnxx'].map(v => v + ' <url>');
 handler.tags = ['dl'];
-handler.command = ['xnxx', 'xnxn'];
+handler.command = ['xnxx', 'xn'];
 handler.register = true;
 
 export default handler;
