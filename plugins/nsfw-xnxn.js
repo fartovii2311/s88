@@ -1,6 +1,8 @@
 import fetch from 'node-fetch';
 
 let handler = async (m, { conn, args, usedPrefix, command }) => {
+  if (!global.db.data.chats[m.chat].nsfw) return conn.reply(m.chat, `🚩 El grupo no admite contenido *Nsfw.*\n\n> Para activarlo un *Administrador* debe usar el comando */nsfw on*`, m, rcanal)
+  
   if (!args || args.length === 0) {
     return conn.reply(m.chat, `[ ✰ ] Por favor, ingresa un término de búsqueda.`, m,rcanal);
   }
