@@ -4,6 +4,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
   if (!global.db.data.chats[m.chat].nsfw) return conn.reply(m.chat, `🚩 El grupo no admite contenido *Nsfw.*\n\n> Para activarlo un *Administrador* debe usar el comando */nsfw on*`, m, rcanal)
   
   let query = args.join(' ');
+  await m.react('🕓')
   let apiUrl = `https://darkcore-api.onrender.com/api/xnxn?url=${encodeURIComponent(query)}`;
 
   try {
