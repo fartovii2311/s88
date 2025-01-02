@@ -33,13 +33,7 @@ let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) =
 
     let size = 0;
 
-    await conn.sendMessage(m.chat, { 
-      video: { url: download_url }, 
-      fileName: `${title}.mp4`, 
-      mimetype: "video/mp4", 
-      caption: `Título: ${title}\nCalidad: ${quality}`, 
-      thumbnail: thumbail
-    }, { quoted: m });
+   await conn.sendFile(m.chat, { video: { url: download_url } }, `${title}.mp4`, "video/mp4",`Título: ${title}\nCalidad: ${quality}`,thumbnail,m,rcanal,fake);
 
     await m.react('✅');
   } catch (error) {
