@@ -17,6 +17,7 @@ let handler  = async (m, { conn, text }) => {
       mimetype: 'video/mp4' 
     }, { quoted: m });
 
+   await m.react('✅'); 
   } catch (error) {
     console.error(error);
     conn.reply(m.chat, '🚩 Ocurrió un error al procesar la solicitud. Intenta nuevamente más tarde.', m,rcanal);
