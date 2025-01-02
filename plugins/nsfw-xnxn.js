@@ -48,7 +48,7 @@ ${imagen}
 
 handler.help = ['xnxx'].map(v => v + ' <url>');
 handler.tags = ['search'];
-handler.command = ['xnxxsearch', 'xnxxs'];
+handler.command = ['xnxx', 'xnxn'];
 handler.register = true;
 
 export default handler;
