@@ -3,7 +3,9 @@ import fetch from 'node-fetch';
 
 let handler  = async (m, { conn, text }) => {
   if (!text) return conn.reply(m.chat, '❀ Ingresa un link de youtube', m,rcanal);
-
+  
+  await m.react('🕓');
+  
   try {
     let api = await fetch(`https://restapi.apibotwa.biz.id/api/ytmp4?url=${text}`);
     let json = await api.json();
