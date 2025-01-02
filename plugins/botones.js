@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 import yts from 'yt-search';
 
 let handler = async (m, { conn, args }) => {
-  if (!args[0]) return conn.reply(m.chat, '*\Ingresa el nombre de lo que quieres buscar\*', m,rcanal);
+  if (!args[0]) return conn.reply(m.chat, '*\Ingresa el nombre de lo que quieres buscar\*', m,ranal);
 
   await m.react('🕓');
   try {
@@ -17,27 +17,32 @@ let handler = async (m, { conn, args }) => {
     txt += `• *\Canal:\* ${video.author.name || 'Desconocido'}\n`;
     txt += `• *\Url:\* https://youtu.be/${video.videoId}\n\n`;
 
-    await conn.sendMessage(m.chat, {
-      image: img,
-      caption: txt,
-      footer: 'darcore',
-      buttons: [
+    await conn.sendMessage(
+        m.chat,
         {
-          buttonId: `.ytmp3 https://youtu.be/${video.videoId}`,
-          buttonText: {
-            displayText: 'Audio🎧',
-          },
+          image: img,
+          caption: txt,
+          footer: 'Darcore',
+          buttons: [
+            {
+              buttonId: `.ytmp3 https://youtu.be/${video.videoId}`,
+              buttonText: {
+                displayText: 'Audio 🎧',
+              },
+            },
+            {
+              buttonId: `.ytmp4 https://youtu.be/${video.videoId}`,
+              buttonText: {
+                displayText: 'Video 📽',
+              },
+            },
+          ],
+          viewOnce: false,
+          headerType: 4, 
         },
-        {
-          buttonId: `.ytmp4 https://youtu.be/${video.videoId}`,
-          buttonText: {
-            displayText: 'Video📽',
-          },
-        },
-      ],
-      viewOnce: false,
-      headerType: 4,
-    }, { quoted: m });
+        { quoted: m }
+      );
+      
 
     await m.react('✅');
   } catch (e) {
