@@ -35,7 +35,7 @@ let handler = async (m, { conn, args }) => {
           },
         },
       ],
-      viewOnce: true,
+      viewOnce: false,
       headerType: 4,
     }, { quoted: m });
 
