@@ -2,7 +2,7 @@
 import fetch from 'node-fetch';
 
 let handler  = async (m, { conn, text }) => {
-  if (!text) return conn.reply(m.chat, '❀ Ingresa un link de youtube', m);
+  if (!text) return conn.reply(m.chat, '❀ Ingresa un link de youtube', m,rcanal);
 
   try {
     let api = await fetch(`https://restapi.apibotwa.biz.id/api/ytmp4?url=${text}`);
@@ -17,7 +17,7 @@ let handler  = async (m, { conn, text }) => {
 
   } catch (error) {
     console.error(error);
-    conn.reply(m.chat, '🚩 Ocurrió un error al procesar la solicitud. Intenta nuevamente más tarde.', m);
+    conn.reply(m.chat, '🚩 Ocurrió un error al procesar la solicitud. Intenta nuevamente más tarde.', m,rcanal);
   }
 }
 
