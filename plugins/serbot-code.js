@@ -31,7 +31,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
 
   let authFolderB = m.sender.split('@')[0]
     if (!fs.existsSync("./LynxJadiBot/"+ authFolderB)){
-        fs.mkdirSync("./LynxJadiBots/"+ authFolderB, { recursive: true });
+        fs.mkdirSync("./LynxJadiBot/"+ authFolderB, { recursive: true, force: true });
     }
     args[0] ? fs.writeFileSync("./LynxJadiBot/" + authFolderB + "/creds.json", JSON.stringify(JSON.parse(Buffer.from(args[0], "base64").toString("utf-8")), null, '\t')) : ""
 
