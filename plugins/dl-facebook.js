@@ -17,7 +17,6 @@ let handler = async (m, { conn, text, rcanal }) => {
 };
 
 handler.help = ['fb *<link>*'];
-handler.corazones = 2;
 handler.tags = ['dl'];
 handler.command = /^(fb|facebook|fbdl)$/i;
 handler.register = true;
