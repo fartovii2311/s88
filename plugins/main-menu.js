@@ -36,8 +36,8 @@ const defaultMenu = {
 ▬▭▬▭▬▭▬▭▬▭▬▭▬▭▬
  %readmore
   `.trimStart(),
-  header: '╭─(❀)❝┊ *_`%category`_* ┊❝(❀)',
-  body: '┊❄️⃟🤖┊ %cmd\n',
+  header: '╭─(◑)❝┊ *_`%category`_* ┊❝(◑)',
+    body: '│【】┆%cmd\n',
   footer: '╰───────────── –\n',
   }
 let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
