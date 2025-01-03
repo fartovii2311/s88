@@ -37,7 +37,7 @@ const defaultMenu = {
  %readmore
   `.trimStart(),
   header: '╭─(◑)❝┊ *_`%category`_* ┊❝(◑)',
-    body: '│【】┆%cmd\n',
+    body: '│❐┆%cmd\n',
   footer: '╰───────────── –\n',
   }
 let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
@@ -48,7 +48,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
     'search': '𝙱𝚞𝚜𝚚𝚞𝚎𝚍𝚊',
     'dl': '𝙳𝚎𝚜𝚌𝚊𝚐𝚊𝚜',
     'start': '𝚂𝚝𝚊𝚛𝚝',
-    'sticker': 'ꜱᴛɪᴄᴋᴇʀ',
+    'sticker': '𝚂𝚝𝚒𝚌𝚔𝚎𝚛',
     'ai': '𝙵𝚞𝚗𝚌𝚒𝚘𝚗𝚎𝚜 𝙰𝙸',
     'tools': '𝙷𝚎𝚛𝚛𝚊𝚖𝚒𝚎𝚗𝚝𝚊𝚜',
     'group': '𝙶𝚛𝚞𝚙𝚘𝚜',
