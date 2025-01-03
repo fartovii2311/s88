@@ -18,7 +18,7 @@ let handler = async (m, { conn, text, rcanal }) => {
 
 handler.help = ['fb *<link>*'];
 handler.tags = ['dl'];
-handler.command = /^(fb|facebook|fbdl)$/i;
+handler.command = /^(fb|facebook|Facebook|fbdl)$/i;
 handler.register = true;
 
 export default handler;
