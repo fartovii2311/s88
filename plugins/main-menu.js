@@ -38,7 +38,7 @@ const defaultMenu = {
   `.trimStart(),
   header: '╭────┊*_`%category`_* ┊',
     body: '│❐┆ %cmd\n',
-  footer: '╰─────────────\n',
+  footer: '╰───────────\n',
   after: `> [ ✰ ] Powered By Dark Team`,
   }
 let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
@@ -52,10 +52,9 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
     'dl': 'ᴅᴇꜱᴄᴀʀɢᴀꜱ',
     'ai': 'ꜰᴜɴᴄɪᴏɴᴇꜱ ᴀɪ',
     'tools': 'ʜᴇʀʀᴀᴍɪᴇɴᴛᴀꜱ',
-    'anime': 'ᴀɴɪᴍᴇ',
     'group': 'ɢʀᴜᴘᴏꜱ',
     'owner': 'ᴏᴡɴᴇʀ',
-    'audio': '`Covertidores`',
+    'audio': 'Covertidores',
   }
 
   try {
