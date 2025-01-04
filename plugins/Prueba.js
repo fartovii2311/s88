@@ -1,12 +1,14 @@
 import fetch from 'node-fetch';
 import yts from 'yt-search';
 
-let handler = async (m, { conn: star, args, usedPrefix, command }) => {
+let handler = async (m, { conn, args, usedPrefix, command }) => {
   if (!args.length) {
-    return star.reply(
+    return conn.sendMessage(
       m.chat,
-      `[ ✰ ] Ingresa el título de un video o canción de *YouTube*.\n\nEjemplo:\n> *${usedPrefix + command}* Mc Davo - Debes De Saber`,
-      m
+      {
+        text: `[ ✰ ] Ingresa el título de un video o canción de *YouTube*.\n\nEjemplo:\n> *${usedPrefix + command}* Mc Davo - Debes De Saber`,
+      },
+      { quoted: m }
     );
   }
 
@@ -22,27 +24,24 @@ let handler = async (m, { conn: star, args, usedPrefix, command }) => {
     let video = searchResults.videos[0]; // Primer resultado
     let thumbnail = await (await fetch(video.thumbnail)).buffer();
 
-    // Validar duración
-    let duration = video.duration && video.duration.seconds ? secondString(video.duration.seconds) : 'Desconocido';
-
-    // Crear texto descriptivo del video
-    let txt = `乂  Y O U T U B E  -  P L A Y\n\n`;
-    txt += `\t\t*» Título* : ${video.title}\n`;
-    txt += `\t\t*» Duración* : ${duration}\n`;
-    txt += `\t\t*» Publicado* : ${video.ago}\n`;
-    txt += `\t\t*» Canal* : ${video.author.name}\n`;
-    txt += `\t\t*» ID* : ${video.videoId}\n`;
-    txt += `\t\t*» Url* : ${video.url}\n\n`;
+    // Crear descripción del video
+    let description = `🎥 *YouTube Play*\n\n` +
+                      `📌 *Título:* ${video.title}\n` +
+                      `🕒 *Duración:* ${video.timestamp || 'Desconocido'}\n` +
+                      `🗓️ *Publicado:* ${video.ago}\n` +
+                      `📺 *Canal:* ${video.author.name}\n` +
+                      `🔗 *URL:* ${video.url}`;
 
     // Enviar mensaje interactivo con botones
-    await conn.sendMessage(m.chat,
+    await conn.sendMessage(
+      m.chat,
       {
         image: { buffer: thumbnail },
-        caption: txt,
+        caption: description,
         footer: 'Bot YouTube',
         buttons: [
-          { buttonId: `VIDEO`, buttonText: { displayText: 'Descargar Video' } },
-          { buttonId: `AUDIO`, buttonText: { displayText: 'Descargar Audio' } },
+          { buttonId: `${usedPrefix}ytmp4 ${video.url}`, buttonText: { displayText: 'Descargar Video 🎥' } },
+          { buttonId: `${usedPrefix}ytmp3 ${video.url}`, buttonText: { displayText: 'Descargar Audio 🎵' } },
         ],
         headerType: 4,
       },
@@ -53,20 +52,17 @@ let handler = async (m, { conn: star, args, usedPrefix, command }) => {
   } catch (error) {
     console.error(error);
     await m.react('❌');
-    star.reply(m.chat, `Error: ${error.message}`, m);
+    conn.sendMessage(
+      m.chat,
+      { text: `⚠️ Error: ${error.message}` },
+      { quoted: m }
+    );
   }
 };
 
-handler.help = ['play0 *<búsqueda>*'];
+handler.help = ['play *<búsqueda>*'];
 handler.tags = ['downloader'];
-handler.command = ['prueba'];
+handler.command = ['play'];
 handler.register = true;
-export default handler;
 
-// Formato de segundos a hh:mm:ss
-function secondString(seconds) {
-  let h = Math.floor(seconds / 3600) || 0;
-  let m = Math.floor((seconds % 3600) / 60) || 0;
-  let s = seconds % 60 || 0;
-  return `${h > 0 ? h + ':' : ''}${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-}
+export default handler;
