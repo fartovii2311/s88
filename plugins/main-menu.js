@@ -36,10 +36,10 @@ const defaultMenu = {
 ▬▭▬▭▬▭▬▭▬▭▬▭▬▭▬
  %readmore
   `.trimStart(),
-  header: '╭─(❀)❝┊ *_`%category`_* ┊❝(❀)',
-  body: '┊➫ %cmd\n',
-  footer: '╰───────────── –\n',
-  after: `> DARK CORE VIP SUPREMO`,
+  header: '╭────┊*_`%category`_* ┊',
+    body: '│❐┆ %cmd\n',
+  footer: '╰─────────────\n',
+  after: `> [ ✰ ] Powered By Dark Team`,
   }
 let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
 
