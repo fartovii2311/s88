@@ -9,64 +9,63 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     let mime = (q.msg || q).mimetype || q.mediaType || ''
 
     if (/video/g.test(mime)) {
-      // Jalankan kode untuk video di sini
-      if ((q.msg || q).seconds > 10) return m.reply('✧ Máximo 10 segundos.')
+      if ((q.msg || q).seconds > 10) {
+        return m.reply('✧ El video debe durar como máximo 10 segundos.')
+      }
       let img = await q.download?.()
-      if (!img) throw m.reply(`✧ Responde a un Vídeo con el comando*${usedPrefix + command}*`)
+      if (!img) {
+        return m.reply(`✧ Responde a un video con el comando *${usedPrefix + command}*`)
+      }
       let stiker = false
       try {
         stiker = await sticker(img, false, global.stickpack, global.stickauth)
       } catch (e) {
         console.error(e)
-      } finally {
-        if (!stiker) {
-          let out = await uploadFile(img)
-          stiker = await sticker(false, out, global.stickpack, global.stickauth)
-        }
+      }
+      if (!stiker) {
+        let out = await uploadFile(img)
+        stiker = await sticker(false, out, global.stickpack, global.stickauth)
       }
       conn.sendFile(m.chat, stiker, 'sticker.webp', '', m, null)
     } else if (/image/g.test(mime)) {
-      // Jalankan kode untuk gambar di sini
-      let [packname, ...author] = args.join` `.split`|`
-      author = (author || []).join`|`
+      let [packname = 'StickerBot', ...authorParts] = args.join(' ').split('|')
+      let author = authorParts.join('|') || 'WhatsApp'
       let img = await q.download?.()
+      if (!img) {
+        return m.reply(`✧ Responde a una imagen con el comando *${usedPrefix + command}*`)
+      }
       let stiker = false
       try {
-        let pack = global.stickpack
-        let author = global.stickauth
-        stiker = await addExif(img, pack, author)
+        stiker = await addExif(img, packname, author)
       } catch (e) {
         console.error(e)
-      } finally {
-        if (!stiker) {
-          stiker = await createSticker(img, false, packname, author)
-        }
       }
-      m.reply(stiker)
+      if (!stiker) {
+        stiker = await createSticker(img, null, packname, author)
+      }
+      conn.sendFile(m.chat, stiker, 'sticker.webp', '', m, null)
     } else {
-      conn.reply(m.chat, `✧ `Responde a una Imagen o Video *${usedPrefix + command}`*`, m, rcanal)
+      conn.reply(m.chat, `✧ Responde a una imagen o video con el comando *${usedPrefix + command}*`, m)
     }
   } catch (e) {
     console.error(e)
-    m.reply('Error')
+    m.reply('✧ Hubo un error al procesar el sticker. Intenta nuevamente.')
   }
 }
 
 handler.help = ['sticker']
 handler.tags = ['sticker']
-
 handler.command = /^s(tic?ker)?(gif)?$/i
 handler.register = true
 
 export default handler
 
-async function createSticker(img, url, packName, authorName, quality) {
+async function createSticker(img, url, packName = 'StickerBot', authorName = 'WhatsApp', quality = 50) {
   let stickerMetadata = {
     type: 'full',
-    pack: stickpack,
-    author: stickauth,
+    pack: packName,
+    author: authorName,
     quality
   }
-  return (new Sticker(img ? img : url, stickerMetadata)).toBuffer()
+  return (new Sticker(img || url, stickerMetadata)).toBuffer()
 }
-
