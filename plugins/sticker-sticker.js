@@ -1,96 +1,34 @@
-import { sticker } from '../lib/sticker.js';
+import { Sticker } from 'wa-sticker-formatter';
 
-let handler = async (m, { conn, args, usedPrefix, command }) => {
-  let stiker = false;
+let handler = async (m, { conn, args }) => {
+  let q = m.quoted ? m.quoted : m;
+  let mime = (q.msg || q).mimetype || '';
+
+  if (!/image|video/.test(mime)) {
+    return m.reply('✧ Responde a una imagen o video para convertirlo en sticker.');
+  }
+
+  let media = await q.download?.();
+  if (!media) return m.reply('No se pudo descargar el archivo.');
+
   try {
-    let q = m.quoted ? m.quoted : m;
-    let mime = (q.msg || q).mimetype || q.mediaType || '';
+    const sticker = new Sticker(media, {
+      pack: 'TuPaquete',
+      author: 'TuNombre',
+      type: 'full',
+      quality: 80
+    });
 
-    if (/webp|image|video/g.test(mime)) {
-      if (/video/g.test(mime) && (q.msg || q).seconds > 8) {
-        return m.reply('☁ *¡El video no puede durar más de 8 segundos!*');
-      }
-
-      let img = await q.download?.();
-      if (!img) {
-        return conn.reply(
-          m.chat,
-          '🍁 *_¿Dónde está el archivo? Envía primero una imagen/video/gif y responde con el comando._*',
-          m
-        );
-      }
-
-      let out;
-      try {
-        stiker = await sticker(img, false, global.packname, global.author);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        if (!stiker) {
-          if (/webp/g.test(mime)) out = await webp2png(img);
-          else if (/image/g.test(mime)) out = await uploadImage(img);
-          else if (/video/g.test(mime)) out = await uploadFile(img);
-
-          if (typeof out !== 'string') out = await uploadImage(img);
-          stiker = await sticker(false, out, global.packname, global.author);
-        }
-      }
-    } else if (args[0]) {
-      if (isUrl(args[0])) {
-        stiker = await sticker(false, args[0], global.packname, global.author);
-      } else {
-        return m.reply('💫 El URL proporcionado es incorrecto.');
-      }
-    }
+    const buffer = await sticker.toBuffer();
+    await conn.sendFile(m.chat, buffer, 'sticker.webp', '', m);
   } catch (e) {
     console.error(e);
-    if (!stiker) stiker = e;
-  } finally {
-    if (stiker) {
-      conn.sendFile(
-        m.chat,
-        stiker,
-        'sticker.webp',
-        '',
-        m,
-        true,
-        {
-          contextInfo: {
-            forwardingScore: 200,
-            isForwarded: false,
-            externalAdReply: {
-              showAdAttribution: false,
-              title: global.packname || 'Sticker Pack',
-              body: global.author || 'CrowBot - ST 🚩',
-              mediaType: 2,
-              sourceUrl: global.redes || '',
-              thumbnail: global.icons || null
-            }
-          }
-        },
-        { quoted: m }
-      );
-    } else {
-      conn.reply(
-        m.chat,
-        '🌲 *_La conversión ha fallado. Intenta enviar primero una imagen/video/gif y luego responde con el comando._*\n\n> ⛄𝐅𝐄𝐋𝐈𝐙 𝐍𝐀𝐕𝐈𝐃𝐀𝐃❄',
-        m
-      );
-    }
+    m.reply('Hubo un error al generar el sticker.');
   }
 };
 
-handler.help = ['sticker <imagen/video>', 'sticker <url>'];
+handler.help = ['sticker'];
 handler.tags = ['sticker'];
-handler.command = ['s', 'sticker', 'stiker'];
+handler.command = ['sticker', 's', 'stiker'];
 
 export default handler;
-
-const isUrl = (text) => {
-  return text.match(
-    new RegExp(
-      /https?:\/\/(www\.)?[-a-zA-Z0-9@:%.+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%+.~#?&/=]*)(jpe?g|gif|png)/,
-      'gi'
-    )
-  );
-};
