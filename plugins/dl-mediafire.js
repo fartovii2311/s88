@@ -23,6 +23,5 @@ console.error(error)
 handler.help = ['mediafire'].map(v => v + ' *<url>*')
 handler.tags = ['dl', 'premium']
 handler.command = ['mediafire', 'mdfire', 'mf']
-handler.premium = true 
 
 export default handler;
