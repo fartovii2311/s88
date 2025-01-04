@@ -121,7 +121,7 @@ async function connectionUpdate(update) {
 
                 await parent.reply(conn.user.jid, `La siguiente vez que se conecte envía el siguiente mensaje para iniciar sesión sin utilizar otro código `, m, rcanal)
 
-                await parent.sendMessage(conn.user.jid, {text : usedPrefix + command + " " + Buffer.from(fs.readFileSync("./LynxJadiBots/" + authFolderB + "/creds.json"), "utf-8").toString("base64")}, { quoted: m })
+                await parent.sendMessage(conn.user.jid, {text : usedPrefix + command + " " + Buffer.from(fs.readFileSync("./LynxJadiBot/" + authFolderB + "/creds.json"), "utf-8").toString("base64")}, { quoted: m })
           }
 
   }
