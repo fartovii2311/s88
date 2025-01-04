@@ -1,25 +1,29 @@
 import { Sticker } from 'wa-sticker-formatter';
 
 let handler = async (m, { conn }) => {
-  let q = m.quoted ? m.quoted : m;
-  let mime = (q.msg || q).mimetype || '';
-
-  if (!/image|video/.test(mime)) {
-    return m.reply('✧ Responde a una imagen o video para convertirlo en sticker.');
-  }
-
-  let media = await q.download?.();
-  if (!media) return m.reply('No se pudo descargar el archivo.');
-
   try {
-    const sticker = new Sticker(media, {
-      pack: 'TuPaquete',
-      author: 'TuNombre',
-      type: 'full', // 'crop' para recortar
-      quality: 80,
-    });
+    // Obtener el mensaje citado o el mensaje actual
+    let q = m.quoted ? m.quoted : m;
+    let mime = (q.msg || q).mimetype || '';
 
-    const buffer = await sticker.toBuffer(); // Asegúrate de que esta función se llame correctamente
+    // Verificar que el mensaje contenga imagen o video
+    if (!/image|video/.test(mime)) {
+      return m.reply('✧ Responde a una imagen o video para convertirlo en sticker.');
+    }
+
+    // Descargar el archivo multimedia
+    let media = await q.download?.();
+    if (!media) return m.reply('No se pudo descargar el archivo.');
+
+    // Crear el sticker en una sola línea
+    const buffer = await new Sticker(media, {
+      pack: 'Mi Paquete',     // Nombre del paquete
+      author: 'Mi Nombre',   // Autor
+      type: 'full',          // Tipo: 'crop' o 'full'
+      quality: 80,           // Calidad (0-100)
+    }).toBuffer();
+
+    // Enviar el sticker
     await conn.sendFile(m.chat, buffer, 'sticker.webp', '', m);
   } catch (e) {
     console.error(e);
