@@ -1,4 +1,3 @@
-
 import { promises } from 'fs'
 import { join } from 'path'
 import { xpRange } from '../lib/levelling.js'
@@ -39,6 +38,7 @@ const defaultMenu = {
   header: '╭────┊ *_`%category`_* ┊',
     body: '│❐┆%cmd\n',
   footer: '╰──────────────\n',
+  after: `> [ ✰ ] Powered By Dark Team`,
   }
 let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
 
