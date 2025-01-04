@@ -1,3 +1,4 @@
+
 import { promises } from 'fs'
 import { join } from 'path'
 import { xpRange } from '../lib/levelling.js'
@@ -185,7 +186,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
           footer
         ].join('\n')
       }),
-      after
+      
     ].join('\n')
     let text = typeof conn.menu == 'string' ? conn.menu : typeof conn.menu == 'object' ? _text : ''
     let replace = {
