@@ -37,7 +37,7 @@ let handler = async (m, { conn }) => {
   const userName = await conn.getName(m.sender) || 'Este usuario';
   const targetName = targetUser.name || `@${usuarioObjetivo.split('@')[0]}`;
 
-  conn.reply(m.chat, `🤍 *¡${userName} ha robado ${corazonesRobados} corazones de ${targetName}!* Ahora tienes *${user.corazones} corazones*.`, m, rcanal, { mentions: [usuarioObjetivo] });
+  conn.reply(m.chat, `🤍 *¡${userName} ha robado ${corazonesRobados} corazones de ${targetName}!* Ahora tienes *${user.corazones} corazones*.`, m, rcanal,fake, { mentions: [usuarioObjetivo] });
 };
 
 handler.help = ['robar'];
