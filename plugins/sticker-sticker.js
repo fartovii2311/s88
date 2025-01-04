@@ -30,7 +30,7 @@ let handler = async (m, { conn }) => {
     const buffer = await sticker.toBuffer();  // Usar 'toBuffer' para obtener el sticker
 
     // Guardar el sticker como un archivo WebP
-    const outputPath = path.join(__dirname, 'sticker.webp');
+    const outputPath = path.join(__dirname, './tmp/sticker.webp');
     fs.writeFileSync(outputPath, buffer);
 
     // Enviar el sticker
