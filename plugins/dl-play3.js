@@ -16,25 +16,6 @@ let handler = async (m, { conn: star, command, args, text, usedPrefix }) => {
        txt += `\t\t*» Url* : ${'https://youtu.be/' + res[0].videoId}\n\n`
        txt += `> *-* Para descargar responde a este mensaje con *Video* o *Audio*.`
 await star.sendFile(m.chat, img, 'thumbnail.jpg', txt, m,rcanal,fake)
-await conn.sendMessage(m.chat, { 
-  image: { url: banner }, 
-  caption: "DarkCore", 
-  footer: "DarkTeam VIP", 
-  buttons: [
-    { 
-      buttonId: "$ echo Audio", 
-      buttonText: { displayText: "Video" } 
-    }, 
-    { 
-      buttonId: "$ echo Video", 
-      buttonText: { displayText: "Audio" } 
-    }
-  ], 
-  headerType: 6, 
-  viewOnce: true, 
-}, { 
-  quoted: m 
-});
 await m.react('✅')
 } catch {
 await m.react('✖️')
