@@ -1,6 +1,6 @@
 import { Sticker } from 'wa-sticker-formatter';
 
-let handler = async (m, { conn, args }) => {
+let handler = async (m, { conn }) => {
   let q = m.quoted ? m.quoted : m;
   let mime = (q.msg || q).mimetype || '';
 
@@ -15,11 +15,11 @@ let handler = async (m, { conn, args }) => {
     const sticker = new Sticker(media, {
       pack: 'TuPaquete',
       author: 'TuNombre',
-      type: 'full',
-      quality: 80
+      type: 'full', // 'crop' para recortar
+      quality: 80,
     });
 
-    const buffer = await sticker.toBuffer();
+    const buffer = await sticker.toBuffer(); // Asegúrate de que esta función se llame correctamente
     await conn.sendFile(m.chat, buffer, 'sticker.webp', '', m);
   } catch (e) {
     console.error(e);
