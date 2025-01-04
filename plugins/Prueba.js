@@ -56,16 +56,16 @@ let handler = async (m, { conn: star, args, usedPrefix, command }) => {
   }
 };
 
-handler.help = ['play0 *<búsqueda>*']
-handler.tags = ['downloader']
-handler.command = ['prueba']
-handler.register = true 
-export default handler
-
+handler.help = ['play0 *<búsqueda>*'];
+handler.tags = ['downloader'];
+handler.command = ['prueba'];
+handler.register = true;
+export default handler;
 
 // Formato de segundos a hh:mm:ss
 function secondString(seconds) {
   let h = Math.floor(seconds / 3600);
   let m = Math.floor((seconds % 3600) / 60);
   let s = seconds % 60;
-  return `${h > 0 ? h + ':' : ''}${m.toString().padStart(2, '
+  return `${h > 0 ? h + ':' : ''}${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+}
