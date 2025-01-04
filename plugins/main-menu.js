@@ -171,6 +171,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
     let header = conn.menu.header || defaultMenu.header
     let body = conn.menu.body || defaultMenu.body
     let footer = conn.menu.footer || defaultMenu.footer
+    let after = conn.menu.after || (conn.user.jid == global.conn.user.jid ? '' : ``) + defaultMenu.after
     let _text = [
       before,
       ...Object.keys(tags).map(tag => {
@@ -186,7 +187,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
           footer
         ].join('\n')
       }),
-      
+    after 
     ].join('\n')
     let text = typeof conn.menu == 'string' ? conn.menu : typeof conn.menu == 'object' ? _text : ''
     let replace = {
