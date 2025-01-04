@@ -1,12 +1,8 @@
 import { promises } from 'fs'
 import { join } from 'path'
-import { xpRange } from '../lib/levelling.js'
-import moment from 'moment-timezone'
-import os from 'os'
-import fs from 'fs'
 import fetch from 'node-fetch'
-const { generateWAMessageFromContent, proto, getDevice } = (await import('@whiskeysockets/baileys')).default
-let estilo = (text, style = 1) => {
+import { xpRange } from '../lib/levelling.js'
+let Styles = (text, style = 1) => {
   var xStr = 'abcdefghijklmnopqrstuvwxyz1234567890'.split('');
   var yStr = Object.freeze({
     1: 'ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘqʀꜱᴛᴜᴠᴡxʏᴢ1234567890'
@@ -24,6 +20,20 @@ let estilo = (text, style = 1) => {
   });
   return output.join('');
 };
+let tags = {
+  'main': '𝙿𝚛𝚒𝚗𝚌𝚒𝚙𝚊𝚕',
+  'rpg': '𝙹𝚞𝚎𝚐𝚘𝚜',
+  'search': '𝙱𝚞𝚜𝚚𝚞𝚎𝚍𝚊',
+  'dl': '𝙳𝚎𝚜𝚌𝚊𝚐𝚊𝚜',
+  'start': '𝚂𝚝𝚊𝚛𝚝',
+  'sticker': '𝚂𝚝𝚒𝚌𝚔𝚎𝚛',
+  'ai': '𝙵𝚞𝚗𝚌𝚒𝚘𝚗𝚎𝚜 𝙰𝙸',
+  'tools': '𝙷𝚎𝚛𝚛𝚊𝚖𝚒𝚎𝚗𝚝𝚊𝚜',
+  'group': '𝙶𝚛𝚞𝚙𝚘𝚜',
+  'owner': '𝙾𝚠𝚗𝚎𝚛',
+  'nsfw': 'nsfw',
+}
+
 const defaultMenu = {
   before: `*${ucapan()} \`%name\`*
 
@@ -34,65 +44,31 @@ const defaultMenu = {
 │❐┆'𝙲𝚛𝚎𝚊𝚍𝚘𝚛' :: _𝙳𝚊𝚛𝚔𝙲𝚘𝚛𝚎_
 ▬▭▬▭▬▭▬▭▬▭▬▭▬▭▬
  %readmore
-  `.trimStart(),
-  header: '╭────┊ *_`%category`_* ┊',
-    body: '│❐┆%cmd\n',
-  footer: '╰──────────────\n',
-  after: `> [ ✰ ] Powered By Dark Team`,
-  }
-let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
+\t\t\t_*LISTA DE MENÚS*_
+`.trimStart(),
+   header: '╭────┊ *_`%category`_* ┊', 
+     body: '│❐┆%cmd\n', 
+    footer:'╰──────────────\n', 
+   after: `> [ ✰ ] Powered By Dark Team`,
+}
 
-  let tags = {
-    'main': '𝙿𝚛𝚒𝚗𝚌𝚒𝚙𝚊𝚕',
-    'rpg': '𝙹𝚞𝚎𝚐𝚘𝚜',
-    'search': '𝙱𝚞𝚜𝚚𝚞𝚎𝚍𝚊',
-    'dl': '𝙳𝚎𝚜𝚌𝚊𝚐𝚊𝚜',
-    'start': '𝚂𝚝𝚊𝚛𝚝',
-    'sticker': '𝚂𝚝𝚒𝚌𝚔𝚎𝚛',
-    'ai': '𝙵𝚞𝚗𝚌𝚒𝚘𝚗𝚎𝚜 𝙰𝙸',
-    'tools': '𝙷𝚎𝚛𝚛𝚊𝚖𝚒𝚎𝚗𝚝𝚊𝚜',
-    'group': '𝙶𝚛𝚞𝚙𝚘𝚜',
-    'owner': '𝙾𝚠𝚗𝚎𝚛',
-    'nsfw': 'nsfw',
-  }
-
+let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
   try {
-    // DEFAULT MENU
-    let dash = global.dashmenu
-    let m1 = global.dmenut
-    let m2 = global.dmenub
-    let m3 = global.dmenuf
-    let m4 = global.dmenub2
-
-    // COMMAND MENU
-    let cc = global.cmenut
-    let c1 = global.cmenuh
-    let c2 = global.cmenub
-    let c3 = global.cmenuf
-    let c4 = global.cmenua
-
-    // LOGO L P
-    let lprem = global.lopr
-    let llim = global.lolm
-    let tag = `@${m.sender.split('@')[0]}`
-    let device = await getDevice(m.id)
-
-    //-----------TIME---------
-    let ucpn = `${ucapan()}`
+     let tag = `@${m.sender.split("@")[0]}`
+    let mode = global.opts["self"] ? "Privado" : "Publico"
+    let _package = JSON.parse(await promises.readFile(join(__dirname, '../package.json')).catch(_ => ({}))) || {}
+    let { exp, limit, level } = global.db.data.users[m.sender]
+    let { min, xp, max } = xpRange(level, global.multiplier)
+    let name = await conn.getName(m.sender)
     let d = new Date(new Date + 3600000)
     let locale = 'es'
+    let weton = ['Pahing', 'Pon', 'Wage', 'Kliwon', 'Legi'][Math.floor(d / 84600000) % 5]
     let week = d.toLocaleDateString(locale, { weekday: 'long' })
     let date = d.toLocaleDateString(locale, {
       day: 'numeric',
       month: 'long',
       year: 'numeric'
     })
-    let who = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.fromMe ? conn.user.jid : m.sender
-    // d.getTimeZoneOffset()
-    // Offset -420 is 18.00
-    // Offset    0 is  0.00
-    // Offset  420 is  7.00
-    let weton = ['Pahing', 'Pon', 'Wage', 'Kliwon', 'Legi'][Math.floor(d / 84600000) % 5]
     let dateIslamic = Intl.DateTimeFormat(locale + '-TN-u-ca-islamic', {
       day: 'numeric',
       month: 'long',
@@ -114,38 +90,6 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
     }
     let muptime = clockString(_muptime)
     let uptime = clockString(_uptime)
-    let _mpt
-    if (process.send) {
-      process.send('uptime')
-      _mpt = await new Promise(resolve => {
-        process.once('message', resolve)
-        setTimeout(resolve, 1000)
-      }) * 1000
-    }
-    let mpt = clockString(_mpt)
-    let usrs = db.data.users[m.sender]
-
-
-    /**************************** TIME *********************/
-    let wib = moment.tz('Asia/Jakarta').format('HH:mm:ss')
-    let wibh = moment.tz('Asia/Jakarta').format('HH')
-    let wibm = moment.tz('Asia/Jakarta').format('mm')
-    let wibs = moment.tz('Asia/Jakarta').format('ss')
-    let wit = moment.tz('Asia/Jayapura').format('HH:mm:ss')
-    let wita = moment.tz('Asia/Makassar').format('HH:mm:ss')
-    let wktuwib = `${wibh} H ${wibm} M ${wibs} S`
-
-    let mode = global.opts['self'] || global.opts['owneronly'] ? 'Private' : 'Public'
-    let _package = JSON.parse(await promises.readFile(join(__dirname, '../package.json')).catch(_ => ({}))) || {}
-    let { age, exp, corazones, level, role, registered, money } = global.db.data.users[m.sender]
-    let { min, xp, max } = xpRange(level, global.multiplier)
-    let name = await conn.getName(m.sender)
-    let premium = global.db.data.users[m.sender].premiumTime
-    let prems = `${premium > 0 ? 'Premium' : 'Free'}`
-    let platform = os.platform()
-
-    //---------------------
-
     let totalreg = Object.keys(global.db.data.users).length
     let rtotalreg = Object.values(global.db.data.users).filter(user => user.registered == true).length
     let help = Object.values(global.plugins).filter(plugin => !plugin.disabled).map(plugin => {
@@ -153,19 +97,15 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
         help: Array.isArray(plugin.tags) ? plugin.help : [plugin.help],
         tags: Array.isArray(plugin.tags) ? plugin.tags : [plugin.tags],
         prefix: 'customPrefix' in plugin,
-        corazones: plugin.corazones,
+        limit: plugin.limit,
         premium: plugin.premium,
         enabled: !plugin.disabled,
       }
     })
-    
-    let groups = {}
-    for (let tag in tags) {
-      groups[tag] = []
-      for (let plugin of help)
-        if (plugin.tags && plugin.tags.includes(tag))
-          if (plugin.help) groups[tag].push(plugin)
-    }
+    for (let plugin of help)
+      if (plugin && 'tags' in plugin)
+        for (let tag of plugin.tags)
+          if (!(tag in tags) && tag) tags[tag] = tag
     conn.menu = conn.menu ? conn.menu : {}
     let before = conn.menu.before || defaultMenu.before
     let header = conn.menu.header || defaultMenu.header
@@ -178,55 +118,62 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
         return header.replace(/%category/g, tags[tag]) + '\n' + [
           ...help.filter(menu => menu.tags && menu.tags.includes(tag) && menu.help).map(menu => {
             return menu.help.map(help => {
-              return body.replace(/%cmd/g, menu.prefix ? help : '%_p' + help)
-                .replace(/%iscorazones/g, menu.corazones ? corazones : '')
-                .replace(/%isPremium/g, menu.premium ? lprem : '')
+              return body.replace(/%cmd/g, menu.prefix ? help : '%p' + help)
+                .replace(/%islimit/g, menu.limit ? '◜⭐◞' : '')
+                .replace(/%isPremium/g, menu.premium ? '◜🪪◞' : '')
                 .trim()
             }).join('\n')
           }),
           footer
         ].join('\n')
       }),
-    after 
+      after
     ].join('\n')
     let text = typeof conn.menu == 'string' ? conn.menu : typeof conn.menu == 'object' ? _text : ''
-    let replace = {
-      '%': '%',
-      p: uptime, muptime,
-      me: conn.getName(conn.user.jid),
-      npmname: _package.name,
-      npmdesc: _package.description,
-      version: _package.version,
-      exp: exp - min,
-      maxexp: xp,
-      totalexp: exp,
-      xp4levelup: max - exp,
-      github: _package.homepage ? _package.homepage.url || _package.homepage : '[unknown github url]',
-      tag, dash, m1, m2, m3, m4, cc, c1, c2, c3, c4, lprem, llim,
-      ucpn, platform, wib, mode, _p, money, age, tag, name, prems, level, corazones, name, weton, week, date, dateIslamic, time, totalreg, rtotalreg, role,
-      readmore: readMore
-    }
+   let replace = {
+ "%": "%",
+ p: _p,
+ uptime,
+ muptime,
+ me: conn.getName(conn.user.jid),
+ npmname: _package.name,
+ npmdesc: _package.description,
+ version: _package.version,
+ exp: exp - min,
+ maxexp: xp,
+ totalexp: exp,
+ xp4levelup: max - exp,
+ github: _package.homepage ? _package.homepage.url || _package.homepage : "[unknown github url]",
+ mode,
+ _p,
+ tag,
+ name,
+ level,
+ limit,
+ name,
+ totalreg,
+ readmore: readMore
+   }
     text = text.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), (_, name) => '' + replace[name])
+    
+    let img = await (await fetch(`https://i.ibb.co/JndpnfX/LynxAI.jpg`)).buffer()
+    await m.react('✨')
+   // await conn.sendMessage(m.chat, { video: { url: [pp, pp2, pp3, pp4, pp5, pp6, pp7, pp8, pp9, pp10, pp11, pp12, pp13, pp14, pp15].getRandom() }, gifPlayback: true, caption: text.trim(), mentions: [m.sender] }, { quoted: estilo })
+    await conn.sendFile(m.chat, img, 'thumbnail.jpg', text.trim(), m, null, rcanal)
+   //await conn.sendAi(m.chat, botname, textbot, text.trim(), img, img, canal, estilo)
 
-    let img = 'https://i.ibb.co/JndpnfX/LynxAI.jpg'
-    await m.react('🎉')
-    await conn.sendFile(m.chat, img, 'thumbnail.jpg', text.trim(), m, null, fake)
   } catch (e) {
-    conn.reply(m.chat, ' error', m)
+    conn.reply(m.chat, '❎ Lo sentimos, el menú tiene un error.', m)
     throw e
   }
 }
 
-handler.command = /^(allmenu|menu|menú|\?)$/i
-handler.exp = 3
-
+handler.help = ['menu']
+handler.tags = ['main']
+handler.command = ['menu', 'help', 'menú'] 
+handler.register = true 
 export default handler
 
-//----------- FUNCIÓN -------
-
-function pickRandom(list) {
-  return list[Math.floor(Math.random() * list.length)]
-}
 
 const more = String.fromCharCode(8206)
 const readMore = more.repeat(4001)
@@ -235,31 +182,35 @@ function clockString(ms) {
   let h = isNaN(ms) ? '--' : Math.floor(ms / 3600000)
   let m = isNaN(ms) ? '--' : Math.floor(ms / 60000) % 60
   let s = isNaN(ms) ? '--' : Math.floor(ms / 1000) % 60
-  return [h, ' H ', m, ' M ', s, ' S '].map(v => v.toString().padStart(2, 0)).join('')
+  return [h, m, s].map(v => v.toString().padStart(2, 0)).join(':')
 }
-function clockStringP(ms) {
-  let ye = isNaN(ms) ? '--' : Math.floor(ms / 31104000000) % 10
-  let mo = isNaN(ms) ? '--' : Math.floor(ms / 2592000000) % 12
-  let d = isNaN(ms) ? '--' : Math.floor(ms / 86400000) % 30
-  let h = isNaN(ms) ? '--' : Math.floor(ms / 3600000) % 24
-  let m = isNaN(ms) ? '--' : Math.floor(ms / 60000) % 60
-  let s = isNaN(ms) ? '--' : Math.floor(ms / 1000) % 60
-  return [ye, ' *Years 🗓️*\n', mo, ' *Month 🌙*\n', d, ' *Days ☀️*\n', h, ' *Hours 🕐*\n', m, ' *Minute ⏰*\n', s, ' *Second ⏱️*'].map(v => v.toString().padStart(2, 0)).join('')
+
+  var ase = new Date();
+  var hour = ase.getHours();
+switch(hour){
+  case 0: hour = 'una linda noche 🌙'; break;
+  case 1: hour = 'una linda noche 💤'; break;
+  case 2: hour = 'una linda noche 🦉'; break;
+  case 3: hour = 'una linda mañana ✨'; break;
+  case 4: hour = 'una linda mañana 💫'; break;
+  case 5: hour = 'una linda mañana 🌅'; break;
+  case 6: hour = 'una linda mañana 🌄'; break;
+  case 7: hour = 'una linda mañana 🌅'; break;
+  case 8: hour = 'una linda mañana 💫'; break;
+  case 9: hour = 'una linda mañana ✨'; break;
+  case 10: hour = 'un lindo dia 🌞'; break;
+  case 11: hour = 'un lindo dia 🌨'; break;
+  case 12: hour = 'un lindo dia ❄'; break;
+  case 13: hour = 'un lindo dia 🌤'; break;
+  case 14: hour = 'una linda tarde 🌇'; break;
+  case 15: hour = 'una linda tarde 🥀'; break;
+  case 16: hour = 'una linda tarde 🌹'; break;
+  case 17: hour = 'una linda tarde 🌆'; break;
+  case 18: hour = 'una linda noche 🌙'; break;
+  case 19: hour = 'una linda noche 🌃'; break;
+  case 20: hour = 'una linda noche 🌌'; break;
+  case 21: hour = 'una linda noche 🌃'; break;
+  case 22: hour = 'una linda noche 🌙'; break;
+  case 23: hour = 'una linda noche 🌃'; break;
 }
-function ucapan() {
-    const time = moment.tz('America/Buenos_Aires').format('HH')
-    let res = "Buenas Noches🌙"
-    if (time >= 5) {
-        res = "Buena Madrugada🌄"
-    }
-    if (time > 10) {
-        res = "Buenos días☀️"
-    }
-    if (time >= 12) {
-        res = "Buenas Tardes🌅"
-    }
-    if (time >= 19) {
-        res = "Buenas Noches🌙"
-    }
-    return res
-}
+  var greeting = "espero que tengas " + hour;
