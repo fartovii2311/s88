@@ -32,18 +32,28 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
                       `📺 *Canal:* ${video.author.name}\n` +
                       `🔗 *URL:* ${video.url}`;
 
-    // Enviar mensaje interactivo con botones
+    // Enviar información del video primero
     await conn.sendMessage(
       m.chat,
       {
         image: { buffer: thumbnail },
         caption: description,
         footer: 'Bot YouTube',
+      },
+      { quoted: m }
+    );
+
+    // Enviar los botones en un mensaje separado
+    await conn.sendMessage(
+      m.chat,
+      {
+        text: '¿Qué deseas hacer?',
+        footer: 'Elige una opción',
         buttons: [
           { buttonId: `${usedPrefix}ytmp4 ${video.url}`, buttonText: { displayText: 'Descargar Video 🎥' } },
           { buttonId: `${usedPrefix}ytmp3 ${video.url}`, buttonText: { displayText: 'Descargar Audio 🎵' } },
         ],
-        headerType: 4,
+        headerType: 1,
       },
       { quoted: m }
     );
@@ -62,7 +72,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
 handler.help = ['play *<búsqueda>*'];
 handler.tags = ['downloader'];
-handler.command = ['play0'];
+handler.command = ['play'];
 handler.register = true;
 
 export default handler;
