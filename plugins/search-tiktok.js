@@ -11,7 +11,9 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
   if (!text) {
     return conn.reply(message.chat, "❕️ *¿QUÉ BÚSQUEDA DESEA REALIZAR EN TIKTOK?*", message, rcanal);
   }
-
+  
+  await m.react('🕓');
+  
   async function createVideoMessage(url) {
     const { videoMessage } = await generateWAMessageContent({
       video: { url }
@@ -78,6 +80,7 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
     await conn.relayMessage(message.chat, messageContent.message, {
       messageId: messageContent.key.id
     });
+     await m.react('✅');
   } catch (error) {
     console.error(error);
     conn.reply(message.chat, `❌️ *OCURRIÓ UN ERROR:* ${error.message}`, message);
