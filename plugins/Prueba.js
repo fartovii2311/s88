@@ -36,7 +36,7 @@ let handler = async (m, { conn: star, args, usedPrefix, command }) => {
     txt += `> *-* Para descargar responde a este mensaje con *Video* o *Audio*.\n`;
 
     // Enviar mensaje interactivo con botones
-    await star.sendMessage(
+    await conn.sendMessage(
       m.chat,
       {
         image: { buffer: thumbnail },
