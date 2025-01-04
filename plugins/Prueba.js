@@ -1,78 +1,33 @@
-import fetch from 'node-fetch';
-import yts from 'yt-search';
-
 let handler = async (m, { conn, args, usedPrefix, command }) => {
-  if (!args.length) {
-    return conn.sendMessage(
-      m.chat,
-      {
-        text: `[ ✰ ] Ingresa el título de un video o canción de *YouTube*.\n\nEjemplo:\n> *${usedPrefix + command}* Mc Davo - Debes De Saber`,
-      },
-      { quoted: m }
-    );
-  }
-
   try {
-    await m.react('🕓');
+    let banner = '';
+    let txt = `Nose?`;
 
-    // Buscar video en YouTube
-    let searchResults = await yts(args.join(' '));
-    if (!searchResults || !searchResults.videos.length) {
-      throw new Error('No se encontraron resultados.');
-    }
+    conn.sendMessage(m.chat, { 
+      image: { url: banner }, 
+      caption: "Dark", 
+      footer: "dark buttones", 
+      buttons: [
+        { buttonId: "$ echo hola gei", buttonText: { displayText: "hola" } }, 
+        { buttonId: "$ echo adios gei", buttonText: { displayText: "bye" } }
+      ], 
+      headerType: 6, 
+      viewOnce: true, 
+      contextInfo: {
+        forwardedNewsletterMessageInfo: { 
+          newsletterJid: '0@newsletter', 
+          serverMessageId: '', 
+          newsletterName: 'Test Bot' 
+        }, 
+        isForwarded: true
+      }
+    }, { quoted: m });
 
-    let video = searchResults.videos[0]; // Primer resultado
-    let thumbnail = await (await fetch(video.thumbnail)).buffer();
-
-    // Crear descripción del video
-    let description = `🎥 *YouTube Play*\n\n` +
-                      `📌 *Título:* ${video.title}\n` +
-                      `🕒 *Duración:* ${video.timestamp || 'Desconocido'}\n` +
-                      `🗓️ *Publicado:* ${video.ago}\n` +
-                      `📺 *Canal:* ${video.author.name}\n` +
-                      `🔗 *URL:* ${video.url}`;
-
-    // Enviar información del video primero
-    await conn.sendMessage(
-      m.chat,
-      {
-        image: { buffer: thumbnail },
-        caption: description,
-        footer: 'Bot YouTube',
-      },
-      { quoted: m }
-    );
-
-    // Enviar los botones en un mensaje separado
-    await conn.sendMessage(
-      m.chat,
-      {
-        text: '¿Qué deseas hacer?',
-        footer: 'Elige una opción',
-        buttons: [
-          { buttonId: `${usedPrefix}ytmp4 ${video.url}`, buttonText: { displayText: 'Descargar Video 🎥' } },
-          { buttonId: `${usedPrefix}ytmp3 ${video.url}`, buttonText: { displayText: 'Descargar Audio 🎵' } },
-        ],
-        headerType: 1,
-      },
-      { quoted: m }
-    );
-
-    await m.react('✅');
   } catch (error) {
-    console.error(error);
-    await m.react('❌');
-    conn.sendMessage(
-      m.chat,
-      { text: `⚠️ Error: ${error.message}` },
-      { quoted: m }
-    );
+    m.reply(`Error: ${error.message}`);
+    m.react('✖️');
   }
-};
+}
 
-handler.help = ['play *<búsqueda>*'];
-handler.tags = ['downloader'];
-handler.command = ['play0'];
-handler.register = true;
-
+handler.command = ['test'];
 export default handler;
