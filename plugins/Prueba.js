@@ -33,18 +33,16 @@ let handler = async (m, { conn: star, args, usedPrefix, command }) => {
     txt += `\t\t*» Canal* : ${video.author.name}\n`;
     txt += `\t\t*» ID* : ${video.videoId}\n`;
     txt += `\t\t*» Url* : ${video.url}\n\n`;
-    txt += `> *-* Para descargar responde a este mensaje con *Video* o *Audio*.\n`;
 
     // Enviar mensaje interactivo con botones
-    await conn.sendMessage(
-      m.chat,
+    await conn.sendMessage(m.chat,
       {
         image: { buffer: thumbnail },
         caption: txt,
         footer: 'Bot YouTube',
         buttons: [
-          { buttonId: `${usedPrefix}ytmp4 ${video.url}`, buttonText: { displayText: 'Descargar Video' } },
-          { buttonId: `${usedPrefix}ytmp3 ${video.url}`, buttonText: { displayText: 'Descargar Audio' } },
+          { buttonId: `VIDEO`, buttonText: { displayText: 'Descargar Video' } },
+          { buttonId: `AUDIO`, buttonText: { displayText: 'Descargar Audio' } },
         ],
         headerType: 4,
       },
