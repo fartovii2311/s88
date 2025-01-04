@@ -15,13 +15,15 @@ let handler = async (m, { conn }) => {
     let media = await q.download?.();
     if (!media) return m.reply('No se pudo descargar el archivo.');
 
-    // Crear el sticker en una sola línea
-    const buffer = await new Sticker(media, {
+    // Crear el sticker y obtener el buffer
+    const sticker = new Sticker(media, {
       pack: 'Mi Paquete',     // Nombre del paquete
       author: 'Mi Nombre',   // Autor
       type: 'full',          // Tipo: 'crop' o 'full'
       quality: 80,           // Calidad (0-100)
-    }).toBuffer();
+    });
+
+    const buffer = await sticker.toBuffer();  // Asegurarse de que toBuffer() esté disponible
 
     // Enviar el sticker
     await conn.sendFile(m.chat, buffer, 'sticker.webp', '', m);
