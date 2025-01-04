@@ -22,10 +22,13 @@ let handler = async (m, { conn: star, args, usedPrefix, command }) => {
     let video = searchResults.videos[0]; // Primer resultado
     let thumbnail = await (await fetch(video.thumbnail)).buffer();
 
+    // Validar duración
+    let duration = video.duration && video.duration.seconds ? secondString(video.duration.seconds) : 'Desconocido';
+
     // Crear texto descriptivo del video
     let txt = `乂  Y O U T U B E  -  P L A Y\n\n`;
     txt += `\t\t*» Título* : ${video.title}\n`;
-    txt += `\t\t*» Duración* : ${secondString(video.duration.seconds)}\n`;
+    txt += `\t\t*» Duración* : ${duration}\n`;
     txt += `\t\t*» Publicado* : ${video.ago}\n`;
     txt += `\t\t*» Canal* : ${video.author.name}\n`;
     txt += `\t\t*» ID* : ${video.videoId}\n`;
@@ -64,8 +67,8 @@ export default handler;
 
 // Formato de segundos a hh:mm:ss
 function secondString(seconds) {
-  let h = Math.floor(seconds / 3600);
-  let m = Math.floor((seconds % 3600) / 60);
-  let s = seconds % 60;
+  let h = Math.floor(seconds / 3600) || 0;
+  let m = Math.floor((seconds % 3600) / 60) || 0;
+  let s = seconds % 60 || 0;
   return `${h > 0 ? h + ':' : ''}${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
 }
