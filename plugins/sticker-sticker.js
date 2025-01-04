@@ -1,4 +1,7 @@
 import { Sticker } from 'wa-sticker-formatter';
+import axios from 'axios';
+import fs from 'fs';
+import path from 'path';
 
 let handler = async (m, { conn }) => {
   try {
@@ -15,7 +18,7 @@ let handler = async (m, { conn }) => {
     let media = await q.download?.();
     if (!media) return m.reply('No se pudo descargar el archivo.');
 
-    // Crear el sticker y generar el buffer usando toWebp
+    // Crear el sticker
     const sticker = new Sticker(media, {
       pack: 'Mi Paquete',      // Nombre del paquete
       author: 'Mi Nombre',    // Autor
@@ -23,11 +26,19 @@ let handler = async (m, { conn }) => {
       quality: 80,            // Calidad (0-100)
     });
 
-    // Convertir el sticker en un buffer con toWebp
-    const buffer = await sticker.toWebp();  // Alternativa a toBuffer()
+    // Generar el sticker en formato WebP y obtener el buffer
+    const buffer = await sticker.toBuffer();  // Usar 'toBuffer' para obtener el sticker
+
+    // Guardar el sticker como un archivo WebP
+    const outputPath = path.join(__dirname, 'sticker.webp');
+    fs.writeFileSync(outputPath, buffer);
 
     // Enviar el sticker
-    await conn.sendFile(m.chat, buffer, 'sticker.webp', '', m);
+    await conn.sendFile(m.chat, outputPath, 'sticker.webp', '', m);
+
+    // Eliminar el archivo después de enviarlo
+    fs.unlinkSync(outputPath);
+
   } catch (e) {
     console.error(e);
     m.reply('Hubo un error al generar el sticker.');
