@@ -31,6 +31,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   }
 };
 
-handler.command = ['igdl'];
+handler.command = ['id'];
 
 export default handler;
