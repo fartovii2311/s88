@@ -27,7 +27,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 }
 
 handler.help = ['coinflip']
-handler.tags = ['game']
+handler.tags = ['rpg']
 handler.command = ['suerte', 'cf', 'flip', 'coinflip']
 handler.register = true
 
