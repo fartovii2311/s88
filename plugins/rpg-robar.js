@@ -1,71 +1,86 @@
-let cooldowns = {};
+let cooldowns = {}
 
-let handler = async (m, { conn }) => {
-  const tiempoEspera = 2 * 60 * 60; // 2 horas en segundos
-  let participants = await conn.groupMetadata(m.chat).then((res) => res.participants);
-  const usuarioObjetivo = pickRandom(participants).id; 
+let handler = async (m, { conn, text, command, usedPrefix }) => {
+  let users = global.db.data.users
+  let senderId = m.sender
+  let senderName = conn.getName(senderId)
 
-  if (!usuarioObjetivo) {
-    conn.reply(m.chat, `⚠️ No hay suficientes usuarios registrados para robar corazones.`, m);
-    return;
-  }
-
+  let tiempoEspera = 5 * 60
   if (cooldowns[m.sender] && Date.now() - cooldowns[m.sender] < tiempoEspera * 1000) {
-    const tiempoRestante = segundosAHMS(Math.ceil((cooldowns[m.sender] + tiempoEspera * 1000 - Date.now()) / 1000));
-    conn.reply(m.chat, `🚩 Espera ⏱ *${tiempoRestante}* para volver a robar corazones.`, m);
-    return;
+    let tiempoRestante = segundosAHMS(Math.ceil((cooldowns[m.sender] + tiempoEspera * 1000 - Date.now()) / 1000))
+    m.reply(`🤍 Ya has robado corazones recientemente, espera *⏱ ${tiempoRestante}* para hacer tu próximo robo.`)
+    return
   }
 
-  let user = global.db.data.users[m.sender];
-  let targetUser = global.db.data.users[usuarioObjetivo];
+  cooldowns[m.sender] = Date.now()
 
-  user.corazones = user.corazones || 0;
-  targetUser.corazones = targetUser.corazones || 0;
+  let sendercorazones = users[senderId].corazones || 0
 
-  const corazonesRobados = Math.floor(Math.random() * 5) + 1;
+  // Obtener los participantes del grupo
+  let groupParticipants = m.isGroup ? await conn.groupMetadata(m.chat).then(group => group.participants) : []
+  let randomUserId = groupParticipants[Math.floor(Math.random() * groupParticipants.length)].id
 
-  if (targetUser.corazones < corazonesRobados) {
-    const failMessages = [
-      'Lo siento, pero parece que',
-      'Ups,',
-      '¡Qué pena!',
-      'Desafortunadamente,',
-      'Mala suerte,'
-    ];
-    conn.reply(m.chat, `🤍 ${pickRandom(failMessages)} *${targetUser.name || usuarioObjetivo}* no tiene suficientes corazones para robar.`, m);
-    return;
+  // Asegurarse de no robar al mismo usuario que cometió el robo
+  while (randomUserId === senderId) {
+    randomUserId = groupParticipants[Math.floor(Math.random() * groupParticipants.length)].id
   }
 
-  targetUser.corazones -= corazonesRobados;
-  user.corazones += corazonesRobados;
+  let randomUsercorazones = users[randomUserId].corazones || 0
 
-  cooldowns[m.sender] = Date.now();
+  let minAmount = 15
+  let maxAmount = 50
 
-  const userName = await conn.getName(m.sender) || 'Este usuario';
-  const targetName = targetUser.name || `@${usuarioObjetivo.split('@')[0]}`;
+  let amountTaken = Math.floor(Math.random() * (maxAmount - minAmount + 1)) + minAmount
 
-  conn.reply(
-    m.chat,
-    `🤍 *¡${userName} ha robado ${corazonesRobados} corazones de ${targetName}!* Ahora tienes *${user.corazones} corazones*.`,
-    m,
-    { mentions: [usuarioObjetivo] }
-  );
-};
+  let randomOption = Math.floor(Math.random() * 3)
 
-handler.help = ['robar'];
-handler.tags = ['rpg'];
-handler.command = ['robar', 'rb', 'rob'];
-handler.register = true;
+  switch (randomOption) {
+  case 0:
+    // Si el robo fue exitoso, robar los corazones
+    users[senderId].corazones += amountTaken
+    users[randomUserId].corazones -= amountTaken
+    conn.sendMessage(m.chat, {
+      text: `🤍¡Has robado con éxito! Robaste *${amountTaken} 🤍 corazones* a @${randomUserId.split("@")[0]}\n\nSe suman *+${amountTaken} 🤍 corazones* a ${senderName}.`,
+      contextInfo: { 
+        mentionedJid: [randomUserId],
+      }
+    }, { quoted: m })
+    break
 
-export default handler;
+  case 1:
+    // Si el robo falla y te atrapan
+    let amountSubtracted = Math.min(Math.floor(Math.random() * (sendercorazones - minAmount + 1)) + minAmount, maxAmount)
+    users[senderId].corazones -= amountSubtracted
+    conn.reply(m.chat, `🤍 No fuiste cuidadoso y te atraparon mientras intentabas robar corazones, se restaron *-${amountSubtracted} 🤍 corazones* a ${senderName}.`, m)
+    break
+
+  case 2:
+    // Si el robo es parcialmente exitoso
+    let smallAmountTaken = Math.min(Math.floor(Math.random() * (randomUsercorazones / 2 - minAmount + 1)) + minAmount, maxAmount)
+    users[senderId].corazones += smallAmountTaken
+    users[randomUserId].corazones -= smallAmountTaken
+    conn.sendMessage(m.chat, {
+      text: `🤍 Lograste robar algunos corazones, pero no completamente. Tomaste *${smallAmountTaken} 🤍 corazones* de @${randomUserId.split("@")[0]}\n\nSe suman *+${smallAmountTaken} 🤍 corazones* a ${senderName}.`,
+      contextInfo: { 
+        mentionedJid: [randomUserId],
+      }
+    }, { quoted: m })
+    break
+  }
+
+  global.db.write()
+}
+handler.tags = ['rpg']
+handler.help = ['robar']
+handler.command = ['robarcorazones', 'stealhearts', 'robar', 'rb']
+handler.register = true
+handler.group = true
+
+export default handler
 
 function segundosAHMS(segundos) {
-  let horas = Math.floor(segundos / 3600);
-  let minutos = Math.floor((segundos % 3600) / 60);
-  let segundosRestantes = segundos % 60;
-  return `${horas.toString().padStart(2, '0')}:${minutos.toString().padStart(2, '0')}:${segundosRestantes.toString().padStart(2, '0')}`;
-}
-
-function pickRandom(array) {
-  return array[Math.floor(Math.random() * array.length)];
+  let horas = Math.floor(segundos / 3600)
+  let minutos = Math.floor((segundos % 3600) / 60)
+  let segundosRestantes = segundos % 60
+  return `${minutos} minutos y ${segundosRestantes} segundos`
 }
