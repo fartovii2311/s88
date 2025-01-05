@@ -93,7 +93,8 @@
     "yargs": "^17.6.0",
     "yt-search": "^2.10.3",
     "os-utils": "^0.0.14",
-    "performance-now": "^2.1.0"
+    "performance-now": "^2.1.0",
+    "youtube-yts": "^2.0.0"
   },
   "optionalDependencies": {
     "@vitalets/google-translate-api": "^9.2.0"
