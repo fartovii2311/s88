@@ -80,7 +80,7 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
     await conn.relayMessage(message.chat, messageContent.message, {
       messageId: messageContent.key.id
     });
-     await m.react('✅');
+     await message.react('✅');
   } catch (error) {
     console.error(error);
     conn.reply(message.chat, `❌️ *OCURRIÓ UN ERROR:* ${error.message}`, message);
