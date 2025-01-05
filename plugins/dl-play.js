@@ -1,4 +1,4 @@
-import { igdl } from '../lib/scrapers/youtube.js';
+import { igdl } from '../lib/youtube.js';
 import yts from 'yt-search';
 import axios from 'axios';
 
