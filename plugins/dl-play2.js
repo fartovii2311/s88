@@ -72,9 +72,11 @@ const downloadMp3 = async (query) => {
     }
 };
 
+// Comando para manejar el proceso
 const handler = async (conn, m, args) => {
-    const { text, sender, m: { chat }, prefixo, namebot } = m;
+    const { text, sender, m: { chat }, info, prefixo, namebot } = m;
     
+    // Verificar si no se proporciona texto
     if (!text) {
         return conn.reply(m.chat, '🚩 Por favor, proporcione el texto para buscar');
     }
@@ -116,6 +118,7 @@ const handler = async (conn, m, args) => {
     }
 };
 
+// Información del comando
 handler.help = ['play2 *<texto>*'];
 handler.tags = ['dl'];
 handler.corazones = 2;
