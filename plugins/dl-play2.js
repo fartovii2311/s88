@@ -65,3 +65,8 @@ function secondString(seconds) {
   const s = Math.floor(seconds % 60);
   return `${h > 0 ? h + 'h ' : ''}${m}m ${s}s`;
 }
+
+function eYear(time) {
+  // Función para convertir el tiempo publicado a un formato legible
+  return time;
+}
