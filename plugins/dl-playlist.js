@@ -8,7 +8,14 @@ let handler = async (m, { conn, usedPrefix, text }) => {
   try {
     let result = await yts(text);
     let ytres = result.videos;
+
+    // Inicializar listSections como un array vacío
     let listSections = [];
+
+    // Validar que haya resultados antes de iterar
+    if (!ytres || ytres.length === 0) {
+      return conn.reply(m.chat, 'No se encontraron resultados para tu búsqueda.', m);
+    }
 
     for (let v of ytres) {
       listSections.push({
@@ -38,10 +45,7 @@ let handler = async (m, { conn, usedPrefix, text }) => {
       });
     }
 
-    if (listSections.length === 0) {
-      return conn.reply(m.chat, 'No se encontraron resultados para tu búsqueda.', m);
-    }
-
+    // Enviar la lista generada
     await conn.sendList(
       m.chat,
       `Resultados de búsqueda`,
@@ -52,14 +56,4 @@ let handler = async (m, { conn, usedPrefix, text }) => {
     );
   } catch (e) {
     console.error(e);
-    await conn.reply(m.chat, 'Hubo un error al procesar tu solicitud. Por favor, intenta nuevamente más tarde.', m);
-  }
-};
-
-handler.help = ['playlist'];
-handler.tags = ['dl'];
-handler.command = /^playlist|ytbuscar|yts(earch)?$/i;
-handler.limit = 1;
-handler.level = 3;
-
-export default handler;
+    await conn.reply(m.chat, 'Hubo un error al 
