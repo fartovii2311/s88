@@ -1,7 +1,5 @@
 import fetch from 'node-fetch';
 
-const limit = 200; // Límite en MB
-
 let handler = async (m, { conn, text }) => {
     if (!m.quoted) {
         await m.react('✖️');
@@ -26,17 +24,17 @@ let handler = async (m, { conn, text }) => {
 
     try {
         const videoUrl = urls[0];
-        const apiUrl = `https://darkcore-api.onrender.com/api/Youtube-mp3?url=${videoUrl}`;
+        const apiUrl = `https://deliriussapi-oficial.vercel.app/download/ytmp3?url=${videoUrl}`;
         
         const response = await fetch(apiUrl);
         if (!response.ok) throw new Error('Error al obtener los datos de la API.');
 
         const apiData = await response.json();
-        if (!apiData.success || !apiData.result || !apiData.result.data) {
+        if (!apiData.status || !apiData.data) {
             throw new Error('La API no devolvió datos válidos.');
         }
 
-        const { url: dl_url, size, bytes_size } = apiData.result.data.download;
+        const { url: dl_url } = apiData.data.download;
 
         // Enviar solo el archivo MP3
         await conn.sendFile(
