@@ -7,7 +7,7 @@ const {
   getDevice
 } = (await import("@whiskeysockets/baileys")).default;
 
-let handler = async (m, { conn, text, usedPrefix, command }) => {
+let handler = async (message,m, { conn, text, usedPrefix, command }) => {
   if (!text) {
     return conn.reply(m.chat, "❕️ *¿QUÉ BÚSQUEDA DESEA REALIZAR EN TIKTOK?*", m, rcanal);
   }
