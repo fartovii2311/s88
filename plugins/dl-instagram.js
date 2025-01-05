@@ -5,7 +5,7 @@ import * as cheerio from 'cheerio';
 
 let handler = async (m, { args, command, conn }) => {
   if (!args[0]) {
-    return m.reply('❀ Ingresa un link de Instagram',m,rcanal);
+    return comm.reply(m,chat,'❀ Ingresa un link de Instagram',m,rcanal);
   }
 
   await m.react('🕓'); // Reacción de carga
