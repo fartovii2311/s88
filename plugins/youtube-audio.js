@@ -36,7 +36,7 @@ let handler = async (m, { conn, text }) => {
 
         const { url: dl_url } = apiData.data.download;
 
-        // Enviar solo el archivo MP3
+        // Enviar el archivo MP3
         await conn.sendFile(
             m.chat,
             dl_url,
