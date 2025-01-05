@@ -1,50 +1,124 @@
-import fetch from 'node-fetch';
-import yts from 'yt-search';
-import ytdl from 'ytdl-core';
+import yts from 'youtube-yts';
+import ytdl from '@distube/ytdl-core';
+import ffmpeg from 'fluent-ffmpeg';
+import { randomBytes } from 'crypto';
+import fs from 'fs';
+import path from 'path';
 
-let handler = async (m, { conn, text, args }) => {
-  if (!text) return m.reply("❀ Ingresa un texto de lo que quieres buscar");
+// Función para buscar videos en YouTube
+const searchVideos = async (query) => {
+    try {
+        const result = await yts(query);
+       
+        if (result && result.videos) {
+            return result.videos.map(video => ({
+                title: video.title,
+                author: video.author,
+                description: video.description,
+                thumbnail: video.thumbnail,
+                views: video.views,
+                url: video.url,
+                timestamp: video.timestamp,
+                duration: video.duration,
+            }));
+        } else {
+            console.log('No videos found');
+            return [];
+        }
+    } catch (error) {
+        console.error('Error fetching YouTube search results:', error);
+        return { error: 'Error fetching results' };
+    }
+};
+
+// Función para descargar el MP3
+const downloadMp3 = async (query) => {
+    try {
+        const getTrack = Array.isArray(query) ? query : await searchVideos(query);
+        const search = getTrack[0];
+        const videoId = search.url.split('v=')[1];
+        const videoInfo = await ytdl.getInfo(`https://www.youtube.com/watch?v=${videoId}`, { lang: 'id' });
+
+        let stream = ytdl(videoId, { filter: 'audioonly', quality: 'highestaudio' });
+        let songPath = `./tmp/${randomBytes(3).toString('hex')}.mp3`;
+
+        stream.on('error', (err) => console.log('Stream error:', err));
+
+        // Procesar el stream de audio y guardarlo como MP3
+        const file = await new Promise((resolve, reject) => {
+            ffmpeg(stream)
+                .audioFrequency(48000) // Frecuencia más alta para mejor calidad de audio
+                .audioChannels(2)
+                .audioBitrate(320) // Mayor bitrate para mejor calidad
+                .audioCodec('libmp3lame')
+                .audioQuality(0) // Mejor calidad (escala de 0 a 9, donde 0 es lo mejor)
+                .toFormat('mp3')
+                .save(songPath)
+                .on('end', () => {
+                    console.log('MP3 file saved:', songPath);
+                    resolve(songPath);
+                })
+                .on('error', (err) => {
+                    console.error('FFmpeg error:', err);
+                    reject(err);
+                });
+        });
+
+        // Retornar la ruta del archivo MP3
+        return { path: file };
+
+    } catch (error) {
+        console.error('Error downloading MP3:', error);
+        throw new Error('MP3 download failed');
+    }
+};
+
+const handler = async (sock, from, reply, comando, info, args, sender, text, prefixo, namebot) => {
+    if (!text) {
+        return reply('🚩 Porfavor proporcione el texto para buscar');
+    }
   
-  // Realizar la búsqueda en YouTube
-  let ytres = await search(args.join(" "));
-  let txt = `- Título: ${ytres[0].title}
-- Duración: ${ytres[0].timestamp}
-- Publicado: ${ytres[0].ago}
-- Canal: ${ytres[0].author.name || 'Desconocido'}
-- Url: ${'https://youtu.be/' + ytres[0].videoId}`;
+    try {
+        const results = await searchVideos(text);
+        
+        if (!results || results.length === 0) {
+            return reply(`🚫 No se encontraron resultados para *${text}* en YouTube. Intenta con otro término.`);
+        }
 
-  // Enviar la imagen de la miniatura y la información del video
-  await conn.sendFile(m.chat, ytres[0].image, 'thumbnail.jpg', txt, m);
+        const video = results[0];
+        
+        let videoText = `* - Y O U T U B E  - M U S I C - *\n\n`;
+        videoText += `✩  *Título* : ${video.title}\n`;
+        videoText += `✩ *_views:_*  ${video.views}\n`;
+        videoText += `✩ Un momento su pedido anda descargando\n\n`;
+        videoText += `> 🚩 *${namebot}*`;
 
-  try {
-    // Descargar el video usando ytdl-core
-    let videoUrl = 'https://youtu.be/' + ytres[0].videoId;
-    let info = await ytdl.getInfo(videoUrl);
-    
-    // Filtrar los mejores formatos de video
-    let videoFormat = ytdl.chooseFormat(info.formats, { filter: 'audioandvideo' });
+        // Enviar la miniatura y la información del video
+        await sock.sendMessage(from, { 
+            image: { url: video.thumbnail }, 
+            caption: videoText,  
+            contextInfo: {
+                mentionedJid: [sender],
+                externalAdReply: {
+                    showAdAttribution: true,
+                    title: '【 D A R K ✘ B A S E 】',
+                    thumbnailUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPx11BO4l-0lFbEjOCQez5YEMvg8M8NVxLWQ&usqp=CAU',
+                }
+            }
+        }, { quoted: info });
 
-    // Verificar si se encontró un formato adecuado
-    if (!videoFormat) {
-      return m.reply('❀ No se encontró un formato de video adecuado.');
+        // Descargar el MP3 y enviarlo
+        const mp3Data = await downloadMp3(text);
+        
+        await sock.sendMessage(from, {
+            audio: { url: mp3Data.path }, 
+            mimetype: 'audio/mp4'
+        }, { quoted: info });       
+        
+    } catch (error) {
+        console.error('Error:', error);  // Registrar el error para depuración
+        return reply('🚩 Ocurrió un error al buscar los videos. Intenta de nuevo.');
     }
-
-    // Enviar el video descargado
-    await conn.sendMessage(m.chat, {
-      video: { url: videoFormat.url },
-      caption: ytres[0].title,
-      mimetype: 'video/mp4',
-      fileName: `${ytres[0].title}.mp4`
-    }, { quoted: m });
-
-  } catch (error) {
-    console.error('Error al obtener el video:', error);
-    if (error.message.includes('Could not extract functions')) {
-      m.reply('❀ Ocurrió un problema al intentar extraer el video. Asegúrate de que el video esté disponible y prueba nuevamente.');
-    } else {
-      m.reply('❀ Ocurrió un error al intentar obtener el video. Intenta nuevamente.');
-    }
-  }
 };
 
 handler.help = ['play2 *<texto>*'];
@@ -54,9 +128,3 @@ handler.command = ['play2'];
 handler.register = true;
 
 export default handler;
-
-// Función para realizar la búsqueda en YouTube
-async function search(query, options = {}) {
-  let search = await yts.search({ query, hl: "es", gl: "ES", ...options });
-  return search.videos;
-}
