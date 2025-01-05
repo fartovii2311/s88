@@ -34,17 +34,17 @@ let handler = async (m, { conn, text }) => {
             throw new Error('La API no devolvió datos válidos.');
         }
 
-        const { url: dl_url } = apiData.data.download;
+        const { url: dl_url, title } = apiData.data.download;
 
-        // Enviar el archivo MP3
-        await conn.sendFile(
-            m.chat,
-            dl_url,
-            `audio.mp3`,
-            null,
-            m,
-            false,
-            { mimetype: 'audio/mpeg' }
+        // Enviar el archivo MP3 con el nombre correcto
+        await conn.sendMessage(
+            m.chat, 
+            { 
+                audio: { url: dl_url }, 
+                fileName: `${title}.mp3`, 
+                mimetype: 'audio/mp4' 
+            }, 
+            { quoted: m }
         );
 
         await m.react('✅');
