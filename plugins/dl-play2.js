@@ -73,9 +73,8 @@ const downloadMp3 = async (query) => {
 };
 
 // Comando para manejar el proceso
-const handler = async (conn, m, args) => {
-    const text = m.text;
-    const namebot = "MiBot";  // Ajusta este valor según tu bot
+let handler = async (conn, m, args) => {
+    const namebot = "MiBot";
 
     // Verificar si no se proporciona texto
     if (!text) {
