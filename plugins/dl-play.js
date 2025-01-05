@@ -1,4 +1,4 @@
-import { youtube } from 'btch-downloader';
+import { igdl } from './scrapers/mp3.js'; 
 import yts from 'yt-search'; // Aquí estamos importando la librería
 import axios from 'axios';
 
@@ -32,20 +32,17 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       }
     }, { quoted: m });
 
-    let data = await youtube(url);
+    // Aquí estamos usando igdl para obtener la descarga en formato MP3
+    let data = await igdl(url); 
 
-    // Verifica si la respuesta es válida antes de pasarla a cheerio
-    if (!data || !data.mp3) {
+    // Verifica si la respuesta es válida antes de intentar acceder al enlace de descarga
+    if (!data || !data.url) {
       return conn.reply(m.chat, '❀ Descarga fallida :(', m);
     }
 
-    // Verifica si la respuesta es HTML antes de cargarla
-    if (typeof data.mp3 !== 'string') {
-      throw new Error('La respuesta de la descarga no es una cadena de texto');
-    }
-
+    // Enviar el archivo MP3 al chat
     await conn.sendMessage(m.chat, {
-      audio: { url: data.mp3 },
+      audio: { url: data.url }, // Asegurarse de que 'data.url' sea el enlace de la descarga
       mimetype: 'audio/mpeg',
     }, { quoted: m });
 
