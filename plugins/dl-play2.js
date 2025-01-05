@@ -9,7 +9,6 @@ import path from 'path';
 const searchVideos = async (query) => {
     try {
         const result = await yts(query);
-       
         if (result && result.videos) {
             return result.videos.map(video => ({
                 title: video.title,
@@ -22,12 +21,12 @@ const searchVideos = async (query) => {
                 duration: video.duration,
             }));
         } else {
-            console.log('No videos found');
+            console.log('No se encontraron videos');
             return [];
         }
     } catch (error) {
-        console.error('Error fetching YouTube search results:', error);
-        return { error: 'Error fetching results' };
+        console.error('Error al obtener los resultados de YouTube:', error);
+        return { error: 'Error al obtener los resultados' };
     }
 };
 
@@ -42,7 +41,7 @@ const downloadMp3 = async (query) => {
         let stream = ytdl(videoId, { filter: 'audioonly', quality: 'highestaudio' });
         let songPath = `./tmp/${randomBytes(3).toString('hex')}.mp3`;
 
-        stream.on('error', (err) => console.log('Stream error:', err));
+        stream.on('error', (err) => console.log('Error en el stream:', err));
 
         // Procesar el stream de audio y guardarlo como MP3
         const file = await new Promise((resolve, reject) => {
@@ -55,11 +54,11 @@ const downloadMp3 = async (query) => {
                 .toFormat('mp3')
                 .save(songPath)
                 .on('end', () => {
-                    console.log('MP3 file saved:', songPath);
+                    console.log('Archivo MP3 guardado:', songPath);
                     resolve(songPath);
                 })
                 .on('error', (err) => {
-                    console.error('FFmpeg error:', err);
+                    console.error('Error en FFmpeg:', err);
                     reject(err);
                 });
         });
@@ -68,21 +67,23 @@ const downloadMp3 = async (query) => {
         return { path: file };
 
     } catch (error) {
-        console.error('Error downloading MP3:', error);
-        throw new Error('MP3 download failed');
+        console.error('Error al descargar MP3:', error);
+        throw new Error('Falló la descarga del MP3');
     }
 };
 
-const handler = async (sock, from, reply, comando, info, args, sender, text, prefixo, namebot) => {
+const handler = async (conn, m, args) => {
+    const { text, sender, m: { chat }, info, prefixo, namebot } = m;
+    
     if (!text) {
-        return reply('🚩 Porfavor proporcione el texto para buscar');
+        return conn.reply(m.chat, '🚩 Por favor, proporcione el texto para buscar', info);
     }
-  
+
     try {
         const results = await searchVideos(text);
-        
+
         if (!results || results.length === 0) {
-            return reply(`🚫 No se encontraron resultados para *${text}* en YouTube. Intenta con otro término.`);
+            return conn.reply(m.chat, `🚫 No se encontraron resultados para *${text}* en YouTube. Intenta con otro término.`, info);
         }
 
         const video = results[0];
@@ -90,11 +91,11 @@ const handler = async (sock, from, reply, comando, info, args, sender, text, pre
         let videoText = `* - Y O U T U B E  - M U S I C - *\n\n`;
         videoText += `✩  *Título* : ${video.title}\n`;
         videoText += `✩ *_views:_*  ${video.views}\n`;
-        videoText += `✩ Un momento su pedido anda descargando\n\n`;
+        videoText += `✩ Un momento, su pedido está descargando\n\n`;
         videoText += `> 🚩 *${namebot}*`;
 
         // Enviar la miniatura y la información del video
-        await sock.sendMessage(from, { 
+        await conn.sendMessage(m.chat, { 
             image: { url: video.thumbnail }, 
             caption: videoText,  
             contextInfo: {
@@ -107,17 +108,27 @@ const handler = async (sock, from, reply, comando, info, args, sender, text, pre
             }
         }, { quoted: info });
 
-        // Descargar el MP3 y enviarlo
+        // Descargar el MP3
         const mp3Data = await downloadMp3(text);
-        
-        await sock.sendMessage(from, {
-            audio: { url: mp3Data.path }, 
-            mimetype: 'audio/mp4'
-        }, { quoted: info });       
-        
+
+        // Enviar el MP3 como audio
+        await conn.sendMessage(m.chat, {
+            audio: { url: mp3Data.path },
+            mimetype: 'audio/mp4',
+            caption: videoText,
+            contextInfo: {
+                mentionedJid: [sender],
+                externalAdReply: {
+                    showAdAttribution: true,
+                    title: '【 D A R K ✘ B A S E 】',
+                    thumbnailUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPx11BO4l-0lFbEjOCQez5YEMvg8M8NVxLWQ&usqp=CAU',
+                }
+            }
+        }, { quoted: info });
+
     } catch (error) {
-        console.error('Error:', error);  // Registrar el error para depuración
-        return reply('🚩 Ocurrió un error al buscar los videos. Intenta de nuevo.');
+        console.error('Error:', error);
+        return conn.reply(m.chat, '🚩 Ocurrió un error al buscar los videos. Intenta de nuevo.', info);
     }
 };
 
