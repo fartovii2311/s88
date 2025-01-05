@@ -73,7 +73,7 @@ const downloadMp3 = async (query) => {
 };
 
 // Comando para manejar el proceso
-let handler = async (conn, m, args) => {
+let handler = async (m, { conn: command, args, text, usedPrefix }) => {
     const namebot = "MiBot";
 
     // Verificar si no se proporciona texto
