@@ -42,7 +42,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 }
 
 handler.help = ['ppt']
-handler.tags = ['game']
+handler.tags = ['rpg']
 handler.command = ['ppt']
 //handler.group = true
 handler.register = true
