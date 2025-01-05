@@ -12,7 +12,7 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
     return conn.reply(message.chat, "❕️ *¿QUÉ BÚSQUEDA DESEA REALIZAR EN TIKTOK?*", m, rcanal);
   }
   
-  await conn.react('🕓');
+  await message.react('🕓');
   
   async function createVideoMessage(url) {
     const { videoMessage } = await generateWAMessageContent({
