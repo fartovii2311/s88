@@ -1,4 +1,3 @@
-
 import yts from 'youtube-yts';
 import ytdl from '@distube/ytdl-core';
 import ffmpeg from 'fluent-ffmpeg';
@@ -83,7 +82,7 @@ const handler = async (sock, from, reply, comando, info, args, sender, text, pre
         const results = await searchVideos(text);
         
         if (!results || results.length === 0) {
-            return m.reply(`🚫 No se encontraron resultados para *${text}* en YouTube. Intenta con otro término.`);
+            return reply(`🚫 No se encontraron resultados para *${text}* en YouTube. Intenta con otro término.`);
         }
 
         const video = results[0];
@@ -118,7 +117,7 @@ const handler = async (sock, from, reply, comando, info, args, sender, text, pre
         
     } catch (error) {
         console.error('Error:', error);  // Registrar el error para depuración
-        return m.reply('🚩 Ocurrió un error al buscar los videos. Intenta de nuevo.');
+        return reply('🚩 Ocurrió un error al buscar los videos. Intenta de nuevo.');
     }
 };
 
