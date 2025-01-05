@@ -74,8 +74,9 @@ const downloadMp3 = async (query) => {
 
 // Comando para manejar el proceso
 const handler = async (conn, m, args) => {
-    const { text, sender, m: { chat }, info, prefixo, namebot } = m;
-    
+    const text = m.text;
+    const namebot = "MiBot";  // Ajusta este valor según tu bot
+
     // Verificar si no se proporciona texto
     if (!text) {
         return conn.reply(m.chat, '🚩 Por favor, proporcione el texto para buscar');
