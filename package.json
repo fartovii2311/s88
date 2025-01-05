@@ -36,7 +36,7 @@
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "@whiskeysockets/baileys": "github:ds6/bails",
-    "NakanoTeam-Scraper": "github:StarlightsTeam/NakanoTeam-Scraper"
+    "NakanoTeam-Scraper": "github:StarlightsTeam/NakanoTeam-Scraper",
     "@adiwajshing/keyed-db": "^0.2.4",
     "@ibaraki-douji/pixivts": "^2.4.1",
     "@bochilteam/scraper": "^4.2.4",
