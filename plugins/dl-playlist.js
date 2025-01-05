@@ -1,7 +1,9 @@
 import yts from 'yt-search';
 
 let handler = async (m, { conn, usedPrefix, text }) => {
-  if (!text) return conn.reply(m.chat, 'Escribe el nombre de un video o canal de YouTube.', m);
+  if (!text) {
+    return conn.reply(m.chat, 'Escribe el nombre de un video o canal de YouTube.', m);
+  }
 
   try {
     let result = await yts(text);
@@ -10,43 +12,47 @@ let handler = async (m, { conn, usedPrefix, text }) => {
 
     for (let v of ytres) {
       listSections.push({
-        title: `Resultados`,
+        title: `${v.title}`,
         rows: [
           {
             title: "Audio",
-            description: `${v.title} | ${v.timestamp}`,
-            id: `${usedPrefix}ytmp3 ${v.url}`,
+            description: `Duración: ${v.timestamp}\nSubido por: ${v.author.name}`,
+            rowId: `${usedPrefix}ytmp3 ${v.url}`,
           },
           {
             title: "Video",
-            description: `${v.title} | ${v.timestamp}`,
-            id: `${usedPrefix}ytmp4 ${v.url}`,
+            description: `Duración: ${v.timestamp}\nSubido por: ${v.author.name}`,
+            rowId: `${usedPrefix}ytmp4 ${v.url}`,
           },
           {
             title: "Audio (Documento)",
-            description: `${v.title} | ${v.timestamp}`,
-            id: `${usedPrefix}ytmp3doc ${v.url}`,
+            description: `Duración: ${v.timestamp}\nSubido por: ${v.author.name}`,
+            rowId: `${usedPrefix}ytmp3doc ${v.url}`,
           },
           {
             title: "Video (Documento)",
-            description: `${v.title} | ${v.timestamp}`,
-            id: `${usedPrefix}ytmp4doc ${v.url}`,
+            description: `Duración: ${v.timestamp}\nSubido por: ${v.author.name}`,
+            rowId: `${usedPrefix}ytmp4doc ${v.url}`,
           },
         ],
       });
     }
 
+    if (listSections.length === 0) {
+      return conn.reply(m.chat, 'No se encontraron resultados para tu búsqueda.', m);
+    }
+
     await conn.sendList(
       m.chat,
-      `Resultados`,
+      `Resultados de búsqueda`,
       `Búsqueda de: ${text}`,
-      `Selecciona una opción`,
+      'Selecciona una opción',
       listSections,
       m
     );
   } catch (e) {
-    await conn.reply(m.chat, 'Ocurrió un error al procesar tu solicitud. Por favor, intenta nuevamente.', m);
-    console.log(e);
+    console.error(e);
+    await conn.reply(m.chat, 'Hubo un error al procesar tu solicitud. Por favor, intenta nuevamente más tarde.', m);
   }
 };
 
