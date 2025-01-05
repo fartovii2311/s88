@@ -37,7 +37,7 @@ delete conn.tekateki[id]
 global.db.data.users[m.sender].lastAcet = now
 }
 handler.help = ['acertijo']
-handler.tags = ['game']
+handler.tags = ['rpg']
 handler.command = /^(acertijo|acert|pregunta|adivinanza|tekateki)$/i
 export default handler
 
