@@ -1,48 +1,42 @@
-// [ ❀ PLAY ]
-import fetch from 'node-fetch';
-import yts from 'yt-search';
 
-let handler = async (m, { conn, text, args }) => {
-  if (!text) return conn.reply(m.chat,'❀ Ingresa un texto de lo que quieres buscar',m,rcanal);
-  
-  await m.react('🕓'); 
+import { youtube } from 'btch-downloader'
+import yts from 'yt-search'
+import axios from 'axios'
 
-  try {
-    let ytres = await search(args.join(" "));
-    let txt = `- Título: ${ytres[0].title}
-- Duración: ${ytres[0].timestamp}
-- Publicado: ${ytres[0].ago}
-- Canal: ${ytres[0].author.name || 'Desconocido'}
-- Url: ${'https://youtu.be/' + ytres[0].videoId}`;
+let handler = async (m, { conn, text, usedPrefix, command }) => {
+if (!text) return conn.reply(m.chat, ❀ Ingresa el texto de lo que quieres buscar, m)
 
-    await conn.sendFile(m.chat, ytres[0].image, 'thumbnail.jpg', txt,m,rcanal,fake);
-    
-    let api = await fetch(`https://api.giftedtech.my.id/api/download/dlmp3?apikey=gifted&url=${ytres[0].url}`);
-    let json = await api.json();
-    let { quality, title, download_url } = json.result;
+try {
+let ytsres = await yts(text)
+let video = ytsres.videos[0]
 
-    await conn.sendMessage(m.chat, { 
-      audio: { url: download_url }, 
-      fileName: `${title}.mp3`, 
-      mimetype: 'audio/mp4' 
-    }, { quoted: m });
+if (!video) return conn.reply(m.chat, ❀ Sin resultados obtenidos :(, m)
 
-    await m.react('✅');  // Reacción de éxito
-  } catch (error) {
-    console.error('Error al obtener el MP3:', error);
-    m.reply('❀ Ocurrió un error al intentar obtener el MP3. Intenta nuevamente.');
-    await m.react('❌');  // Reacción de error
-  }
-};
+let { title, duration, views, ago, author, thumbnail, url } = video
+let HS = `- Titulo : ${title}
+- Duracion : ${duration.timestamp}
+- Visitas : ${views.toLocaleString()}
+- Subido : ${ago}
+- Autor : ${author.name}`
 
-handler.help = ["play3 *<texto>*"]
-handler.tags = ['dl'];
-handler.corazones = 2;
-handler.command = /^(play3)$/i;
-handler.register = true;
-export default handler;
+ 
+await conn.sendMessage(m.chat, {text: HS,
+contextInfo: { externalAdReply: {
+title: ${title}, body: ${author.name},
+thumbnailUrl: thumbnail, sourceUrl: url,
+mediaType: 1, renderLargerThumbnail: true
+}}}, { quoted: m })
 
-async function search(query, options = {}) {
-  let search = await yts.search({ query, hl: "es", gl: "ES", ...options });
-  return search.videos;
-}
+let data = await youtube(url)
+
+if (!data || !data.mp3) return conn.reply(m.chat, ❀ Descarga fallida :(, m)
+
+await conn.sendMessage(m.chat, { audio: { url: data.mp3 }, mimetype: 'audio/mpeg', }, { quoted: m })
+//data.mp4 para video :v
+} catch (error) {
+console.error(error)
+}}
+
+handler.command = ['play3']
+
+export default handler
