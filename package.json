@@ -50,6 +50,7 @@
     "cfonts": "^3.3.0",
     "chalk": "^4.1.0",
     "colors": "^1.4.0",
+    "btch-downloader": "^1.0.0",
     "dotenv": "^16.3.1",
     "emoji-api": "^2.0.1",
     "express": "^4.18.1",
