@@ -16,7 +16,30 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 
   let sendercorazones = users[senderId].corazones || 0
 
-  // Obtener los participantes del grupo
+  // Si el usuario no tiene corazones, intentar robar de otro usuario
+  if (sendercorazones <= 0) {
+    let groupParticipants = m.isGroup ? await conn.groupMetadata(m.chat).then(group => group.participants) : []
+    let targetUserId = groupParticipants.find(participant => users[participant.id] && users[participant.id].corazones > 0)?.id
+
+    if (!targetUserId) {
+      m.reply(`🤍 No hay usuarios con corazones para robar en este grupo.`)
+      return
+    }
+
+    let amountTaken = Math.floor(Math.random() * (50 - 15 + 1)) + 15
+    users[targetUserId].corazones -= amountTaken
+    users[senderId].corazones += amountTaken
+    conn.sendMessage(m.chat, {
+      text: `🤍 No tenías corazones, así que robaste *${amountTaken} 🤍 corazones* de @${targetUserId.split("@")[0]}. Se suman *+${amountTaken} 🤍 corazones* a ${senderName}.`,
+      contextInfo: { 
+        mentionedJid: [targetUserId],
+      }
+    }, { quoted: m })
+    global.db.write()
+    return
+  }
+
+  // Si el usuario tiene corazones, robar a otro usuario
   let groupParticipants = m.isGroup ? await conn.groupMetadata(m.chat).then(group => group.participants) : []
   let randomUserId = groupParticipants[Math.floor(Math.random() * groupParticipants.length)].id
 
