@@ -1,50 +1,29 @@
-import { igdl } from '../lib/youtube.js';
-import yts from 'yt-search';
+import { igdl } from '../lib/youtube.js';  // Importamos la función igdl
 import axios from 'axios';
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) return conn.reply(m.chat, '❀ Ingresa el texto de lo que quieres buscar', m);
+  if (!text) return conn.reply(m.chat, '❀ Ingresa la URL del contenido de Instagram que quieres descargar', m);
 
   try {
-    let ytsres = await yts(text); // Usamos yts para buscar los videos
-    let video = ytsres.videos[0]; // Obtenemos el primer video del resultado
+    // Llamamos a la función igdl para obtener los datos de la URL de Instagram
+    let data = await igdl(text);
 
-    if (!video) return conn.reply(m.chat, '❀ Sin resultados obtenidos :(', m);
-
-    let { title, duration, views, ago, author, thumbnail, url } = video;
-    let HS = `- Titulo: ${title}
-- Duracion: ${duration.timestamp}
-- Visitas: ${views.toLocaleString()}
-- Subido: ${ago}
-- Autor: ${author.name}`;
-
-    await conn.sendMessage(m.chat, {
-      text: HS,
-      contextInfo: {
-        externalAdReply: {
-          title: `${title}`,
-          body: `${author.name}`,
-          thumbnailUrl: thumbnail,
-          sourceUrl: url,
-          mediaType: 1,
-          renderLargerThumbnail: true
-        }
-      }
-    }, { quoted: m });
-
-    // Aquí estamos usando igdl para obtener la descarga en formato MP3
-    let data = await igdl(url); 
-
-    // Verifica si la respuesta es válida antes de intentar acceder al enlace de descarga
-    if (!data || !data.url) {
+    // Verificamos si la respuesta tiene enlaces de descarga
+    if (!data || !data.url || data.url.length === 0) {
       return conn.reply(m.chat, '❀ Descarga fallida :(', m);
     }
 
-    // Enviar el archivo MP3 al chat
-    await conn.sendMessage(m.chat, {
-      audio: { url: data.url }, // Asegurarse de que 'data.url' sea el enlace de la descarga
-      mimetype: 'audio/mpeg',
-    }, { quoted: m });
+    // Enviar los enlaces de descarga encontrados
+    let resultMessage = `❀ Resultados encontrados para la URL proporcionada: ${data.result_count} enlaces disponibles.`;
+    
+    await conn.reply(m.chat, resultMessage, m);
+
+    // Enviar los enlaces de descarga disponibles
+    data.url.forEach(async (link, index) => {
+      await conn.sendMessage(m.chat, {
+        text: `Enlace ${index + 1}: ${link}`,  // Enviar cada enlace encontrado
+      }, { quoted: m });
+    });
 
   } catch (error) {
     console.error(error);
@@ -52,6 +31,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   }
 };
 
-handler.command = ['play3'];
+handler.command = ['igdl'];
 
 export default handler;
