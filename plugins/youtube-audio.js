@@ -36,16 +36,7 @@ let handler = async (m, { conn, text }) => {
             throw new Error('La API no devolvió datos válidos.');
         }
 
-        const { download } = apiData.result.data;
-        const { url: dl_url, size, bytes_size } = download;
-
-        // Convertir el tamaño del archivo a MB
-        const fileSizeMB = bytes_size / (1024 * 1024);
-
-        if (fileSizeMB >= limit) {
-            await m.react('✖️');
-            return conn.reply(m.chat, `⚠️ El archivo supera el límite de ${limit} MB. Se canceló la descarga.`, m);
-        }
+        const { url: dl_url, size, bytes_size } = apiData.result.data.download;
 
         // Enviar solo el archivo MP3
         await conn.sendFile(
