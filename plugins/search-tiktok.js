@@ -9,7 +9,7 @@ const {
 
 let handler = async (message,m, { conn, text, usedPrefix, command }) => {
   if (!text) {
-    return conn.reply(m.chat, "❕️ *¿QUÉ BÚSQUEDA DESEA REALIZAR EN TIKTOK?*", m, rcanal);
+    return conn.reply(message.chat, "❕️ *¿QUÉ BÚSQUEDA DESEA REALIZAR EN TIKTOK?*", m, rcanal);
   }
   
   await m.react('🕓');
@@ -83,7 +83,7 @@ let handler = async (message,m, { conn, text, usedPrefix, command }) => {
      await m.react('✅');
   } catch (error) {
     console.error(error);
-    conn.reply(m.chat, `❌️ *OCURRIÓ UN ERROR:* ${error.message}`, m);
+    conn.reply(message.chat, `❌️ *OCURRIÓ UN ERROR:* ${error.message}`, m);
   }
 };
 
