@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 
 const limit = 200; // Límite en MB
 
-let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) => {
+let handler = async (m, { conn, text }) => {
     if (!m.quoted) {
         await m.react('✖️');
         return conn.reply(m.chat, `⚠️ Debes etiquetar el mensaje que contenga el resultado de YouTube Play.`, m);
@@ -31,26 +31,31 @@ let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) =
         const response = await fetch(apiUrl);
         if (!response.ok) throw new Error('Error al obtener los datos de la API.');
 
-        const { title, size, quality, thumbnail, dl_url } = await response.json();
-        
+        const apiData = await response.json();
+        if (!apiData.success || !apiData.result || !apiData.result.data) {
+            throw new Error('La API no devolvió datos válidos.');
+        }
+
+        const { download } = apiData.result.data;
+        const { url: dl_url, size, bytes_size } = download;
+
         // Convertir el tamaño del archivo a MB
-        const fileSizeMB = parseFloat(size.replace('MB', '').trim());
-        
+        const fileSizeMB = bytes_size / (1024 * 1024);
+
         if (fileSizeMB >= limit) {
             await m.react('✖️');
             return conn.reply(m.chat, `⚠️ El archivo supera el límite de ${limit} MB. Se canceló la descarga.`, m);
         }
 
-        // Enviar el archivo como documento o audio dependiendo de la configuración del usuario
-        const user = global.db.data.users[m.sender];
+        // Enviar solo el archivo MP3
         await conn.sendFile(
             m.chat,
             dl_url,
-            `${title}.mp3`,
+            `audio.mp3`,
             null,
             m,
             false,
-            { mimetype: 'audio/mpeg', asDocument: user?.useDocument || false }
+            { mimetype: 'audio/mpeg' }
         );
 
         await m.react('✅');
