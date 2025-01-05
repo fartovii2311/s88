@@ -7,7 +7,7 @@ const {
   getDevice
 } = (await import("@whiskeysockets/baileys")).default;
 
-let handler = async (message, { conn, text, usedPrefix, command }) => {
+let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!text) {
     return conn.reply(m.chat, "❕️ *¿QUÉ BÚSQUEDA DESEA REALIZAR EN TIKTOK?*", m, rcanal);
   }
@@ -83,7 +83,7 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
      await m.react('✅');
   } catch (error) {
     console.error(error);
-    conn.reply(message.chat, `❌️ *OCURRIÓ UN ERROR:* ${error.message}`, message);
+    conn.reply(m.chat, `❌️ *OCURRIÓ UN ERROR:* ${error.message}`, m);
   }
 };
 
