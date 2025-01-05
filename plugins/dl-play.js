@@ -1,4 +1,4 @@
-import { igdl } from './scrapers/mp3'; 
+import { igdl } from './lib/scrapers/mp3'; 
 import yts from 'yt-search';
 import axios from 'axios';
 
