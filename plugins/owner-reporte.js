@@ -13,6 +13,6 @@ await m.reply(`\`-ˋˏ ༻🤍 𝙀́𝙓𝙄𝙏𝙊 🤍༺ ˎˊ-\`\n\n𝘌�
 𝘋𝘦 𝘴𝘦𝘳 𝘧𝘢𝘭𝘴𝘰 𝘴𝘦𝘳𝘢 𝘪𝘨𝘯𝘰𝘳𝘢𝘥𝘰 𝘴𝘶 𝘳𝘦𝘱𝘰𝘳𝘵𝘦.`)
 };
 handler.help = ['reporte', 'request'].map((v) => v + ' <teks>');
-handler.tags = ['info'];
+handler.tags = ['main'];
 handler.command = /^(report|request|reporte|bugs|bug|report-owner|reportes)$/i;
 export default handler;
