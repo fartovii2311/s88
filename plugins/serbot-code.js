@@ -18,28 +18,24 @@ const { CONNECTING } = ws;
 import { Boom } from '@hapi/boom';
 import { makeWASocket } from '../lib/simple.js';
 
-if (global.conns instanceof Array) console.log();
-else global.conns = [];
+if (!(global.conns instanceof Array)) global.conns = [];
 
 let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => {
   let parent = args[0] && args[0] == 'plz' ? _conn : await global.conn;
 
-  // Verificar que el comando solo puede ser usado por el bot principal
   if (!((args[0] && args[0] == 'plz') || (await global.conn).user.jid == _conn.user.jid)) {
     return m.reply(`Este comando solo puede ser usado en el bot principal! wa.me/${global.conn.user.jid.split`@`[0]}?text=${usedPrefix}code`);
   }
 
-  // Función principal para manejar el bot secundario
   async function serbot() {
     let authFolderB = m.sender.split('@')[0];
-    const userFolderPath = "./LynxJadiBot/" + authFolderB;
+    const userFolderPath = `./LynxJadiBot/${authFolderB}`;
 
     if (!fs.existsSync(userFolderPath)) {
-      fs.mkdirSync(userFolderPath, { recursive: true, force: true });
+      fs.mkdirSync(userFolderPath, { recursive: true });
     }
 
-    // Guardar las credenciales si se reciben como argumento
-    args[0] ? fs.writeFileSync(userFolderPath + "/creds.json", JSON.stringify(JSON.parse(Buffer.from(args[0], "base64").toString("utf-8")), null, '\t')) : "";
+    args[0] ? fs.writeFileSync(`${userFolderPath}/creds.json`, JSON.stringify(JSON.parse(Buffer.from(args[0], "base64").toString("utf-8")), null, '\t')) : "";
 
     const { state, saveState, saveCreds } = await useMultiFileAuthState(userFolderPath);
     const msgRetryCounterMap = (MessageRetryMap) => { };
@@ -61,7 +57,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
       browser: ["Ubuntu", "Chrome", "20.0.04"],
       auth: {
         creds: state.creds,
-        keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" })),
+        keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" }))
       },
       markOnlineOnConnect: true,
       generateHighQualityLinkPreview: true,
@@ -78,13 +74,9 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
 
     let conn = makeWASocket(connectionOptions);
 
-    // Lógica para manejar el código de emparejamiento
     if (methodCode && !conn.authState.creds.registered) {
-      if (!phoneNumber) {
-        process.exit(0);
-      }
+      if (!phoneNumber) process.exit(0);
       let cleanedNumber = phoneNumber.replace(/[^0-9]/g, '');
-      
       setTimeout(async () => {
         let codeBot = await conn.requestPairingCode(cleanedNumber);
         codeBot = codeBot?.match(/.{1,4}/g)?.join("-") || codeBot;
@@ -98,7 +90,6 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
     conn.isInit = false;
     let isInit = true;
 
-    // Actualización de conexión
     async function connectionUpdate(update) {
       const { connection, lastDisconnect, isNewLogin, qr } = update;
       if (isNewLogin) conn.isInit = true;
@@ -109,12 +100,9 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
         if (i < 0) return console.log(await creloadHandler(true).catch(console.error));
         delete global.conns[i];
         global.conns.splice(i, 1);
-
-        // Eliminar la carpeta de la persona que intentó conectar
         fs.rmdirSync(userFolderPath, { recursive: true });
         if (code !== DisconnectReason.connectionClosed) {
           parent.sendMessage(m.chat, { text: "Conexión perdida.." }, { quoted: m });
-        } else {
         }
       }
 
@@ -128,11 +116,10 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
         if (args[0]) return;
 
         await parent.reply(conn.user.jid, `La siguiente vez que se conecte envía el siguiente mensaje para iniciar sesión sin utilizar otro código `, m);
-        await parent.sendMessage(conn.user.jid, { text: usedPrefix + command + " " + Buffer.from(fs.readFileSync("./LynxJadiBot/" + authFolderB + "/creds.json"), "utf-8").toString("base64") }, { quoted: m });
+        await parent.sendMessage(conn.user.jid, { text: usedPrefix + command + " " + Buffer.from(fs.readFileSync(`./LynxJadiBot/${authFolderB}/creds.json`), "utf-8").toString("base64") }, { quoted: m });
       }
     }
 
-    // Reconexión cada 60 segundos
     setInterval(async () => {
       if (!conn.user) {
         try { conn.ws.close() } catch { }
@@ -144,7 +131,6 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
       }
     }, 60000);
 
-    // Función para recargar el handler
     let handler = await import('../handler.js');
     let creloadHandler = async function (restatConn) {
       try {
