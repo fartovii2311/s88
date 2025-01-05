@@ -1,13 +1,13 @@
 import { youtube } from 'btch-downloader';
+import yts from 'yt-search'; // Aquí estamos importando la librería
 import axios from 'axios';
-import cheerio from 'cheerio';
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!text) return conn.reply(m.chat, '❀ Ingresa el texto de lo que quieres buscar', m);
 
   try {
-    let ytsres = await yts(text);
-    let video = ytsres.videos[0];
+    let ytsres = await yts(text); // Usamos yts para buscar los videos
+    let video = ytsres.videos[0]; // Obtenemos el primer video del resultado
 
     if (!video) return conn.reply(m.chat, '❀ Sin resultados obtenidos :(', m);
 
