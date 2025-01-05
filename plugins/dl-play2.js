@@ -38,10 +38,19 @@ const downloadMp3 = async (query) => {
         const videoId = search.url.split('v=')[1];
         const videoInfo = await ytdl.getInfo(`https://www.youtube.com/watch?v=${videoId}`, { lang: 'id' });
 
-        let stream = ytdl(videoId, { filter: 'audioonly', quality: 'highestaudio' });
+        let stream = ytdl(videoId, {
+            filter: 'audioonly',
+            quality: 'highestaudio',
+            requestOptions: {
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+                }
+            }
+        });
+
         let songPath = `./tmp/${randomBytes(3).toString('hex')}.mp3`;
 
-        stream.on('error', (err) => console.log('Error en el stream:', err));
+        stream.on('error', (err) => console.error('Error en el stream de YouTube:', err));
 
         // Procesar el stream de audio y guardarlo como MP3
         const file = await new Promise((resolve, reject) => {
