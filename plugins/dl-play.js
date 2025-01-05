@@ -1,6 +1,6 @@
 import { youtube } from 'btch-downloader';
-import yts from 'yt-search';
 import axios from 'axios';
+import cheerio from 'cheerio';
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!text) return conn.reply(m.chat, '❀ Ingresa el texto de lo que quieres buscar', m);
@@ -34,13 +34,21 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
     let data = await youtube(url);
 
-    if (!data || !data.mp3) return conn.reply(m.chat, '❀ Descarga fallida :(', m);
+    // Verifica si la respuesta es válida antes de pasarla a cheerio
+    if (!data || !data.mp3) {
+      return conn.reply(m.chat, '❀ Descarga fallida :(', m);
+    }
+
+    // Verifica si la respuesta es HTML antes de cargarla
+    if (typeof data.mp3 !== 'string') {
+      throw new Error('La respuesta de la descarga no es una cadena de texto');
+    }
 
     await conn.sendMessage(m.chat, {
       audio: { url: data.mp3 },
       mimetype: 'audio/mpeg',
     }, { quoted: m });
-    // Si quieres enviar el video, usa data.mp4
+
   } catch (error) {
     console.error(error);
     return conn.reply(m.chat, '❀ Ocurrió un error al procesar la solicitud :(', m);
