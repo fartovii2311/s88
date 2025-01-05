@@ -1,5 +1,3 @@
-
-
 let buatall = 1
 let cooldowns = {}
 
@@ -43,7 +41,7 @@ let handler = async (m, { conn, args, usedPrefix, command, DevMode }) => {
 }
     
 handler.help = ['apostar *<cantidad>*']
-handler.tags = ['game']
+handler.tags = ['rpg']
 handler.command = /^(apostar|casino)$/i
 handler.register = true
 
