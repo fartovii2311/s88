@@ -73,17 +73,17 @@ const downloadMp3 = async (query) => {
 };
 
 const handler = async (conn, m, args) => {
-    const { text, sender, m: { chat }, info, prefixo, namebot } = m;
+    const { text, sender, m: { chat }, prefixo, namebot } = m;
     
     if (!text) {
-        return conn.reply(m.chat, '🚩 Por favor, proporcione el texto para buscar', info);
+        return conn.reply(m.chat, '🚩 Por favor, proporcione el texto para buscar');
     }
 
     try {
         const results = await searchVideos(text);
 
         if (!results || results.length === 0) {
-            return conn.reply(m.chat, `🚫 No se encontraron resultados para *${text}* en YouTube. Intenta con otro término.`, info);
+            return conn.reply(m.chat, `🚫 No se encontraron resultados para *${text}* en YouTube. Intenta con otro término.`);
         }
 
         const video = results[0];
@@ -98,15 +98,7 @@ const handler = async (conn, m, args) => {
         await conn.sendMessage(m.chat, { 
             image: { url: video.thumbnail }, 
             caption: videoText,  
-            contextInfo: {
-                mentionedJid: [sender],
-                externalAdReply: {
-                    showAdAttribution: true,
-                    title: '【 D A R K ✘ B A S E 】',
-                    thumbnailUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPx11BO4l-0lFbEjOCQez5YEMvg8M8NVxLWQ&usqp=CAU',
-                }
-            }
-        }, { quoted: info });
+        });
 
         // Descargar el MP3
         const mp3Data = await downloadMp3(text);
@@ -116,19 +108,11 @@ const handler = async (conn, m, args) => {
             audio: { url: mp3Data.path },
             mimetype: 'audio/mp4',
             caption: videoText,
-            contextInfo: {
-                mentionedJid: [sender],
-                externalAdReply: {
-                    showAdAttribution: true,
-                    title: '【 D A R K ✘ B A S E 】',
-                    thumbnailUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPx11BO4l-0lFbEjOCQez5YEMvg8M8NVxLWQ&usqp=CAU',
-                }
-            }
-        }, { quoted: info });
+        });
 
     } catch (error) {
         console.error('Error:', error);
-        return conn.reply(m.chat, '🚩 Ocurrió un error al buscar los videos. Intenta de nuevo.', info);
+        return conn.reply(m.chat, '🚩 Ocurrió un error al buscar los videos. Intenta de nuevo.');
     }
 };
 
