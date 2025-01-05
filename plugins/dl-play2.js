@@ -1,6 +1,6 @@
 import yts from 'youtube-yts';
 import ytdl from '@distube/ytdl-core';
-import ffmpeg from 'fluent-ffmpeg';
+import ffmpeg from 'fluent-ffmpeg-7';
 import { randomBytes } from 'crypto';
 import fs from 'fs';
 import path from 'path';
