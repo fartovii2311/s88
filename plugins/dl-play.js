@@ -1,5 +1,5 @@
-import { igdl } from './scrapers/mp3.js'; 
-import yts from 'yt-search'; // Aquí estamos importando la librería
+import { igdl } from './scrapers/mp3'; 
+import yts from 'yt-search';
 import axios from 'axios';
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
