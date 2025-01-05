@@ -24,6 +24,11 @@ let handler = async (m, { conn, text, args }) => {
     // Filtrar los mejores formatos de video
     let videoFormat = ytdl.chooseFormat(info.formats, { filter: 'audioandvideo' });
 
+    // Verificar si se encontró un formato adecuado
+    if (!videoFormat) {
+      return m.reply('❀ No se encontró un formato de video adecuado.');
+    }
+
     // Enviar el video descargado
     await conn.sendMessage(m.chat, {
       video: { url: videoFormat.url },
@@ -34,7 +39,11 @@ let handler = async (m, { conn, text, args }) => {
 
   } catch (error) {
     console.error('Error al obtener el video:', error);
-    m.reply('❀ Ocurrió un error al intentar obtener el video. Intenta nuevamente.');
+    if (error.message.includes('Could not extract functions')) {
+      m.reply('❀ Ocurrió un problema al intentar extraer el video. Asegúrate de que el video esté disponible y prueba nuevamente.');
+    } else {
+      m.reply('❀ Ocurrió un error al intentar obtener el video. Intenta nuevamente.');
+    }
   }
 };
 
