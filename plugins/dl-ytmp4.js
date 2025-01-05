@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 
 let handler = async (m, { conn, text }) => {
-  if (!text) return conn.reply(m.chat, '❀ Ingresa un link de YouTube.', m,rcanal);
+  if (!text) return conn.reply(m.chat, '❀ Ingresa un link de YouTube.', m);
 
   await m.react('🕓');
 
@@ -15,14 +15,12 @@ let handler = async (m, { conn, text }) => {
 
     let title = json.data.metadata.title;
     let dl_url = json.data.download.url;
-
-    let headRes = await fetch(dl_url, { method: 'HEAD' });
-    let fileSize = headRes.headers.get('content-length');
+    let fileSize = json.data.download.size || null; // Si la API proporciona tamaño.
 
     const sizeLimit = 50 * 1024 * 1024; // 50 MB
 
     if (fileSize && parseInt(fileSize) > sizeLimit) {
-      // Envía como documento si el tamaño excede el límite
+      // Enviar como documento si el tamaño excede el límite
       await conn.sendMessage(m.chat, {
         document: { url: dl_url },
         fileName: `${title}.mp4`,
@@ -30,6 +28,7 @@ let handler = async (m, { conn, text }) => {
         caption: `El archivo es demasiado grande para enviarlo como video, por lo que se envía como documento.\n\n*Título:* ${title}`
       }, { quoted: m });
     } else {
+      // Enviar como video directamente
       await conn.sendMessage(m.chat, {
         video: { url: dl_url },
         fileName: `${title}.mp4`,
