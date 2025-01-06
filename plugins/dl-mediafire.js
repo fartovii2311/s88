@@ -15,8 +15,14 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         // Si el archivo es demasiado grande, lo comprimimos
         const MAX_SIZE = 50 * 1024 * 1024;  // 50MB, puedes cambiar este límite
         if (size > MAX_SIZE) {
+            // Verificar y crear la carpeta temporal si no existe
+            const tempDir = path.join(__dirname, 'temp');
+            if (!fs.existsSync(tempDir)) {
+                fs.mkdirSync(tempDir);
+            }
+
             // Crear un archivo temporal con el nombre
-            const tempFilePath = path.join(__dirname, 'temp', filename);
+            const tempFilePath = path.join(tempDir, filename);
             const fileStream = fs.createWriteStream(tempFilePath);
 
             // Descargar el archivo y guardarlo temporalmente
@@ -24,8 +30,10 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
             res.body.pipe(fileStream);
 
             fileStream.on('finish', async () => {
+                console.log('Archivo descargado, comprimiendo...');
+
                 // Comprimir el archivo descargado en un archivo ZIP
-                const zipPath = path.join(__dirname, 'temp', `${filename}.zip`);
+                const zipPath = path.join(tempDir, `${filename}.zip`);
                 const output = fs.createWriteStream(zipPath);
                 const archive = archiver('zip', { zlib: { level: 9 } });
 
@@ -34,6 +42,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
                 await archive.finalize();
 
                 // Enviar el archivo comprimido
+                console.log('Enviando archivo comprimido...');
                 await conn.sendFile(m.chat, zipPath, `${filename}.zip`, null, m);
                 // Limpiar archivos temporales
                 fs.unlinkSync(tempFilePath);
@@ -50,7 +59,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         - *Tipo*: ${type}
         - *Tamaño*: ${size}
         - *Creado*: ${uploaded}`, m);
-        
+
     } catch (error) {
         console.error(error);
         conn.reply(m.chat, '❗ Ocurrió un error al procesar el archivo', m);
