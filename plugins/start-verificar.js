@@ -14,7 +14,7 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
     let age = 18;
 
     if (!name || isNaN(age) || age < 18 || age > 100) {
-      return m.reply(`*[ ✰ ] No se ha podido obtener un nombre o edad válidos. Usa el formato \`${usedPrefix + command} <nombre>.<edad>\` para registrarte correctamente.*`);
+      return conn.reply(m.chat,`*[ ✰ ] No se ha podido obtener un nombre o edad válidos. Usa el formato \`${usedPrefix + command} <nombre>.<edad>\` para registrarte correctamente.*`,m,rcanal);
     }
 
     // Asignar los valores del registro
@@ -41,15 +41,15 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
     txt += `\`━━━━━━━━━━━━━━━━━━━━\`\n\n`
     txt += `> Escribe *${usedPrefix}profile* para ver tu perfil.`
 
-    await conn.sendFile(m.chat, img, 'perfil.jpg', txt, m, false, { mentions: [m.sender] })
+    await conn.sendFile(m.chat, img, 'perfil.jpg', txt, m,rcanal,fake, false, { mentions: [m.sender] })
     await m.react('✅')
   } else {
     // Si el usuario usa el formato tradicional (nombre.edad)
-    if (!Reg.test(text)) return m.reply(`*[ ✰ ] Por favor, ingresa tu nombre de usuario para proceder con el registro.*\n\n*🤍 Ejemplo de Uso* :\n*${usedPrefix + command} Dark.18`)
+    if (!Reg.test(text)) return conn.reply(m.chat,`*[ ✰ ] Por favor, ingresa tu nombre de usuario para proceder con el registro.*\n\n*🤍 Ejemplo de Uso* :\n*${usedPrefix + command} Dark.18`,m,rcanal)
 
     let [_, name, splitter, age] = text.match(Reg)
-    if (!name) return conn.reply(m.chat, '[ ✰ ] El nombre no puede estar vacío.', m)
-    if (!age) return conn.reply(m.chat, '[ ✰ ] La edad no puede estar vacía.', m)
+    if (!name) return conn.reply(m.chat, '[ ✰ ] El nombre no puede estar vacío.', m,rcanal)
+    if (!age) return conn.reply(m.chat, '[ ✰ ] La edad no puede estar vacía.', m,rcanal)
     age = parseInt(age)
 
     user.name = name.trim()
