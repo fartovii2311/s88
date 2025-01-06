@@ -6,6 +6,8 @@ import archiver from 'archiver';
 let handler = async (m, { conn, text, usedPrefix, command }) => {
     if (!text) return conn.reply(m.chat, `❀ Ingresa un link de MediaFire`, m);
 
+     await m.react('🕓');
+    
     try {
         // Obtener la información del archivo de la API
         let api = await fetch(`https://restapi.apibotwa.biz.id/api/mediafire?url=${text}`);
@@ -52,14 +54,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
             // Si el archivo es pequeño, enviarlo como un documento
             await conn.sendFile(m.chat, dl_url, filename, null, m, 'rcanal', false, null, { mimetype: ext, asDocument: true });
         }
-
-        // Información del archivo
-        conn.reply(m.chat, `⇏ 𝙼𝙴𝙳𝙸𝙰𝙵𝙸𝚁𝙴\n
-        - Titulo: *${filename}*
-        - *Tipo*: ${type}
-        - *Tamaño*: ${size}
-        - *Creado*: ${uploaded}`, m);
-
     } catch (error) {
         console.error(error);
         conn.reply(m.chat, '❗ Ocurrió un error al procesar el archivo', m);
