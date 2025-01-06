@@ -17,7 +17,6 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
       return conn.reply(m.chat,`*[ ✰ ] No se ha podido obtener un nombre o edad válidos. Usa el formato \`${usedPrefix + command} <nombre>.<edad>\` para registrarte correctamente.*`,m,rcanal);
     }
 
-    // Asignar los valores del registro
     user.name = name
     user.age = age
     user.regTime = +new Date()
@@ -44,7 +43,6 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
     await conn.sendFile(m.chat, img, 'perfil.jpg', txt, m,rcanal,fake, false, { mentions: [m.sender] })
     await m.react('✅')
   } else {
-    // Si el usuario usa el formato tradicional (nombre.edad)
     if (!Reg.test(text)) return conn.reply(m.chat,`*[ ✰ ] Por favor, ingresa tu nombre de usuario para proceder con el registro.*\n\n*🤍 Ejemplo de Uso* :\n*${usedPrefix + command} Dark.18`,m,rcanal)
 
     let [_, name, splitter, age] = text.match(Reg)
