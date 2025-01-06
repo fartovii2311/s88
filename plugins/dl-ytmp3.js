@@ -2,43 +2,57 @@ import fetch from 'node-fetch';
 
 let handler = async (m, { conn, text }) => {
   if (!text) {
-    return conn.reply(m.chat, `☁️ Ingresa un link de YouTube`, m,rcanal);
+    return conn.reply(m.chat, `☁️ Ingresa un link de YouTube`, m);
   }
   await m.react('🕓');
 
-  let apiUrl1 = `https://restapi.apibotwa.biz.id/api/ytmp3?url=${text}`;
-  let apiUrl2 = `https://deliriussapi-oficial.vercel.app/download/ytmp3?url=${text}`;
+  let apiUrl1 = `https://axeel.my.id/api/download/audio?url=${text}`;
+  let apiUrl2 = `https://restapi.apibotwa.biz.id/api/ytmp3?url=${text}`;
+  let apiUrl3 = `https://deliriussapi-oficial.vercel.app/download/ytmp3?url=${text}`;
   let downloadUrl = null;
   let title = "Archivo de YouTube";
 
   try {
     const response1 = await fetch(apiUrl1);
-    if (!response1.ok) throw new Error("Error en la segunda API");
-
     const json1 = await response1.json();
-    if (json1.status && json1.result && json1.result.download && json1.result.download.url) {
-      title = json1.result.metadata.title || "Archivo MP3";
-      downloadUrl = json1.result.download.url;
+    if (json1.metadata && json1.metadata.url) {
+      title = json1.metadata.title || "Archivo MP3";
+      downloadUrl = json1.metadata.url;
     } else {
-      console.log("Datos inválidos de la segunda API");
+      console.log("Datos inválidos de la API de Axeel");
     }
   } catch (error) {
-    console.log("Error en la segunda API:", error);
+    console.log("Error en la API de Axeel:", error);
     try {
       const response2 = await fetch(apiUrl2);
-      if (!response2.ok) throw new Error("Error en la primera API");
-
       const json2 = await response2.json();
-      if (json2.status && json2.data.download && json2.data.download.url) {
-        title = json2.data.download.filename || "Archivo MP3";
-        downloadUrl = json2.data.download.url;
+      if (json2.status && json2.result && json2.result.download && json2.result.download.url) {
+        title = json2.result.metadata.title || "Archivo MP3";
+        downloadUrl = json2.result.download.url;
       } else {
-        console.log("Datos inválidos de la primera API");
+        console.log("Datos inválidos de la segunda API");
       }
     } catch (error2) {
-      console.log("Error en la primera API:", error2);
-      await m.react('❌');
-      return conn.reply(m.chat, `⚠️ Hubo un problema al procesar tu solicitud. Por favor, verifica el enlace o intenta de nuevo más tarde.`, m);
+      console.log("Error en la segunda API:", error2);
+      try {
+        const response3 = await fetch(apiUrl3);
+
+        const json3 = await response3.json();
+        if (json3.status && json3.data.download && json3.data.download.url) {
+          title = json3.data.download.filename || "Archivo MP3";
+          downloadUrl = json3.data.download.url;
+        } else {
+          console.log("Datos inválidos de la tercera API");
+        }
+      } catch (error3) {
+        console.log("Error en la tercera API:", error3);
+        await m.react('❌');
+        return conn.reply(
+          m.chat,
+          `⚠️ Hubo un problema al procesar tu solicitud. Por favor, verifica el enlace o intenta de nuevo más tarde.`,
+          m
+        );
+      }
     }
   }
 
