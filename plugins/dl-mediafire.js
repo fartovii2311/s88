@@ -43,7 +43,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
                 archive.file(tempFilePath, { name: filename });
                 await archive.finalize();
 
-                // Enviar el archivo comprimido
                 console.log('Enviando archivo comprimido...');
                 await conn.sendFile(m.chat, zipPath, `${filename}.zip`, null, m);
                 // Limpiar archivos temporales
@@ -54,6 +53,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
             // Si el archivo es pequeño, enviarlo como un documento
             await conn.sendFile(m.chat, dl_url, filename, null, m, 'rcanal', false, null, { mimetype: ext, asDocument: true });
         }
+         await m.react('✅');
     } catch (error) {
         console.error(error);
         conn.reply(m.chat, '❗ Ocurrió un error al procesar el archivo', m);
