@@ -24,7 +24,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
   conn.sendMessage(m.chat, {
     image: { url: videoInfo.thumbnail },
     caption: body,
-  }, { quoted: fkontak });
+  });
 
 m.react("")
   let result;
