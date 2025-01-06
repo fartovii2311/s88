@@ -6,35 +6,27 @@ import archiver from 'archiver';
 let handler = async (m, { conn, text, usedPrefix, command }) => {
     if (!text) return conn.reply(m.chat, `❀ Ingresa un link de MediaFire`, m);
 
-     await m.react('🕓');
-    
     try {
-        // Obtener la información del archivo de la API
         let api = await fetch(`https://restapi.apibotwa.biz.id/api/mediafire?url=${text}`);
         let json = await api.json();
         let { filename, type, size, uploaded, ext, mimetype, download: dl_url } = json.data.response;
 
-        // Si el archivo es demasiado grande, lo comprimimos
-        const MAX_SIZE = 50 * 1024 * 1024;  // 50MB, puedes cambiar este límite
-        if (size > MAX_SIZE) {
-            // Verificar y crear la carpeta temporal si no existe
+        const sizeInBytes = parseFloat(size) * 1024 * 1024;
+
+        const MAX_SIZE = 50 * 1024 * 1024;  
+        if (sizeInBytes > MAX_SIZE) {
             const tempDir = path.join(__dirname, 'temp');
             if (!fs.existsSync(tempDir)) {
                 fs.mkdirSync(tempDir);
             }
 
-            // Crear un archivo temporal con el nombre
             const tempFilePath = path.join(tempDir, filename);
             const fileStream = fs.createWriteStream(tempFilePath);
 
-            // Descargar el archivo y guardarlo temporalmente
             const res = await fetch(dl_url);
             res.body.pipe(fileStream);
 
             fileStream.on('finish', async () => {
-                console.log('Archivo descargado, comprimiendo...');
-
-                // Comprimir el archivo descargado en un archivo ZIP
                 const zipPath = path.join(tempDir, `${filename}.zip`);
                 const output = fs.createWriteStream(zipPath);
                 const archive = archiver('zip', { zlib: { level: 9 } });
@@ -43,17 +35,20 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
                 archive.file(tempFilePath, { name: filename });
                 await archive.finalize();
 
-                console.log('Enviando archivo comprimido...');
                 await conn.sendFile(m.chat, zipPath, `${filename}.zip`, null, m);
-                // Limpiar archivos temporales
                 fs.unlinkSync(tempFilePath);
                 fs.unlinkSync(zipPath);
             });
         } else {
-            // Si el archivo es pequeño, enviarlo como un documento
             await conn.sendFile(m.chat, dl_url, filename, null, m, 'rcanal', false, null, { mimetype: ext, asDocument: true });
         }
-         await m.react('✅');
+
+        conn.reply(m.chat, `⇏ 𝙼𝙴𝙳𝙸𝙰𝙵𝙸𝚁𝙴\n
+        - Titulo: *${filename}*
+        - *Tipo*: ${type}
+        - *Tamaño*: ${size} MB
+        - *Creado*: ${uploaded}`, m);
+
     } catch (error) {
         console.error(error);
         conn.reply(m.chat, '❗ Ocurrió un error al procesar el archivo', m);
