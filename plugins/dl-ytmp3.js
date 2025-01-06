@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 
 let handler = async (m, { conn, text }) => {
   if (!text) {
-    return conn.reply(m.chat, `☁️ Ingresa un enlace de YouTube válido.`, m);
+    return conn.reply(m.chat, `☁️ Ingresa un enlace de YouTube válido.`, m,rcanal);
   }
 
   await m.react('🕓');
@@ -18,14 +18,11 @@ let handler = async (m, { conn, text }) => {
     const downloadUrl = downloads.url;
     const title = metadata.title || "Archivo MP3";
 
-    // Validar el archivo descargado
     const audioResponse = await fetch(downloadUrl);
     const contentLength = audioResponse.headers.get('content-length');
-    
-    // Enviar el archivo al usuario
+
     await m.react('✅');
-    await conn.sendMessage(
-      m.chat,
+    await conn.sendMessage(m.chat,
       {
         audio: { url: downloadUrl },
         fileName: `${title}.mp3`,
@@ -36,7 +33,6 @@ let handler = async (m, { conn, text }) => {
   } catch (error) {
     console.error(`⚠️ Error:`, error.message);
     await m.react('❌');
-    conn.reply(m.chat, `⚠️ No se pudo procesar el enlace. Verifica el enlace o intenta más tarde.`, m);
   }
 };
 
