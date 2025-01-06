@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 
 let handler = async (m, { conn, text }) => {
   if (!text) {
-    return conn.reply(m.chat, `☁️ Ingresa un link de YouTube válido.`, m);
+    return conn.reply(m.chat, `☁️ Ingresa un enlace de YouTube válido.`, m);
   }
   await m.react('🕓');
 
@@ -15,6 +15,7 @@ let handler = async (m, { conn, text }) => {
   let downloadUrl = null;
   let title = "Archivo de YouTube";
 
+  // Intentar con cada API
   for (const apiUrl of apiUrls) {
     try {
       const response = await fetch(apiUrl);
@@ -47,16 +48,25 @@ let handler = async (m, { conn, text }) => {
 
   if (!downloadUrl) {
     await m.react('❌');
-    return conn.reply(m.chat,`⚠️ No se pudo obtener el audio. Por favor, verifica el enlace o inténtalo más tarde.`,m);
+    return conn.reply(
+      m.chat,
+      `⚠️ No se pudo obtener el audio. Verifica el enlace o intenta nuevamente más tarde.`,
+      m
+    );
   }
 
   try {
+    // Validar el archivo descargado
     const audioResponse = await fetch(downloadUrl);
-    if (!audioResponse.ok || audioResponse.headers.get('content-length') < 10000) {
+    const contentLength = audioResponse.headers.get('content-length');
+    if (!audioResponse.ok || !contentLength || parseInt(contentLength) < 10000) {
+      throw new Error('El archivo descargado es demasiado pequeño o inválido.');
     }
 
+    // Enviar el archivo al usuario
     await m.react('✅');
-    await conn.sendMessage(m.chat,
+    await conn.sendMessage(
+      m.chat,
       {
         audio: { url: downloadUrl },
         fileName: `${title}.mp3`,
@@ -67,10 +77,12 @@ let handler = async (m, { conn, text }) => {
   } catch (error) {
     console.log(`⚠️ Error al enviar el audio:`, error.message);
     await m.react('❌');
-    conn.reply(m.chat, `⚠️ Ocurrió un error al enviar el audio descargado.`, m);
+    conn.reply(m.chat, `⚠️ Ocurrió un error al procesar el archivo descargado.`, m);
   }
 };
 
 handler.help = ['ytmp3 *<url>*'];
 handler.tags = ['dl'];
 handler.command = ['ytmp3'];
+
+export default handler;
