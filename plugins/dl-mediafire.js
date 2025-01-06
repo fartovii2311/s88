@@ -1,3 +1,10 @@
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+// Para obtener el directorio actual, usa fileURLToPath y dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 import fetch from 'node-fetch';
 import fs from 'fs';
 import path from 'path';
@@ -42,12 +49,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         } else {
             await conn.sendFile(m.chat, dl_url, filename, null, m, 'rcanal', false, null, { mimetype: ext, asDocument: true });
         }
-
-        conn.reply(m.chat, `⇏ 𝙼𝙴𝙳𝙸𝙰𝙵𝙸𝚁𝙴\n
-        - Titulo: *${filename}*
-        - *Tipo*: ${type}
-        - *Tamaño*: ${size} MB
-        - *Creado*: ${uploaded}`, m);
 
     } catch (error) {
         console.error(error);
