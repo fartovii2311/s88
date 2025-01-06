@@ -18,7 +18,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     • Uploaded : » ${videoInfo.ago}
     • URL : » ${videoInfo.url}
 
-> ${espera}`;
+> `;
 
  await m.react("")
   conn.sendMessage(m.chat, {
@@ -26,7 +26,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     caption: body,
   }, { quoted: fkontak });
 
-m.react(done)
+m.react("")
   let result;
   try {
     if (command === 'play' || command === 'yta' || command === 'ytmp3') {
