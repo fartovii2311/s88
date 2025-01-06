@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 
 let handler = async (m, { conn, text }) => {
   if (!text) {
-    return conn.reply(m.chat, `☁️ Ingresa un link de YouTube`, m);
+    return conn.reply(m.chat, `☁️ Ingresa un link de YouTube`, m,rcanal);
   }
   await m.react('🕓');
 
@@ -20,7 +20,7 @@ let handler = async (m, { conn, text }) => {
       title = json1.result.metadata.title || "Archivo MP3";
       downloadUrl = json1.result.download.url;
     } else {
-      throw new Error("Datos inválidos de la segunda API");
+      console.log("Datos inválidos de la segunda API");
     }
   } catch (error) {
     console.log("Error en la segunda API:", error);
