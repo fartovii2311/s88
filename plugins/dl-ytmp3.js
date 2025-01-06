@@ -14,19 +14,23 @@ let handler = async (m, { conn, text }) => {
     const json = await response.json();
     const metadata = json.metadata;
     const downloads = json.downloads;
-
     const downloadUrl = downloads.url;
     const title = metadata.title || "Archivo MP3";
 
     const audioResponse = await fetch(downloadUrl);
     const contentLength = audioResponse.headers.get('content-length');
+    const sizeMB = contentLength ? parseInt(contentLength) / (1024 * 1024) : 0;
+
+    const isLarge = sizeMB > 15; // Límite de tamaño en MB
+    const messageType = isLarge ? 'document' : 'audio';
+    const mimeType = 'audio/mpeg';
 
     await m.react('✅');
     await conn.sendMessage(m.chat,
       {
-        audio: { url: downloadUrl },
+        [messageType]: { url: downloadUrl },
         fileName: `${title}.mp3`,
-        mimetype: 'audio/mpeg',
+        mimetype: mimeType,
       },
       { quoted: m }
     );
