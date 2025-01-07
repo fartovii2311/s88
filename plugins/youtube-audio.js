@@ -59,4 +59,4 @@ let handler = async (m, { conn, text }) => {
 handler.help = ['Audio'];
 handler.tags = ['downloader'];
 handler.customPrefix = /^(Audio|audio)$/i;
-handl
+handler.command = new RegExp;
