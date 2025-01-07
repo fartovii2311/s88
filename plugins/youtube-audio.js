@@ -23,42 +23,37 @@ let handler = async (m, { conn, text }) => {
   await m.react('🕓');
 
   const videoUrl = urls[0];
-  const apiUrl = `https://restapi.apibotwa.biz.id/api/ytmp3?url=${videoUrl}`;
+  const apiUrl = `https://axeel.my.id/api/download/audio?url=${videoUrl}`;
 
   let downloadUrl = null;
   let title = "Archivo de YouTube";
+  let size = null;
 
   try {
     const response = await fetch(apiUrl);
     const apiData = await response.json();
 
-    if (apiData.status && apiData.result?.download?.url) {
-      title = apiData.result.metadata.title || "Archivo MP3";
-      downloadUrl = apiData.result.download.url;
+    if (apiData.downloads?.url) {
+      title = apiData.metadata.title || "Archivo MP3";
+      downloadUrl = apiData.downloads.url;
+      size = apiData.downloads.size;
     }
   } catch (error) {
     console.log(`Error con la API: ${apiUrl}`, error.message);
   }
 
-  if (!downloadUrl) {
-    await m.react('✖️');
-    return conn.reply(
-      m.chat,
-      `⚠️ Ocurrió un problema al intentar descargar el audio.\nPor favor, verifica el enlace o inténtalo de nuevo más tarde.`,
-      m
-    );
-  }
-
   try {
-    await conn.sendMessage(
-      m.chat,
+    const caption = `🎵 *${title}*\n📥 Tamaño: ${size || "Desconocido"}\n🔗 [YouTube Video](${videoUrl})`;
+    await conn.sendMessage(m.chat,
       {
         audio: { url: downloadUrl },
         fileName: `${title}.mp3`,
-        mimetype: 'audio/mp4',
+        caption,
+        mimetype: 'audio/mpeg',
       },
       { quoted: m }
     );
+
     await m.react('✅');
   } catch (error) {
     console.error('Error al enviar el audio:', error);
@@ -69,6 +64,4 @@ let handler = async (m, { conn, text }) => {
 handler.help = ['Audio'];
 handler.tags = ['downloader'];
 handler.customPrefix = /^(Audio|audio)$/i;
-handler.command = new RegExp();
-
-export default handler;
+handl
