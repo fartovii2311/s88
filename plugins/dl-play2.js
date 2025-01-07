@@ -50,7 +50,7 @@ let handler = async (m, { conn, args }) => {
 handler.help = ['play33 *<texto>*'];
 handler.tags = ['dl'];
 handler.command = ['play33'];
-
+handler.register = true 
 export default handler;
 
 async function search(query, options = {}) {
