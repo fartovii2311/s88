@@ -17,28 +17,34 @@ let handler = async (m, { conn, text }) => {
     return conn.reply(m.chat, `⚠️ No se encontraron enlaces válidos en el mensaje etiquetado.`, m);
   }
 
-  await m.react('🕓');
+  await m.react('🕓'); // Reacciona con un reloj para indicar que está procesando
 
   const videoUrl = urls[0];
-  const apiUrl = `https://axeel.my.id/api/download/audio?url=${videoUrl}`;
+  const apiUrl = `https://restapi.apibotwa.biz.id/api/ytmp3?url=${videoUrl}`;
 
   let downloadUrl = null;
   let title = "Archivo de YouTube";
   let size = null;
+  let thumbnail = null;
 
   try {
     const response = await fetch(apiUrl);
     const apiData = await response.json();
 
-    if (apiData && apiData.downloads?.url) {
-      title = apiData.metadata?.title || "Archivo MP3";
-      downloadUrl = apiData.downloads.url;
-      size = apiData.downloads.size || "desconocido";
+    if (apiData.status === 200 && apiData.result.download?.status) {
+      const metadata = apiData.result.metadata;
+      const download = apiData.result.download;
+
+      title = metadata.title || "Archivo MP3";
+      thumbnail = metadata.thumbnail || null;
+      downloadUrl = download.url || null;
+      size = download.quality || "desconocido";
     } else {
       console.log("No se pudo obtener un enlace de descarga válido. Datos de la API:", apiData);
     }
   } catch (error) {
     console.error(`Error con la API: ${apiUrl}`, error.message);
+    return conn.reply(m.chat, `⚠️ Hubo un problema al obtener el audio. Por favor, inténtalo de nuevo más tarde.`, m);
   }
 
   if (!downloadUrl) {
@@ -46,19 +52,28 @@ let handler = async (m, { conn, text }) => {
   }
 
   try {
+    // Enviar información antes del audio
+    await conn.sendMessage(m.chat, {
+      image: { url: thumbnail },
+      caption: `🎵 *Título:* ${title}\n📦 *Calidad:* ${size}\n🌐 *Enlace:* ${videoUrl}`,
+    }, { quoted: m });
+
+    // Enviar archivo de audio
     await conn.sendMessage(m.chat, {
       audio: { url: downloadUrl },
       fileName: `${title}.mp3`,
       mimetype: 'audio/mpeg',
     }, { quoted: m });
 
-    await m.react('✅');
+    await m.react('✅'); // Reacciona con un check si todo sale bien
   } catch (error) {
     console.error('Error al enviar el audio:', error);
-    await m.react('✖️');
+    conn.reply(m.chat, `⚠️ No se pudo enviar el audio. Intenta de nuevo más tarde.`, m);
+    await m.react('✖️'); // Reacciona con una X si hay un error
   }
 };
 
+// Configuración del handler
 handler.help = ['Audio'];
 handler.tags = ['downloader'];
 handler.customPrefix = /^(Audio|audio)$/i;
