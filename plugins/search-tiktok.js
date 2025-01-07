@@ -88,7 +88,6 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
 };
 
 handler.help = ["tiktoksearch <txt>"];
-handler.corazones = 2
 handler.register = true
 handler.tags = ["search"];
 handler.command = ["tiktoksearch", "ttss", "tiktoks"];
