@@ -1,82 +1,82 @@
 import fetch from 'node-fetch';
 
 let handler = async (m, { conn, text }) => {
-  if (!text) {
-    return conn.reply(m.chat, `☁️ Ingresa un enlace de YouTube válido.`, m, rcanal);
+  if (!m.quoted) {
+    return conn.reply(m.chat, `⚠️ Debes etiquetar el mensaje que contenga el resultado de YouTube Play.`, m);
   }
 
-  await m.react('🕓');
+  if (!m.quoted.text.includes("乂  Y O U T U B E  -  P L A Y")) {
+    return conn.reply(m.chat, `⚠️ El mensaje etiquetado no contiene un resultado de YouTube Play.`, m);
+  }
 
-  const api1 = `https://axeel.my.id/api/download/audio?url=${text}`;
-  const api2 = `https://restapi.apibotwa.biz.id/api/ytmp3?url=${text}`;
+  const urls = m.quoted.text.match(
+    /(?:https?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed|shorts)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9_-]+)/gi
+  );
+
+  if (!urls || urls.length < 1) {
+    return conn.reply(m.chat, `⚠️ No se encontraron enlaces válidos en el mensaje etiquetado.`, m);
+  }
+
+  await m.react('🕓'); // Reacciona con un reloj para indicar que está procesando
+
+  const videoUrl = urls[0];
+  const apiUrl = `https://restapi.apibotwa.biz.id/api/ytmp3?url=${videoUrl}`;
+
+  let downloadUrl = null;
+  let title = "Archivo de YouTube";
+  let size = null;
+  let thumbnail = null;
 
   try {
-    let response = await fetch(api1);
-    let json = await response.json();
+    const response = await fetch(apiUrl);
+    const apiData = await response.json();
 
-    const metadata = json.metadata;
-    const downloads = json.downloads;
-    const downloadUrl = downloads.url;
-    const title = metadata.title || "Archivo MP3";
+    if (apiData.status === 200 && apiData.result.download?.status) {
+      const metadata = apiData.result.metadata;
+      const download = apiData.result.download;
 
-    const audioResponse = await fetch(downloadUrl);
-    const contentLength = audioResponse.headers.get('content-length');
-    const sizeMB = contentLength ? parseInt(contentLength) / (1024 * 1024) : 0;
-
-    const isLarge = sizeMB > 15;
-    const messageType = isLarge ? 'document' : 'audio';
-    const mimeType = 'audio/mpeg';
-
-    await m.react('✅');
-    return await conn.sendMessage(
-      m.chat,
-      {
-        [messageType]: { url: downloadUrl },
-        fileName: `${title}.mp3`,
-        mimetype: mimeType,
-      },
-      { quoted: m }
-    );
-  } catch (error) {
-    console.error(`⚠️ Primera API falló:`, error.message);
- 
-    try {
-      let response = await fetch(api2);
-      let json = await response.json();
-
-      const metadata = json.result.metadata;
-      const downloads = json.result.download;
-      const downloadUrl = downloads.url;
-      const title = metadata.title || "Archivo MP3";
-
-      const audioResponse = await fetch(downloadUrl);
-      const contentLength = audioResponse.headers.get('content-length');
-      const sizeMB = contentLength ? parseInt(contentLength) / (1024 * 1024) : 0;
-
-      const isLarge = sizeMB > 15;
-      const messageType = isLarge ? 'document' : 'audio';
-      const mimeType = 'audio/mpeg';
-
-      await m.react('✅');
-      return await conn.sendMessage(
-        m.chat,
-        {
-          [messageType]: { url: downloadUrl },
-          fileName: `${title}.mp3`,
-          mimetype: mimeType,
-        },
-        { quoted: m }
-      );
-    } catch (error) {
-      console.error(`⚠️ Segunda API falló:`, error.message);
-      await m.react('❌');
+      title = metadata.title || "Archivo MP3";
+      thumbnail = metadata.thumbnail || null;
+      downloadUrl = download.url || null;
+      size = download.quality || "desconocido";
+    } else {
+      console.log("No se pudo obtener un enlace de descarga válido. Datos de la API:", apiData);
     }
+  } catch (error) {
+    console.error(`Error con la API: ${apiUrl}`, error.message);
+    return conn.reply(m.chat, `⚠️ Hubo un problema al obtener el audio. Por favor, inténtalo de nuevo más tarde.`, m);
+  }
+
+  if (!downloadUrl) {
+    return conn.reply(m.chat, `⚠️ No se pudo obtener el audio del video.`, m);
+  }
+
+  try {
+    // Enviar información antes del audio
+    await conn.sendMessage(m.chat, {
+      image: { url: thumbnail },
+      caption: `🎵 *Título:* ${title}\n📦 *Calidad:* ${size}\n🌐 *Enlace:* ${videoUrl}`,
+    }, { quoted: m });
+
+    // Enviar archivo de audio
+    await conn.sendMessage(m.chat, {
+      audio: { url: downloadUrl },
+      fileName: `${title}.mp3`,
+      mimetype: 'audio/mpeg',
+    }, { quoted: m });
+
+    await m.react('✅'); // Reacciona con un check si todo sale bien
+  } catch (error) {
+    console.error('Error al enviar el audio:', error);
+    conn.reply(m.chat, `⚠️ No se pudo enviar el audio. Intenta de nuevo más tarde.`, m);
+    await m.react('✖️'); // Reacciona con una X si hay un error
   }
 };
 
-handler.help = ['ytmp3 *<url>*'];
-handler.tags = ['dl'];
-handler.command = ['ytmp3'];
-handler.register = true;
+// Configuración del handler
+handler.help = ['Audio'];
+handler.tags = ['downloader'];
+handler.customPrefix = /^(Audio|audio)$/i;
+handler.command = new RegExp;
 
 export default handler;
