@@ -10,7 +10,7 @@ let handler = async (m, { conn, text }) => {
   }
 
   const urls = m.quoted.text.match(
-    new RegExp(/(?:https?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed|shorts)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9_-]+)/, 'gi')
+    /(?:https?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed|shorts)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9_-]+)/gi
   );
 
   if (!urls || urls.length < 1) {
@@ -30,24 +30,27 @@ let handler = async (m, { conn, text }) => {
     const response = await fetch(apiUrl);
     const apiData = await response.json();
 
-    if (apiData.downloads?.url) {
-      title = apiData.metadata.title || "Archivo MP3";
+    if (apiData && apiData.downloads?.url) {
+      title = apiData.metadata?.title || "Archivo MP3";
       downloadUrl = apiData.downloads.url;
-      size = apiData.downloads.size;
+      size = apiData.downloads.size || "desconocido";
+    } else {
+      console.log("No se pudo obtener un enlace de descarga válido. Datos de la API:", apiData);
     }
   } catch (error) {
-    console.log(`Error con la API: ${apiUrl}`, error.message);
+    console.error(`Error con la API: ${apiUrl}`, error.message);
+  }
+
+  if (!downloadUrl) {
+    return conn.reply(m.chat, `⚠️ No se pudo obtener el audio del video.`, m);
   }
 
   try {
-    await conn.sendMessage(m.chat,
-      {
-        audio: { url: downloadUrl },
-        fileName: `${title}.mp3`,
-        mimetype: 'audio/mpeg',
-      },
-      { quoted: m }
-    );
+    await conn.sendMessage(m.chat, {
+      audio: { url: downloadUrl },
+      fileName: `${title}.mp3`,
+      mimetype: 'audio/mpeg',
+    }, { quoted: m });
 
     await m.react('✅');
   } catch (error) {
