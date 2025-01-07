@@ -23,31 +23,21 @@ let handler = async (m, { conn, text }) => {
   await m.react('🕓');
 
   const videoUrl = urls[0];
-  const apiUrls = [
-    `https://axeel.my.id/api/download/audio?url=${videoUrl}`,
-    `https://restapi.apibotwa.biz.id/api/ytmp3?url=${videoUrl}`
-  ];
+  const apiUrl = `https://restapi.apibotwa.biz.id/api/ytmp3?url=${videoUrl}`;
 
   let downloadUrl = null;
   let title = "Archivo de YouTube";
 
-  for (const apiUrl of apiUrls) {
-    try {
-      const response = await fetch(apiUrl);
-      const apiData = await response.json();
+  try {
+    const response = await fetch(apiUrl);
+    const apiData = await response.json();
 
-      if (apiUrl.includes('axeel.my.id') && apiData.metadata?.url) {
-        title = apiData.metadata.title || "Archivo MP3";
-        downloadUrl = apiData.metadata.url;
-        break;
-      } else if (apiUrl.includes('apibotwa.biz.id') && apiData.status && apiData.result?.download?.url) {
-        title = apiData.result.metadata.title || "Archivo MP3";
-        downloadUrl = apiData.result.download.url;
-        break;
-      }
-    } catch (error) {
-      console.log(`Error con la API: ${apiUrl}`, error.message);
+    if (apiData.status && apiData.result?.download?.url) {
+      title = apiData.result.metadata.title || "Archivo MP3";
+      downloadUrl = apiData.result.download.url;
     }
+  } catch (error) {
+    console.log(`Error con la API: ${apiUrl}`, error.message);
   }
 
   if (!downloadUrl) {
@@ -73,7 +63,6 @@ let handler = async (m, { conn, text }) => {
   } catch (error) {
     console.error('Error al enviar el audio:', error);
     await m.react('✖️');
-    conn.reply(m.chat, `⚠️ No se pudo enviar el audio descargado.`, m);
   }
 };
 
