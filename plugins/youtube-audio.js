@@ -25,8 +25,7 @@ let handler = async (m, { conn, text }) => {
   const videoUrl = urls[0];
   const apiUrls = [
     `https://axeel.my.id/api/download/audio?url=${videoUrl}`,
-    `https://restapi.apibotwa.biz.id/api/ytmp3?url=${videoUrl}`,
-    `https://deliriussapi-oficial.vercel.app/download/ytmp3?url=${videoUrl}`
+    `https://restapi.apibotwa.biz.id/api/ytmp3?url=${videoUrl}`
   ];
 
   let downloadUrl = null;
@@ -44,10 +43,6 @@ let handler = async (m, { conn, text }) => {
       } else if (apiUrl.includes('apibotwa.biz.id') && apiData.status && apiData.result?.download?.url) {
         title = apiData.result.metadata.title || "Archivo MP3";
         downloadUrl = apiData.result.download.url;
-        break;
-      } else if (apiUrl.includes('deliriussapi-oficial') && apiData.status && apiData.data?.download?.url) {
-        title = apiData.data.download.filename || "Archivo MP3";
-        downloadUrl = apiData.data.download.url;
         break;
       }
     } catch (error) {
