@@ -1,66 +1,66 @@
 import fetch from 'node-fetch';
 
-const limit = 300 * 1024 * 1024;
+const limit = 300 * 1024 * 1024; // Límite de 300 MB
 
-let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) => {
+let handler = async (m, { conn, text }) => {
   if (!m.quoted) {
-    return conn.reply(m.chat, `[ ✰ ] Etiqueta el mensaje que contenga el resultado de YouTube Play.`, m, rcanal).then(() => m.react('✖️'));
+    return conn.reply(m.chat, `⚠️ Debes etiquetar el mensaje que contenga el resultado de YouTube Play.`, m);
   }
 
   if (!m.quoted.text.includes("乂  Y O U T U B E  -  P L A Y")) {
-    return conn.reply(m.chat, `[ ✰ ] Etiqueta el mensaje que contenga el resultado de YouTube Play.`, m, rcanal).then(() => m.react('✖️'));
+    return conn.reply(m.chat, `⚠️ El mensaje etiquetado no contiene un resultado de YouTube Play.`, m);
   }
 
-  let urls = m.quoted.text.match(/(?:https?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed|shorts)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9\_-]+)/gi);
-  if (!urls) {
-    return conn.reply(m.chat, `Resultado no Encontrado.`, m).then(() => m.react('✖️'));
-  }
+  const urls = m.quoted.text.match(/(?:https?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed|shorts)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9_-]+)/gi);
 
-  if (urls.length < text) {
-    return conn.reply(m.chat, `Resultado no Encontrado.`, m).then(() => m.react('✖️'));
+  if (!urls || urls.length < 1) {
+    return conn.reply(m.chat, `⚠️ No se encontraron enlaces válidos en el mensaje etiquetado.`, m);
   }
 
   await m.react('🕓');
 
   try {
-    let api = await fetch(`https://api.giftedtech.my.id/api/download/dlmp4?apikey=gifted&url=${urls[0]}`);
-    let json = await api.json();
+    const apiUrl = `https://axeel.my.id/api/download/video?url=${urls[0]}`;
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+    const { title, thumbnail, duration } = data.metadata;
+    const { url: downloadUrl, size, mimetype } = data.downloads;
 
-    if (!json.success) {
-      return conn.reply(m.chat, `Error al obtener el video. Intenta de nuevo más tarde.`, m, rcanal).then(() => m.react('✖️'));
-    }
-
-    let { quality, title, download_url } = json.result;
-
-    let headResponse = await fetch(download_url, { method: 'HEAD' });
-    let size = Number(headResponse.headers.get('content-length')) || 0;
-
-    if (size > limit) {
-      await conn.sendMessage(m.chat, {
-        document: { url: download_url },
-        fileName: `${title}.mp4`,
-        mimetype: "video/mp4",
-        caption: `*Título:* ${title}\n*Calidad:* ${quality}\n*Nota:* El archivo es grande, enviado como documento.`,
-      }, { quoted: m });
+    if (Number(size.replace(/[^0-9]/g, '')) > limit) {
+  
+      await conn.sendMessage(
+        m.chat,
+        {
+          document: { url: downloadUrl },
+          fileName: `${title}.mp4`,
+          mimetype: mimetype || 'video/mp4',
+          caption: `🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration}s\n📦 *Nota:* El archivo supera los 300 MB, enviado como documento.`,
+        },
+        { quoted: m }
+      );
     } else {
-      await conn.sendMessage(m.chat, {
-        video: { url: download_url },
-        fileName: `${title}.mp4`,
-        mimetype: "video/mp4",
-        caption: `*Título:* ${title}\n*Calidad:* ${quality}`,
-      }, { quoted: m });
+      await conn.sendMessage(m.chat,
+        {
+          video: { url: downloadUrl },
+          fileName: `${title}.mp4`,
+          mimetype: mimetype || 'video/mp4',
+          caption: `🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration}s`,
+          thumbnail: thumbnail?.url ? { url: thumbnail.url } : null,
+        },
+        { quoted: m }
+      );
     }
 
-    await m.react('✅');
+    await m.react('✅'); 
   } catch (error) {
-    console.error(error);
-    await m.react('✖️');
+    console.error('Error al procesar el video:', error);
+    await m.react('✖️'); 
   }
 };
 
 handler.help = ['Video'];
 handler.tags = ['downloader'];
-handler.customPrefix = /^(Video|video|vídeo|Vídeo)/;
+handler.customPrefix = /^(Video|video|vídeo|Vídeo)/i;
 handler.command = new RegExp;
 
 export default handler;
