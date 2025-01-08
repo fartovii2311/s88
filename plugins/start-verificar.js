@@ -42,7 +42,7 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
     await conn.sendMessage(m.chat, {
       image: { url: 'https://i.ibb.co/JndpnfX/LynxAI.jpg' },
       caption: txt,
-      footer: '',
+      footer: '> [ ✰ ] Powered By Dark Team',
       buttons: [
         {
           buttonId: `.perfil`,
@@ -96,7 +96,7 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
     await conn.sendMessage(m.chat, {
       image: { url: 'https://i.ibb.co/JndpnfX/LynxAI.jpg' },
       caption: txt,
-      footer: 'Bot Information',
+      footer: '> [ ✰ ] Powered By Dark Team',
       buttons: [
         {
           buttonId: `.perfil`,
