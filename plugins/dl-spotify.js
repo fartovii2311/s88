@@ -23,6 +23,6 @@ await m.react('✅');
 console.error(error)
 }}
 
-handler.command = /^(spotify)$/i
+handler.command = /^(spotify|Spotify|SPOTIFY|sp)$/i
 
 export default handler
