@@ -25,21 +25,21 @@ let estilo = (text, style = 1) => {
   return output.join('');
 };
 const defaultMenu = {
-  before: `*${ucapan()} \`%name\`*
+    before: `*${ucapan()} \`%name\`*
 
-➫ _\`ᴀᴄᴛɪᴠᴏ\`_ :: _%muptime_
-➫ _\`ᴜꜱᴜᴀʀɪᴏꜱ\`_ :: _%rtotalreg de %totalreg_
-➫ _\`ᴄᴏʀᴀᴢᴏɴᴇꜱ\`_ :: _%corazones_
-➫ _\`ᴘʀᴇꜰɪᴊᴏ\`_ :: _< . >_
-➫ _\`ᴘᴀᴛʀᴏᴄɪɴᴀᴅᴏʀ\`_ :: __
-
-▬▭▬▭▬▭▬▭▬▭▬▭▬▭▬
- %readmore
+_\`ᴀᴄᴛɪᴠᴏ\`_ :: _%muptime_
+_\`ᴜꜱᴜᴀʀɪᴏꜱ\`_ :: _%rtotalreg de %totalreg_
+_\`ᴄᴏʀᴀᴢᴏɴᴇꜱ\`_ :: _%corazones_
+_\`ᴘʀᴇꜰɪᴊᴏ\`_ :: _< . >_
+_\`ᴘᴀᴛʀᴏᴄɪɴᴀᴅᴏʀ\`_ :: __
+    
+    ▬▭▬▭▬▭▬▭▬▭▬▭▬▭▬
+     %readmore    
   `.trimStart(),
   header: '╭───┊*_`%category`_* ┊',
     body: '│❐┆ %cmd\n',
   footer: '╰───────────\n',
-  after: `> [ ✰ ] Powered By Dark Team`,
+   after: `> [ ✰ ] Powered By Dark Team`,
   }
 let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
 
@@ -137,7 +137,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
     let wita = moment.tz('Asia/Makassar').format('HH:mm:ss')
     let wktuwib = `${wibh} H ${wibm} M ${wibs} S`
 
-    let mode = global.opts['self'] || global.opts['owneronly'] ? 'Private' : 'Public'
+    let mode = global.opts['self'] || global.opts['owneronly'] ? 'Private' : 'Publik'
     let _package = JSON.parse(await promises.readFile(join(__dirname, '../package.json')).catch(_ => ({}))) || {}
     let { age, exp, corazones, level, role, registered, money } = global.db.data.users[m.sender]
     let { min, xp, max } = xpRange(level, global.multiplier)
@@ -147,7 +147,9 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
     let platform = os.platform()
 
     //---------------------
-
+    let totalf = Object.values(global.plugins).filter(
+    (v) => v.help && v.tags
+  ).length;
     let totalreg = Object.keys(global.db.data.users).length
     let rtotalreg = Object.values(global.db.data.users).filter(user => user.registered == true).length
     let help = Object.values(global.plugins).filter(plugin => !plugin.disabled).map(plugin => {
@@ -173,7 +175,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
     let header = conn.menu.header || defaultMenu.header
     let body = conn.menu.body || defaultMenu.body
     let footer = conn.menu.footer || defaultMenu.footer
-    let after = conn.menu.after || (conn.user.jid == global.conn.user.jid ? '' : '') + defaultMenu.after;
+    let after = conn.menu.after || (conn.user.jid == global.conn.user.jid ? '' : `Powered by https://wa.me/${global.conn.user.jid.split`@`[0]}`) + defaultMenu.after
     let _text = [
       before,
       ...Object.keys(tags).map(tag => {
@@ -181,8 +183,10 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
           ...help.filter(menu => menu.tags && menu.tags.includes(tag) && menu.help).map(menu => {
             return menu.help.map(help => {
               return body.replace(/%cmd/g, menu.prefix ? help : '%_p' + help)
-                .replace(/%iscorazones/g, menu.corazones ? corazones : '')
-                .replace(/%isPremium/g, menu.premium ? lprem : '')
+                .replace(/%iscorazones/g, menu.corazones ? '◜🪙◞' : '')
+                .replace(/%isPremium/g, menu.premium ? '◜🎫◞' : '')
+//                .replace(/%iscorazones/g, menu.corazones ? corazones : '')
+//                .replace(/%isPremium/g, menu.premium ? lprem : '')
                 .trim()
             }).join('\n')
           }),
@@ -205,21 +209,45 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
       xp4levelup: max - exp,
       github: _package.homepage ? _package.homepage.url || _package.homepage : '[unknown github url]',
       tag, dash, m1, m2, m3, m4, cc, c1, c2, c3, c4, lprem, llim,
-      ucpn, platform, wib, mode, _p, money, age, tag, name, prems, level, corazones, name, weton, week, date, dateIslamic, time, totalreg, rtotalreg, role,
+      ucpn, platform, wib, mode, _p, money, age, tag, name, prems, level, corazones, name, weton, week, date, dateIslamic, time, totalreg, rtotalreg, role, totalf,
       readmore: readMore
     }
     text = text.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), (_, name) => '' + replace[name])
 
     let img = 'https://i.ibb.co/JndpnfX/LynxAI.jpg'
     await m.react('🎉')
-    await conn.sendFile(m.chat, img, 'thumbnail.jpg', text.trim(), m, null, fake)
+    await conn.sendMessage(m.chat, {
+      image: { url: img },
+      caption: estilo(text),
+      footer: dev,
+      buttons: [
+        {
+          buttonId: `.ping`,
+          buttonText: {
+            displayText: 'PING',
+          },
+        },
+        {
+          buttonId: `.owner`,
+          buttonText: {
+            displayText: 'OWNER',
+          },
+        },
+      ],
+      viewOnce: true,
+      headerType: 4,
+    }, { quoted: m })
+
+//    await conn.sendFile(m.chat, img, 'thumbnail.jpg', text.trim(), m, null, fake)
   } catch (e) {
     conn.reply(m.chat, ' error', m)
     throw e
   }
 }
-
+handler.help = ['menu']
+handler.tags = ['main']
 handler.command = /^(allmenu|menu|menú|\?)$/i
+handler.register = true
 handler.exp = 3
 
 export default handler
