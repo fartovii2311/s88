@@ -17,7 +17,7 @@ let handler = async (m, { conn, text }) => {
     return conn.reply(m.chat, `⚠️ No se encontraron enlaces válidos en el mensaje etiquetado.`, m);
   }
 
-  await m.react('🕓');
+  await m.react('🕓'); 
 
   const videoUrl = urls[0];
   const apiUrl = `https://restapi.apibotwa.biz.id/api/ytmp3?url=${videoUrl}`;
@@ -25,7 +25,6 @@ let handler = async (m, { conn, text }) => {
   let downloadUrl = null;
   let title = "Archivo de YouTube";
   let size = null;
-  let thumbnail = null;
 
   try {
     const response = await fetch(apiUrl);
@@ -36,7 +35,6 @@ let handler = async (m, { conn, text }) => {
       const download = apiData.result.download;
 
       title = metadata.title || "Archivo MP3";
-      thumbnail = metadata.thumbnail || null;
       downloadUrl = download.url || null;
       size = download.quality || "desconocido";
     } else {
@@ -47,7 +45,7 @@ let handler = async (m, { conn, text }) => {
   }
 
   let intentos = 0;
-  const maxIntentos = 3;
+  const maxIntentos = 5;
 
   while (intentos < maxIntentos) {
     try {
@@ -59,11 +57,13 @@ let handler = async (m, { conn, text }) => {
       }, { quoted: m });
 
       await m.react('✅');
-      return;
+      return; 
     } catch (error) {
       console.error(`Error al enviar el audio (Intento ${intentos + 1} de ${maxIntentos}):`, error);
       intentos++;
     }
+
+    await new Promise(resolve => setTimeout(resolve, 2000)); 
   }
 
   await m.react('✖️');
