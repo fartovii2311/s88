@@ -51,7 +51,6 @@ let handler = async (m, { conn, text }) => {
   }
 
   try {
-    // Enviar archivo de audio
     await conn.sendMessage(m.chat, {
       audio: { url: downloadUrl },
       caption: `🎵 *Título:* ${title}\n📦 *Calidad:* ${size}\n🌐 *Enlace:* ${videoUrl}`,
