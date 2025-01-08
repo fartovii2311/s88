@@ -3,7 +3,7 @@ import fetch from 'node-fetch'
 
 let handler = async (m, { conn, command, text, usedPrefix }) => {
 if (!text) return conn.reply(m.chat, `❀ Ingresa el texto de lo que quieras buscar`, m,rcanal)
-
+await m.react('🕓');
 try {
 let apiSearch = await fetch(`https://api.vreden.web.id/api/spotifysearch?query=${text}`)
 let jsonSearch = await apiSearch.json()
