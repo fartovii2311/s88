@@ -1,9 +1,11 @@
-import {
+const {
     useMultiFileAuthState,
     DisconnectReason,
+    fetchLatestBaileysVersion,
+    MessageRetryMap,
     makeCacheableSignalKeyStore,
-    fetchLatestBaileysVersion
-} from "@whiskeysockets/baileys";
+    jidNormalizedUser
+} = await import('@whiskeysockets/baileys')
 import qrcode from 'qrcode';
 import nodecache from 'node-cache';
 import fs from 'fs';
@@ -18,16 +20,16 @@ if (!(global.conns instanceof Array)) {
     global.conns = [];
 }
 
-const handler = async (message, { conn, args, usedPrefix, command, isOwner }) => {
+const handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
     if (!global.db.data.settings[conn.user.jid].jadibotmd) {
-        return conn.reply(message.chat, "☁️ Este Comando está deshabilitado por mi creador.", false);
+        return conn.reply(m.chat, "☁️ Este Comando está deshabilitado por mi creador.", false);
     }
 
     const isCodeCommand = args[0] && /code/.test(args[0].trim()) || (args[1] && /code/.test(args[1].trim()));
     let credentials;
     let responseMessage;
     let pairingCode;
-    let userId = message.mentionedJid && message.mentionedJid[0] ? message.mentionedJid[0] : message.fromMe ? conn.user.jid : message.sender;
+    let userId = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : (m.fromMe ? conn.user.jid : m.sender);
     let userName = userId.split`@`[0];
 
     if (isCodeCommand) {
@@ -58,7 +60,7 @@ const handler = async (message, { conn, args, usedPrefix, command, isOwner }) =>
         const qrBuffer = Buffer.from("", "base64");
 
         async function generateCredentials() {
-            let currentUser = message.mentionedJid && message.mentionedJid[0] ? message.mentionedJid[0] : message.fromMe ? conn.user.jid : message.sender;
+            let currentUser = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : (m.fromMe ? conn.user.jid : m.sender);
             let currentUserName = currentUser.split`@`[0];
 
             if (!fs.existsSync(`./${jadi}/${currentUserName}`)) {
