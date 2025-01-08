@@ -14,12 +14,13 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     let mime = (q.msg || q).mimetype || q.mediaType || '';
     
     if (/webp|image|video/g.test(mime)) {
-      if (/video/g.test(mime) && (q.msg || q).seconds > 8) {
+      if (/video/g.test(mime) && ((q.msg || q).seconds || 0) > 8) {
         return m.reply(messages.tooLongVideo);
       }
 
       let img = await q.download?.();
       if (!img) {
+        console.error('No se pudo descargar el medio.');
         return conn.reply(m.chat, messages.invalidMedia, m);
       }
 
