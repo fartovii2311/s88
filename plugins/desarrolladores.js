@@ -1,27 +1,25 @@
 const handler = async (m, { conn }) => {
-    let gifUrl = "https://qu.ax/JgmPo.mp4";
+    let gifUrl = "";
   
     let text = `
-   ╭────────⚔──────╮  
-          DESARROLLADORES  
-   ╰────────⚔──────╯  
+╭────────⚔──────╮  
+ DESARROLLADORES  
+╰────────⚔──────╯  
   
-  🔹 *SOBRE EL BOT:*  
+🔹 *SOBRE EL BOT:*  
   
-  🔹 *CONTACTO DE LOS DESARROLLADORES:*  
-  ╭─────────────────────────╮  
-  │🏆 * - Equipo Oficial*  
-  │  
-  │📌 *Tesis*: []  
-  │📌 **: []  
-  │📌 *YerTX2*: []  
-  ╰─────────────────────────╯  
+🔹 *CONTACTO DE LOS DESARROLLADORES:*  
+╭─────────────────────────╮  
+│🏆 * - Equipo Oficial*  
+│  
+│📌 **: []  
+│📌 **: []  
+│📌 **: []  
+╰─────────────────────────╯  
   
-  🔹 *AGRADECIMIENTOS:*  
+🔹 *AGRADECIMIENTOS:*  
   
-  🔹 *¿DUDAS O SUGERENCIAS?*  
-  
-  `.trim();
+🔹 *¿DUDAS O SUGERENCIAS?*  `.trim();
   
   
     await conn.sendMessage(
