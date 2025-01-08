@@ -2,7 +2,7 @@
 import fetch from 'node-fetch'
 
 let handler = async (m, { conn, command, text, usedPrefix }) => {
-if (!text) return conn.reply(m.chat, `❀ Ingresa el texto de lo que quieras buscar`, m)
+if (!text) return conn.reply(m.chat, `❀ Ingresa el texto de lo que quieras buscar`, m,rcanal)
 
 try {
 let apiSearch = await fetch(`https://api.vreden.web.id/api/spotifysearch?query=${text}`)
@@ -16,7 +16,7 @@ let HS = `- Titulo : ${title}
 - Popularidad : ${popularity}
 - Link : ${url}
 `
-await conn.sendFile(m.chat, cover, 'defoult.jpg', HS, m)
+await conn.sendFile(m.chat, cover, 'defoult.jpg', HS, m,rcanal)
 await conn.sendFile(m.chat, music, 'defoult.mp4', null, m)
 } catch (error) {
 console.error(error)
