@@ -1,71 +1,83 @@
-import { sticker } from '../lib/sticker.js'
-import uploadFile from '../lib/uploadFile.js'
-import { addExif } from '../lib/sticker.js'
-import { Sticker } from 'wa-sticker-formatter'
+import { sticker } from '../lib/sticker.js';
 
 let handler = async (m, { conn, args, usedPrefix, command }) => {
+  let stiker = false;
+  const messages = {
+    invalidMedia: '🌸 *_Envía primero una imagen, video o gif y luego usa el comando._*',
+    tooLongVideo: '🌷 *¡El video no puede durar más de 8 segundos!*',
+    invalidUrl: '🥀 *_El URL proporcionado es incorrecto o no compatible._*',
+    conversionError: '🌸 *_Hubo un error en la conversión. Inténtalo de nuevo._*',
+  };
+
   try {
-    let q = m.quoted ? m.quoted : m
-    let mime = (q.msg || q).mimetype || q.mediaType || ''
+    let q = m.quoted ? m.quoted : m;
+    let mime = (q.msg || q).mimetype || q.mediaType || '';
+    
+    if (/webp|image|video/g.test(mime)) {
+      if (/video/g.test(mime) && (q.msg || q).seconds > 8) {
+        return m.reply(messages.tooLongVideo);
+      }
 
-    if (/video/g.test(mime)) {
-      // Jalankan kode untuk video di sini
-      if ((q.msg || q).seconds > 10) return m.reply('✧ Máximo 10 segundos.')
-      let img = await q.download?.()
-      if (!img) throw m.reply(` `✧ Responde a un Vídeo con el comando*${usedPrefix + command}*` `)
-      let stiker = false
-      try {
-        stiker = await sticker(img, false, global.stickpack, global.stickauth)
-      } catch (e) {
-        console.error(e)
-      } finally {
-        if (!stiker) {
-          let out = await uploadFile(img)
-          stiker = await sticker(false, out, global.stickpack, global.stickauth)
-        }
+      let img = await q.download?.();
+      if (!img) {
+        return conn.reply(m.chat, messages.invalidMedia, m);
       }
-      conn.sendFile(m.chat, stiker, 'sticker.webp', '', m, null)
-    } else if (/image/g.test(mime)) {
-      // Jalankan kode untuk gambar di sini
-      let [packname, ...author] = args.join` `.split`|`
-      author = (author || []).join`|`
-      let img = await q.download?.()
-      let stiker = false
+
       try {
-        let pack = global.stickpack
-        let author = global.stickauth
-        stiker = await addExif(img, pack, author)
+        stiker = await sticker(img, false, global.packsticker, global.author);
       } catch (e) {
-        console.error(e)
-      } finally {
-        if (!stiker) {
-          stiker = await createSticker(img, false, packname, author)
-        }
+        console.error('Error al crear el sticker con medios:', e);
       }
-      m.reply(stiker)
+
+    } else if (args[0]) {
+      if (isUrl(args[0])) {
+        try {
+          stiker = await sticker(false, args[0], global.packsticker, global.author);
+        } catch (e) {
+          console.error('Error al crear el sticker con URL:', e);
+        }
+      } else {
+        return m.reply(messages.invalidUrl);
+      }
     } else {
-      conn.reply(m.chat, `✧ `Responde a una Imagen o Video *${usedPrefix + command}`*`, m, rcanal)
+      return conn.reply(m.chat, messages.invalidMedia, m);
     }
+
   } catch (e) {
-    console.error(e)
-    m.reply('Error')
+    console.error('Error general:', e);
+  } finally {
+    if (stiker) {
+      conn.sendFile(
+        m.chat, stiker, 'sticker.webp', '', m, true, {
+          contextInfo: {
+            forwardingScore: 200,
+            isForwarded: false,
+            externalAdReply: {
+              showAdAttribution: false,
+              title: global.packsticker || 'Sticker',
+              body: global.author || 'Bot',
+              mediaType: 2,
+              sourceUrl: global.redes || '',
+              thumbnail: global.icons || null,
+            },
+          },
+        }, 
+        { quoted: m }
+      );
+    } else {
+      conn.reply(m.chat, messages.conversionError, m);
+    }
   }
-}
+};
 
-handler.help = ['sticker']
-handler.tags = ['sticker']
+handler.help = ['stiker <img>', 'sticker <url>'];
+handler.tags = ['sticker'];
+handler.group = false;
+handler.register = true;
+handler.command = ['s', 'sticker', 'stiker'];
 
-handler.command = /^s(tic?ker)?(gif)?$/i
-handler.register = true
+export default handler;
 
-export default handler
-
-async function createSticker(img, url, packName, authorName, quality) {
-  let stickerMetadata = {
-    type: 'full',
-    pack: stickpack,
-    author: stickauth,
-    quality
-  }
-  return (new Sticker(img ? img : url, stickerMetadata)).toBuffer()
-}
+const isUrl = (text) => {
+  return text.match(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%.+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%+.~#?&/=]*(jpe?g|gif|png|webp|mp4))/gi);
+};
