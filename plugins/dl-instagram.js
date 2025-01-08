@@ -8,27 +8,26 @@ let handler = async (m, { args, command, conn }) => {
     return conn.reply(m.chat,'❀ Ingresa un link de Instagram',m,rcanal);
   }
 
-  await m.react('🕓'); // Reacción de carga
+  await m.react('🕓'); 
 
   try {
     let scraper = await instagramdl(args[0]);
 
     if (scraper.videoUrl) {
       let vid = await axios.get(scraper.videoUrl, { responseType: 'arraybuffer' });
-      await conn.sendMessage(m.chat, { video: Buffer.from(vid.data), caption: '' });
+      await conn.sendMessage(m.chat, { video: Buffer.from(vid.data), caption: '',listo, });
     } else if (scraper.imageUrl) {
       let img = await axios.get(scraper.imageUrl, { responseType: 'arraybuffer' });
-      await conn.sendMessage(m.chat, { image: Buffer.from(img.data), caption: '' });
+      await conn.sendMessage(m.chat, { image: Buffer.from(img.data), caption: '', listo, });
     } else {
       return m.reply('❀ Sin resultados encontrados');
     }
 
-    await m.react('✅'); // Reacción de éxito
+    await m.react('✅');
 
   } catch (error) {
     console.error('Error en descarga de Instagram:', error);
-    m.reply('❀ Ocurrió un error al intentar obtener el contenido de Instagram. Intenta nuevamente.');
-    await m.react('❌'); // Reacción de error
+    await m.react('❌');
   }
 };
 
