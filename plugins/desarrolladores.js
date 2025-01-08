@@ -3,7 +3,7 @@ const handler = async (m, { conn }) => {
   
     let text = `
 ╭────────⚔──────╮  
-\t\t\t\tDESARROLLADORES  
+\t\t\tDESARROLLADORES  
 ╰────────⚔──────╯  
   
 🔹 *SOBRE EL BOT:*  
