@@ -23,6 +23,7 @@ await m.react('✅');
 console.error(error)
 }}
 
-handler.command = /^(spotify|Spotify|SPOTIFY|sp)$/i
+handler.command = /^(spotify|Spotify|SPOTIFY|sp)$/i}
+handler.tags = ["dl"];
 handler.register = true 
 export default handler
