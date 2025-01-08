@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-const limit = 300 * 1024 * 1024; // Límite de 300 MB
+const limit = 300 * 1024 * 1024;
 
 let handler = async (m, { conn, text }) => {
   if (!m.quoted) {
@@ -20,21 +20,22 @@ let handler = async (m, { conn, text }) => {
   await m.react('🕓');
 
   try {
-    const apiUrl = `https://axeel.my.id/api/download/video?url=${urls[0]}`;
+    const apiUrl = `https://restapi.apibotwa.biz.id/api/ytmp4?url=${urls[0]}`;
     const response = await fetch(apiUrl);
-    const data = await response.json();
-    const { title, thumbnail, duration } = data.metadata;
-    const { url: downloadUrl, size, mimetype } = data.downloads;
+    const { data } = await response.json();
+    const { metadata, download } = data;
+    const { title, thumbnail, duration } = metadata;
+    const { url: downloadUrl, filename } = download;
 
-    if (Number(size.replace(/[^0-9]/g, '')) > limit) {
-  
-      await conn.sendMessage(
-        m.chat,
+    const size = download.size || '300MB';
+
+    if (Number(size.replace(/[^0-9]/g, '')) * 1024 * 1024 > limit) {
+      await conn.sendMessage(m.chat,
         {
           document: { url: downloadUrl },
-          fileName: `${title}.mp4`,
-          mimetype: mimetype || 'video/mp4',
-          caption: `🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration}s\n📦 *Nota:* El archivo supera los 300 MB, enviado como documento.`,
+          fileName: filename || `${title}.mp4`,
+          mimetype: 'video/mp4',
+          caption: `🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration.timestamp}\n📦 *Nota:* El archivo supera los 300 MB, enviado como documento.`,
         },
         { quoted: m }
       );
@@ -42,19 +43,19 @@ let handler = async (m, { conn, text }) => {
       await conn.sendMessage(m.chat,
         {
           video: { url: downloadUrl },
-          fileName: `${title}.mp4`,
-          mimetype: mimetype || 'video/mp4',
-          caption: `🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration}s`,
-          thumbnail: thumbnail?.url ? { url: thumbnail.url } : null,
+          fileName: filename || `${title}.mp4`,
+          mimetype: 'video/mp4',
+          caption: `🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration.timestamp}`,
+          thumbnail: { url: thumbnail },
         },
         { quoted: m }
       );
     }
 
-    await m.react('✅'); 
+    await m.react('✅');
   } catch (error) {
     console.error('Error al procesar el video:', error);
-    await m.react('✖️'); 
+    await m.react('✖️');
   }
 };
 
