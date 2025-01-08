@@ -16,7 +16,7 @@ let HS = `- Titulo : ${title}
 - Popularidad : ${popularity}
 - Link : ${url}
 `
-await conn.sendFile(m.chat, cover, 'defoult.jpg', HS, m,rcanal)
+await conn.sendFile(m.chat, cover, 'defoult.jpg', HS, m,rcanal,fake)
 await conn.sendFile(m.chat, music, 'defoult.mp4', null, m)
 } catch (error) {
 console.error(error)
