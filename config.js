@@ -53,6 +53,7 @@ global.dis = ':⁖֟⊱┈֟፝❥'
 global.catalogo = fs.readFileSync('./storage/img/catalogo.png')
 global.miniurl = fs.readFileSync('./storage/img/miniurl.jpg')
 global.icons = fs.readFileSync('./storage/img/miniurl.jpg')
+global.loadDatabase = fs.readFileSync('./storage/database/database.json')
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
