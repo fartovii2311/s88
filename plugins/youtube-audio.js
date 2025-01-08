@@ -52,24 +52,18 @@ let handler = async (m, { conn, text }) => {
   }
 
   try {
-    // Enviar información antes del audio
-    await conn.sendMessage(m.chat, {
-      image: { url: thumbnail },
-      caption: `🎵 *Título:* ${title}\n📦 *Calidad:* ${size}\n🌐 *Enlace:* ${videoUrl}`,
-    }, { quoted: m });
-
     // Enviar archivo de audio
     await conn.sendMessage(m.chat, {
       audio: { url: downloadUrl },
+      caption: `🎵 *Título:* ${title}\n📦 *Calidad:* ${size}\n🌐 *Enlace:* ${videoUrl}`,
       fileName: `${title}.mp3`,
       mimetype: 'audio/mpeg',
     }, { quoted: m });
 
-    await m.react('✅'); // Reacciona con un check si todo sale bien
+    await m.react('✅'); 
   } catch (error) {
     console.error('Error al enviar el audio:', error);
-    conn.reply(m.chat, `⚠️ No se pudo enviar el audio. Intenta de nuevo más tarde.`, m);
-    await m.react('✖️'); // Reacciona con una X si hay un error
+    await m.react('✖️'); 
   }
 };
 
