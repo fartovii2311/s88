@@ -24,5 +24,5 @@ console.error(error)
 }}
 
 handler.command = /^(spotify|Spotify|SPOTIFY|sp)$/i
-
+handler.register = true 
 export default handler
