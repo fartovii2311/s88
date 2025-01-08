@@ -1,0 +1,40 @@
+const handler = async (m, { conn }) => {
+    let gifUrl = "https://qu.ax/JgmPo.mp4";
+  
+    let text = `
+   ╭────────⚔──────╮  
+          DESARROLLADORES  
+   ╰────────⚔──────╯  
+  
+  🔹 *SOBRE EL BOT:*  
+  
+  🔹 *CONTACTO DE LOS DESARROLLADORES:*  
+  ╭─────────────────────────╮  
+  │🏆 * - Equipo Oficial*  
+  │  
+  │📌 *Tesis*: []  
+  │📌 **: []  
+  │📌 *YerTX2*: []  
+  ╰─────────────────────────╯  
+  
+  🔹 *AGRADECIMIENTOS:*  
+  
+  🔹 *¿DUDAS O SUGERENCIAS?*  
+  
+  `.trim();
+  
+  
+    await conn.sendMessage(
+      m.chat,
+      {
+        video: { url: gifUrl },
+        gifPlayback: true, 
+        caption: text,
+        mentions: [m.sender], 
+      },
+      { quoted: m }
+    );
+  };
+  
+  handler.command = /^(desarrolladores)$/i; 
+  export default handler;
