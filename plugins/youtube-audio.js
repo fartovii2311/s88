@@ -17,56 +17,74 @@ let handler = async (m, { conn, text }) => {
     return conn.reply(m.chat, `⚠️ No se encontraron enlaces válidos en el mensaje etiquetado.`, m);
   }
 
-  await m.react('🕓'); 
+  await m.react('🕓');
 
   const videoUrl = urls[0];
-  const apiUrl = `https://restapi.apibotwa.biz.id/api/ytmp3?url=${videoUrl}`;
+  const apiUrl1 = `https://restapi.apibotwa.biz.id/api/ytmp3?url=${videoUrl}`;
+  const apiUrl2 = `https://delirius-apiofc.vercel.app/download/ytmp3?url=${videoUrl}`;
 
   let downloadUrl = null;
   let title = "Archivo de YouTube";
-  let size = null;
+  let size = "Desconocido";
+  let image = null;
 
   try {
-    const response = await fetch(apiUrl);
-    const apiData = await response.json();
+    const response1 = await fetch(apiUrl1);
+    const data1 = await response1.json();
 
-    if (apiData.status === 200 && apiData.result.download?.status) {
-      const metadata = apiData.result.metadata;
-      const download = apiData.result.download;
+    if (data1.status === 200 && data1.result.download?.status) {
+      const metadata = data1.result.metadata;
+      const download = data1.result.download;
 
       title = metadata.title || "Archivo MP3";
       downloadUrl = download.url || null;
-      size = download.quality || "desconocido";
+      size = download.quality || "Desconocido";
     } else {
-      console.log("No se pudo obtener un enlace de descarga válido. Datos de la API:", apiData);
+      const response2 = await fetch(apiUrl2);
+      const data2 = await response2.json();
+
+      if (data2.status && data2.data?.download?.url) {
+        const download = data2.data.download;
+
+        title = data2.data.title || "Archivo MP3";
+        downloadUrl = download.url || null;
+        size = download.size || "Desconocido";
+        image = data2.data.image || null;
+      }
     }
   } catch (error) {
-    console.error(`Error con la API: ${apiUrl}`, error.message);
+    console.error("Error con las APIs", error.message);
   }
 
-  let intentos = 0;
-  const maxIntentos = 5;
+  if (!downloadUrl) {
+    await m.react('✖️');
+    return conn.reply(m.chat, `⚠️ No se pudo obtener un enlace de descarga válido.`, m);
+  }
 
-  while (intentos < maxIntentos) {
-    try {
-      await conn.sendMessage(m.chat, {
-        audio: { url: downloadUrl },
-        caption: `🎵 *Título:* ${title}\n📦 *Calidad:* ${size}\n🌐 *Enlace:* ${videoUrl}`,
-        fileName: `${title}.mp3`,
-        mimetype: 'audio/mpeg',
-      }, { quoted: m });
+  try {
+    const caption = `
+🎵 *Título:* ${title}
+📦 *Tamaño:* ${size}
+🌐 *Enlace:* ${videoUrl}
+    `.trim();
 
-      await m.react('✅');
-      return; 
-    } catch (error) {
-      console.error(`Error al enviar el audio (Intento ${intentos + 1} de ${maxIntentos}):`, error);
-      intentos++;
+    const options = {
+      audio: { url: downloadUrl },
+      caption,
+      fileName: `${title}.mp3`,
+      mimetype: 'audio/mpeg',
+    };
+
+    if (image) {
+      options.thumbnail = { url: image };
     }
 
-    await new Promise(resolve => setTimeout(resolve, 2000)); 
+    await conn.sendMessage(m.chat, options, { quoted: m });
+    await m.react('✅');
+  } catch (error) {
+    console.error("Error al enviar el audio", error);
+    await m.react('✖️');
   }
-
-  await m.react('✖️');
 };
 
 handler.help = ['Audio'];
