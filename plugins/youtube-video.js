@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-const limit = 300 * 1024 * 1024;
+const videoLimit = 300 * 1024 * 1024; // 300 MB límite para MP4
 
 let handler = async (m, { conn, text }) => {
   if (!m.quoted) {
@@ -17,46 +17,65 @@ let handler = async (m, { conn, text }) => {
     return conn.reply(m.chat, `⚠️ No se encontraron enlaces válidos en el mensaje etiquetado.`, m);
   }
 
-  await m.react('🕓');
+  const videoUrl = urls[0];
+  await m.react('🕓'); // Indica que está procesando
 
   try {
-    const apiUrl = `https://restapi.apibotwa.biz.id/api/ytmp4?url=${urls[0]}`;
-    const response = await fetch(apiUrl);
-    const { data } = await response.json();
-    const { metadata, download } = data;
-    const { title, thumbnail, duration } = metadata;
-    const { url: downloadUrl, filename } = download;
+    // API principal
+    const apiUrl1 = `https://delirius-apiofc.vercel.app/download/ytmp4?url=${videoUrl}`;
+    const response1 = await fetch(apiUrl1);
+    const result1 = await response1.json();
 
-    const size = download.size || '300MB';
-
-    if (Number(size.replace(/[^0-9]/g, '')) * 1024 * 1024 > limit) {
-      await conn.sendMessage(m.chat,
-        {
-          document: { url: downloadUrl },
-          fileName: filename || `${title}.mp4`,
-          mimetype: 'video/mp4',
-          caption: `🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration.timestamp}\n📦 *Nota:* El archivo supera los 300 MB, enviado como documento.`,
-        },
-        { quoted: m }
-      );
-    } else {
-      await conn.sendMessage(m.chat,
-        {
-          video: { url: downloadUrl },
-          fileName: filename || `${title}.mp4`,
-          mimetype: 'video/mp4',
-          caption: `🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration.timestamp}`,
-          thumbnail: { url: thumbnail },
-        },
-        { quoted: m }
-      );
+    if (result1.status && result1.data) {
+      await handleVideoDownload(conn, m, result1.data);
+      return;
     }
 
-    await m.react('✅');
+    const apiUrl2 = `https://restapi.apibotwa.biz.id/api/ytmp4?url=${videoUrl}`;
+    const response2 = await fetch(apiUrl2);
+    const result2 = await response2.json();
+
+    if (result2.status && result2.data) {
+      await handleVideoDownload(conn, m, result2.data);
+      return;
+    }
+
   } catch (error) {
     console.error('Error al procesar el video:', error);
     await m.react('✖️');
   }
+};
+
+const handleVideoDownload = async (conn, m, data) => {
+  const { title, download, duration, image_max_resolution } = data;
+  const { url: downloadUrl, size, filename } = download;
+
+  const fileSize = Number(size.replace(/[^0-9]/g, '')) * 1024;
+
+  if (fileSize > videoLimit) {
+    await conn.sendMessage(m.chat,
+      {
+        document: { url: downloadUrl },
+        fileName: filename || `${title}.mp4`,
+        mimetype: 'video/mp4',
+        caption: `⚠️ El archivo supera el límite permitido (${videoLimit / 1024 / 1024} MB). Enviado como documento.\n🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration.timestamp}`,
+      },
+      { quoted: m }
+    );
+  } else {
+    await conn.sendMessage(m.chat,
+      {
+        video: { url: downloadUrl },
+        fileName: filename || `${title}.mp4`,
+        mimetype: 'video/mp4',
+        caption: `🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration.timestamp}`,
+        thumbnail: image_max_resolution ? { url: image_max_resolution } : undefined,
+      },
+      { quoted: m }
+    );
+  }
+
+  await m.react('✅');
 };
 
 handler.help = ['Video'];
