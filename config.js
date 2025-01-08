@@ -61,6 +61,7 @@ global.group2 = ''
 global.canal = 'https://whatsapp.com/channel/0029Vaxb5xr7z4koGtOAAc1Q'
 global.github = '' 
 global.instagram = '' 
+global.redes = '' 
 global.whatsApp = ''
 
 
