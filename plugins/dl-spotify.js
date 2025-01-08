@@ -18,6 +18,7 @@ let HS = `- Titulo : ${title}
 `
 await conn.sendFile(m.chat, cover, 'defoult.jpg', HS, m,rcanal,fake)
 await conn.sendFile(m.chat, music, 'defoult.mp4', null, m)
+await m.react('✅');
 } catch (error) {
 console.error(error)
 }}
