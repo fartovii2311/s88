@@ -46,10 +46,6 @@ let handler = async (m, { conn, text }) => {
     console.error(`Error con la API: ${apiUrl}`, error.message);
   }
 
-  if (!downloadUrl) {
-    return conn.reply(m.chat, `⚠️ No se pudo obtener el audio del video.`, m);
-  }
-
   try {
     await conn.sendMessage(m.chat, {
       audio: { url: downloadUrl },
@@ -65,7 +61,6 @@ let handler = async (m, { conn, text }) => {
   }
 };
 
-// Configuración del handler
 handler.help = ['Audio'];
 handler.tags = ['downloader'];
 handler.customPrefix = /^(Audio|audio)$/i;
