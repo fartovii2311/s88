@@ -44,7 +44,6 @@ let handler = async (m, { conn, text }) => {
     }
   } catch (error) {
     console.error(`Error con la API: ${apiUrl}`, error.message);
-    return conn.reply(m.chat, `⚠️ Hubo un problema al obtener el audio. Por favor, inténtalo de nuevo más tarde.`, m);
   }
 
   if (!downloadUrl) {
