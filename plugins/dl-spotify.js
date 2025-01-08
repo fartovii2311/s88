@@ -21,6 +21,7 @@ await conn.sendFile(m.chat, music, 'defoult.mp4', null, m)
 await m.react('✅');
 } catch (error) {
 console.error(error)
+await m.react('❌');
 }}
 
 handler.command = /^(spotify|Spotify|SPOTIFY|sp)$/i}
