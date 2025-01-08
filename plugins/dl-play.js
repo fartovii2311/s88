@@ -22,7 +22,7 @@ await m.react('✖️')
 }}
 handler.help = ['play *<búsqueda>*']
 handler.tags = ['dl']
-handler.command = ['play','Play']
+handler.command = ['play','Play','PLAY', 'pl']
 handler.register = true 
 export default handler
 
