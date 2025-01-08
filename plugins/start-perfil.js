@@ -1,4 +1,3 @@
-
 import { canLevelUp, xpRange } from '../lib/levelling.js'
 import { createHash } from 'crypto'
 import PhoneNumber from 'awesome-phonenumber'
@@ -31,16 +30,37 @@ let handler = async (m, { conn, usedPrefix, command}) => {
       txt += `◦ *XP* : Total ${exp} (${user.exp - min}/${xp})\n`
       txt += `◦ *Premium* : ${prem ? 'Si' : 'No'}\n`
       txt += `◦ *Registrado* : ${registered ? 'Si': 'No'}`
-  let mentionedJid = [who]
-await conn.sendFile(m.chat, img, 'thumbnail.jpg', txt, m, null, fake,rcanal)
+
+  // Enviar mensaje con la imagen, el texto, y los botones
+  await conn.sendMessage(m.chat, {
+      image: { url: pp },
+      caption: txt,
+      footer: 'Bot Information',
+      buttons: [
+        {
+          buttonId: `.perfil`,
+          buttonText: {
+            displayText: 'PERFIL',
+          },
+        },
+        {
+          buttonId: `.owner`,
+          buttonText: {
+            displayText: 'OWNER',
+          },
+        },
+      ],
+      viewOnce: true,
+      headerType: 4,
+    }, { quoted: m })
 }
+
 handler.help = ['perfil', 'perfil *@user*']
 handler.tags = ['start']
 handler.command = /^(perfil|profile)$/i
 handler.register = true
 
 export default handler
-
 
 const more = String.fromCharCode(8206)
 const readMore = more.repeat(4001)
