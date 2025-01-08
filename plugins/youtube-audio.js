@@ -17,7 +17,7 @@ let handler = async (m, { conn, text }) => {
     return conn.reply(m.chat, `⚠️ No se encontraron enlaces válidos en el mensaje etiquetado.`, m);
   }
 
-  await m.react('🕓'); // Reacciona con un reloj para indicar que está procesando
+  await m.react('🕓');
 
   const videoUrl = urls[0];
   const apiUrl = `https://restapi.apibotwa.biz.id/api/ytmp3?url=${videoUrl}`;
@@ -46,19 +46,27 @@ let handler = async (m, { conn, text }) => {
     console.error(`Error con la API: ${apiUrl}`, error.message);
   }
 
-  try {
-    await conn.sendMessage(m.chat, {
-      audio: { url: downloadUrl },
-      caption: `🎵 *Título:* ${title}\n📦 *Calidad:* ${size}\n🌐 *Enlace:* ${videoUrl}`,
-      fileName: `${title}.mp3`,
-      mimetype: 'audio/mpeg',
-    }, { quoted: m });
+  let intentos = 0;
+  const maxIntentos = 3;
 
-    await m.react('✅'); 
-  } catch (error) {
-    console.error('Error al enviar el audio:', error);
-    await m.react('✖️'); 
+  while (intentos < maxIntentos) {
+    try {
+      await conn.sendMessage(m.chat, {
+        audio: { url: downloadUrl },
+        caption: `🎵 *Título:* ${title}\n📦 *Calidad:* ${size}\n🌐 *Enlace:* ${videoUrl}`,
+        fileName: `${title}.mp3`,
+        mimetype: 'audio/mpeg',
+      }, { quoted: m });
+
+      await m.react('✅');
+      return;
+    } catch (error) {
+      console.error(`Error al enviar el audio (Intento ${intentos + 1} de ${maxIntentos}):`, error);
+      intentos++;
+    }
   }
+
+  await m.react('✖️');
 };
 
 handler.help = ['Audio'];
