@@ -40,7 +40,28 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
     txt += `\`━━━━━━━━━━━━━━━━━━━━\`\n\n`
     txt += `> Escribe *${usedPrefix}profile* para ver tu perfil.`
 
-    await conn.sendFile(m.chat, img, 'perfil.jpg', txt, m,rcanal,fake, false, { mentions: [m.sender] })
+    await conn.sendMessage(m.chat, {
+      image: { url: 'https://i.ibb.co/JndpnfX/LynxAI.jpg' },
+      caption: txt,
+      footer: 'Bot Information',
+      buttons: [
+        {
+          buttonId: `.perfil`,
+          buttonText: {
+            displayText: 'PERFIL',
+          },
+        },
+        {
+          buttonId: `.owner`,
+          buttonText: {
+            displayText: 'OWNER',
+          },
+        },
+      ],
+      viewOnce: true,
+      headerType: 4,
+    }, { quoted: m })
+
     await m.react('✅')
   } else {
     if (!Reg.test(text)) return conn.reply(m.chat,`*[ ✰ ] Por favor, ingresa tu nombre de usuario para proceder con el registro.*\n\n*🤍 Ejemplo de Uso* :\n*${usedPrefix + command} Dark.18`,m,rcanal)
@@ -73,7 +94,28 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
     txt += `\`━━━━━━━━━━━━━━━━━━━━\`\n\n`
     txt += `> Escribe *${usedPrefix}profile* para ver tu perfil.`
 
-    await conn.sendFile(m.chat, img, 'perfil.jpg', txt, m,rcanal,fake, false, { mentions: [m.sender] })
+    await conn.sendMessage(m.chat, {
+      image: { url: 'https://i.ibb.co/JndpnfX/LynxAI.jpg' },
+      caption: txt,
+      footer: 'Bot Information',
+      buttons: [
+        {
+          buttonId: `.perfil`,
+          buttonText: {
+            displayText: 'PERFIL',
+          },
+        },
+        {
+          buttonId: `.owner`,
+          buttonText: {
+            displayText: 'OWNER',
+          },
+        },
+      ],
+      viewOnce: true,
+      headerType: 4,
+    }, { quoted: m })
+
     await m.react('✅')
   }
 }
