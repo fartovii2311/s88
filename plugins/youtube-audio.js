@@ -70,12 +70,17 @@ let handler = async (m, { conn, text }) => {
 🌐 *Enlace:* ${videoUrl}
     `.trim();
 
-    const options = {
-      audio: { url: downloadUrl },
-      caption,
-      fileName: `${title}.mp3`,
-      mimetype: 'audio/mpeg',
-    };
+    // Aquí falta el paso para enviar el archivo MP3
+    await conn.sendMessage(
+      m.chat, 
+      { 
+        audio: { url: downloadUrl }, 
+        fileName: `${title}.mp3`, 
+        mimetype: 'audio/mpeg', 
+        caption: caption 
+      }, 
+      { quoted: m }
+    );
 
     await m.react('✅');
   } catch (error) {
