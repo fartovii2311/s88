@@ -27,7 +27,7 @@ let handler = async (m, { conn, text }) => {
 
     if (result1.status && result1.data) {
       await handleVideoDownload(conn, m, result1.data);
-      return;
+      return; 
     }
 
     const apiUrl2 = `https://restapi.apibotwa.biz.id/api/ytmp4?url=${videoUrl}`;
@@ -39,6 +39,7 @@ let handler = async (m, { conn, text }) => {
       return;
     }
 
+    await conn.reply(m.chat, `⚠️ No se pudo procesar el video. Ambas APIs fallaron.`, m);
   } catch (error) {
     console.error('Error al procesar el video:', error);
     await m.react('✖️');
