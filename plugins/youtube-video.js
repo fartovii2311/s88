@@ -47,37 +47,37 @@ let handler = async (m, { conn, text }) => {
 };
 
 const handleVideoDownload = async (conn, m, data) => {
-  const { title, download, duration, image_max_resolution } = data;
-  const { url: downloadUrl, size, filename } = download;
-
-  const fileSize = Number(size.replace(/[^0-9]/g, '')) * 1024;
-
-  if (fileSize > videoLimit) {
-    await conn.sendMessage(m.chat,
-      {
-        document: { url: downloadUrl },
-        fileName: filename || `${title}.mp4`,
-        mimetype: 'video/mp4',
-        caption: `⚠️ El archivo supera el límite permitido (${videoLimit / 1024 / 1024} MB). Enviado como documento.\n🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration.timestamp}`,
-      },
-      { quoted: m }
-    );
-  } else {
-    await conn.sendMessage(m.chat,
-      {
-        video: { url: downloadUrl },
-        fileName: filename || `${title}.mp4`,
-        mimetype: 'video/mp4',
-        caption: `🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration.timestamp}`,
-        thumbnail: image_max_resolution ? { url: image_max_resolution } : undefined,
-      },
-      { quoted: m }
-    );
-  }
-
-  await m.react('✅');
-};
-
+    const { title, download, duration, image_max_resolution } = data;
+    const { url: downloadUrl, size, filename } = download;
+  
+    const fileSize = Number(size.replace(/[^\d]/g, '')) * 1024;
+  
+    if (fileSize > videoLimit) {
+      await conn.sendMessage(m.chat,
+        {
+          document: { url: downloadUrl },
+          fileName: filename || `${title}.mp4`,
+          mimetype: 'video/mp4',
+          caption: `⚠️ El archivo supera el límite permitido (${(videoLimit / 1024 / 1024).toFixed(2)} MB). Se envía como documento.\n\n🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration.timestamp}`,
+        },
+        { quoted: m }
+      );
+    } else {
+      await conn.sendMessage(m.chat,
+        {
+          video: { url: downloadUrl },
+          fileName: filename || `${title}.mp4`,
+          mimetype: 'video/mp4',
+          caption: `🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration.timestamp}`,
+          thumbnail: image_max_resolution ? { url: image_max_resolution } : undefined,
+        },
+        { quoted: m }
+      );
+    }
+  
+    await m.react('✅');
+  };
+  
 handler.help = ['Video'];
 handler.tags = ['downloader'];
 handler.customPrefix = /^(Video|video|vídeo|Vídeo)/i;
