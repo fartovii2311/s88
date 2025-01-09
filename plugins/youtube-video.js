@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-const videoLimit = 300 * 1024 * 1024; // 300 MB límite para MP4
+const videoLimit = 300 * 1024 * 1024;
 
 let handler = async (m, { conn, text }) => {
   if (!m.quoted) {
@@ -11,17 +11,16 @@ let handler = async (m, { conn, text }) => {
     return conn.reply(m.chat, `⚠️ El mensaje etiquetado no contiene un resultado de YouTube Play.`, m);
   }
 
-  const urls = m.quoted.text.match(/(?:https?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed|shorts)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9_-]+)/gi);
+  const urls = m.quoted.text.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|v\/|embed\/|shorts\/|playlist\?list=)|youtu\.be\/)([a-zA-Z0-9_-]{11,})/gi);
 
   if (!urls || urls.length < 1) {
     return conn.reply(m.chat, `⚠️ No se encontraron enlaces válidos en el mensaje etiquetado.`, m);
   }
 
   const videoUrl = urls[0];
-  await m.react('🕓'); // Indica que está procesando
+  await m.react('🕓'); 
 
   try {
-    // API principal
     const apiUrl1 = `https://delirius-apiofc.vercel.app/download/ytmp4?url=${videoUrl}`;
     const response1 = await fetch(apiUrl1);
     const result1 = await response1.json();
