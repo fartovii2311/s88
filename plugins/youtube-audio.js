@@ -41,7 +41,6 @@ let handler = async (m, { conn, text }) => {
       downloadUrl = download.url || null;
       size = download.quality || "Desconocido";
     } else {
-      // Intentar segunda API
       const response2 = await fetch(apiUrl2);
       const data2 = await response2.json();
 
@@ -56,11 +55,6 @@ let handler = async (m, { conn, text }) => {
     }
   } catch (error) {
     console.error("Error con las APIs", error.message);
-  }
-
-  if (!downloadUrl) {
-    await m.react('✖️');
-    return conn.reply(m.chat, `⚠️ No se pudo obtener un enlace de descarga válido.`, m);
   }
 
   try {
