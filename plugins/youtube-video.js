@@ -1,5 +1,10 @@
 import fetch from 'node-fetch';
+import { exec } from 'child_process';
+import fs from 'fs';
+import path from 'path';
+import { promisify } from 'util';
 
+const execPromise = promisify(exec);
 const videoLimit = 300 * 1024 * 1024;
 
 let handler = async (m, { conn, text }) => {
@@ -18,7 +23,7 @@ let handler = async (m, { conn, text }) => {
   }
 
   const videoUrl = urls[0];
-  await m.react('🕓'); 
+  await m.react('🕓');
 
   try {
     const apiUrl1 = `https://delirius-apiofc.vercel.app/download/ytmp4?url=${videoUrl}`;
@@ -27,7 +32,7 @@ let handler = async (m, { conn, text }) => {
 
     if (result1.status && result1.data) {
       await handleVideoDownload(conn, m, result1.data);
-      return; 
+      return;
     }
 
     const apiUrl2 = `https://restapi.apibotwa.biz.id/api/ytmp4?url=${videoUrl}`;
@@ -39,7 +44,6 @@ let handler = async (m, { conn, text }) => {
       return;
     }
 
-    await conn.reply(m.chat, `⚠️ No se pudo procesar el video. Ambas APIs fallaron.`, m);
   } catch (error) {
     console.error('Error al procesar el video:', error);
     await m.react('✖️');
@@ -47,37 +51,81 @@ let handler = async (m, { conn, text }) => {
 };
 
 const handleVideoDownload = async (conn, m, data) => {
-    const { title, download, duration, image_max_resolution } = data;
-    const { url: downloadUrl, size, filename } = download;
-  
-    const fileSize = Number(size.replace(/[^\d]/g, '')) * 1024;
-  
-    if (fileSize > videoLimit) {
-      await conn.sendMessage(m.chat,
-        {
-          document: { url: downloadUrl },
-          fileName: filename || `${title}.mp4`,
-          mimetype: 'video/mp4',
-          caption: `⚠️ El archivo supera el límite permitido (${(videoLimit / 1024 / 1024).toFixed(2)} MB). Se envía como documento.\n\n🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration.timestamp}`,
-        },
-        { quoted: m }
-      );
-    } else {
-      await conn.sendMessage(m.chat,
-        {
-          video: { url: downloadUrl },
-          fileName: filename || `${title}.mp4`,
-          mimetype: 'video/mp4',
-          caption: `🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration.timestamp}`,
-          thumbnail: image_max_resolution ? { url: image_max_resolution } : undefined,
-        },
-        { quoted: m }
-      );
+  const { title, download, duration, image_max_resolution } = data;
+  const { url: downloadUrl, size, filename } = download;
+
+  const fileSize = Number(size.replace(/[^\d]/g, '')) * 1024;
+
+  if (fileSize > videoLimit) {
+    const tempPath = `tmp_${Date.now()}.mp4`;
+    const compressedPath = `compressed_${Date.now()}.mp4`;
+
+    try {
+      await downloadFile(downloadUrl, tempPath);
+      await compressVideo(tempPath, compressedPath);
+
+      const compressedSize = fs.statSync(compressedPath).size;
+
+      if (compressedSize > videoLimit) {
+        await conn.sendMessage(m.chat,
+          {
+            document: { url: compressedPath },
+            fileName: filename || `${title}.mp4`,
+            mimetype: 'video/mp4',
+            caption: `⚠️ El archivo comprimido aún supera el límite permitido (${(videoLimit / 1024 / 1024).toFixed(2)} MB). Se envía como documento.\n\n🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration.timestamp}`,
+          },
+          { quoted: m }
+        );
+      } else {
+        await conn.sendMessage(m.chat,
+          {
+            video: { url: compressedPath },
+            fileName: filename || `${title}.mp4`,
+            mimetype: 'video/mp4',
+            caption: `🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration.timestamp}`,
+            thumbnail: image_max_resolution ? { url: image_max_resolution } : undefined,
+          },
+          { quoted: m }
+        );
+      }
+
+      fs.unlinkSync(tempPath);
+      fs.unlinkSync(compressedPath);
+    } catch (error) {
+      console.error('Error al comprimir el video:', error);
+      await conn.reply(m.chat, `⚠️ Error al comprimir o enviar el video.`, m);
     }
-  
-    await m.react('✅');
-  };
-  
+  } else {
+    await conn.sendMessage(m.chat,
+      {
+        video: { url: downloadUrl },
+        fileName: filename || `${title}.mp4`,
+        mimetype: 'video/mp4',
+        caption: `🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration.timestamp}`,
+        thumbnail: image_max_resolution ? { url: image_max_resolution } : undefined,
+      },
+      { quoted: m }
+    );
+  }
+
+  await m.react('✅');
+};
+
+const downloadFile = async (url, dest) => {
+  const response = await fetch(url);
+  const fileStream = fs.createWriteStream(dest);
+  await new Promise((resolve, reject) => {
+    response.body.pipe(fileStream);
+    response.body.on('error', reject);
+    fileStream.on('finish', resolve);
+  });
+};
+
+const compressVideo = async (inputPath, outputPath) => {
+  const ffmpegCommand = `ffmpeg -i "${inputPath}" -vf scale=1280:-2 -c:v libx264 -crf 28 -preset fast "${outputPath}"`;
+  await execPromise(ffmpegCommand);
+};
+
 handler.help = ['Video'];
 handler.tags = ['downloader'];
 handler.customPrefix = /^(Video|video|vídeo|Vídeo)/i;
