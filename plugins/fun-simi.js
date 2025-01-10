@@ -6,20 +6,16 @@ const handler = async (m, { text, command, args, usedPrefix }) => {
   }
 
   try {
-    // Consultar la API Llama 3.1 para obtener la respuesta
     const api = await fetch(`https://delirius-apiofc.vercel.app/ia/llamaia?query=${encodeURIComponent(text)}`);
     const resLlama = await api.json();
 
     if (resLlama.status) {
-      // Si la API devuelve una respuesta satisfactoria, extraemos el campo 'data'
-      m.reply(resLlama.data);
+      m.reply(resLlama.data); // Responde con el contenido de 'data' de la API
     } else {
-      // Si la API no responde correctamente
-      throw new Error('Error al procesar la respuesta');
+      m.reply('Hubo un problema al obtener la respuesta de la API.');
     }
   } catch (error) {
-    // Si todo falla, lanzamos un error
-    throw `*Miku Bot😺* | 「 *ERROR* 」\n\nOcurrió un *Error*`;
+    m.reply(`Ocurrió un error al procesar tu solicitud: ${error.message}`);
   }
 };
 
