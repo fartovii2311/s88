@@ -33,7 +33,7 @@ const handler = async (m, { conn, text }) => {
       fileName: `${apkData.name}.apk`,
       caption: null
     }, { quoted: m });
-
+  await m.react('✅');
   } catch (error) {
     console.error(error);
     await m.react('✖️')
