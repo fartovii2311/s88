@@ -24,7 +24,7 @@ const handler = async (m, { conn }) => {
     await conn.reply(m.chat, '✅ Los reportes automáticos han sido configurados correctamente.', m);
 };
 
-handler.command = ['repo'];
+handler.command = ['quemar'];
 handler.tags = ['admin'];
 handler.help = ['repo']; 
 
