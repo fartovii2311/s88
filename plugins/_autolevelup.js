@@ -1,7 +1,5 @@
-import { canLevelUp, xpRange } from '../lib/levelling.js';
-import { levelup } from '../lib/canvas.js';
+import { canLevelUp } from '../lib/levelling.js';
 import fetch from 'node-fetch';
-import canvafy from 'canvafy';
 
 let handler = (m) => m;
 handler.before = async function (m, { conn }) {
@@ -33,37 +31,41 @@ handler.before = async function (m, { conn }) {
       return acc;
     }, '🌱 Novato I');
 
-    let text = `✨ *¡Felicidades ${name}!*\n\n` +
-      `🎯 *Nuevo nivel alcanzado:*\n` +
-      `- Nivel previo: ${before}\n` +
-      `- Nivel actual: ${user.level}\n` +
+    let text = `✨ *¡Felicidades ${name}!*
+
+` +
+      `🎯 *Nuevo nivel alcanzado:*
+` +
+      `- Nivel previo: ${before}
+` +
+      `- Nivel actual: ${user.level}
+` +
       `- Rol actual: ${role}`;
 
-    const levelUpImage = await new canvafy.LevelUp()
-      .setAvatar(pp)
-      .setBackground("image", "https://qu.ax/pZVUy.jpg")
-      .setUsername(name)
-      .setBorder("#000000")
-      .setAvatarBorder("#ff0000")
-      .setOverlayOpacity(0.7)
-      .setLevels(before, user.level)
-      .build();
-
-    await conn.sendFile(
+    await conn.sendMessage(
       m.chat,
-      levelUpImage,
-      `levelup-${m.sender}.png`,
-      `*\`乂 L E V E L  -  U P 乂\`*\n\n` +
-      `*┌  ◦ \`Nombre:\`* ${name}\n` +
-      `*├  ◦ \`Rol:\`* ${role}\n` +
-      `*├  ◦ \`Exp:\`* ${user.exp} xp\n` +
-      `*└  ◦ \`Nivel:\`* [ ${before} ] ➠ [ ${user.level} ]\n\n© ⍴᥆ᥕᥱr ᑲᥡ іzᥙмі.kz᥊ - gᥱᥒᥱsіs-ᥲі`.trim(),
-      m, null, fake
+      {
+        text: `*‌乂 L E V E L  -  U P 乂*
+
+` +
+          `*┌  ◦ Nombre:* ${name}
+` +
+          `*├  ◦ Rol:* ${role}
+` +
+          `*├  ◦ Exp:* ${user.exp} xp
+` +
+          `*└  ◦ Nivel:* [ ${before} ] ➠ [ ${user.level} ]
+
+© Powered by izumi.kz`,
+        mentions: [m.sender],
+      },
+      { quoted: m }
     );
   }
 };
 export default handler;
 
+// Roles definidos globalmente
 global.roles = {
   '🌱 Novato I': 0,
   '🌱 Novato II': 2,
