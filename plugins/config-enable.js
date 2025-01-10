@@ -123,6 +123,16 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
       }
       chat.autoresponder = isEnable
       break
+      
+      case 'Antiprivado':
+      case 'antiprivado':
+       if (m.isGroup) {
+         if (!(isAdmin || isOwner)) {
+           global.dfail('admin', m, conn)
+            throw false
+           }}
+    chat.modohorny = isEnable          
+    break
 
  case 'modoadmin':
     case 'soloadmin':
