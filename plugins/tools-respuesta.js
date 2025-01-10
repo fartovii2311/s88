@@ -30,12 +30,12 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
             contextInfo: {
                 mentionedJid: [dari],
                 externalAdReply: {
-                    title: 'R E S P U E S T A - G E N E S I S',
+                    title: 'R E S P U E S T A - D A R K',
                     body: '¡Gracias por usar el servicio de confesiones!',
                     mediaType: 1,
                     renderLargerThumbnail: true,
                     thumbnailUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIyz1dMPkZuNleUyfXPMsltHwKKdVddTf4-A&usqp=CAU',
-                    sourceUrl: 'https://whatsapp.com/channel/0029VaJxgcB0bIdvuOwKTM2Y'
+                    sourceUrl: 'https://whatsapp.com/channel/'
                 }
             }
         });
