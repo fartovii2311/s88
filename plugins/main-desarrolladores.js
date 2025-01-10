@@ -6,20 +6,27 @@ const handler = async (m, { conn }) => {
 \t\t\tDESARROLLADORES  
 ╰───────⚔──────╯  
   
-🔹 *SOBRE EL BOT:*  
-  
+🔹 *SOBRE EL BOT:* 
+
+- DESARROLLADO PARA ENTRETENER A TODA LA COMUNIDAD TEAM - DARK - OFICIAL
+
 🔹 *CONTACTO DE LOS DESARROLLADORES:*  
 ╭─────────────────────────╮  
 │🏆 * - Equipo Oficial*  
 │  
-│📌 **: []  
-│📌 **: []  
+│📌 **: [ +51968382008 ]  
+│📌 **: [ +51917154203 ]  
 │📌 **: []  
 ╰─────────────────────────╯  
   
 🔹 *AGRADECIMIENTOS:*  
   
-🔹 *¿DUDAS O SUGERENCIAS?*  `.trim();
+🔹 *¿DUDAS O SUGERENCIAS?*  
+
+🔹 *GRUPOS OFICIALES*
+- https://chat.whatsapp.com/D58CSUpwMH2CQi3iLitIWp
+-
+`.trim();
   
   
     await conn.sendMessage(
