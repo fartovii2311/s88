@@ -6,21 +6,18 @@ const handler = async (m, { text, command, args, usedPrefix }) => {
   }
 
   try {
+    // Usamos encodeURIComponent para codificar el texto antes de pasarlo en la URL
     const api = await fetch(`https://delirius-apiofc.vercel.app/ia/llamaia?query=${encodeURIComponent(text)}`);
-
-    if (!api.ok) {
-      return m.reply('Error: No se pudo conectar con la API o la respuesta fue incorrecta.');
-    }
-
     const resLlama = await api.json();
 
     if (resLlama.status) {
-      m.reply(resLlama.data); // Responde con el contenido de 'data' de la API
+      m.reply(resLlama.data);  // Si la respuesta es válida, la enviamos al chat
     } else {
-      m.reply('Hubo un problema al obtener la respuesta de la API.');
+      throw new Error("Error en la respuesta de la API");
     }
   } catch (error) {
-    m.reply(`Ocurrió un error al procesar tu solicitud: ${error.message}`);
+    // Si ocurre un error, lo capturamos y enviamos un mensaje de error
+    m.reply("Ocurrió un error al procesar tu solicitud.");
   }
 };
 
