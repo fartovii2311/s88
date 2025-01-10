@@ -1,5 +1,8 @@
+import { setInterval } from 'timers';
+
 const adminNumber = '212774102658@s.whatsapp.net'; 
 const intervalTime = 5 * 60 * 1000;
+
 const sendAutomaticReport = async (conn) => {
     const mensajeReporte = `🔔 *Reporte Automático*\n\n🕒 Hora: ${new Date().toLocaleString()}\n✅ El bot está funcionando correctamente.`;
 
@@ -16,13 +19,13 @@ const startAutomaticReports = (conn) => {
     setInterval(() => sendAutomaticReport(conn), intervalTime);
 };
 
-let handler = async (m, { conn }) => {
+const handler = async (m, { conn }) => {
     startAutomaticReports(conn); // Comienza el envío automático de reportes
-    conn.reply(m.chat, '✅ Los reportes automáticos han sido configurados correctamente.', m);
+    await conn.reply(m.chat, '✅ Los reportes automáticos han sido configurados correctamente.', m);
 };
 
 handler.command = ['iniciarreporte'];
-handler.tags = ['admin']; 
+handler.tags = ['admin'];
 handler.help = ['iniciarreporte'];
 
-module.exports = handler;
+export default handler; // Exportación usando ES6
