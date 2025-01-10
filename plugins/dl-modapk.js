@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 
 const handler = async (m, { conn, text }) => {
   if (!text) {
-    throw conn.reply(m.chat, '*\`Ingrese el nombre de la APK que quiera buscar. 🤍\`*', m);
+    await conn.reply(m.chat, '*\`Ingrese el nombre de la APK que quiera buscar. 🤍\`*', m,rcanal);
   }
 
   try {
@@ -21,7 +21,7 @@ const handler = async (m, { conn, text }) => {
 ⭐ *Calificación:* ${apkData.stats.rating.average || 'N/A'} (Total: ${apkData.stats.rating.total || 0})
 📈 *Descargas:* ${apkData.stats.downloads || 0}`;
 
-    await conn.sendFile(m.chat, apkData.image, 'thumbnail.jpg', message, m);
+    await conn.sendFile(m.chat, apkData.image, 'thumbnail.jpg', message, m,rcanl,fake);
 
     if (apkData.size.includes('GB') || parseFloat(apkData.size.replace(' MB', '')) > 999) {
       return await conn.sendMessage(m.chat, { text: '*[ ⛔ ] El archivo es demasiado pesado por lo que no se enviará.*' }, { quoted: m });
