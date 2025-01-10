@@ -69,7 +69,7 @@ let handler = async (m, { conn }) => {
   txt += `◦ *Premium* : ${prem ? 'Sí' : 'No'}\n`;
   txt += `◦ *Registrado* : ${registered ? 'Sí' : 'No'}`;
 
-  await conn.sendFile(m.chat, img, 'thumbnail.jpg', txt, m,rcanal);
+  await conn.sendFile(m.chat, img, 'thumbnail.jpg', txt, m,rcanal,fake);
 };
 
 handler.help = ['perfil'];
