@@ -1,16 +1,25 @@
-import translate from '@vitalets/google-translate-api'
-import fetch from 'node-fetch'
-const handler = async (m, {text, command, args, usedPrefix}) => {
-  if (!text) return m.reply(`*• Ingresa un texto*\n\n*Ejemplo:*\n*${usedPrefix + command}* Hola bot`)
+import fetch from 'node-fetch';
+
+const handler = async (m, { text, command, args, usedPrefix }) => {
+  if (!text) {
+    return m.reply(`*• Ingresa un texto*\n\n*Ejemplo:*\n*${usedPrefix + command}* Hola bot`);
+  }
+
   try {
-    const api = await fetch('https://api.simsimi.net/v2/?text=' + text + '&lc=es');
-    const resSimi = await api.json();
-    m.reply(resSimi.success);
-  } catch {
+    // Consultar la API Llama 3.1 para obtener la respuesta
+    const api = await fetch(`https://delirius-apiofc.vercel.app/ia/llamaia?query=${encodeURIComponent(text)}`);
+    const resLlama = await api.json();
+
+    if (resLlama.status) {
+      // Si la API devuelve una respuesta satisfactoria
+      m.reply(resLlama.data);
+    } else {
+      // Si la API no responde correctamente
+      throw new Error('Error al procesar la respuesta');
+    }
+  } catch (error) {
     try {
-      if (text.includes('Hola')) text = text.replace('Hola', 'Hello');
-      if (text.includes('hola')) text = text.replace('hola', 'Hello');
-      if (text.includes('HOLA')) text = text.replace('HOLA', 'HELLO');
+      // Si algo falla, intentamos usar la API de traducción y BrainShop AI
       const reis = await fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=en&dt=t&q=' + text);
       const resu = await reis.json();
       const nama = m.pushName || '1';
@@ -19,12 +28,15 @@ const handler = async (m, {text, command, args, usedPrefix}) => {
       const reis2 = await fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=es&dt=t&q=' + res.cnt);
       const resu2 = await reis2.json();
       m.reply(resu2[0][0][0]);
-    } catch {
+    } catch (e) {
+      // Si todo falla, lanzamos un error de reserva
       throw `*Miku Bot😺* | 「 *ERROR* 」\n\nOcurrió un *Error*`;
     }
   }
 };
-handler.help = ['simi']
+
+handler.help = ['simi'];
 handler.tags = ['fun'];
 handler.command = /^((sim)?simi|alexa|cortana|bot)$/i;
+
 export default handler;
