@@ -56,7 +56,7 @@ handler.before = async function (m, { conn }) {
 ` +
           `*└  ◦ Nivel:* [ ${before} ] ➠ [ ${user.level} ]
 
-© Powered by izumi.kz`,
+© Powered by DarkCore`,
         mentions: [m.sender],
       },
       { quoted: m }
