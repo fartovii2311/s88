@@ -12,7 +12,6 @@ let handler = async (m, { conn, text }) => {
   const api3 = `https://api.vreden.web.id/api/ytmp3?url=${text}`;
 
   try {
-    // Intentar con la primera API
     let response = await fetch(api1);
     let json = await response.json();
 
@@ -60,7 +59,8 @@ let handler = async (m, { conn, text }) => {
       const mimeType = 'audio/mpeg';
 
       await m.react('✅');
-      return await conn.sendMessage(m.chat,
+      return await conn.sendMessage(
+        m.chat,
         {
           [messageType]: { url: downloadUrl },
           fileName: `${title}.mp3`,
@@ -88,7 +88,8 @@ let handler = async (m, { conn, text }) => {
         const mimeType = 'audio/mpeg';
 
         await m.react('✅');
-        return await conn.sendMessage(m.chat,
+        return await conn.sendMessage(
+          m.chat,
           {
             [messageType]: { url: downloadUrl },
             fileName: `${title}.mp3`,
