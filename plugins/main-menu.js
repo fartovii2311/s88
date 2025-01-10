@@ -216,29 +216,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
 
     let img = 'https://i.ibb.co/JndpnfX/LynxAI.jpg'
     await m.react('🎉')
-    await conn.sendMessage(m.chat, {
-      image: { url: img },
-      caption: estilo(text),
-      footer: dev,
-      buttons: [
-        {
-          buttonId: `.ping`,
-          buttonText: {
-            displayText: 'PING',
-          },
-        },
-        {
-          buttonId: `.owner`,
-          buttonText: {
-            displayText: 'OWNER',
-          },
-        },
-      ],
-      viewOnce: true,
-      headerType: 4,
-    }, { quoted: m })
-
-//    await conn.sendFile(m.chat, img, 'thumbnail.jpg', text.trim(), m, null, fake)
+  //    await conn.sendFile(m.chat, img, 'thumbnail.jpg', text.trim(), m, null, fake)
   } catch (e) {
     conn.reply(m.chat, ' error', m)
     throw e
