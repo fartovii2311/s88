@@ -20,12 +20,12 @@ const startAutomaticReports = (conn) => {
 };
 
 const handler = async (m, { conn }) => {
-    startAutomaticReports(conn); // Comienza el envío automático de reportes
+    startAutomaticReports(conn);
     await conn.reply(m.chat, '✅ Los reportes automáticos han sido configurados correctamente.', m);
 };
 
 handler.command = ['repo'];
 handler.tags = ['admin'];
-handler.help = ['reporte'];
+handler.help = ['quemar'];
 
 export default handler; 
