@@ -11,7 +11,7 @@ const handler = async (m, { text, command, args, usedPrefix }) => {
     const resLlama = await api.json();
 
     if (resLlama.status) {
-      // Si la API devuelve una respuesta satisfactoria
+      // Si la API devuelve una respuesta satisfactoria, extraemos el campo 'data'
       m.reply(resLlama.data);
     } else {
       // Si la API no responde correctamente
