@@ -2,25 +2,19 @@ import { search, download } from 'aptoide-scraper';
 import fetch from 'node-fetch';
 
 const handler = async (m, { conn, usedPrefix: prefix, command, text }) => {
-  if (!text) throw conn.reply(m.chat, '*\`Ingrese el nombre de la APK que quiera buscar. 🤍\`*', m);
+  if (!text) throw conn.reply(m.chat, '*\`Ingrese el nombre de la APK que quiera buscar. 🤍\`*', m,rcanal);
 
   try {
     const searchA = await search(text);
 
     if (searchA.length === 0) {
-      // If no results found, use the fallback API
       const fallbackUrl = `https://delirius-apiofc.vercel.app/download/apk?query=${text}`;
       const response = await fetch(fallbackUrl);
       const data = await response.json();
 
-      if (!data || !data.data || !data.data.name) {
-        throw `*[❗] Error, no se encontraron resultados para su búsqueda en ambas APIs.*`;
-      }
-
       const apkData = data.data;
       let fallbackResponse = `📲 *APK desde API Alternativa* 📲\n\n📌 *Nombre:* ${apkData.name}\n📦 *Package:* ${apkData.package}\n🕒 *Última actualización:* ${apkData.publish}\n📥 *Tamaño:* ${apkData.size}`;
 
-      // Send APK thumbnail image
       await conn.sendFile(m.chat, apkData.image, 'thumbnail.jpg', fallbackResponse, m);
 
       if (apkData.size.includes('GB') || parseFloat(apkData.size.replace(' MB', '')) > 999) {
@@ -39,7 +33,6 @@ const handler = async (m, { conn, usedPrefix: prefix, command, text }) => {
         return await conn.sendMessage(m.chat, { text: '*[ ⛔ ] El archivo es demasiado pesado por lo que no se enviará.*' }, { quoted: m });
       }
 
-      // Send the APK file
       await conn.sendMessage(m.chat, { document: { url: data5.dllink }, mimetype: 'application/vnd.android.package-archive', fileName: `${data5.name}.apk`, caption: null }, { quoted: m });
     }
 
