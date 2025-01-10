@@ -15,10 +15,10 @@ let handler = async (m, { args, command, conn }) => {
 
     if (scraper.videoUrl) {
       let vid = await axios.get(scraper.videoUrl, { responseType: 'arraybuffer' });
-      await conn.sendMessage(m.chat, { video: Buffer.from(vid.data), caption: '',listo, });
+      await conn.sendMessage(m.chat, { video: Buffer.from(vid.data),listo, });
     } else if (scraper.imageUrl) {
       let img = await axios.get(scraper.imageUrl, { responseType: 'arraybuffer' });
-      await conn.sendMessage(m.chat, { image: Buffer.from(img.data), caption: '', listo, });
+      await conn.sendMessage(m.chat, { image: Buffer.from(img.data), listo, });
     } else {
       return m.reply('❀ Sin resultados encontrados');
     }
