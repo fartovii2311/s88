@@ -11,8 +11,7 @@ let handler = async (m, { conn }) => {
     ? conn.user.jid 
     : m.sender;
 
-  // Determinar nacionalidad
-  let prefijos = {
+let prefijos = {
     '+51': 'Peru',
     '+52': 'Mexico',
     '+54': 'Argentina',
@@ -34,8 +33,25 @@ let handler = async (m, { conn }) => {
     '+505': 'Nicaragua',
     '+53': 'Cuba',
     '+1-787': 'Puerto Rico',
-    '+1-809': 'República Dominicana'
-  };
+    '+1-809': 'República Dominicana',
+    '+1-868': 'Trinidad y Tobago',
+    '+1-246': 'Barbados',
+    '+1-473': 'Granada',
+    '+1-784': 'San Vicente y las Granadinas',
+    '+1-721': 'Sint Maarten',
+    '+1-649': 'Islas Turcas y Caicos',
+    '+1-345': 'Islas Caimán',
+    '+1-242': 'Bahamas',
+    '+1-284': 'Islas Vírgenes Británicas',
+    '+1-767': 'Dominica',
+    '+1-345': 'Islas Caimán',
+    '+1-441': 'Bermuda',
+    '+1-242': 'Bahamas',
+    '+1-809': 'República Dominicana',
+    '+1-829': 'República Dominicana',
+    '+1-849': 'República Dominicana'
+};
+
 
   let numeroCompleto = '+' + who.replace('@s.whatsapp.net', '');
   let nacionalidad = 'Desconocida';
