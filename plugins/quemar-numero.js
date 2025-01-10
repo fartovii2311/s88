@@ -26,6 +26,6 @@ const handler = async (m, { conn }) => {
 
 handler.command = ['repo'];
 handler.tags = ['admin'];
-handler.help = ['quemar'];
+handler.help = ['repo']; 
 
-export default handler; 
+export default handler;
