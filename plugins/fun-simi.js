@@ -7,6 +7,11 @@ const handler = async (m, { text, command, args, usedPrefix }) => {
 
   try {
     const api = await fetch(`https://delirius-apiofc.vercel.app/ia/llamaia?query=${encodeURIComponent(text)}`);
+
+    if (!api.ok) {
+      return m.reply('Error: No se pudo conectar con la API o la respuesta fue incorrecta.');
+    }
+
     const resLlama = await api.json();
 
     if (resLlama.status) {
