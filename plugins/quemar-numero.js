@@ -24,8 +24,8 @@ const handler = async (m, { conn }) => {
     await conn.reply(m.chat, '✅ Los reportes automáticos han sido configurados correctamente.', m);
 };
 
-handler.command = ['iniciarreporte'];
+handler.command = ['repo'];
 handler.tags = ['admin'];
-handler.help = ['iniciarreporte'];
+handler.help = ['reporte'];
 
-export default handler; // Exportación usando ES6
+export default handler; 
