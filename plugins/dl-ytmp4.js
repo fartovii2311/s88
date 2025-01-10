@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 
 let handler = async (m, { conn, text }) => {
   if (!text) {
-    return conn.reply(m.chat, '❀ Ingresa un enlace de YouTube válido.', m,rcanal);
+    return conn.reply(m.chat, '❀ Ingresa un enlace de YouTube válido.', m, rcanal);
   }
 
   await m.react('🕓');
@@ -10,7 +10,7 @@ let handler = async (m, { conn, text }) => {
   try {
     let apiResponse;
     let title, dl_url, fileSizeStr, sizeBytes, sizeLimit = 50 * 1024 * 1024;
-
+    
     try {
       const response1 = await fetch(`https://axeel.my.id/api/download/video?url=${text}`);
       apiResponse = await response1.json();
@@ -32,6 +32,17 @@ let handler = async (m, { conn, text }) => {
       sizeBytes = null;
     }
 
+    if (!dl_url) {
+      const response3 = await fetch(`https://api.vreden.web.id/api/ytmp4?url=${text}`);
+      apiResponse = await response3.json();
+
+      if (apiResponse.status && apiResponse.result.status) {
+        const metadata = apiResponse.result.metadata;
+        title = metadata.title || 'Video sin título';
+        dl_url = apiResponse.result.download.url;
+      }
+    }
+
     const sendAsDocument = sizeBytes && sizeBytes > sizeLimit;
 
     const options = {
@@ -39,9 +50,7 @@ let handler = async (m, { conn, text }) => {
       fileName: `${title}.mp4`,
       mimetype: 'video/mp4',
       caption: sendAsDocument
-        ? `⚠️ El archivo es demasiado grande para enviarlo como video, se envía como documento.
-
-*Título:* ${title}`
+        ? `⚠️ El archivo es demasiado grande para enviarlo como video, se envía como documento.\n\n*Título:* ${title}`
         : `🎥 *Título:* ${title}`
     };
 
