@@ -36,6 +36,7 @@ const handler = async (m, { conn, text }) => {
 
   } catch (error) {
     console.error(error);
+    await m.react('✖️')
   }
 };
 
