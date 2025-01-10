@@ -11,6 +11,41 @@ let handler = async (m, { conn }) => {
     ? conn.user.jid 
     : m.sender;
 
+  // Determinar nacionalidad
+  let prefijos = {
+    '+51': 'Peru',
+    '+52': 'Mexico',
+    '+54': 'Argentina',
+    '+55': 'Brasil',
+    '+56': 'Chile',
+    '+57': 'Colombia',
+    '+58': 'Venezuela',
+    '+591': 'Bolivia',
+    '+592': 'Guyana',
+    '+593': 'Ecuador',
+    '+595': 'Paraguay',
+    '+598': 'Uruguay',
+    '+34': 'España',
+    '+506': 'Costa Rica',
+    '+507': 'Panamá',
+    '+503': 'El Salvador',
+    '+502': 'Guatemala',
+    '+504': 'Honduras',
+    '+505': 'Nicaragua',
+    '+53': 'Cuba',
+    '+1-787': 'Puerto Rico',
+    '+1-809': 'República Dominicana'
+  };
+
+  let numeroCompleto = '+' + who.replace('@s.whatsapp.net', '');
+  let nacionalidad = 'Desconocida';
+  for (let prefijo in prefijos) {
+    if (numeroCompleto.startsWith(prefijo)) {
+      nacionalidad = prefijos[prefijo];
+      break;
+    }
+  }
+
   let bio = await conn.fetchStatus(who).catch(() => 'undefined');
   let biot = bio.status?.toString() || 'Sin Info';
   let user = global.db.data.users[who];
@@ -37,45 +72,9 @@ let handler = async (m, { conn }) => {
   await conn.sendFile(m.chat, img, 'thumbnail.jpg', txt, m,rcanal);
 };
 
-handler.help = ['perfil', 'perfil *@user*'];
+handler.help = ['perfil'];
 handler.tags = ['start'];
 handler.command = /^(perfil|profile)$/i;
 handler.register = true;
 
 export default handler;
-
-
-let prefijos = {
-    '+51': 'Peru',
-    '+52': 'Mexico',
-    '+54': 'Argentina',
-    '+55': 'Brasil',
-    '+56': 'Chile',
-    '+57': 'Colombia',
-    '+58': 'Venezuela',
-    '+591': 'Bolivia',
-    '+592': 'Guyana',
-    '+593': 'Ecuador',
-    '+595': 'Paraguay',
-    '+598': 'Uruguay',
-    '+34': 'España',
-    '+506': 'Costa Rica',
-    '+507': 'Panamá',
-    '+503': 'El Salvador',
-    '+502': 'Guatemala',
-    '+504': 'Honduras',
-    '+505': 'Nicaragua',
-    '+53': 'Cuba',
-    '+1-787': 'Puerto Rico',
-    '+1-809': 'República Dominicana'
-  };
-  
-  let numeroCompleto = '+' + who.replace('@s.whatsapp.net', '');
-  let nacionalidad = 'Desconocida';
-  for (let prefijo in prefijos) {
-    if (numeroCompleto.startsWith(prefijo)) {
-      nacionalidad = prefijos[prefijo];
-      break;
-    }
-  }
-  
