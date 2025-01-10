@@ -46,7 +46,7 @@ const handleVideoDownload = async (conn, m, data) => {
   const { title, duration, thumbnail } = metadata;
   const { url: downloadUrl, filename } = download;
 
-  const tempPath = `tmp_${Date.now()}.mp4`;
+  const tempPath = `./tmp/${Date.now()}.mp4`;
 
   try {
     await downloadFile(downloadUrl, tempPath);
