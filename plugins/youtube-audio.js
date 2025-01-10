@@ -20,7 +20,6 @@ let handler = async (m, { conn, text }) => {
   await m.react('🕓');
 
   const videoUrl = urls[0];
-  const apiUrl1 = `https://restapi.apibotwa.biz.id/api/ytmp3?url=${videoUrl}`;
   const apiUrl2 = `https://delirius-apiofc.vercel.app/download/ytmp3?url=${videoUrl}`;
 
   let downloadUrl = null;
@@ -29,50 +28,35 @@ let handler = async (m, { conn, text }) => {
   let image = null;
 
   try {
-    // Intentar primera API
-    const response1 = await fetch(apiUrl1);
-    const data1 = await response1.json();
+    const response2 = await fetch(apiUrl2);
+    const data2 = await response2.json();
 
-    if (data1.status === 200 && data1.result.download?.status) {
-      const metadata = data1.result.metadata;
-      const download = data1.result.download;
+    if (data2.status && data2.data?.download?.url) {
+      const download = data2.data.download;
 
-      title = metadata.title || "Archivo MP3";
+      title = data2.data.title || "Archivo MP3";
       downloadUrl = download.url || null;
-      size = download.quality || "Desconocido";
-    } else {
-      const response2 = await fetch(apiUrl2);
-      const data2 = await response2.json();
-
-      if (data2.status && data2.data?.download?.url) {
-        const download = data2.data.download;
-
-        title = data2.data.title || "Archivo MP3";
-        downloadUrl = download.url || null;
-        size = download.size || "Desconocido";
-        image = data2.data.image || null;
-      }
+      size = download.size || "Desconocido";
+      image = data2.data.image || null;
     }
   } catch (error) {
-    console.error("Error con las APIs", error.message);
+    console.error("Error con la API", error.message);
   }
 
   try {
     const caption = `
 🎵 *Título:* ${title}
 📦 *Tamaño:* ${size}
-🌐 *Enlace:* ${videoUrl}
-    `.trim();
+🌐 *Enlace:* ${videoUrl}`.trim();
 
-    // Aquí falta el paso para enviar el archivo MP3
     await conn.sendMessage(
-      m.chat, 
-      { 
-        audio: { url: downloadUrl }, 
-        fileName: `${title}.mp3`, 
-        mimetype: 'audio/mpeg', 
-        caption: caption 
-      }, 
+      m.chat,
+      {
+        audio: { url: downloadUrl },
+        fileName: `${title}.mp3`,
+        mimetype: 'audio/mpeg',
+        caption: caption,
+      },
       { quoted: m }
     );
 
