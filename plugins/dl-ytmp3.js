@@ -71,7 +71,7 @@ let handler = async (m, { conn, text }) => {
     } catch (error) {
       console.error(`⚠️ Segunda API falló:`, error.message);
 
-      try {
+      try {I
         let response = await fetch(api3);
         let json = await response.json();
 
