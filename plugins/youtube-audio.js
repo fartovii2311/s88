@@ -20,7 +20,7 @@ let handler = async (m, { conn, text }) => {
   await m.react('🕓');
 
   const videoUrl = urls[0];
-  const apiUrl2 = `https://delirius-apiofc.vercel.app/download/ytmp3?url=${videoUrl}`;
+  const apiUrl = `https://api.vreden.web.id/api/ytmp3?url=${videoUrl}`;
 
   let downloadUrl = null;
   let title = "Archivo de YouTube";
@@ -28,29 +28,32 @@ let handler = async (m, { conn, text }) => {
   let image = null;
 
   try {
-    const response2 = await fetch(apiUrl2);
-    const data2 = await response2.json();
+    const response = await fetch(apiUrl);
+    const data = await response.json();
 
-    if (data2.status && data2.data?.download?.url) {
-      const download = data2.data.download;
+    if (data.status === 200 && data.result?.download?.url) {
+      const result = data.result;
+      const download = result.download;
 
-      title = data2.data.title || "Archivo MP3";
+      title = result.metadata?.title || "Archivo MP3";
       downloadUrl = download.url || null;
-      size = download.size || "Desconocido";
-      image = data2.data.image || null;
+      size = download.quality || "128kbps";
+      image = result.metadata?.image || null;
+    } else {
+      return conn.reply(m.chat, `⚠️ Error al procesar el enlace: ${videoUrl}`, m);
     }
   } catch (error) {
     console.error("Error con la API", error.message);
+    return conn.reply(m.chat, `⚠️ Ocurrió un error al contactar con la API.`, m);
   }
 
   try {
     const caption = `
 🎵 *Título:* ${title}
-📦 *Tamaño:* ${size}
+📦 *Calidad:* ${size}
 🌐 *Enlace:* ${videoUrl}`.trim();
 
-    await conn.sendMessage(
-      m.chat,
+    await conn.sendMessage(m.chat,
       {
         audio: { url: downloadUrl },
         fileName: `${title}.mp3`,
