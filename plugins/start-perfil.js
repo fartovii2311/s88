@@ -1,62 +1,81 @@
-import { canLevelUp, xpRange } from '../lib/levelling.js'
-import { createHash } from 'crypto'
-import PhoneNumber from 'awesome-phonenumber'
-import fetch from 'node-fetch'
-import fs from 'fs'
+import { canLevelUp, xpRange } from '../lib/levelling.js';
+import { createHash } from 'crypto';
+import PhoneNumber from 'awesome-phonenumber';
+import fetch from 'node-fetch';
+import fs from 'fs';
 
-let handler = async (m, { conn, usedPrefix, command}) => {
-  let who = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.fromMe ? conn.user.jid : m.sender
-  let bio = await conn.fetchStatus(who).catch(_ => 'undefined')
-  let biot = bio.status?.toString() || 'Sin Info'
-  let user = global.db.data.users[who]
-  let pp = await conn.profilePictureUrl(who, 'image').catch(_ => 'https://i.ibb.co/JndpnfX/LynxAI.jpg')
-  let { exp, corazones, name, registered, regTime, age, level } = global.db.data.users[who]
-  let { min, xp, max } = xpRange(user.level, global.multiplier)
-  let username = conn.getName(who)
-  let prem = global.prems.includes(who.split`@`[0])
-  let sn = createHash('md5').update(who).digest('hex')
-  let img = await (await fetch(`${pp}`)).buffer()
-  let txt = ` –  *P E R F I L  -  U S E R*\n\n`
-      txt += `◦ *Nombre* : ${name}\n`
-      txt += `◦ *Edad* : ${registered ? `${age} años` : '×'}\n`
-      txt += `◦ *Numero* : ${PhoneNumber('+' + who.replace('@s.whatsapp.net', '')).getNumber('international')}\n`
-      txt += `◦ *Nacionalidad* : Desconocido\n` // Eliminada la API
-      txt += `◦ *Link* : wa.me/${who.split`@`[0]}\n`
-      txt += `◦ *Corazones* : ${corazones}\n`
-      txt += `◦ *Nivel* : ${level}\n`
-      txt += `◦ *XP* : Total ${exp} (${user.exp - min}/${xp})\n`
-      txt += `◦ *Premium* : ${prem ? 'Si' : 'No'}\n`
-      txt += `◦ *Registrado* : ${registered ? 'Si': 'No'}`
-  let mentionedJid = [who]
-  await conn.sendFile(m.chat, img, 'thumbnail.jpg', txt, m, null, fake, rcanal)
-}
+let handler = async (m, { conn }) => {
+  let who = m.mentionedJid && m.mentionedJid[0] 
+    ? m.mentionedJid[0] 
+    : m.fromMe 
+    ? conn.user.jid 
+    : m.sender;
 
-handler.help = ['perfil', 'perfil *@user*']
-handler.tags = ['start']
-handler.command = /^(perfil|profile)$/i
-handler.register = true
+  let bio = await conn.fetchStatus(who).catch(() => 'undefined');
+  let biot = bio.status?.toString() || 'Sin Info';
+  let user = global.db.data.users[who];
+  let pp = await conn.profilePictureUrl(who, 'image').catch(() => 'https://i.ibb.co/JndpnfX/LynxAI.jpg');
+  let { exp, corazones, name, registered, regTime, age, level } = global.db.data.users[who];
+  let { min, xp, max } = xpRange(user.level, global.multiplier);
+  let username = conn.getName(who);
+  let prem = global.prems.includes(who.split`@`[0]);
+  let sn = createHash('md5').update(who).digest('hex');
+  let img = await (await fetch(`${pp}`)).buffer();
 
-export default handler
+  let txt = ` –  *P E R F I L  -  U S E R*\n\n`;
+  txt += `◦ *Nombre* : ${name}\n`;
+  txt += `◦ *Edad* : ${registered ? `${age} años` : '×'}\n`;
+  txt += `◦ *Número* : ${PhoneNumber(numeroCompleto).getNumber('international')}\n`;
+  txt += `◦ *Nacionalidad* : ${nacionalidad}\n`;
+  txt += `◦ *Link* : wa.me/${who.split`@`[0]}\n`;
+  txt += `◦ *Corazones* : ${corazones}\n`;
+  txt += `◦ *Nivel* : ${level}\n`;
+  txt += `◦ *XP* : Total ${exp} (${user.exp - min}/${xp})\n`;
+  txt += `◦ *Premium* : ${prem ? 'Sí' : 'No'}\n`;
+  txt += `◦ *Registrado* : ${registered ? 'Sí' : 'No'}`;
 
-const more = String.fromCharCode(8206)
-const readMore = more.repeat(4001)
+  await conn.sendFile(m.chat, img, 'thumbnail.jpg', txt, m,rcanal);
+};
 
-function formatDate(n, locale = 'es-US') {
-  let d = new Date(n)
-  return d.toLocaleDateString(locale, {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric'
-  })
-}
+handler.help = ['perfil', 'perfil *@user*'];
+handler.tags = ['start'];
+handler.command = /^(perfil|profile)$/i;
+handler.register = true;
 
-function formatHour(n, locale = 'en-US') {
-  let d = new Date(n)
-  return d.toLocaleString(locale, {
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric',
-    hour12: true
-  })
-}
+export default handler;
+
+
+let prefijos = {
+    '+51': 'Peru',
+    '+52': 'Mexico',
+    '+54': 'Argentina',
+    '+55': 'Brasil',
+    '+56': 'Chile',
+    '+57': 'Colombia',
+    '+58': 'Venezuela',
+    '+591': 'Bolivia',
+    '+592': 'Guyana',
+    '+593': 'Ecuador',
+    '+595': 'Paraguay',
+    '+598': 'Uruguay',
+    '+34': 'España',
+    '+506': 'Costa Rica',
+    '+507': 'Panamá',
+    '+503': 'El Salvador',
+    '+502': 'Guatemala',
+    '+504': 'Honduras',
+    '+505': 'Nicaragua',
+    '+53': 'Cuba',
+    '+1-787': 'Puerto Rico',
+    '+1-809': 'República Dominicana'
+  };
+  
+  let numeroCompleto = '+' + who.replace('@s.whatsapp.net', '');
+  let nacionalidad = 'Desconocida';
+  for (let prefijo in prefijos) {
+    if (numeroCompleto.startsWith(prefijo)) {
+      nacionalidad = prefijos[prefijo];
+      break;
+    }
+  }
+  
