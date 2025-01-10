@@ -4,7 +4,7 @@ const handler = async (m, { conn, text }) => {
   if (!text) {
     await conn.reply(m.chat, '*\`Ingrese el nombre de la APK que quiera buscar. 🤍\`*', m,rcanal);
   }
-
+    await m.react('🕓');
   try {
     const fallbackUrl = `https://delirius-apiofc.vercel.app/download/apk?query=${text}`;
     const response = await fetch(fallbackUrl);
