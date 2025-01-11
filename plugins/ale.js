@@ -11,7 +11,7 @@ const handler = async (m, { conn }) => {
       const randomVideo = json.result[Math.floor(Math.random() * json.result.length)];
 
       if (randomVideo.type === 'video/mp4') {
-        await conn.sendFile(m.chat, randomVideo.video_1, 'video.mp4', m);
+        await conn.sendFile(m.chat, randomVideo.video_1, 'video.mp4',m,listo);
       } else {
         await m.reply('El contenido seleccionado no es un video válido.');
       }
