@@ -1,4 +1,4 @@
-import { derivative, evaluate, simplify, parse } from 'mathjs';
+import { derivative, evaluate, simplify } from 'mathjs';
 
 let handler = async (m, { conn, args, usedPrefix, command }) => {
     if (!args[0]) {
@@ -15,21 +15,28 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
     try {
         const argsText = args.join(' ');
-        const functionMatch = argsText.match(/^f\((.*?)\)\s*=\s*(.+)$/i);
-        const variable = functionMatch ? functionMatch[1] : 'x';
-        const expression = functionMatch ? functionMatch[2] : argsText;
 
-        // Extra: Order or evaluation point
+        // Reemplazo de símbolos especiales
+        const processedExpression = argsText
+            .replace(/√/g, 'sqrt') // Reemplaza √ por sqrt
+            .replace(/\^/g, '**'); // Reemplaza ^ por ** (para potencias en mathjs)
+
+        // Detecta si la entrada es del tipo f(x)=...
+        const functionMatch = processedExpression.match(/^f\((.*?)\)\s*=\s*(.+)$/i);
+        const variable = functionMatch ? functionMatch[1] : 'x';
+        const expression = functionMatch ? functionMatch[2] : processedExpression;
+
+        // Extra: Orden o punto de evaluación
         const [pureExpression, extra] = expression.split(/ (?=\d+$|@\d+$)/);
         const order = extra && extra.startsWith('@') ? 1 : parseInt(extra, 10) || 1;
 
-        // Compute derivative
+        // Derivada
         const derived = derivative(pureExpression, variable, { simplify: true, nth: order }).toString();
 
-        // Simplify
+        // Simplificar
         const simplified = simplify(derived).toString();
 
-        // Evaluate if @point is provided
+        // Evaluación en punto (si se especifica)
         let evalPoint = null;
         let evalResult = null;
         if (extra && extra.startsWith('@')) {
@@ -37,7 +44,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
             evalResult = evaluate(derived.replace(new RegExp(variable, 'g'), `(${evalPoint})`));
         }
 
-        // Build response
+        // Respuesta
         let respuesta = `[ ᰔᩚ ] ✨ Resultado del Cálculo Diferencial ✨\n\n` +
             `📗 *Función Original:* ${pureExpression}\n` +
             `📘 *Variable:* ${variable}\n` +
