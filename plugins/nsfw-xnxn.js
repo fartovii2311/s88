@@ -6,7 +6,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
   let query = args.join(' ');
   
   try {
-    let apiUrl = `https://darkcore-api.onrender.com/api/xnxn?url=${encodeURIComponent(query)}`;
+    let apiUrl = `https://dark-core.onrender.com/api/xnxn?url=${encodeURIComponent(query)}`;
 
     let response = await fetch(apiUrl);
     let data = await response.json();
