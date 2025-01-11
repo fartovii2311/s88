@@ -1,20 +1,29 @@
 import fetch from 'node-fetch';
 
 const handler = async (m, { conn }) => {
-    const apiUrl = 'https://source.unsplash.com/random/800x600';
-    
-    try {
-      const res = await fetch(apiUrl);
-      if (!res.ok) throw new Error(`Error al obtener la imagen: ${res.statusText}`);
-      const imageUrl = res.url;
+  const apiUrl = 'https://api.vreden.web.id/api/hentaivid';
+  
+  try {
+    const res = await fetch(apiUrl);
+    const json = await res.json();
 
-      await conn.sendFile(m.chat, imageUrl, 'imagen.jpg', 'Aquí tienes una imagen aleatoria:', m);
-    } catch (e) {
-      console.error(e);
-      await m.reply('Hubo un error al intentar obtener una imagen.');
+    if (json.result && json.result.length > 0) {
+      const randomVideo = json.result[Math.floor(Math.random() * json.result.length)];
+
+      if (randomVideo.type === 'video/mp4') {
+        await conn.sendFile(m.chat, randomVideo.video_1, 'video.mp4', m);
+      } else {
+        await m.reply('El contenido seleccionado no es un video válido.');
+      }
+    } else {
+      console.log('No se encontraron resultados en la API.');
     }
-  };
-  
-  handler.command = ['imagenrandom', 'randomimage'];
-  
-  export default handler;
+  } catch (e) {
+    console.error(e);
+    await m.reply('Hubo un error al intentar obtener un video.');
+  }
+};
+
+handler.command = ['videorandom', 'randomvideo'];
+
+export default handler;
