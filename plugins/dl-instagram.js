@@ -3,13 +3,13 @@ import axios from 'axios';
 import qs from 'qs';
 import * as cheerio from 'cheerio';
 
-let handler = async (m, { text, command, conn, usedPrefix }) => {  
+let handler = async (m, { text, args, command, conn, usedPrefix }) => {  
   if (!text) return conn.reply(m.chat, '[ ᰔᩚ ] Ingresa el url deL video de *Instagram*.\n\n`Ejemplo:`\n' + `> *${usedPrefix + command}* https://www.instagram.com/share/reel/` ,m, rcanal)
 
   await m.react('🕓'); 
 
   try {
-    let scraper = await instagramdl(text[0]);
+    let scraper = await instagramdl(args[0]);
 
     if (scraper.videoUrl) {
       let vid = await axios.get(scraper.videoUrl, { responseType: 'arraybuffer' });
