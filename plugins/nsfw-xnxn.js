@@ -14,7 +14,6 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     if (data.success && data.result.estado === 200) {
       let { titulo, descripcion, duracion, urlVideo, vistas } = data.result.datos;
 
-      // Luego enviar el video con caption debajo
       await conn.sendMessage(m.chat, {
         video: { url: urlVideo },
         caption: `*Titulo:* ${titulo}\n*Descripción:* ${descripcion}\n*Duración:* ${duracion}\n*Vistas:* ${vistas}`,
