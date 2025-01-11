@@ -309,6 +309,7 @@ ${usedPrefix + command} antiprivado
 ${usedPrefix + command} status
 ${usedPrefix + command} autoread
 ${usedPrefix + command} restrict
+${usedPrefix + command} antiprivado
 
 *☁️ Funciones de grupos*
 
