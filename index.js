@@ -31,12 +31,19 @@ let __dirname = dirname(fileURLToPath(import.meta.url))
 let require = createRequire(__dirname)
 let { say } = cfonts
 
-say('DARK\nCORE', {
-    font: 'chrome',
-    align: 'center',
-    gradient: ['red', 'magenta'],
-    maxLength: 'full' 
-  });
+say('Dark team', {
+    font: 'block',         
+    align: 'center',          
+    background: 'transparent',
+    letterSpacing: 0,         
+    lineHeight: 1,            
+    space: true,              
+    maxLength: '0',           
+    gradient: ['magenta', 'red', 'yellow', 'green', 'cyan', 'blue', 'white'],
+    independentGradient: true,    
+    transitionGradient: true,
+    env: 'node'
+});
 
 const {CONNECTING} = ws
 const {chain} = lodash
