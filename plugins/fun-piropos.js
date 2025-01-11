@@ -1,7 +1,3 @@
-//By HaroldMendoza "LevelUp"
-
-
-
 let handler = async (m, { conn, text}) => {
 
 let hasil = Math.floor(Math.random() * 5000)
