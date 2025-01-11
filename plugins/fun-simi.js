@@ -12,15 +12,15 @@ const handler = async (m, { text, command, args, usedPrefix }) => {
     const resBingia = await apiBingia.json();
 
     if (resBingia.status) {
-      m.reply(resBingia.data); 
+      return m.reply(resBingia.data); 
     } else {
       const apiChatGPT = await fetch(`https://delirius-apiofc.vercel.app/ia/chatgpt?q=${encodeURIComponent(text)}`);
       const resChatGPT = await apiChatGPT.json();
 
       if (resChatGPT.status) {
-        m.reply(resChatGPT.data);
+        return m.reply(resChatGPT.data); 
       } else {
-        console.log("Error en la respuesta de la API de ChatGPT");
+        console.log("Ambas APIs fallaron");
       }
     }
   } catch (error) {
