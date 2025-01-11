@@ -32,16 +32,11 @@ let require = createRequire(__dirname)
 let { say } = cfonts
 
 say('DARK\nCORE', {
-  font: 'chrome',
-  align: 'center',
-  gradient: ['red', 'magenta']
-})
-
-say('DARK\nESITOR', {
-  font: 'console',
-  align: 'center',
-  gradient: ['red', 'magenta']
-})
+    font: 'chrome',
+    align: 'center',
+    gradient: ['red', 'magenta'],
+    maxLength: 'full' 
+  });
 
 const {CONNECTING} = ws
 const {chain} = lodash
