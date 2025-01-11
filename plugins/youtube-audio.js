@@ -39,13 +39,10 @@ let handler = async (m, { conn, text }) => {
       downloadUrl = download.url || null;
       size = download.quality || "128kbps";
       image = result.metadata?.image || null;
-    } else {
-      return conn.reply(m.chat, `⚠️ Error al procesar el enlace: ${videoUrl}`, m);
     }
-  } catch (error) {
+    } catch (error) {
     console.error("Error con la API", error.message);
-    return conn.reply(m.chat, `⚠️ Ocurrió un error al contactar con la API.`, m);
-  }
+    }
 
   try {
     const caption = `
