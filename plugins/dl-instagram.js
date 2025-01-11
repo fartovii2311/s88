@@ -3,12 +3,10 @@ import axios from 'axios';
 import qs from 'qs';
 import * as cheerio from 'cheerio';
 
-let handler = async (m, { args, command, conn, usedPrefix }) => {
-  if (!args[0]) {
-    return conn.reply(m.chat,'[ ᰔᩚ ] Ingresa el url deL video de *Instagram*.\n\n`Ejemplo:`\n' + `> *${usedPrefix + command}* ',m,rcanal);
-  }
+let handler = async (m, { args, command, conn, usedPrefix }) => {  
+  if (!text) return conn.reply(m.chat, '[ ᰔᩚ ] Ingresa el url deL video de *Facebook*.\n\n`Ejemplo:`\n' + `> *${usedPrefix + command}* ` ,m, rcanal)
 
-  await m.react('🕓'); 
+   await m.react('🕓'); 
 
   try {
     let scraper = await instagramdl(args[0]);
