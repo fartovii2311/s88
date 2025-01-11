@@ -21,6 +21,8 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
             .replace(/√/g, 'sqrt') // Reemplaza √ por sqrt
             .replace(/\^/g, '**'); // Reemplaza ^ por ** (para potencias en mathjs)
 
+        console.log('Expresión procesada:', processedExpression);
+
         // Validación básica: Paréntesis balanceados
         const openParentheses = (processedExpression.match(/\(/g) || []).length;
         const closeParentheses = (processedExpression.match(/\)/g) || []).length;
@@ -38,11 +40,15 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
         const [pureExpression, extra] = expression.split(/ (?=\d+$|@\d+$)/);
         const order = extra && extra.startsWith('@') ? 1 : parseInt(extra, 10) || 1;
 
-        // Validar expresión antes de procesar
+        if (!pureExpression.trim()) {
+            throw new Error('La función ingresada está vacía.');
+        }
+
         try {
             parse(pureExpression); // Verifica si es válida
         } catch (err) {
-            throw new Error('La función contiene errores de sintaxis.');
+            console.error('Error en la expresión:', err.message); // Registro del error específico
+            throw new Error('La función contiene errores de sintaxis. Revisa los paréntesis, operadores y símbolos.');
         }
 
         // Derivada
