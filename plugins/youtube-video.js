@@ -1,11 +1,11 @@
 import fetch from 'node-fetch';
 import { exec } from 'child_process';
-import fs from 'fs';
-import path from 'path';
+import fs from 'fs/promises';
 import { promisify } from 'util';
 
 const execPromise = promisify(exec);
 const videoLimit = 300 * 1024 * 1024; // 300 MB
+const tempDir = './tmp';
 
 let handler = async (m, { conn, text }) => {
   if (!m.quoted) {
@@ -44,73 +44,78 @@ let handler = async (m, { conn, text }) => {
 const handleVideoDownload = async (conn, m, data) => {
   const { metadata, download } = data;
   const { title, duration, thumbnail } = metadata;
-  const { url: downloadUrl, filename } = download;
+  const { url: downloadUrl } = download;
 
-  const tempPath = `./tmp/${Date.now()}.mp4`;
+  const tempPath = `${tempDir}/${Date.now()}.mp4`;
 
   try {
     await downloadFile(downloadUrl, tempPath);
 
-    const fileSize = fs.statSync(tempPath).size;
+    const { size: fileSize } = await fs.stat(tempPath);
 
     if (fileSize > videoLimit) {
-      const compressedPath = `compressed_${Date.now()}.mp4`;
+      const compressedPath = `${tempDir}/compressed_${Date.now()}.mp4`;
       await compressVideo(tempPath, compressedPath);
 
-      const compressedSize = fs.statSync(compressedPath).size;
+      const { size: compressedSize } = await fs.stat(compressedPath);
 
-      if (compressedSize > videoLimit) {
-        await conn.sendMessage(m.chat,
-          {
-            document: { url: compressedPath },
-            fileName: filename || `${title}.mp4`,
-            mimetype: 'video/mp4',
-            caption: `⚠️ El archivo comprimido aún supera el límite permitido (${(videoLimit / 1024 / 1024).toFixed(2)} MB). Se envía como documento.\n\n🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration.timestamp}`,
-          },
-          { quoted: m }
-        );
-      } else {
-        await conn.sendMessage(m.chat,
-          {
-            video: { url: compressedPath },
-            fileName: filename || `${title}.mp4`,
-            mimetype: 'video/mp4',
-            caption: `🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration.timestamp}`,
-            thumbnail: thumbnail ? { url: thumbnail } : undefined,
-          },
-          { quoted: m }
-        );
-      }
+      const isLarge = compressedSize > videoLimit;
+      const messageOptions = {
+        caption: isLarge
+          ? `⚠️ El archivo comprimido aún supera el límite permitido (${(videoLimit / 1024 / 1024).toFixed(2)} MB). Se envía como documento.\n\n🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration.timestamp}`
+          : `🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration.timestamp}`,
+        quoted: m,
+      };
 
-      fs.unlinkSync(tempPath);
-      fs.unlinkSync(compressedPath);
+      await conn.sendMessage(
+        m.chat,
+        isLarge
+          ? {
+              document: { url: compressedPath },
+              fileName: `${title}.mp4`,
+              mimetype: 'video/mp4',
+            }
+          : {
+              video: { url: compressedPath },
+              fileName: `${title}.mp4`,
+              mimetype: 'video/mp4',
+              thumbnail: thumbnail ? { url: thumbnail } : undefined,
+            },
+        messageOptions
+      );
+
+      await fs.unlink(tempPath);
+      await fs.unlink(compressedPath);
     } else {
-      await conn.sendMessage(m.chat,
+      await conn.sendMessage(
+        m.chat,
         {
           video: { url: tempPath },
-          fileName: filename || `${title}.mp4`,
+          fileName: `${title}.mp4`,
           mimetype: 'video/mp4',
           caption: `🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration.timestamp}`,
           thumbnail: thumbnail ? { url: thumbnail } : undefined,
         },
         { quoted: m }
       );
+
+      await fs.unlink(tempPath);
     }
 
     await m.react('✅');
   } catch (error) {
-    console.error('Error al procesar el video:', error);
-    await conn.reply(m.chat, `⚠️ Error al procesar o enviar el video.`, m);
+    console.error('Error al manejar el video:', error);
   }
 };
 
 const downloadFile = async (url, dest) => {
   const response = await fetch(url);
-  const fileStream = fs.createWriteStream(dest);
+  const fileStream = await fs.open(dest, 'w');
   await new Promise((resolve, reject) => {
-    response.body.pipe(fileStream);
-    response.body.on('error', reject);
-    fileStream.on('finish', resolve);
+    response.body
+      .pipe(fileStream.createWriteStream())
+      .on('finish', resolve)
+      .on('error', reject);
   });
 };
 
@@ -119,9 +124,9 @@ const compressVideo = async (inputPath, outputPath) => {
   await execPromise(ffmpegCommand);
 };
 
-handler.help = ['Video'];
+handler.help = ['video'];
 handler.tags = ['downloader'];
-handler.customPrefix = /^(Video|video|vídeo|Vídeo)/i;
+handler.customPrefix = /^(video|vídeo)$/i;
 handler.command = new RegExp;
 
 export default handler;
