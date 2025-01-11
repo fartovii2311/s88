@@ -1,7 +1,7 @@
  // *[ ❀ FACEBOOK DL ]*
 import fetch from 'node-fetch';
 
-let handler = async (m, { conn, text, rcanal }) => {
+let handler = async (m, { conn, text, usedPrefix, command }) => {
    if (!text) return conn.reply(m.chat, '[ ᰔᩚ ] Ingresa el URL deL video de *Facebbok*.\n\n`Ejemplo:`\n' + `> *${usedPrefix + command}* URL` ,m, rcanal)
     await m.react('🕓');
     try {
