@@ -4,6 +4,8 @@ const handler = async (m, { text, command, args, usedPrefix }) => {
   if (!text) {
     return m.reply(`*• Ingresa un texto*\n\n*Ejemplo:*\n*${usedPrefix + command}* Hola bot`);
   }
+  
+  await m.react('📩'); 
 
   try {
     const api = await fetch(`https://delirius-apiofc.vercel.app/ia/bingia?query=${encodeURIComponent(text)}`);
@@ -12,10 +14,10 @@ const handler = async (m, { text, command, args, usedPrefix }) => {
     if (resBingia.status) {
       m.reply(resBingia.data);
     } else {
-      throw new Error("Error en la respuesta de la API");
+      console.log("Error en la respuesta de la API");
     }
   } catch (error) {
-   await 
+    await m.react('❌');
   }
 };
 
