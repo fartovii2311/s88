@@ -6,18 +6,16 @@ const handler = async (m, { text, command, args, usedPrefix }) => {
   }
 
   try {
-    // Usamos encodeURIComponent para codificar el texto antes de pasarlo en la URL
     const api = await fetch(`https://delirius-apiofc.vercel.app/ia/bingia?query=${encodeURIComponent(text)}`);
     const resBingia = await api.json();
 
     if (resBingia.status) {
-      m.reply(resBingia.data);  // Si la respuesta es válida, la enviamos al chat
+      m.reply(resBingia.data);
     } else {
       throw new Error("Error en la respuesta de la API");
     }
   } catch (error) {
-    // Si ocurre un error, lo capturamos y enviamos un mensaje de error
-    m.reply("Ocurrió un error al procesar tu solicitud.");
+   await 
   }
 };
 
