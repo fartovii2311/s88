@@ -2,7 +2,7 @@
 import fetch from 'node-fetch';
 
 let handler = async (m, { conn, text, rcanal }) => {
-    if (!text) { return conn.reply(m.chat, `[ ᰔᩚ ] Ingresa el URL de video de *Facebook*.\n\nEjemplo:\n` + `> *${usedPrefix + command}* https://www.facebook.com/share/v/15cuhDnBf2/`, m, rcanal, fake);
+   if (!text) return conn.reply(m.chat, '[ ᰔᩚ ] Ingresa el URL deL video de *Facebbok*.\n\n`Ejemplo:`\n' + `> *${usedPrefix + command}* URL` ,m, rcanal)
     await m.react('🕓');
     try {
         let api = await fetch(`https://api.siputzx.my.id/api/d/facebook?url=${encodeURIComponent(text)}`);
