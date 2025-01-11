@@ -9,7 +9,7 @@ let handler = async (m, { text, command, conn, usedPrefix }) => {
   await m.react('🕓'); 
 
   try {
-    let scraper = await instagramdl(args[0]);
+    let scraper = await instagramdl(text[0]);
 
     if (scraper.videoUrl) {
       let vid = await axios.get(scraper.videoUrl, { responseType: 'arraybuffer' });
