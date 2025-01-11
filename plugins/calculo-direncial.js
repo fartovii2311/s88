@@ -1,4 +1,4 @@
-import { derivative, evaluate, simplify, parse } from 'mathjs';
+import { derivative, evaluate, simplify } from 'mathjs';
 
 let handler = async (m, { conn, args, usedPrefix, command }) => {
     if (!args[0]) {
@@ -8,77 +8,63 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
             `Ejemplo:\n> *${usedPrefix + command}* x^2 + 3*x + 2\n\n` +
             `Opciones avanzadas:\n` +
             `- Derivada de orden superior: *${usedPrefix + command}* x^2 + 3*x + 2 2\n` +
-            `- Evaluar en un punto: *${usedPrefix + command}* f(x)=x^2 + 3*x + 2 @2`,
+            `- Evaluar en un punto: *${usedPrefix + command}* x^2 + 3*x + 2 @2`,
             m
         );
     }
 
     try {
+        // Unir los argumentos en una sola cadena
         const argsText = args.join(' ');
+        const [expression, extra] = argsText.split(/ (?=\d+$|@\d+$)/);
+        const variable = 'x';
 
-        // Reemplazo de símbolos especiales
-        const processedExpression = argsText
-            .replace(/√/g, 'sqrt') // Reemplaza √ por sqrt
-            .replace(/\^/g, '**'); // Reemplaza ^ por ** (para potencias en mathjs)
-
-        console.log('Expresión procesada:', processedExpression);
-
-        // Validación básica: Paréntesis balanceados
-        const openParentheses = (processedExpression.match(/\(/g) || []).length;
-        const closeParentheses = (processedExpression.match(/\)/g) || []).length;
+        // Validación básica: verificar si los paréntesis están balanceados
+        const openParentheses = (expression.match(/\(/g) || []).length;
+        const closeParentheses = (expression.match(/\)/g) || []).length;
 
         if (openParentheses !== closeParentheses) {
-            throw new Error('Los paréntesis no están balanceados.');
+            throw new Error(
+                `❀ Los paréntesis no están balanceados. Asegúrate de que cada '(' tenga un ')' correspondiente.\n\n` +
+                `Ejemplos:\n` +
+                `- Correcto: sqrt(x^2 - 3)\n` +
+                `- Incorrecto: sqrt(x^2 - 3`
+            );
         }
 
-        // Detecta si la entrada es del tipo f(x)=...
-        const functionMatch = processedExpression.match(/^f\((.*?)\)\s*=\s*(.+)$/i);
-        const variable = functionMatch ? functionMatch[1] : 'x';
-        const expression = functionMatch ? functionMatch[2] : processedExpression;
-
-        // Extra: Orden o punto de evaluación
-        const [pureExpression, extra] = expression.split(/ (?=\d+$|@\d+$)/);
+        // Derivada de orden (por defecto: 1)
         const order = extra && extra.startsWith('@') ? 1 : parseInt(extra, 10) || 1;
 
-        if (!pureExpression.trim()) {
-            throw new Error('La función ingresada está vacía.');
-        }
+        // Calcular derivada
+        const result = derivative(expression, variable, { simplify: true, nth: order }).toString();
 
-        try {
-            parse(pureExpression); // Verifica si es válida
-        } catch (err) {
-            console.error('Error en la expresión:', err.message); // Registro del error específico
-            throw new Error('La función contiene errores de sintaxis. Revisa los paréntesis, operadores y símbolos.');
-        }
-
-        // Derivada
-        const derived = derivative(pureExpression, variable, { simplify: true, nth: order }).toString();
-
-        // Simplificar
-        const simplified = simplify(derived).toString();
-
-        // Evaluación en punto (si se especifica)
+        // Evaluar en un punto específico si se incluye '@'
         let evalPoint = null;
-        let evalResult = null;
         if (extra && extra.startsWith('@')) {
             evalPoint = parseFloat(extra.replace('@', ''));
-            evalResult = evaluate(derived.replace(new RegExp(variable, 'g'), `(${evalPoint})`));
         }
+        const evalResult = evalPoint !== null
+            ? evaluate(result.replace(/x/g, `(${evalPoint})`))
+            : null;
 
-        // Respuesta
+        // Simplificar la derivada
+        const simplified = simplify(result).toString();
+
+        // Construir respuesta
         let respuesta = `[ ᰔᩚ ] ✨ Resultado del Cálculo Diferencial ✨\n\n` +
-            `📗 *Función Original:* ${pureExpression}\n` +
-            `📘 *Variable:* ${variable}\n` +
-            `📙 *Derivada de Orden ${order}:* ${derived}\n`;
+            `📗 *Función Original:* ${expression}\n` +
+            `📘 *Derivada de Orden ${order}:* ${result}\n`;
 
         if (evalPoint !== null) {
-            respuesta += `📘 *Evaluada en ${variable} = ${evalPoint}:* ${evalResult}\n`;
+            respuesta += `📙 *Evaluada en x = ${evalPoint}:* ${evalResult}\n`;
         }
 
-        respuesta += `📘 *Forma Simplificada:* ${simplified}\n\n` +
+        respuesta += `📙 *Forma Simplificada:* ${simplified}\n\n` +
             `💡 ¡Gracias por usar el comando de cálculo diferencial!`;
 
+        // Enviar respuesta
         await conn.reply(m.chat, respuesta, m);
+
     } catch (error) {
         console.error(error);
         await conn.reply(
@@ -91,6 +77,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     }
 };
 
+// Configuración del comando
 handler.help = ['derivar *<función>*'];
 handler.tags = ['tools'];
 handler.command = /^(derivar|diferencial|derivada)$/i;
