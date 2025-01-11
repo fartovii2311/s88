@@ -21,8 +21,8 @@ const handler = async (m, { text, command, args, usedPrefix }) => {
   }
 };
 
-handler.help = ['bingia'];
+handler.help = ['simi'];
 handler.tags = ['fun'];
-handler.command = /^((bing)?bingia)$/i;
+handler.command = /^((sim)?simi|alexa|cortana|bot)$/i;
 
 export default handler;
