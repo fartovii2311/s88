@@ -7,11 +7,11 @@ const handler = async (m, { text, command, args, usedPrefix }) => {
 
   try {
     // Usamos encodeURIComponent para codificar el texto antes de pasarlo en la URL
-    const api = await fetch(`https://delirius-apiofc.vercel.app/ia/llamaia?query=${encodeURIComponent(text)}`);
-    const resLlama = await api.json();
+    const api = await fetch(`https://delirius-apiofc.vercel.app/ia/bingia?query=${encodeURIComponent(text)}`);
+    const resBingia = await api.json();
 
-    if (resLlama.status) {
-      m.reply(resLlama.data);  // Si la respuesta es válida, la enviamos al chat
+    if (resBingia.status) {
+      m.reply(resBingia.data);  // Si la respuesta es válida, la enviamos al chat
     } else {
       throw new Error("Error en la respuesta de la API");
     }
@@ -21,8 +21,8 @@ const handler = async (m, { text, command, args, usedPrefix }) => {
   }
 };
 
-handler.help = ['simi'];
+handler.help = ['bingia'];
 handler.tags = ['fun'];
-handler.command = /^((sim)?simi|alexa|cortana|bot)$/i;
+handler.command = /^((bing)?bingia)$/i;
 
 export default handler;
