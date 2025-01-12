@@ -247,4 +247,4 @@ handler.help = ['randomvid'];
 handler.tags = ['nsfw'];
 handler.command = /^(randomvid)$/i;
 
-module.exports = handler;
+export default handler
