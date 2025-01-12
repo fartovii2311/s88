@@ -8,6 +8,10 @@ import axios from 'axios'
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
+//BETA: Si quiere evitar escribir el número que será bot en la consola, agregué desde aquí entonces:
+global.botNumberCode = '' //Ejemplo: +573218138672
+global.confirmCode = ''
+
 global.owner = [
   ['51968382008', 'DARK CORE', true],
   ['', '', true],
