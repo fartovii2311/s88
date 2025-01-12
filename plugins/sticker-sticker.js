@@ -53,7 +53,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
           externalAdReply: {
             showAdAttribution: false,
             title: packname,
-            body: '⏤͟͞ू⃪ ፝͜⁞𝐘𝐮𝐤𝐢_𝐒𝐮𝐨𝐮-𝐁𝐨𝐭✰⃔࿐',
+            body: 'DarkCore - Ai',
             mediaType: 2,
             sourceUrl: redes,
             thumbnail: icons
