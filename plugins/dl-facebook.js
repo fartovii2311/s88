@@ -7,7 +7,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     try {
         let api = await fetch(`https://api.siputzx.my.id/api/d/facebook?url=${encodeURIComponent(text)}`);
         let json = await api.json();
-        await conn.sendFile(m.chat, json.data.video, 'video.mp4', null, m,listo);
+        await conn.sendFile(m.chat, json.data.video, 'video.mp4', m,listo);
         await m.react('✅');
     } catch (error) {
         console.error(error);
