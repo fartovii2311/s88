@@ -2,7 +2,7 @@
 import fetch from 'node-fetch'
 import moment from 'moment-timezone';
 let handler = async (m, { conn, command, usedPrefix }) => {
-let frep = { contextInfo: { externalAdReply: {title: wm, body: lenguajeGB.smsCont18PornP2(), sourceUrl: redesMenu.getRandom(), thumbnail: await(await fetch(img16)).buffer() }}}
+let frep = { contextInfo: { externalAdReply: {title: wm, sourceUrl: redesMenu.getRandom(), thumbnail: await(await fetch(img16)).buffer() }}}
 let user = global.db.data.users[m.sender]
 let enlace = await pornovid[Math.floor(Math.random() * pornovid.length)] 
 let enlace1 = await pornovid2[Math.floor(Math.random() * pornovid2.length)] 
@@ -11,7 +11,7 @@ let enlace3 = await pornovidgay[Math.floor(Math.random() * pornovidgay.length)]
 let enlace4 = await pornovidbisexual[Math.floor(Math.random() * pornovidbisexual.length)] 
 let enlace5 = await pornovidrandom[Math.floor(Math.random() * pornovidrandom.length)] 
 
-if (!db.data.chats[m.chat].modohorny && m.isGroup) throw `${lenguajeGB['smsContAdult']()}`
+if (!db.data.chats[m.chat].modohorny && m.isGroup) throw ``
 const horarioNsfw = db.data.chats[m.chat].horarioNsfw;
 const now = moment.tz('America/Guayaquil'); 
 const currentTime = now.format('HH:mm'); 
