@@ -3,7 +3,10 @@ import axios from 'axios';
 import { load } from 'cheerio';
 
 const handler = async (m, { text, usedPrefix, command, conn }) => {
-  if (!text) return conn.sendMessage(m.chat, `Escribe el nombre de una película o serie para buscar, ejemplo: *${usedPrefix + command} El Gato con Botas*`, { quoted: m });
+  if (!text) {
+    // Responde con un mensaje si no se proporciona un texto de búsqueda
+    return conn.sendMessage(m.chat, { text: `Escribe el nombre de una película o serie para buscar, ejemplo: *${usedPrefix + command} El Gato con Botas*` }, { quoted: m });
+  }
 
   let aaaa;
   let img;
@@ -17,22 +20,23 @@ const handler = async (m, { text, usedPrefix, command, conn }) => {
   }
 
   if (aaaa.length === 0) {
-    return conn.sendMessage(m.chat, 'No se encontraron resultados para tu búsqueda.', { quoted: m });
+    return conn.sendMessage(m.chat, { text: 'No se encontraron resultados para tu búsqueda.' }, { quoted: m });
   }
 
   const res = aaaa.map((v) => `*🎬 • ${v.title}:* ${v.link}`).join('\n\n───────────────\n\n');
+
   const ads = `*💫 • Descarga la app aquí:*\nhttps://block-this.com/block-this-latest.apk\n\n≣≣≣≣≣≣≣≣≣≣≣≣≣≣≣≣≣≣≣≣≣≣≣≣≣≣≣≣≣≣≣≣\n\n`;
 
   conn.sendMessage(m.chat, { image: { url: img }, caption: ads + res }, { quoted: m });
 };
 
 handler.command = ['cuevana', 'pelisplus'];
-handler.tags = ['dl'];
 handler.level = 2;
 handler.register = true;
 
 export default handler;
 
+// Función para cargar páginas de forma segura
 const safeLoad = async (url, options = {}) => {
   try {
     const { data: pageData } = await axios.get(url, options);
