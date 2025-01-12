@@ -45,7 +45,6 @@ let handler = async (m, { conn, usedPrefix, text }) => {
       });
     }
 
-    // Enviar la lista generada
     await conn.sendList(
       m.chat,
       `Resultados de búsqueda`,
@@ -56,4 +55,11 @@ let handler = async (m, { conn, usedPrefix, text }) => {
     );
   } catch (e) {
     console.error(e);
-    await conn.reply(m.chat, 'Hubo un error al 
+    await conn.reply(m.chat, 'Hubo un error al realizar la búsqueda. Intenta nuevamente más tarde.', m);
+  }
+}
+
+handler.help = ['playlist <nombre>']
+handler.tags = ['search']
+handler.command = ['playlist', 'Playlist']
+export default handler;
