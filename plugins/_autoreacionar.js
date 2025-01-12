@@ -1,8 +1,11 @@
 let handler = (m) => m;
 
 handler.before = async function (m, { conn, isAdmin, isBotAdmin, isOwner }) {
-  
   if (m.isGroup && !isBotAdmin) return;
+
+  if (!m.text) return;
+
+  console.log("Recibido:", m.text);
 
   const emojiResponses = {
     "hola": "👋",
@@ -52,9 +55,9 @@ handler.before = async function (m, { conn, isAdmin, isBotAdmin, isOwner }) {
     "mar": "🌊",
   };
 
-  const lowerMessage = m.text?.toLowerCase() || "";
-
+  const lowerMessage = m.text.toLowerCase();
   let emojiToReact = null;
+
   for (const [key, emoji] of Object.entries(emojiResponses)) {
     if (lowerMessage.includes(key)) {
       emojiToReact = emoji;
@@ -67,19 +70,13 @@ handler.before = async function (m, { conn, isAdmin, isBotAdmin, isOwner }) {
       "😀", "😃", "😄", "😁", "😆", "😅", "😂", "🤣", "😊", "😇", "🙂", "🙃", "😉", "😌",
       "😍", "🥰", "😘", "😗", "😙", "😚", "😋", "😛", "😜", "🤪", "😝", "🤑", "🤗", "🤭",
       "🤫", "🤔", "🤐", "🤨", "😐", "😑", "😶", "😏", "😒", "🙄", "😬", "🤥", "😌", "😔",
-      "😪", "🤤", "😴", "😷", "🤒", "🤕", "🤢", "🤮", "🤧", "😵", "🤯", "🤠", "🥳", "😎",
-      "🤓", "🧐", "😕", "😟", "🙁", "☹️", "😮", "😯", "😲", "😳", "🥺", "😦", "😧", "😨",
-      "😰", "😥", "😢", "😭", "😱", "😖", "😣", "😞", "😓", "😩", "😫", "🥱", "😤", "😡",
-      "😠", "🤬", "😈", "👿", "💀", "☠️", "💩", "🤡", "👹", "👺", "👻", "👽", "👾", "🤖",
-      "🎉", "🎊", "🎈", "🎁", "🎀", "🌟", "✨", "💫", "🔥", "⚡", "💥", "🌪️", "🌈", "☀️",
-      "🌤️", "🌦️", "🌧️", "⛈️", "🌩️", "🌨️", "❄️", "☃️", "⛄", "🌬️", "💨", "🌊", "💧",
-      "🌸", "💐", "🌹", "🌻", "🌼", "🌷", "🌲", "🌳", "🌴", "🌵", "🌾", "🌿", "☘️", "🍀",
     ];
     emojiToReact = allEmojis[Math.floor(Math.random() * allEmojis.length)];
   }
 
   try {
     await m.react(emojiToReact);
+    console.log("Reaccionado con:", emojiToReact);
   } catch (err) {
     console.error("Error al reaccionar:", err);
   }
