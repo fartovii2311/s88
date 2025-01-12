@@ -2,7 +2,7 @@ import moment from 'moment-timezone'
 import fetch from 'node-fetch'
 
 let handler = async (m, { conn, args }) => {
-let res = await fetch('https://api.github.com/repos/')
+let res = await fetch('https://api.github.com/repos/Manuel12yt/dark-ai')
 let json = await res.json()
 try {
 let txt = `*乂  S C R I P T  -  M A I N*\n\n`
@@ -14,7 +14,7 @@ let txt = `*乂  S C R I P T  -  M A I N*\n\n`
     txt += `	✩   *Forks* : ${json.forks_count}\n`
     txt += `	✩   *Stars* : ${json.stargazers_count}\n\n`
     txt += `> 🤍 *${textbot}*`
-let img = await (await fetch(`https://th.bing.com/th/id/R.3c44682163aece471be5e9be31853c5f?rik=ffeQ00G9XjrtnA&riu=http%3a%2f%2fcdn.wallpapersafari.com%2f3%2f96%2fzCEgo6.jpg&ehk=AG0SIiF60d%2fqhZysxXu70HHHGZOSdQ5xhUnW0SeytiI%3d&risl=&pid=ImgRaw&r=0`)).buffer()
+let img = await (await fetch(``)).buffer()
 
 await conn.sendAi(m.chat, botname, textbot, txt, img, img, canal, m)
 } catch {
