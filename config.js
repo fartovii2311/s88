@@ -63,7 +63,7 @@ global.github = ''
 global.instagram = '' 
 global.redes = '' 
 global.whatsApp = ''
-
+global.sessions = 'Session'
 
 global.rcanal = {
   contextInfo: {
