@@ -22,11 +22,6 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
     if (deletedFiles.length > 0) {
       console.log('Archivos eliminados:', deletedFiles);
       const deletedFilesList = deletedFiles.join('\n');
-      const responseMessage = deletedFiles.length > 10 ? 
-        `Archivos eliminados (mostrando los primeros 10):\n${deletedFilesList.slice(0, 300)}` :
-        `Archivos eliminados:\n${deletedFilesList}`;
-      
-      conn.reply(m.chat, responseMessage, m);
     } else {
       conn.reply(m.chat, 'No hay archivos para limpiar en tmp', m);
     }
