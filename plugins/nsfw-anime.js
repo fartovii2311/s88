@@ -1,6 +1,9 @@
 import fetch from 'node-fetch';
 import moment from 'moment-timezone';
 
+// Definir la URL de la imagen para la miniatura
+let img16 = 'https://example.com/imagen.jpg'; // Reemplaza con la URL real de la imagen
+
 let handler = async (m, { conn, command, usedPrefix }) => {
   // Configuración de la respuesta con imagen y texto promocional
   let frep = { contextInfo: { externalAdReply: { title: wm, thumbnail: await (await fetch(img16)).buffer() }}};
@@ -94,8 +97,6 @@ handler.command = [
 handler.premium = true;
 handler.register = true;
 export default handler;
-
-
 
 global.pornovid = [
 "https://l.top4top.io/m_2235dduf01.mp4",
