@@ -37,7 +37,7 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
     txt += `*\`⁘ FECHA:\`* ${date}\n`
     txt += `*\`⁘ HORA:\`* ${time}\n`
     txt += `*\`⁘ N° SERIAL:\`* ${sn}\n`
-    txt += `\`━━━━━━━━━━━━━━━━━━━━\`\n`
+    txt += `\`━━━━━━━━━━━━━━━━━━━━\``
 
     await conn.sendMessage(m.chat, {
       image: { url: 'https://i.ibb.co/JndpnfX/LynxAI.jpg' },
@@ -90,7 +90,7 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
     txt += `*\`⁘ FECHA:\`* ${date}\n`
     txt += `*\`⁘ HORA:\`* ${time}\n`
     txt += `*\`⁘ N° SERIAL:\`* ${sn}\n`
-    txt += `\`━━━━━━━━━━━━━━━━━━━━\`\n`
+    txt += `\`━━━━━━━━━━━━━━━━━━━━\``
     await conn.sendMessage(m.chat, {
       image: { url: 'https://i.ibb.co/JndpnfX/LynxAI.jpg' },
       caption: txt,
