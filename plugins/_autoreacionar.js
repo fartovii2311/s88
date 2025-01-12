@@ -1,9 +1,7 @@
 let handler = m => m;
 
 handler.before = async function (m, { conn, isAdmin, isBotAdmin, isOwner }) {
-  if (!m.isGroup) return false;
-
-  if (!isBotAdmin) return;
+  if (m.isGroup && !isBotAdmin) return;
 
   const allEmojis = [
     '😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '😇', '🙂', '🙃', '😉', '😌',
