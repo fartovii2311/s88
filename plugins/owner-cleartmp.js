@@ -23,10 +23,10 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
       console.log('Archivos eliminados:', deletedFiles);
       const deletedFilesList = deletedFiles.join('\n');
     } else {
-      conn.reply(m.chat, 'No hay archivos para limpiar en tmp', m);
+      console.log('No hay archivos para limpiar en tmp');
     }
   } else {
-    conn.reply(m.chat, 'La carpeta tmp no existe', m);
+    console.log('La carpeta tmp no existe');
   }
 
   conn.reply(m.chat, '✧ Listo!', m);
