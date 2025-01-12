@@ -18,7 +18,7 @@ if (!text) throw`️${usedPrefix + command} El Gato con botas`
   conn.sendMessage(m.chat, {image: {url: img}, caption: ads + res}, {quoted: m});
 };
 handler.command = ['cuevana', 'pelisplus'];
-handler.tag = ['dl'];
+handler.tags = ['dl'];
 handler.level = 2
 handler.register = true
 export default handler;
