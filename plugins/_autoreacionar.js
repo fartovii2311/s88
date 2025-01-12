@@ -5,7 +5,6 @@ handler.before = async function (m, { conn, isAdmin, isBotAdmin, isOwner }) {
 
   if (!m.text) return;
 
-  console.log("Recibido:", m.text);
 
   const emojiResponses = {
     "hola": "👋",
