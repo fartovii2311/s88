@@ -121,6 +121,12 @@ global.multiplier = 69
 global.maxwarn = '2' // máxima advertencias
 global.apis = 'https://deliriussapi-oficial.vercel.app'
 
+global.ch = {
+ch1: '0@newsletter',
+ch2: '0@newsletter',
+ch3: '0@newsletter'
+}
+
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*'
 
 let file = fileURLToPath(import.meta.url)
