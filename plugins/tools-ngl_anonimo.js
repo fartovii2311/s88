@@ -25,13 +25,13 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
             contextInfo: {
                 mentionedJid: [data.jid],
                 externalAdReply: {
-                    title: 'C O N F E S A R - G E N E S I S',
+                    title: 'C O N F E S A R - D A R K',
                     body: '¡responder! .respuesta (id) (Mensaje)',
                     mediaType: 1,
                     previewType: 0,
                     renderLargerThumbnail: true,
                     thumbnailUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIyz1dMPkZuNleUyfXPMsltHwKKdVddTf4-A&usqp=CAU',
-                    sourceUrl: 'https://whatsapp.com/channel/0029VaJxgcB0bIdvuOwKTM2Y'
+                    sourceUrl: ''
                 }
             }
         }
