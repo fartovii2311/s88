@@ -60,6 +60,6 @@ let handler = async (m, { conn, usedPrefix, text }) => {
 }
 
 handler.help = ['playlist <nombre>']
-handler.tags = ['search']
+handler.tags = ['dl']
 handler.command = ['playlist', 'Playlist']
 export default handler;
