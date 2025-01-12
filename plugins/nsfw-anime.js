@@ -1,81 +1,100 @@
-
-
-import fetch from 'node-fetch'
+import fetch from 'node-fetch';
 import moment from 'moment-timezone';
+
 let handler = async (m, { conn, command, usedPrefix }) => {
-let frep = { contextInfo: { externalAdReply: {title: wm, thumbnail: await(await fetch(img16)).buffer() }}}
-let user = global.db.data.users[m.sender]
-let enlace = await pornovid[Math.floor(Math.random() * pornovid.length)] 
-let enlace1 = await pornovid2[Math.floor(Math.random() * pornovid2.length)] 
-let enlace2 = await pornovidlesbi[Math.floor(Math.random() * pornovidlesbi.length)] 
-let enlace3 = await pornovidgay[Math.floor(Math.random() * pornovidgay.length)] 
-let enlace4 = await pornovidbisexual[Math.floor(Math.random() * pornovidbisexual.length)] 
-let enlace5 = await pornovidrandom[Math.floor(Math.random() * pornovidrandom.length)] 
+  // Configuración de la respuesta con imagen y texto promocional
+  let frep = { contextInfo: { externalAdReply: { title: wm, thumbnail: await (await fetch(img16)).buffer() }}};
+  
+  // Obtener el usuario desde la base de datos global
+  let user = global.db.data.users[m.sender];
 
-if (!db.data.chats[m.chat].modohorny && m.isGroup) throw ``
-const horarioNsfw = db.data.chats[m.chat].horarioNsfw;
-const now = moment.tz('America/Guayaquil'); 
-const currentTime = now.format('HH:mm'); 
+  // Enlaces de contenido aleatorio
+  let enlace = await pornovid[Math.floor(Math.random() * pornovid.length)];  
+  let enlace1 = await pornovid2[Math.floor(Math.random() * pornovid2.length)]; 
+  let enlace2 = await pornovidlesbi[Math.floor(Math.random() * pornovidlesbi.length)]; 
+  let enlace3 = await pornovidgay[Math.floor(Math.random() * pornovidgay.length)]; 
+  let enlace4 = await pornovidbisexual[Math.floor(Math.random() * pornovidbisexual.length)]; 
+  let enlace5 = await pornovidrandom[Math.floor(Math.random() * pornovidrandom.length)]; 
 
-if (horarioNsfw) {
-const { inicio, fin } = horarioNsfw;
-const inicioTime = moment(inicio, 'HH:mm').tz('America/Guayaquil');
-const finTime = moment(fin, 'HH:mm').tz('America/Guayaquil');
-const currentMoment = moment(currentTime, 'HH:mm').tz('America/Guayaquil');
-let isWithinTimeRange = false;
-if (inicioTime.isAfter(finTime)) {
-if (currentMoment.isBetween(inicioTime, moment('23:59', 'HH:mm').tz('America/Guayaquil')) || 
-currentMoment.isBetween(moment('00:00', 'HH:mm').tz('America/Guayaquil'), finTime)) {
-isWithinTimeRange = true;
-}} else {
-if (currentMoment.isBetween(inicioTime, finTime)) {
-isWithinTimeRange = true;
-}}
-if (!isWithinTimeRange) return m.reply(`𝙀𝙎𝙏𝙀 𝘾𝙊𝙈𝘼𝙉𝘿𝙊 𝙎𝙊𝙇𝙊 𝙁𝙐𝙉𝘾𝙄𝙊́𝙉𝘼 𝙀𝙇 𝙃𝙊𝙍𝘼𝙍𝙄𝙊 𝙃𝘼𝘽𝙄𝙇𝙄𝙏𝘼𝘿𝙊 𝙀𝙉 𝙀𝙎𝙏𝙀 𝙂𝙍𝙐𝙋𝙊 𝙀𝙎: ${inicio} a ${fin}`) 
+  // Verificar si el modo NSFW está habilitado en el grupo
+  if (!db.data.chats[m.chat].modohorny && m.isGroup) throw '';
+
+  // Obtener el horario de activación para el contenido NSFW
+  const horarioNsfw = db.data.chats[m.chat].horarioNsfw;
+  const now = moment.tz('America/Guayaquil');
+  const currentTime = now.format('HH:mm');
+
+  if (horarioNsfw) {
+    const { inicio, fin } = horarioNsfw;
+    const inicioTime = moment(inicio, 'HH:mm').tz('America/Guayaquil');
+    const finTime = moment(fin, 'HH:mm').tz('America/Guayaquil');
+    const currentMoment = moment(currentTime, 'HH:mm').tz('America/Guayaquil');
+    let isWithinTimeRange = false;
+
+    if (inicioTime.isAfter(finTime)) {
+      if (currentMoment.isBetween(inicioTime, moment('23:59', 'HH:mm').tz('America/Guayaquil')) || 
+          currentMoment.isBetween(moment('00:00', 'HH:mm').tz('America/Guayaquil'), finTime)) {
+        isWithinTimeRange = true;
+      }
+    } else {
+      if (currentMoment.isBetween(inicioTime, finTime)) {
+        isWithinTimeRange = true;
+      }
+    }
+
+    if (!isWithinTimeRange) return m.reply(`𝙀𝙎𝙏𝙀 𝘾𝙊𝙈𝘼𝙉𝘿𝙊 𝙎𝙊𝙇𝙊 𝙁𝙐𝙉𝘾𝙄𝙊́𝙉𝘼 𝙀𝙇 𝙃𝙊𝙍𝘼𝙍𝙄𝙊 𝙃𝘼𝘽𝙄𝙇𝙄𝙏𝘼𝘿𝙊 𝙀𝙉 𝙀𝙎𝙏𝙀 𝙂𝙍𝙐𝙋𝙊 𝙀𝙎: ${inicio} a ${fin}`);
+  }
+
+  try { 
+    switch (command) {
+      case "pornovid":
+      case "nsfwvid":
+        await conn.sendFile(m.chat, enlace, null, `» ${user.premiumTime > 0 ? '✅' : '❌'}`, m, null, { viewOnce: true });
+        break;
+    
+      case "pornovid2":
+      case "nsfwvid2":    
+        await conn.sendFile(m.chat, enlace1, null, `» ${user.premiumTime > 0 ? '✅' : '❌'}`, m, null, { viewOnce: true });
+        break;
+
+      case "pornovidlesbi":
+      case "nsfwvidlesbi":       
+        await conn.sendFile(m.chat, enlace2, null, `» ${user.premiumTime > 0 ? '✅' : '❌'}`, m, null, { viewOnce: true });
+        break;
+
+      case "pornovidgay":
+      case "nsfwvidgay":       
+        await conn.sendFile(m.chat, enlace3, null, `» ${user.premiumTime > 0 ? '✅' : '❌'}`, m, null, { viewOnce: true });
+        break;
+    
+      case "pornovidbisexual":
+      case "nsfwvidbisexual":       
+        await conn.sendFile(m.chat, enlace4, null, `» ${user.premiumTime > 0 ? '✅' : '❌'}`, m, null, { viewOnce: true });
+        break;
+    
+      case "pornovidrandom":
+      case "nsfwvidrandom":       
+        await conn.sendFile(m.chat, enlace5, null, `» ${user.premiumTime > 0 ? '✅' : '❌'}`, m, null, { viewOnce: true });
+        break;
+    }
+  } catch (e) {
+    await conn.reply(m.chat, `${usedPrefix + command}\n\n${wm}`, m);
+    console.log(`❗❗ ${usedPrefix + command} ❗❗`);
+    console.log(e);
+  }
 }
 
-try{ 
-switch (command) {  
-case "pornovid": case "nsfwvid":    
-//await conn.sendFile(m.chat, enlace, null, `${lenguajeGB['smsCont18Porn']()}\n${lenguajeGB['smsBotonM7']()} » ${user.premiumTime > 0 ? '✅' : '❌'}`, null, null, {viewOnce: true}, frep, m)
-await conn.sendFile(m.chat, enlace, null, `» ${user.premiumTime > 0 ? '✅' : '❌'}`, m, null, {viewOnce: true})
-//await conn.sendButton(m.chat, lenguajeGB.smsCont18PornP(), `*_${lenguajeGB['smsBotonM7']()}_* » ${user.premiumTime > 0 ? '✅' : '❌'}\n` + wm + ` : *${command[0].toUpperCase() + command.substring(1)}*`, enlace, [[lenguajeGB.smsSigPrem(), `${usedPrefix + command}`], [`🥵 ${lenguajeGB.lenguaje() == 'es' ? 'porno vid 2' : 'nsfw vid 2'} 🥵`.toUpperCase(), `${usedPrefix}${lenguajeGB.lenguaje() == 'es' ? 'pornovid2' : 'nsfwvid2'}`]], m, frep) 
-break  
-    
-case "pornovid2": case "nsfwvid2":    
-await conn.sendFile(m.chat, enlace1, null, `» ${user.premiumTime > 0 ? '✅' : '❌'}`, m, null, {viewOnce: true})
-//await conn.sendButton(m.chat, lenguajeGB.smsCont18PornP(), `*_${lenguajeGB['smsBotonM7']()}_* » ${user.premiumTime > 0 ? '✅' : '❌'}\n` + wm + ` : *${command[0].toUpperCase() + command.substring(1)}*`, enlace1, [[lenguajeGB.smsSigPrem(), `${usedPrefix + command}`], [`🥵 ${lenguajeGB.lenguaje() == 'es' ? 'porno vid random' : 'nsfw vid random'} 🥵`.toUpperCase(), `${usedPrefix}${lenguajeGB.lenguaje() == 'es' ? 'pornovidrandom' : 'nsfwvidrandom'}`]], m, frep) 
-break 
+handler.command = [
+  'pornovid', 'nsfwvid', 'pornovid2', 'nsfwvid2', 
+  'pornovidlesbi', 'nsfwvidlesbi', 'pornovidgay', 
+  'nsfwvidgay', 'pornovidbisexual', 'nsfwvidbisexual', 
+  'pornovidrandom', 'nsfwvidrandom'
+];
 
-case "pornovidlesbi": case "nsfwvidlesbi":       
-await conn.sendFile(m.chat, enlace2, null, `» ${user.premiumTime > 0 ? '✅' : '❌'}`, m, null, {viewOnce: true})
-//await conn.sendButton(m.chat, lenguajeGB.smsCont18PornP(), `*_${lenguajeGB['smsBotonM7']()}_* » ${user.premiumTime > 0 ? '✅' : '❌'}\n` + wm + ` : *${command[0].toUpperCase() + command.substring(1)}*`, enlace2, [[lenguajeGB.smsSigPrem(), `${usedPrefix + command}`]], m, frep)  
-break 
+handler.premium = true;
+handler.register = true;
+export default handler;
 
-case "pornovidgay": case "nsfwvidgay":       
-await conn.sendFile(m.chat, enlace3, null, `» ${user.premiumTime > 0 ? '✅' : '❌'}`, m, null, {viewOnce: true})
-//await conn.sendButton(m.chat, lenguajeGB.smsCont18PornP(), `*_${lenguajeGB['smsBotonM7']()}_* » ${user.premiumTime > 0 ? '✅' : '❌'}\n` + wm + ` : *${command[0].toUpperCase() + command.substring(1)}*`, enlace3, [[lenguajeGB.smsSigPrem(), `${usedPrefix + command}`]], m, frep)  
-break 
-    
-case "pornovidbisexual": case "nsfwvidbisexual":       
-await conn.sendFile(m.chat, enlace4, null, `» ${user.premiumTime > 0 ? '✅' : '❌'}`, m, null, {viewOnce: true})
-//await conn.sendButton(m.chat, lenguajeGB.smsCont18PornP(), `*_${lenguajeGB['smsBotonM7']()}_* » ${user.premiumTime > 0 ? '✅' : '❌'}\n` + wm + ` : *${command[0].toUpperCase() + command.substring(1)}*`, enlace4, [[lenguajeGB.smsSigPrem(), `${usedPrefix + command}`]], m, frep)  
-break 
-    
-case "pornovidrandom": case "nsfwvidrandom":       
-await conn.sendFile(m.chat, enlace5, null, `» ${user.premiumTime > 0 ? '✅' : '❌'}`, m, null, {viewOnce: true})
-//await conn.sendButton(m.chat, lenguajeGB.smsCont18PornP(), `*_${lenguajeGB['smsBotonM7']()}_* » ${user.premiumTime > 0 ? '✅' : '❌'}\n` + wm + ` : *${command[0].toUpperCase() + command.substring(1)}*`, enlace5, [[lenguajeGB.smsSigPrem(), `${usedPrefix + command}`], [`🥵 ${lenguajeGB.lenguaje() == 'es' ? 'porno vid' : 'nsfw vid'} 🥵`.toUpperCase(), `${usedPrefix}${lenguajeGB.lenguaje() == 'es' ? 'pornovid' : 'nsfwvid'}`]], m, frep)  
-break 
-        
-}} catch (e) {
-await conn.reply(m.chat, `${usedPrefix + command}\n\n${wm}`, m)
-console.log(`❗❗ ${usedPrefix + command} ❗❗`)
-console.log(e)}
-}
-handler.command = ['pornovid', 'nsfwvid', 'pornovid2', 'nsfwvid2', 'pornovidlesbi', 'nsfwvidlesbi', 'pornovidgay', 'nsfwvidgay', 'pornovidbisexual', 'nsfwvidbisexual', 'pornovidrandom', 'nsfwvidrandom']
-handler.premium = true
-handler.register = true
-export default handler
 
 
 global.pornovid = [
