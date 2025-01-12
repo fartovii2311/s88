@@ -37,7 +37,7 @@ let handler = async (m, { conn, command, usedPrefix }) => {
         "https://d.top4top.io/m_2235ut91p3.mp4",
         "https://e.top4top.io/m_22352ktoj4.mp4",
         "https://f.top4top.io/m_2235hcqj65.mp4",
-        "https://g.top4top.io/m_2235j81s76.mp4"]
+        "https://g.top4top.io/m_2235j81s76.mp4"];
         
         
         global.pornovid2 = [
@@ -95,7 +95,7 @@ let handler = async (m, { conn, command, usedPrefix }) => {
         "https://e.top4top.io/m_226380tpe0.mp4",
         "https://g.top4top.io/m_2263bmdi20.mp4",
         "https://j.top4top.io/m_2263ry6570.mp4",
-        "https://i.top4top.io/m_2263hkobr0.mp4"]
+        "https://i.top4top.io/m_2263hkobr0.mp4"];
         
         
         
@@ -136,7 +136,8 @@ let handler = async (m, { conn, command, usedPrefix }) => {
         "https://e.top4top.io/m_2258buxc30.mp4",
         "https://e.top4top.io/m_2258fvra62.mp4",
         "https://l.top4top.io/m_22588mx7k4.mp4",
-        "https://g.top4top.io/m_2258zhldg1.mp4"]
+        "https://g.top4top.io/m_2258zhldg1.mp4"
+        ];
         
         
         
@@ -190,7 +191,8 @@ let handler = async (m, { conn, command, usedPrefix }) => {
         "https://j.top4top.io/m_2258ktw1f2.mp4",
         "https://h.top4top.io/m_2258ltxke2.mp4",
         "https://f.top4top.io/m_2258gt7351.mp4",
-        "https://k.top4top.io/m_2258w87zn5.mp4"]
+        "https://k.top4top.io/m_2258w87zn5.mp4"
+        ];
         
         
         global.pornovidbisexual = [
@@ -231,7 +233,7 @@ let handler = async (m, { conn, command, usedPrefix }) => {
         "https://h.top4top.io/m_22774jf141.mp4",
         "https://b.top4top.io/m_22774wjs32.mp4",
         "https://f.top4top.io/m_2277k9gw00.mp4",
-        ]
+        ];
         
     const videoList = [pornovid, pornovid2, pornovidlesbi, pornovidgay];
     const randomList = videoList[Math.floor(Math.random() * videoList.length)];
