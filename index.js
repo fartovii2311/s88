@@ -19,11 +19,11 @@ const { say } = cfonts
 const rl = createInterface(process.stdin, process.stdout)
 console.log('\n🚀 Iniciando Génesis-Ultra...');
 
-say('Genesis\nUltra', {
+say('Dark\nCore', {
 font: 'chrome',
 align: 'center',
 gradient: ['red', 'magenta']})
-say(`Made By - Izumi-kzx`, {
+say(``, {
 font: 'console',
 align: 'center',
 gradient: ['red', 'magenta']})
