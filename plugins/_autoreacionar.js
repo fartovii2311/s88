@@ -5,7 +5,7 @@ handler.before = async function (m, { conn, isAdmin, isBotAdmin, isOwner }) {
 
   // Verificar si la función de reacción está activada
   const chat = global.db.data.chats[m.chat];
-  if (!chat.reaction) return; // Si está desactivada, no hace nada
+  if (!chat.reaction) return; 
 
   if (!m.text) return;
 
