@@ -192,7 +192,7 @@ setInterval(async () => {
 }, 60000) */
 
 
-/*async function clearTmp() {
+async function clearTmp() {
   const tmp = [tmpdir(), join(__dirname, './tmp')]
   const filename = []
   tmp.forEach(dirname => readdirSync(dirname).forEach(file => filename.push(join(dirname, file))))
@@ -202,7 +202,6 @@ setInterval(async () => {
     return false
   })
 }
-*/
 
 function purgeSession() {
 let prekey = []
