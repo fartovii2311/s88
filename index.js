@@ -17,7 +17,7 @@ const require = createRequire(__dirname)
 const { name, author } = require(join(__dirname, './package.json'))
 const { say } = cfonts
 const rl = createInterface(process.stdin, process.stdout)
-console.log('\n🚀 Iniciando Génesis-Ultra...');
+console.log('\n🚀 Iniciando Dark-Ultra...');
 
 say('Dark team', {
     font: 'block',         
