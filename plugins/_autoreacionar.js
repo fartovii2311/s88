@@ -1,11 +1,9 @@
 let handler = m => m;
 
 handler.before = async function (m, { conn, isAdmin, isBotAdmin, isOwner }) {
-  if (!m.isGroup) return !1;
+  if (!m.isGroup) return false;
 
   if (!isBotAdmin) return;
-
-  let chat = global.db.data.chats[m.chat];
 
   const allEmojis = [
     '😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '😇', '🙂', '🙃', '😉', '😌',
@@ -30,12 +28,12 @@ handler.before = async function (m, { conn, isAdmin, isBotAdmin, isOwner }) {
   const randomEmoji = allEmojis[Math.floor(Math.random() * allEmojis.length)];
 
   try {
-    await conn.react(m.chat, m.key, randomEmoji);
+    await m.react(randomEmoji);
   } catch (err) {
-    console.error('Error al enviar reacción:', err);
+    console.error('Error al reaccionar:', err);
   }
 
-  return !0; // Continuar con el flujo del handler
+  return true;
 };
 
 export default handler;
