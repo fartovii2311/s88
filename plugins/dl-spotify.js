@@ -1,5 +1,4 @@
 // [ ❀ SPOTIFY PLAY ]
-// [ ❀ SPOTIFY PLAY ]
 import fetch from 'node-fetch'
 
 let handler = async (m, { conn, command, text, usedPrefix }) => {
