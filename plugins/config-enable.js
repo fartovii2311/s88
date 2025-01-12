@@ -170,6 +170,7 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
         { buttonId: isEnable ? `.off ${type}` : `.on ${type}`, buttonText: { displayText: isEnable ? 'OFF' : 'ON' } },
         { buttonId: '.menu', buttonText: { displayText: 'Menú Principal' } }
       ],
+      viewOnce: true,
       headerType: 1
     },
     { quoted: m }
