@@ -1,8 +1,9 @@
 
+
 import fetch from 'node-fetch'
 import moment from 'moment-timezone';
 let handler = async (m, { conn, command, usedPrefix }) => {
-let frep = { contextInfo: { externalAdReply: {title: wm, sourceUrl: redesMenu.getRandom(), thumbnail: await(await fetch(img16)).buffer() }}}
+let frep = { contextInfo: { externalAdReply: {title: wm, thumbnail: await(await fetch(img16)).buffer() }}}
 let user = global.db.data.users[m.sender]
 let enlace = await pornovid[Math.floor(Math.random() * pornovid.length)] 
 let enlace1 = await pornovid2[Math.floor(Math.random() * pornovid2.length)] 
