@@ -1,13 +1,10 @@
 let handler = async (m, { conn, args, usedPrefix, command }) => {
-    let _muptime;
-    if (process.send) {
-        process.send('uptime');
-        _muptime = await new Promise(resolve => {
-            process.once('message', resolve);
-            setTimeout(resolve, 1000);
-        }) * 1000;
-    }
-    let muptime = clockString(_muptime);
+
+    let _muptime = process.uptime ? process.uptime() : 0; 
+    
+    if (!_muptime) _muptime = 0;
+
+    let muptime = clockString(_muptime * 1000);
     
     m.reply(`*» El bot ha estado activo durante:* \n${muptime}`);
 }
@@ -24,6 +21,6 @@ function clockString(ms) {
   let s = isNaN(ms) ? '--' : Math.floor(ms / 1000) % 60;
   
   return [d, 'd ', h, 'h ', m, 'm ', s, 's ']
-    .map(v => v.toString().padStart(2, 0)) 
+    .map(v => v.toString().padStart(2, 0))
     .join('');
 }
