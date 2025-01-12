@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 import moment from 'moment-timezone';
 
 // Definir la URL de la imagen para la miniatura
-let img16 = 'https://example.com/imagen.jpg'; // Reemplaza con la URL real de la imagen
+let img16 = 'https://imgs.search.brave.com/Dwubl8LZmFXb0tkf_wbflDrw4YHa4_yQebzWM_uJC8Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9pbWd1/cHNjYWxlci5jb20v/aW1hZ2VzL2hvbWUv/YW5pbWUtb3JpZ2lu/YWwud2VicA'; // Reemplaza con la URL real de la imagen
 
 let handler = async (m, { conn, command, usedPrefix }) => {
   // Configuración de la respuesta con imagen y texto promocional
