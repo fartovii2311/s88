@@ -1,8 +1,9 @@
 // [ ❀ SPOTIFY PLAY ]
+// [ ❀ SPOTIFY PLAY ]
 import fetch from 'node-fetch'
 
 let handler = async (m, { conn, command, text, usedPrefix }) => {
-if (!text) return conn.reply(m.chat, `[ ❀ ] Ingresa el título de un video o canción de *spotify*.\n\n`Ejemplo:`\n' + `> *${usedPrefix + command}* Mc Davo - Debes De Saber`, m,rcanal)
+if (!text) return conn.reply(m.chat, '[ ᰔᩚ ] Ingresa el título de un video o canción de *Spotify*.\n\n`Ejemplo:`\n' + `> *${usedPrefix + command}* Ozuna intimidad` ,m, rcanal) 
 await m.react('🕓');
 try {
 let apiSearch = await fetch(`https://api.vreden.web.id/api/spotifysearch?query=${text}`)
