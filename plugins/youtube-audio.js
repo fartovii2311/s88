@@ -49,11 +49,6 @@ let handler = async (m, { conn, text }) => {
       console.error(`Error al intentar con la API: ${apiUrl}`, error.message);
     }
   }
-
-  if (!downloadUrl) {
-    return conn.reply(m.chat, `⚠️ No se pudo obtener el enlace de descarga de ninguna API.`, m);
-  }
-
   try {
     const response = await fetch(downloadUrl);
     const buffer = await response.buffer();
