@@ -16,7 +16,9 @@ let handler = async (m, { conn, text }) => {
     return conn.reply(m.chat, `⚠️ El mensaje etiquetado no contiene un resultado de YouTube Play.`, m);
   }
 
-  const urls = m.quoted.text.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|v\/|embed\/|shorts\/|playlist\?list=)|youtu\.be\/)([a-zA-Z0-9_-]{11,})/gi);
+  const urls = m.quoted.text.match(
+    /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|v\/|embed\/|shorts\/|playlist\?list=)|youtu\.be\/)([a-zA-Z0-9_-]{11,})/gi
+  );
 
   if (!urls || urls.length < 1) {
     return conn.reply(m.chat, `⚠️ No se encontraron enlaces válidos en el mensaje etiquetado.`, m);
@@ -25,26 +27,42 @@ let handler = async (m, { conn, text }) => {
   const videoUrl = urls[0];
   await m.react('🕓');
 
-  try {
-    const apiUrl = `https://api.vreden.web.id/api/ytmp4?url=${videoUrl}`;
-    const response = await fetch(apiUrl);
-    const result = await response.json();
+  const apiUrls = [
+    `https://api.vreden.web.id/api/ytmp4?url=${videoUrl}`,
+    `https://delirius-apiofc.vercel.app/download/ytmp4?url=${videoUrl}`,
+  ];
 
-    if (result.status && result.result.download) {
-      await handleVideoDownload(conn, m, result.result);
-      return;
+  let data = null;
+
+  // Probar ambas APIs
+  for (const apiUrl of apiUrls) {
+    try {
+      const response = await fetch(apiUrl);
+      const result = await response.json();
+
+      if (result.status && result.result?.download) {
+        data = result.result;
+        break;
+      } else if (result.success && result.data?.download) {
+        data = result.data;
+        break;
+      }
+    } catch (error) {
+      console.error(`Error al intentar con la API: ${apiUrl}`, error.message);
     }
-
-  } catch (error) {
-    console.error('Error al procesar el video:', error);
-    await m.react('✖️');
   }
+
+  if (!data) {
+    await m.react('✖️');
+    return conn.reply(m.chat, `⚠️ No se pudo obtener el enlace de descarga de ninguna API.`, m);
+  }
+
+  await handleVideoDownload(conn, m, data);
 };
 
 const handleVideoDownload = async (conn, m, data) => {
-  const { metadata, download } = data;
-  const { title, duration, thumbnail } = metadata;
-  const { url: downloadUrl } = download;
+  const { title, duration, thumbnail, download } = data;
+  const downloadUrl = download?.url || download;
 
   const tempPath = `${tempDir}/${Date.now()}.mp4`;
 
@@ -62,8 +80,8 @@ const handleVideoDownload = async (conn, m, data) => {
       const isLarge = compressedSize > videoLimit;
       const messageOptions = {
         caption: isLarge
-          ? `⚠️ El archivo comprimido aún supera el límite permitido (${(videoLimit / 1024 / 1024).toFixed(2)} MB). Se envía como documento.\n\n🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration.timestamp}`
-          : `🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration.timestamp}`,
+          ? `⚠️ El archivo comprimido aún supera el límite permitido (${(videoLimit / 1024 / 1024).toFixed(2)} MB). Se envía como documento.\n\n🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration}`
+          : `🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration}`,
         quoted: m,
       };
 
@@ -93,7 +111,7 @@ const handleVideoDownload = async (conn, m, data) => {
           video: { url: tempPath },
           fileName: `${title}.mp4`,
           mimetype: 'video/mp4',
-          caption: `🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration.timestamp}`,
+          caption: `🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration}`,
           thumbnail: thumbnail ? { url: thumbnail } : undefined,
         },
         { quoted: m }
@@ -105,6 +123,7 @@ const handleVideoDownload = async (conn, m, data) => {
     await m.react('✅');
   } catch (error) {
     console.error('Error al manejar el video:', error);
+    await m.react('✖️');
   }
 };
 
