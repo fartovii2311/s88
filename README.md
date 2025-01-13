@@ -1,6 +1,10 @@
 # Lynx-Ai
 
 ---------
+<img src="" alt="Lynx Logo">
+---------
+
+---------
 
 #### **🪄 `Instalación manual por termux`**
 > copie y peguen en termux uno por uno 
