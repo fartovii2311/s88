@@ -9,10 +9,8 @@ let handler = async (m, { conn, text }) => {
     return conn.reply(m.chat, `⚠️ El mensaje etiquetado no contiene un resultado de YouTube Play.`, m);
   }
 
-  const urls = m.quoted.text.match(
-    /(?:https?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed|shorts)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9_-]+)/gi
-  );
-
+  const urls = m.quoted.text.match(/(?:https?:\/\/)?(?:www\.|m\.)?(?:youtube\.com\/(?:watch\?v=|v\/|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/gi);
+  
   if (!urls || urls.length < 1) {
     return conn.reply(m.chat, `⚠️ No se encontraron enlaces válidos en el mensaje etiquetado.`, m);
   }
@@ -46,9 +44,14 @@ let handler = async (m, { conn, text }) => {
         if (downloadUrl) break;
       }
     } catch (error) {
-      console.error(`Error al intentar con la API: ${apiUrl}`, error.message);
+      console.error(`⚠️ Error al intentar con la API: ${apiUrl}`, error.message);
     }
   }
+
+  if (!downloadUrl) {
+    return m.react('✖️');
+  }
+
   try {
     const response = await fetch(downloadUrl);
     const buffer = await response.buffer();
@@ -83,7 +86,7 @@ let handler = async (m, { conn, text }) => {
 
     await m.react('✅');
   } catch (error) {
-    console.error("Error al enviar el archivo", error);
+    console.error("⚠️ Error al enviar el archivo:", error.message);
     await m.react('✖️');
   }
 };
