@@ -20,47 +20,55 @@ let handler = async (m, { conn, text }) => {
   await m.react('🕓');
 
   const videoUrl = urls[0];
-  const apiUrl = `https://api.vreden.web.id/api/ytmp3?url=${videoUrl}`;
+  const apiUrls = [
+    `https://api.vreden.web.id/api/ytmp3?url=${videoUrl}`,
+    `https://delirius-apiofc.vercel.app/download/ytmp3?url=${videoUrl}`
+  ];
 
   let downloadUrl = null;
   let title = "Archivo de YouTube";
   let size = "Desconocido";
   let image = null;
 
-  try {
-    const response = await fetch(apiUrl);
-    const data = await response.json();
+  for (const apiUrl of apiUrls) {
+    try {
+      const response = await fetch(apiUrl);
+      const data = await response.json();
 
-    if (data.status === 200 && data.result?.download?.url) {
-      const result = data.result;
-      const download = result.download;
+      if (data.status === 200 || data.success) {
+        const result = data.result || data.data;
 
-      title = result.metadata?.title || "Archivo MP3";
-      downloadUrl = download.url || null;
-      size = download.quality || "128kbps";
-      image = result.metadata?.image || null;
+        title = result.title || result.metadata?.title || "Archivo MP3";
+        downloadUrl = result.download?.url || result.download;
+        size = result.quality || result.duration || "128kbps";
+        image = result.image || result.metadata?.image;
+
+        if (downloadUrl) break;
+      }
+    } catch (error) {
+      console.error(`Error al intentar con la API: ${apiUrl}`, error.message);
     }
-  } catch (error) {
-    console.error("Error con la API", error.message);
+  }
+
+  if (!downloadUrl) {
+    return conn.reply(m.chat, `⚠️ No se pudo obtener el enlace de descarga de ninguna API.`, m);
   }
 
   try {
+    const response = await fetch(downloadUrl);
+    const buffer = await response.buffer();
+    const fileSizeInMB = buffer.length / (1024 * 1024); 
+
     const caption = `
 🎵 *Título:* ${title}
 📦 *Calidad:* ${size}
 🌐 *Enlace:* ${videoUrl}`.trim();
 
-    // Verificar el tamaño del archivo antes de enviarlo
-    const response = await fetch(downloadUrl);
-    const buffer = await response.buffer();
-    const fileSizeInMB = buffer.length / (1024 * 1024); // Convertir a MB
-
     if (fileSizeInMB > 16) {
-      // Enviar como documento si el archivo es demasiado grande
       await conn.sendMessage(
         m.chat,
         {
-          document: { url: downloadUrl },
+          document: buffer,
           fileName: `${title}.mp3`,
           mimetype: 'audio/mpeg',
           caption: caption,
@@ -72,10 +80,9 @@ let handler = async (m, { conn, text }) => {
       await conn.sendMessage(
         m.chat,
         {
-          audio: { url: downloadUrl },
+          audio: buffer,
           fileName: `${title}.mp3`,
           mimetype: 'audio/mpeg',
-          caption: caption,
         },
         { quoted: m }
       );
@@ -83,7 +90,7 @@ let handler = async (m, { conn, text }) => {
 
     await m.react('✅');
   } catch (error) {
-    console.error("Error al enviar el audio", error);
+    console.error("Error al enviar el archivo", error);
     await m.react('✖️');
   }
 };
