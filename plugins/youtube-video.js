@@ -54,7 +54,6 @@ let handler = async (m, { conn, text }) => {
 
   if (!data) {
     await m.react('✖️');
-    return conn.reply(m.chat, `⚠️ No se pudo obtener el enlace de descarga de ninguna API.`, m);
   }
 
   await handleVideoDownload(conn, m, data);
