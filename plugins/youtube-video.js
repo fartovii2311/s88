@@ -4,7 +4,7 @@ import fs from 'fs/promises';
 import { promisify } from 'util';
 
 const execPromise = promisify(exec);
-const videoLimit = 300 * 1024 * 1024;
+const videoLimit = 300 * 1024 * 1024; // 300 MB
 const tempDir = './tmp';
 
 let handler = async (m, { conn, text }) => {
@@ -53,14 +53,17 @@ let handler = async (m, { conn, text }) => {
 
   if (!data) {
     await m.react('✖️');
+    return conn.reply(m.chat, `⚠️ No se pudo obtener información del video.`, m);
   }
 
   await handleVideoDownload(conn, m, data);
 };
 
 const handleVideoDownload = async (conn, m, data) => {
-  const { title, duration, thumbnail, download } = data;
-  const downloadUrl = download?.url || download;
+  const title = data.title || "Desconocido";
+  const duration = data.duration || "Desconocido";
+  const thumbnail = data.thumbnail || null;
+  const downloadUrl = data.download?.url || data.download;
 
   const tempPath = `${tempDir}/${Date.now()}.mp4`;
 
@@ -108,6 +111,7 @@ const handleVideoDownload = async (conn, m, data) => {
           video: { url: tempPath },
           fileName: `${title}.mp4`,
           mimetype: 'video/mp4',
+          caption: `🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration}`,
         },
         { quoted: m }
       );
