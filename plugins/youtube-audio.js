@@ -40,9 +40,9 @@ let handler = async (m, { conn, text }) => {
       size = download.quality || "128kbps";
       image = result.metadata?.image || null;
     }
-    } catch (error) {
+  } catch (error) {
     console.error("Error con la API", error.message);
-    }
+  }
 
   try {
     const caption = `
@@ -50,15 +50,36 @@ let handler = async (m, { conn, text }) => {
 📦 *Calidad:* ${size}
 🌐 *Enlace:* ${videoUrl}`.trim();
 
-    await conn.sendMessage(m.chat,
-      {
-        audio: { url: downloadUrl },
-        fileName: `${title}.mp3`,
-        mimetype: 'audio/mpeg',
-        caption: caption,
-      },
-      { quoted: m }
-    );
+    // Verificar el tamaño del archivo antes de enviarlo
+    const response = await fetch(downloadUrl);
+    const buffer = await response.buffer();
+    const fileSizeInMB = buffer.length / (1024 * 1024); // Convertir a MB
+
+    if (fileSizeInMB > 16) {
+      // Enviar como documento si el archivo es demasiado grande
+      await conn.sendMessage(
+        m.chat,
+        {
+          document: { url: downloadUrl },
+          fileName: `${title}.mp3`,
+          mimetype: 'audio/mpeg',
+          caption: caption,
+        },
+        { quoted: m }
+      );
+    } else {
+      // Enviar como audio si el archivo no es demasiado grande
+      await conn.sendMessage(
+        m.chat,
+        {
+          audio: { url: downloadUrl },
+          fileName: `${title}.mp3`,
+          mimetype: 'audio/mpeg',
+          caption: caption,
+        },
+        { quoted: m }
+      );
+    }
 
     await m.react('✅');
   } catch (error) {
