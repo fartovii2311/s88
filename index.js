@@ -8,7 +8,6 @@ import { createInterface } from 'readline'
 import yargs from 'yargs'
 import express from 'express'
 import chalk from 'chalk'
-import path from 'path'
 import os from 'os'
 import { promises as fsPromises } from 'fs'
 
@@ -68,7 +67,7 @@ start(file)
 
 const ramInGB = os.totalmem() / (1024 * 1024 * 1024)
 const freeRamInGB = os.freemem() / (1024 * 1024 * 1024)
-const packageJsonPath = path.join(path.dirname(currentFilePath), './package.json')
+const packageJsonPath = join(__dirname, 'package.json')  // Aquí se corrigió el error
 try {
 const packageJsonData = await fsPromises.readFile(packageJsonPath, 'utf-8')
 const packageJsonObj = JSON.parse(packageJsonData)
