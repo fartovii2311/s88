@@ -56,8 +56,7 @@ let handler = async (m, { conn, text }) => {
 
     const caption = `
 🎵 *Título:* ${title}
-📦 *Calidad:* ${size}
-🌐 *Enlace:* ${videoUrl}`.trim();
+📦 *Calidad:* ${size}`.trim();
 
     if (fileSizeInMB > 16) {
       await conn.sendMessage(
@@ -71,7 +70,6 @@ let handler = async (m, { conn, text }) => {
         { quoted: m }
       );
     } else {
-      // Enviar como audio si el archivo no es demasiado grande
       await conn.sendMessage(
         m.chat,
         {
