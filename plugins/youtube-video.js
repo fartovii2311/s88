@@ -4,7 +4,7 @@ import fs from 'fs/promises';
 import { promisify } from 'util';
 
 const execPromise = promisify(exec);
-const videoLimit = 300 * 1024 * 1024; // 300 MB
+const videoLimit = 300 * 1024 * 1024;
 const tempDir = './tmp';
 
 let handler = async (m, { conn, text }) => {
@@ -34,7 +34,6 @@ let handler = async (m, { conn, text }) => {
 
   let data = null;
 
-  // Probar ambas APIs
   for (const apiUrl of apiUrls) {
     try {
       const response = await fetch(apiUrl);
@@ -96,7 +95,6 @@ const handleVideoDownload = async (conn, m, data) => {
               video: { url: compressedPath },
               fileName: `${title}.mp4`,
               mimetype: 'video/mp4',
-              thumbnail: thumbnail ? { url: thumbnail } : undefined,
             },
         messageOptions
       );
@@ -110,8 +108,6 @@ const handleVideoDownload = async (conn, m, data) => {
           video: { url: tempPath },
           fileName: `${title}.mp4`,
           mimetype: 'video/mp4',
-          caption: `🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration}`,
-          thumbnail: thumbnail ? { url: thumbnail } : undefined,
         },
         { quoted: m }
       );
