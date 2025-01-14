@@ -6,7 +6,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     return conn.reply(m.chat,`Por favor, proporciona un enlace de MediaFire válido.\nEjemplo: ${usedPrefix}${command} https://www.mediafire.com/file/abcd1234/example.zip/file`,m,rcanal);
   }
   
-  await m.react('🤍');
+  await m.react('🕓');
   
   let url = args[0];
   if (!url.includes('mediafire.com')) {
