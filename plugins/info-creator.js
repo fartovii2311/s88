@@ -18,7 +18,7 @@ await conn.sendMessage(m.chat, {
         contacts: { 
             displayName: 'Owner Contact', 
             contacts: [{ vcard }] 
-        } ,{ q}
+        },{ quoted: m }
     });
 };
 
