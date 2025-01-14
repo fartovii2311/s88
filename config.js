@@ -14,11 +14,7 @@ global.confirmCode = ''
 global.owner = [
   ['51968382008', 'DARK CORE', true],
   ['51917154203', 'Lynx - Ai', true],
-  [''],
-  [''],
-  [''],
-  [''],
-  [''],
+  ['505 5786 5603','WillZek ', true],
   [''],
   ['']
 
