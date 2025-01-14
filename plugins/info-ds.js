@@ -37,5 +37,7 @@ await conn.reply(m.chat, '🤍 *Ocurrió un fallo*', m )
 handler.command = /^(fixmsgespera|ds)$/i
 handler.tags = ['main'];
 handler.register = true
+handler.rowner = false;
+export default handler;
 
 export default handler
