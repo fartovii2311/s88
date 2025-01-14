@@ -30,14 +30,9 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
       { document: fileBuffer, fileName: name, mimetype: mime },
       { quoted: m }
     );
-
+   await m.react('✅');
   } catch (error) {
     console.error(error);
-    return conn.reply(
-      m.chat,
-      `❌ Ocurrió un error al intentar procesar el enlace. Por favor, verifica que sea un enlace válido.`,
-      m,rcanal
-    );
   }
 };
 
