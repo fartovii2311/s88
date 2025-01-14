@@ -103,11 +103,9 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
                 delete global.conns[i];
                 global.conns.splice(i, 1);
 
-                // Obtener el número de teléfono de la persona que se desconectó
                 let authFolderB = m.sender.split('@')[0];
                 const userFolderPath = `./LynxJadiBot/${authFolderB}`;
 
-                // Verificar si existe la carpeta y eliminarla
                 if (fs.existsSync(userFolderPath)) {
                     fs.rmdirSync(userFolderPath, { recursive: true });
                     console.log(`Carpeta eliminada para el número ${authFolderB}`);
@@ -183,7 +181,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
 handler.help = ['code'];
 handler.tags = ['serbot'];
 handler.command = ['code', 'serbotcode'];
-handler.rowner = true;
+handler.rowner = false;
 
 export default handler;
 
