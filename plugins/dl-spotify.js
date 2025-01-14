@@ -2,7 +2,7 @@
 import fetch from 'node-fetch'
 
 let handler = async (m, { conn, command, text, usedPrefix }) => {
-  if (!text) return conn.reply(m.chat, '[ ᰔᩚ ] Ingresa el título de un video o canción de *Spotify*.\n\n`Ejemplo:`\n' + `> *${usedPrefix + command}* Ozuna intimidad` ,m)
+  if (!text) return conn.reply(m.chat, '[ ᰔᩚ ] Ingresa el título de un video o canción de *Spotify*.\n\n`Ejemplo:`\n' + `> *${usedPrefix + command}* Ozuna intimidad` ,m,rcanal)
 
   await m.react('🕓');
   
@@ -18,10 +18,6 @@ let handler = async (m, { conn, command, text, usedPrefix }) => {
 
     let apiDL = await fetch(`https://api.vreden.web.id/api/spotify?url=${url}`)
     let jsonDL = await apiDL.json()
-
-    if (!jsonDL.result || !jsonDL.result.result) {
-      return conn.reply(m.chat, 'No se pudo obtener la descarga del contenido.', m);
-    }
 
     let { title, artists, cover, music } = jsonDL.result.result
 
