@@ -14,11 +14,11 @@ ADR:;;🇵🇪 Perú;;;;;;
 BDAY;value=date:🤍 anonimous
 END:VCARD`;
 
-    await conn.sendMessage(m.chat, { 
+await conn.sendMessage(m.chat, { 
         contacts: { 
             displayName: 'Owner Contact', 
             contacts: [{ vcard }] 
-        } 
+        } ,{ q}
     });
 };
 
