@@ -28,6 +28,8 @@ global.owner = [
 
 global.mods = []
 global.prems = []
+global.sessions = 'Session'
+global.jadi = 'LynxJadiBot'
    
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
@@ -66,8 +68,7 @@ global.github = ''
 global.instagram = '' 
 global.redes = '' 
 global.whatsApp = ''
-global.sessions = 'Session'
-global.jadi = 'SerbotCode'
+
 
 global.rcanal = {
   contextInfo: {
