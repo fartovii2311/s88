@@ -10,11 +10,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
   
   let url = args[0];
   if (!url.includes('mediafire.com')) {
-    return conn.reply(
-      m.chat,
-      `El enlace proporcionado no parece ser de MediaFire.`,
-      m
-    );
+    return conn.reply(m.chat,`El enlace proporcionado no parece ser de MediaFire.`,m,rcanal);
   }
 
   try {
@@ -33,6 +29,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
    await m.react('✅');
   } catch (error) {
     console.error(error);
+    await m.react('❌');
   }
 };
 
