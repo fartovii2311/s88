@@ -2,15 +2,16 @@
 import fetch from 'node-fetch'
 
 let handler = async (m, { conn, command, text, usedPrefix }) => {
-  if (!text) return conn.reply(m.chat, '[ ᰔᩚ ] Ingresa el enlace de un *Spotify*.\n\n`Ejemplo:`\n' + `> *${usedPrefix + command}* https://open.spotify.com/track/6IPNp9PfaEqrzotY47TIWy`, m,rcanal)
+  if (!text) return conn.reply(m.chat, '[ ᰔᩚ ] Ingresa el enlace de un *Spotify*.\n\n`Ejemplo:`\n' + `> *${usedPrefix + command}* url`, m,rcanal)
 
   await m.react('🕓');
 
   try {
+    // Realiza la solicitud directamente con la URL proporcionada
     let apiDL = await fetch(`https://api.vreden.web.id/api/spotify?url=${text}`)
     let jsonDL = await apiDL.json()
 
-    let { title, artists, cover, music } = jsonDL.result.result
+    let { title, artists, cover, music } = jsonDL.result
     let titulo = `- Titulo: ${title}\n- Autor: ${artists}\n- Enlace: ${text}`
 
     await conn.sendFile(m.chat, cover, 'cover.jpg', titulo, m);
