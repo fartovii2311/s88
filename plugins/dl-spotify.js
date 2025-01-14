@@ -7,14 +7,13 @@ let handler = async (m, { conn, command, text, usedPrefix }) => {
   await m.react('🕓');
 
   try {
-    // Realiza la solicitud directamente con la URL proporcionada
     let apiDL = await fetch(`https://api.vreden.web.id/api/spotify?url=${text}`)
     let jsonDL = await apiDL.json()
 
     let { title, artists, cover, music } = jsonDL.result
     let titulo = `- Titulo: ${title}\n- Autor: ${artists}\n- Enlace: ${text}`
 
-    await conn.sendFile(m.chat, cover, 'cover.jpg', titulo, m);
+    await conn.sendFile(m.chat, cover, 'cover.jpg', titulo, m,rcanal,fake);
     await conn.sendFile(m.chat, music, 'music.mp3', null, m);
 
     await m.react('✅');
