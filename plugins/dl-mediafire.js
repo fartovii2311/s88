@@ -3,11 +3,7 @@ import cheerio from 'cheerio';
 
 let handler = async (m, { conn, args, usedPrefix, command }) => {
   if (!args[0]) {
-    return conn.reply(
-      m.chat,
-      `Por favor, proporciona un enlace de MediaFire válido.\nEjemplo: ${usedPrefix}${command} https://www.mediafire.com/file/abcd1234/example.zip/file`,
-      m
-    );
+    return conn.reply(m.chat,`Por favor, proporciona un enlace de MediaFire válido.\nEjemplo: ${usedPrefix}${command} https://www.mediafire.com/file/abcd1234/example.zip/file`,m,rcanal);
   }
   let url = args[0];
   if (!url.includes('mediafire.com')) {
@@ -21,14 +17,8 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
   try {
     const { name, size, date, mime, link } = await mediafireDl(url);
 
-    // Aviso de descarga
-    await conn.reply(
-      m.chat,
-      `📥 *Descargando archivo...*\n\n*Nombre:* ${name}\n*Tamaño:* ${size}`,
-      m
-    );
+    await conn.reply(m.chat,`📥 *Descargando archivo...*\n\n*Nombre:* ${name}\n*Tamaño:* ${size}`,m,rcanal);
 
-    // Descargar el archivo
     const response = await axios.get(link, { responseType: 'arraybuffer' });
     const fileBuffer = response.data;
 
@@ -43,7 +33,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     return conn.reply(
       m.chat,
       `❌ Ocurrió un error al intentar procesar el enlace. Por favor, verifica que sea un enlace válido.`,
-      m
+      m,rcanal
     );
   }
 };
