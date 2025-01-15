@@ -1,5 +1,3 @@
-
-
 let handler = async (m, { args }) => {
    let user = global.db.data.users[m.sender]
    if (!args[0]) return m.reply('🤍 Ingresa la cantidad de *🤍 corazones* que deseas Retirar.')
