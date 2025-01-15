@@ -94,7 +94,6 @@ let handler = async (_0x10bd40, {
 };
 handler.help = ["pinterest *<text>*"];
 handler.tags = ["search"];
-handler.corazones = 2;
-handler.register = true
 handler.command = ['pinterest'];
+handler.register = true
 export default handler;
