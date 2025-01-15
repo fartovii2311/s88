@@ -5,7 +5,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
   let senderId = m.sender
   let senderName = conn.getName(senderId)
 
-  let tiempoEspera = 5 * 60
+  let tiempoEspera = 5 * 60  // 5 minutos
   if (cooldowns[m.sender] && Date.now() - cooldowns[m.sender] < tiempoEspera * 1000) {
     let tiempoRestante = segundosAHMS(Math.ceil((cooldowns[m.sender] + tiempoEspera * 1000 - Date.now()) / 1000))
     m.reply(`🤍 Ya has robado corazones recientemente, espera *⏱ ${tiempoRestante}* para hacer tu próximo robo.`)
@@ -16,7 +16,6 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 
   let sendercorazones = users[senderId].corazones || 0
 
-  // Si el usuario no tiene corazones, intentar robar de otro usuario
   if (sendercorazones <= 0) {
     let groupParticipants = m.isGroup ? await conn.groupMetadata(m.chat).then(group => group.participants) : []
     let targetUserId = groupParticipants.find(participant => users[participant.id] && users[participant.id].corazones > 0)?.id
@@ -39,11 +38,9 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
     return
   }
 
-  // Si el usuario tiene corazones, robar a otro usuario
   let groupParticipants = m.isGroup ? await conn.groupMetadata(m.chat).then(group => group.participants) : []
   let randomUserId = groupParticipants[Math.floor(Math.random() * groupParticipants.length)].id
 
-  // Asegurarse de no robar al mismo usuario que cometió el robo
   while (randomUserId === senderId) {
     randomUserId = groupParticipants[Math.floor(Math.random() * groupParticipants.length)].id
   }
@@ -71,7 +68,6 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
     break
 
   case 1:
-    // Si el robo falla y te atrapan
     let amountSubtracted = Math.min(Math.floor(Math.random() * (sendercorazones - minAmount + 1)) + minAmount, maxAmount)
     users[senderId].corazones -= amountSubtracted
     conn.reply(m.chat, `🤍 No fuiste cuidadoso y te atraparon mientras intentabas robar corazones, se restaron *-${amountSubtracted} 🤍 corazones* a ${senderName}.`, m)
