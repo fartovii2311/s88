@@ -30,8 +30,6 @@ let handler = async (m, { conn, command, text, usedPrefix }) => {
     }
   } catch (error) {
     console.error(error);
-    await m.react('❌');
-    await conn.reply(m.chat, '[ ᰔᩚ ] Hubo un error al procesar tu solicitud. Intenta nuevamente.', m);
   }
 };
 
