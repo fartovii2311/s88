@@ -123,9 +123,9 @@ global.maxwarn = '2' // máxima advertencias
 global.apis = 'https://deliriussapi-oficial.vercel.app'
 
 global.ch = {
-ch1: '0@newsletter',
-ch2: '0@newsletter',
-ch3: '0@newsletter'
+ch1: '120363371366801178@newsletter',
+ch2: '120363371366801178@newsletter',
+ch3: '120363371366801178@newsletter'
 }
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*'
