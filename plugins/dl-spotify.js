@@ -20,7 +20,7 @@ let handler = async (m, { conn, command, text, usedPrefix }) => {
       let { title, artists, cover, music } = jsonDL.result;
       let titulo = `- Titulo: ${title}\n- Autor: ${artists}\n- Enlace: ${trackUrl}`;
 
-      await conn.sendFile(m.chat, cover, 'cover.jpg', titulo, m);
+      await conn.sendFile(m.chat, cover, 'cover.jpg', titulo, m,rcanal,fake);
       await conn.sendFile(m.chat, music, 'music.mp3', null, m);
 
       await m.react('✅');
