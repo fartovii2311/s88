@@ -222,11 +222,9 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
     throw e
   }
 }
-handler.help = ['menu']
-handler.tags = ['main']
-handler.command = /^(allmenu|menu|menú|\?)$/i
+handler.command = /^(allmenu|help|Help|Menu|menu|menú|\?)$/i
 handler.register = true
-handler.exp = 3
+handler.exp = 5
 
 export default handler
 
