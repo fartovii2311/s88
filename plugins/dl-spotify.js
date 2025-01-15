@@ -33,7 +33,7 @@ let handler = async (m, { conn, command, text, usedPrefix }) => {
   }
 };
 
-handler.command = /^(spotifysearch|spsearch)$/i;
+handler.command = /^(spotify|sp|Spotify)$/i;
 handler.tags = ["search"];
 handler.register = true;
 
