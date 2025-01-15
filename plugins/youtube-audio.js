@@ -44,12 +44,8 @@ let handler = async (m, { conn, text }) => {
         if (downloadUrl) break;
       }
     } catch (error) {
-      console.error(`⚠️ Error al intentar con la API: ${apiUrl}`, error.message);
+    console.log(error)
     }
-  }
-
-  if (!downloadUrl) {
-    return m.react('✖️');
   }
 
   try {
@@ -86,7 +82,6 @@ let handler = async (m, { conn, text }) => {
 
     await m.react('✅');
   } catch (error) {
-    console.error("⚠️ Error al enviar el archivo:", error.message);
     await m.react('✖️');
   }
 };
