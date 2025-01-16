@@ -2,45 +2,52 @@ import fetch from 'node-fetch';
 
 let handler = async (m, { conn, text }) => {
   if (!text) {
-    return conn.reply(m.chat, '❀ Ingresa un enlace de YouTube válido.', m, rcanal);
+    return conn.reply(m.chat, '❀ Ingresa un enlace de YouTube válido.', m);
   }
 
   await m.react('🕓');
 
   try {
-    let apiResponse;
     let title, dl_url, fileSizeStr, sizeBytes, sizeLimit = 50 * 1024 * 1024;
-    
-    try {
-      const response1 = await fetch(`https://axeel.my.id/api/download/video?url=${text}`);
-      apiResponse = await response1.json();
+    const apiUrls = [
+      `https://axeel.my.id/api/download/video?url=${text}`,
+      `https://restapi.apibotwa.biz.id/api/ytmp4?url=${text}`,
+      `https://api.vreden.web.id/api/ytmp4?url=${text}`
+    ];
 
-      title = apiResponse.metadata.title || 'Video sin título';
-      dl_url = apiResponse.downloads.url;
-      fileSizeStr = apiResponse.downloads.size || null;
-      sizeBytes = fileSizeStr ? parseFloat(fileSizeStr) * 1024 * 1024 : null;
-    } catch (err) {
-      const response2 = await fetch(`https://restapi.apibotwa.biz.id/api/ytmp4?url=${text}`);
-      apiResponse = await response2.json();
+    for (const apiUrl of apiUrls) {
+      try {
+        const response = await fetch(apiUrl);
+        const apiResponse = await response.json();
 
-      const metadata = apiResponse.data.metadata;
-      const download = apiResponse.data.download;
-
-      title = metadata.title || 'Video sin título';
-      dl_url = download.url;
-      fileSizeStr = download.quality || null;
-      sizeBytes = null;
+        if (apiResponse.status && apiResponse.result?.download) {
+          const metadata = apiResponse.result.metadata;
+          title = metadata.title || 'Video sin título';
+          dl_url = apiResponse.result.download.url;
+          fileSizeStr = metadata.size || null;
+          sizeBytes = fileSizeStr ? parseFloat(fileSizeStr) * 1024 * 1024 : null;
+          break;
+        } else if (apiResponse.success && apiResponse.data?.download) {
+          const metadata = apiResponse.data.metadata;
+          title = metadata.title || 'Video sin título';
+          dl_url = apiResponse.data.download.url;
+          fileSizeStr = metadata.size || null;
+          sizeBytes = fileSizeStr ? parseFloat(fileSizeStr) * 1024 * 1024 : null;
+          break;
+        } else if (apiResponse.metadata) {
+          title = apiResponse.metadata.title || 'Video sin título';
+          dl_url = apiResponse.downloads.url;
+          fileSizeStr = apiResponse.downloads.size || null;
+          sizeBytes = fileSizeStr ? parseFloat(fileSizeStr) * 1024 * 1024 : null;
+          break;
+        }
+      } catch (err) {
+        console.error(`Error al intentar con la API: ${apiUrl}`, err.message);
+      }
     }
 
     if (!dl_url) {
-      const response3 = await fetch(`https://api.vreden.web.id/api/ytmp4?url=${text}`);
-      apiResponse = await response3.json();
-
-      if (apiResponse.status && apiResponse.result.status) {
-        const metadata = apiResponse.result.metadata;
-        title = metadata.title || 'Video sin título';
-        dl_url = apiResponse.result.download.url;
-      }
+      return conn.reply(m.chat, '❌ No se pudo obtener el enlace de descarga del video.', m);
     }
 
     const sendAsDocument = sizeBytes && sizeBytes > sizeLimit;
@@ -59,6 +66,7 @@ let handler = async (m, { conn, text }) => {
   } catch (error) {
     console.error('❌ Error:', error.message);
     await m.react('❌');
+    conn.reply(m.chat, '❌ Ocurrió un error al procesar tu solicitud.', m);
   }
 };
 
