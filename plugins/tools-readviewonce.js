@@ -10,9 +10,8 @@ let handler = async (m, { conn }) => {
 
     try {
         let msg = m.quoted.message;
-        let type = Object.keys(msg)[0]; // Detecta si es imagen, video o audio
+        let type = Object.keys(msg)[0]; 
 
-        // Descarga el contenido del mensaje ViewOnce
         let media = await downloadContentFromMessage(
             msg[type], 
             type === 'imageMessage' ? 'image' : 
