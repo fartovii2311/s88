@@ -18,10 +18,11 @@ const { say } = cfonts
 const rl = createInterface(process.stdin, process.stdout)
 console.log('\n🚀 Iniciando Dark-Ultra...');
 
-say('Dark\nCore', {
-font: 'chrome',
+say('DARK\nBOT', {
+font: 'block',
 align: 'center',
-gradient: ['red', 'magenta']})
+colors: ['white']
+});
 
 var isRunning = false
 
