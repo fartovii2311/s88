@@ -35,12 +35,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
   case 0:
   users[senderId].corazones += amountTaken
   users[randomUserId].corazones -= amountTaken
-  conn.sendMessage(m.chat, {
-        text: `🤍¡Lograste cometer tu crimen con exito!, acabas de robar *${amountTaken} 🤍 corazones* a @${randomUserId.split("@")[0]}\n\nSe suman *+${amountTaken} 🤍 corazones* a ${senderName}.`,
-  contextInfo: { 
-  mentionedJid: [randomUserId],
-  }
-  }, { quoted: m })
+  await conn.reply(m.chat, {text: `🤍¡Lograste cometer tu crimen con exito!, acabas de robar *${amountTaken} 🤍 corazones* a @${randomUserId.split("@")[0]}\n\nSe suman *+${amountTaken} 🤍 corazones* a ${senderName}.`,contextInfo: { mentionedJid: [randomUserId],}},m,rcanal,fake)
   break
 
   case 1:
