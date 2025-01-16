@@ -72,6 +72,7 @@ let handler = async (m, { conn, text }) => {
 
 handler.help = ['Audio'];
 handler.tags = ['downloader'];
+handler.customPrefix = /^(❤️|💖|🎵|audio|Audio)$/i;
 handler.command = new RegExp;
 
 export default handler;
