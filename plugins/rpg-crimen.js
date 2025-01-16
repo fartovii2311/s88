@@ -8,7 +8,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
   let tiempoEspera = 5 * 60
   if (cooldowns[m.sender] && Date.now() - cooldowns[m.sender] < tiempoEspera * 1000) {
     let tiempoRestante = segundosAHMS(Math.ceil((cooldowns[m.sender] + tiempoEspera * 1000 - Date.now()) / 1000))
-    m.reply(`🤍 Ya has cometido un Crimen recientemente, espera *⏱ ${tiempoRestante}* para cometer tu próximo Crimen y evitar ser atrapado.`)
+    await conn.reply(m.chat,`🤍 Ya has cometido un Crimen recientemente, espera *⏱ ${tiempoRestante}* para cometer tu próximo Crimen y evitar ser atrapado.`,m,rcanal)
     return
   }
   
@@ -46,7 +46,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
   case 1:
   let amountSubtracted = Math.min(Math.floor(Math.random() * (sendercorazones - minAmount + 1)) + minAmount, maxAmount)
   users[senderId].corazones -= amountSubtracted
-  conn.reply(m.chat, `🤍 No fuiste cuidadoso y te atraparon mientras cometias tu cirme, se restaron *-${amountSubtracted} 🤍 corazones* a ${senderName}.`, m)
+  await conn.reply(m.chat, `🤍 No fuiste cuidadoso y te atraparon mientras cometias tu cirme, se restaron *-${amountSubtracted} 🤍 corazones* a ${senderName}.`, m,rcanal)
   break
 
   case 2:
