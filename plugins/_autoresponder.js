@@ -11,12 +11,23 @@ handler.all = async function (m, { conn }) {
               m.id.startsWith('B24E') && m.id.length === 20;
     if (m.isBot) return 
 
-    const botName = "Lynx-Ai"; 
+    const botName = "LYNX"; // Nombre del bot
+    const creatorMention = "@DarkCore"; // Mención al creador
+    const creatorNumber = "51968382008"; // Número del creador
 
-    const isMentioned = m.mentionedJid.includes(this.user.jid) || 
-                        m.text.toLowerCase().includes(botName.toLowerCase());
+    const isMentionedBot = m.mentionedJid.includes(this.user.jid) || 
+                           m.text.toLowerCase().includes(botName.toLowerCase());
 
-    if (!isMentioned) return true;
+    // Verificar si el mensaje menciona al creador o incluye su número
+    const isMentionedCreator = m.text.toLowerCase().includes(creatorMention.toLowerCase()) || 
+                               m.text.includes(creatorNumber);
+
+    if (isMentionedCreator) {
+        await this.reply(m.chat, `Lo siento, no puedo divulgar información sobre mi creador ni su número. 🤖`, m,rcanal);
+        return true; 
+    }
+
+    if (!isMentionedBot) return true;
 
     async function luminsesi(q, username, logic) {
         try {
