@@ -18,8 +18,10 @@ handler.all = async function (m, { conn }) {
         return true
     }
 
-    // Solo responde si el bot es mencionado
-    if (!m.mentionedJid.includes(this.user.jid)) return true;
+    const botName = "Lynx-Ai";
+    if (!m.mentionedJid.includes(this.user.jid) && !m.text.toLowerCase().includes(botName.toLowerCase())) {
+        return true;
+    }
 
     async function luminsesi(q, username, logic) {
         try {
@@ -71,7 +73,7 @@ Ayuda siempre respondiendo con emojis y siendo divertido, tambien recomienda est
         }
 
         if (result && result.trim().length > 0) {
-            await this.reply(m.chat, result, m,rcanal)
+            await this.reply(m.chat, result, m)
         } 
     }
     return true
