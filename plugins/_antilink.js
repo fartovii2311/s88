@@ -1,18 +1,22 @@
 const linkRegex = /(chat.whatsapp.com\/(?:invite\/)?([0-9A-Za-z]{20,24})|whatsapp\.com\/channel\/[A-Za-z0-9]+)/i;
 
 export async function before(m, { conn, isAdmin, isBotAdmin }) {
-    if (m.isBaileys && m.fromMe)
-        return !0;
-    if (!m.isGroup) return !1;
+    if (m.isBaileys && m.fromMe) return true;
+    if (!m.isGroup) return false;
 
     let chat = global.db.data.chats[m.chat];
     let bot = global.db.data.settings[this.user.jid] || {};
     const isGroupOrChannelLink = linkRegex.exec(m.text);
 
     if (chat.antiLink && isGroupOrChannelLink) {
+        const ownerJid = m.chat.split('@')[0]; 
+        const isOwner = m.sender === ownerJid; 
+
+        if (isOwner) return true;  
+
         if (isBotAdmin) {
             const linkThisGroup = `https://chat.whatsapp.com/${await this.groupInviteCode(m.chat)}`;
-            if (m.text.includes(linkThisGroup)) return !0;
+            if (m.text.includes(linkThisGroup)) return true;
         }
 
         await conn.sendMessage(m.chat, { delete: m.key });
@@ -23,5 +27,5 @@ export async function before(m, { conn, isAdmin, isBotAdmin }) {
         } else if (!chat.antiLink) return;
     }
 
-    return !0;
+    return true;
 }
