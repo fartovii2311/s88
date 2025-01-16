@@ -22,10 +22,6 @@ say('Dark\nCore', {
 font: 'chrome',
 align: 'center',
 gradient: ['red', 'magenta']})
-say(``, {
-font: 'console',
-align: 'center',
-gradient: ['red', 'magenta']})
 
 var isRunning = false
 
