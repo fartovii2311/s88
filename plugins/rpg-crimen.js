@@ -53,12 +53,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
   let smallAmountTaken = Math.min(Math.floor(Math.random() * (randomUsercorazones / 2 - minAmount + 1)) + minAmount, maxAmount)
   users[senderId].corazones += smallAmountTaken
   users[randomUserId].corazones -= smallAmountTaken
-  conn.sendMessage(m.chat, {
-  text: `🤍 Lograste cometer tu crimen con exito, pero te descubrieron y solo lograste tomar *${smallAmountTaken} 🤍 acorazones* de @${randomUserId.split("@")[0]}\n\nSe suman *+${smallAmountTaken} 🤍 corazones* a ${senderName}.`,
-  contextInfo: { 
-  mentionedJid: [randomUserId],
-  }
-  }, { quoted: m })
+  await conn.reply(m.chat, { text: `🤍 Lograste cometer tu crimen con exito, pero te descubrieron y solo lograste tomar *${smallAmountTaken} 🤍 acorazones* de @${randomUserId.split("@")[0]}\n\nSe suman *+${smallAmountTaken} 🤍 corazones* a ${senderName}.`, contextInfo: { mentionedJid: [randomUserId],},m,rcanal,fake)
   break
   }
   
