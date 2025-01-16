@@ -28,13 +28,13 @@ let handler = async (m, { conn, args, usedPrefix, command, DevMode }) => {
         if (user.corazones >= count * 1) {
             user.corazones -= count * 1
             if (Aku > Kamu) {
-                conn.reply(m.chat, '`🌵 Veamos que numeros tienen!`\n\n'+ `➠ *Ai Genesis* : ${Aku}\n➠ *${username}* : ${Kamu}\n\n> ${username}, *PERDISTE* ${formatNumber(count)} 🤍 Corazones.`.trim(), m, rcanal)
+                conn.reply(m.chat, '`🌵 Veamos que numeros tienen!`\n\n'+ `➠ *Lynx_Ai* : ${Aku}\n➠ *${username}* : ${Kamu}\n\n> ${username}, *PERDISTE* ${formatNumber(count)} 🤍 Corazones.`.trim(), m, rcanal)
             } else if (Aku < Kamu) {
                 user.corazones += count * 2
-                conn.reply(m.chat, '`🌵 Veamos que numeros tienen!`\n\n'+ `➠ *Ai Genesis* : ${Aku}\n➠ *${username}* : ${Kamu}\n\n> ${username}, *GANASTE* ${formatNumber(count * 2)} 🤍 Corazones.`.trim(), m, rcanal)
+                conn.reply(m.chat, '`🌵 Veamos que numeros tienen!`\n\n'+ `➠ *Lynx_Ai* : ${Aku}\n➠ *${username}* : ${Kamu}\n\n> ${username}, *GANASTE* ${formatNumber(count * 2)} 🤍 Corazones.`.trim(), m, rcanal)
             } else {
                 user.corazones += count * 1
-                conn.reply(m.chat, '`🌵 Veamos que numeros tienen!`\n\n'+ `➠ *Ai Genesis* : ${Aku}\n➠ *${username}* : ${Kamu}\n\n> ${username} obtienes ${formatNumber(count * 1)} 🤍 Corazones.`.trim(), m, rcanal)
+                conn.reply(m.chat, '`🌵 Veamos que numeros tienen!`\n\n'+ `➠ *Lynx_Ai* : ${Aku}\n➠ *${username}* : ${Kamu}\n\n> ${username} obtienes ${formatNumber(count * 1)} 🤍 Corazones.`.trim(), m, rcanal)
             }
         } else conn.reply(m.chat, `No tienes *${formatNumber(count)} 🤍 Corazones* para apostar!`.trim(), m, rcanal)
     
