@@ -5,22 +5,22 @@ let handler = async (m, { conn }) => {
 
     let vcard = `BEGIN:VCARD
 VERSION:3.0
-N:WhatsApp;
+N:DARK-CORE;;
 FN:DARK-CORE 🍃
 ORG:Owner
-TEL;TYPE=cell:+51968382008
+TEL;TYPE=CELL:+51968382008
 EMAIL:darkcoreyt@gmail.com
-ADR:;;🇵🇪 Perú;;;;;;
-BDAY;value=date:🤍 anonimous
+ADR:;;🇵🇪 Perú;;;;;
+BDAY:2000-01-01
 END:VCARD`;
 
-    // Envía el mensaje con el contacto
+    // Envía el contacto como vCard
     await conn.sendMessage(m.chat, { 
         contacts: { 
-            displayName: 'Owner Contact', 
+            displayName: 'DARK-CORE 🍃', 
             contacts: [{ vcard }]
-        }
-    }, { quoted: m }); // Este parámetro debe ir fuera del objeto principal
+        } 
+    }, { quoted: m }); // Incluye el mensaje citado (si lo deseas)
 };
 
 handler.help = ['owner', 'creator'];
