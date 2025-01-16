@@ -27,3 +27,4 @@ handler.tags = ['main'];
 handler.command = /^(owner|creator|creador|dueño)$/i;
 
 export default handler;
+
