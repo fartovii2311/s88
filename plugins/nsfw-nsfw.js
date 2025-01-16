@@ -20,6 +20,6 @@ handler.tags = ['nsfw']
 handler.premium = false 
 handler.register = true 
 //handler.limit = 10
-handler.group = false 
+handler.group = true 
 
 export default handler
