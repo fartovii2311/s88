@@ -1,20 +1,31 @@
 import fetch from 'node-fetch';
 
-const tempStorage = {}; // Simulación de almacenamiento temporal para el usuario
+const tempStorage = {};
 
 let handler = async (m, { conn, text }) => {
-  // Verifica si el texto es uno de los permitidos para audio
   if (!['❤️', '🎶', 'audio'].includes(text)) return;
 
-  // Obtén los datos temporales del usuario
+  if (!m.quoted) {
+    return conn.reply(m.chat, `⚠️ Debes etiquetar el mensaje que contenga el resultado de YouTube Play.`, m);
+  }
+
+  if (!m.quoted.text.includes("乂  Y O U T U B E  -  P L A Y")) {
+    return conn.reply(m.chat, `⚠️ El mensaje etiquetado no contiene un resultado de YouTube Play.`, m);
+  }
+
+  const urls = m.quoted.text.match(/(?:https?:\/\/)?(?:www\.|m\.)?(?:youtube\.com\/(?:watch\?v=|v\/|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/gi);
+
+  if (!urls || urls.length < 1) {
+    return conn.reply(m.chat, `⚠️ No se encontraron enlaces válidos en el mensaje etiquetado.`, m);
+  }
+
   const userVideoData = tempStorage[m.sender];
   if (!userVideoData || !userVideoData.url) {
     return conn.reply(m.chat, `⚠️ No se encontró información previa para procesar el comando. Asegúrate de etiquetar el mensaje correcto.`, m);
   }
 
   try {
-    // Procesar audio
-    await m.react('🕓'); // Indica que está procesando
+    await m.react('🕓');
     const { url, title } = userVideoData;
 
     const apiUrls = [
@@ -25,7 +36,6 @@ let handler = async (m, { conn, text }) => {
     let downloadUrl = null;
     let quality = "128kbps";
 
-    // Obtener el enlace de descarga
     for (const apiUrl of apiUrls) {
       try {
         const response = await fetch(apiUrl);
@@ -42,19 +52,15 @@ let handler = async (m, { conn, text }) => {
       }
     }
 
-    // Si no se obtiene un enlace válido, muestra error
     if (!downloadUrl) {
       await m.react('✖️');
       return conn.reply(m.chat, `⚠️ No se pudo obtener el enlace de descarga para el audio.`, m);
     }
 
-    // Descargar y enviar audio
     const response = await fetch(downloadUrl);
     const buffer = await response.buffer();
 
-    const caption = `
-🎵 *Título:* ${title}
-📦 *Calidad:* ${quality}`.trim();
+    const caption = `🎵 *Título:* ${title}\n📦 *Calidad:* ${quality}`;
 
     await conn.sendMessage(
       m.chat,
@@ -62,7 +68,7 @@ let handler = async (m, { conn, text }) => {
       { quoted: m }
     );
 
-    await m.react('✅'); // Completo
+    await m.react('✅');
   } catch (error) {
     console.log(error);
     await m.react('✖️');
