@@ -33,7 +33,7 @@ before: `> 「 🌲 FELIZ ENERO 🌲 」\n
 ╭━─━─━─≪𖣘≫─━─━─━╮
 ┃💚 ➬ *Cliente:* %name
 ┃💚 ➬ *Corazones:* %corazones
-┃💚 ➬ *Nivel:* %level [ %xp4 levelup Xp Para Subir De Nivel]
+┃💚 ➬ *Nivel:* %level 
 ┃💚 ➬ *Xp:* %exp / %maxexp
 ┃💚 ➬ *TotalXp:* %totalexp
 ╰━─━─━─≪𖣘≫─━─━─━╯
