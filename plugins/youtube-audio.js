@@ -49,8 +49,7 @@ let handler = async (m, { conn, text }) => {
   }
 
   if (!downloadUrl) {
-    await m.react('✖️'); // Emoji de error si no encuentra un enlace de descarga
-    return conn.reply(m.chat, `⚠️ No se pudo obtener el enlace de descarga.`, m);
+    await m.react('✖️');
   }
 
   try {
