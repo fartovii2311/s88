@@ -9,7 +9,7 @@ import axios from 'axios'
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
 global.botNumberCode = ''
-global.confirmCode = '51917154203'
+global.confirmCode = ''
 
 global.owner = [
   ['51968382008', 'DARK CORE', true],
