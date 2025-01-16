@@ -50,12 +50,6 @@ let handler = async (m, { conn, text }) => {
       console.error(`Error al intentar con la API: ${apiUrl}`, error.message);
     }
   }
-
-  if (!data) {
-    await m.react('✖️');
-    return conn.reply(m.chat, `⚠️ No se pudo obtener información del video.`, m);
-  }
-
   await handleVideoDownload(conn, m, data);
 };
 
