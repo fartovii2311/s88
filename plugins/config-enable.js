@@ -292,33 +292,29 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
     break
     default:
       if (!/[01]/.test(command)) return conn.reply(m.chat, `
-*☁️ Funciones solo para owner*
+*Configuraciones del Chat:*
+- Welcome: ${chat.welcome ? 'ON' : 'OFF'}
+- AutoAceptar: ${chat.autoAceptar ? 'ON' : 'OFF'}
+- AutoRechazar: ${chat.autoRechazar ? 'ON' : 'OFF'}
+- AntiBot: ${chat.antiBot ? 'ON' : 'OFF'}
+- AntiBot2: ${chat.antiBot2 ? 'ON' : 'OFF'}
+- AntiFake: ${chat.antifake ? 'ON' : 'OFF'}
+- AutoResponder: ${chat.autoresponder ? 'ON' : 'OFF'}
+- AntiEliminar: ${chat.delete ? 'ON' : 'OFF'}
+- SimSimi: ${chat.simi ? 'ON' : 'OFF'}
+- Audios: ${chat.audios ? 'ON' : 'OFF'}
+- AntiVer: ${chat.antiver ? 'ON' : 'OFF'}
+- Detect: ${chat.detect ? 'ON' : 'OFF'}
+- ModoAdmin: ${chat.modoadmin ? 'ON' : 'OFF'}
+- NSFW: ${chat.modohorny ? 'ON' : 'OFF'}
 
-${usedPrefix + command} antispam
-${usedPrefix + command} antiprivado
-${usedPrefix + command} status
-${usedPrefix + command} autoread
-${usedPrefix + command} restrict
-
-*☁️ Funciones de grupos*
-
-${usedPrefix + command} welcome 
-${usedPrefix + command} autoaceptar
-${usedPrefix + command} autorechazar
-${usedPrefix + command} autoresponder
-${usedPrefix + command} autolevelup
-${usedPrefix + command} antibot
-${usedPrefix + command} subbots
-${usedPrefix + command} reaccion
-${usedPrefix + command} simi
-${usedPrefix + command} audios
-${usedPrefix + command} antiver
-${usedPrefix + command} detect 
-${usedPrefix + command} delete
-${usedPrefix + command} nsfw 
-${usedPrefix + command} modoadmin 
-${usedPrefix + command} antifake
-${usedPrefix + command} antilink`, m, rcanal)
+*Configuraciones Globales:*
+- AntiPrivado: ${bot.antiPrivate ? 'ON' : 'OFF'}
+- AutoRead: ${global.opts['autoread'] ? 'ON' : 'OFF'}
+- Restrict: ${bot.restrict ? 'ON' : 'OFF'}
+- Autobio: ${bot.autobio ? 'ON' : 'OFF'}
+- AntiSpam: ${bot.antiSpam ? 'ON' : 'OFF'}
+- JadiBotMD: ${bot.jadibotmd ? 'ON' : 'OFF'}`, m, rcanal)
       throw false
   }
 await conn.sendMessage(m.chat, { 
