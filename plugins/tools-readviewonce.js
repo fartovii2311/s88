@@ -1,7 +1,7 @@
 let { downloadContentFromMessage } = (await import('@whiskeysockets/baileys'));
 
 let handler = async (m, { conn }) => {
-    if (!m.quoted) return conn.reply(m.chat, `🚩 Responde a una imagen, video o audio ViewOnce.`, m,rcanal;
+    if (!m.quoted) return conn.reply(m.chat, `🚩 Responde a una imagen, video o audio ViewOnce.`, m,rcanal);
     if (!['viewOnceMessageV2'].includes(m.quoted.mtype)) return conn.reply(m.chat, `🚩 Responde a una imagen, video o audio ViewOnce.`, m,rcanal);
     
     let msg = m.quoted.message;
