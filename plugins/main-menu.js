@@ -26,7 +26,6 @@ let estilo = (text, style = 1) => {
 };
 const defaultMenu = {
 before: `> 「 🌲 FELIZ ENERO 🌲 」\n
-
  ╔──────¤◎¤──────╗
  ┋ 💚☆𝐋𝐘𝐍𝐗-𝐃𝐀𝐑𝐊𝐂𝐎𝐑𝐄☆ 💚
  ╚──────¤◎¤──────╝
