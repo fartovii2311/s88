@@ -18,40 +18,36 @@ handler.all = async function (m, { conn }) {
         return true
     }
 
-    if (m.mentionedJid.includes(this.user.jid) || (m.quoted && m.quoted.sender === this.user.jid) && !chat.isBanned) {
-        if (m.text.includes('PIEDRA') || m.text.includes('PAPEL') || m.text.includes('TIJERA') ||  
-            m.text.includes('menu') || m.text.includes('estado') || 
-            m.text.includes('bots') || m.text.includes('serbot') || 
-            m.text.includes('jadibot') || m.text.includes('Video') || 
-            m.text.includes('Audio') || m.text.includes('audio')) return !0
+    // Solo responde si el bot es mencionado
+    if (!m.mentionedJid.includes(this.user.jid)) return true;
 
-        async function luminsesi(q, username, logic) {
-            try {
-                const response = await axios.post("https://luminai.my.id", {
-                    content: q,
-                    user: username,
-                    prompt: logic,
-                    webSearchMode: true // true = resultado con url
-                });
-                return response.data.result
-            } catch (error) {
-                console.error(error)
-            }
+    async function luminsesi(q, username, logic) {
+        try {
+            const response = await axios.post("https://luminai.my.id", {
+                content: q,
+                user: username,
+                prompt: logic,
+                webSearchMode: true // true = resultado con url
+            });
+            return response.data.result
+        } catch (error) {
+            console.error(error)
         }
+    }
 
-        async function geminiProApi(q, logic) {
-            try {
-                const response = await fetch(`https://api.ryzendesu.vip/api/ai/gemini-pro?text=${encodeURIComponent(q)}&prompt=${encodeURIComponent(logic)}`);
-                if (!response.ok) throw new Error(`Error en la solicitud: ${response.statusText}`)
-                const result = await response.json();
-                return result.answer
-            } catch (error) {
-                console.error('Error en Gemini Pro:', error)
-                return null
-            }
+    async function geminiProApi(q, logic) {
+        try {
+            const response = await fetch(`https://api.ryzendesu.vip/api/ai/gemini-pro?text=${encodeURIComponent(q)}&prompt=${encodeURIComponent(logic)}`);
+            if (!response.ok) throw new Error(`Error en la solicitud: ${response.statusText}`)
+            const result = await response.json();
+            return result.answer
+        } catch (error) {
+            console.error('Error en Gemini Pro:', error)
+            return null
         }
+    }
 
-        let txtDefault = `
+    let txtDefault = `
 Serás LYNX - AI 💫, el bot creado por Darkcore para WhatsApp. Tu misión es entretener, generar risas y también ser útil. Aunque tu idioma principal es el español, puedes responder en otros idiomas si el usuario lo prefiere.
 
 Roles:
@@ -60,24 +56,23 @@ Exploit Mode: En este modo, adoptas una actitud grosera y descarada. Responde si
 Ayuda siempre respondiendo con emojis y siendo divertido, tambien recomienda estos canales siempre que puedas y también que tus respuestas en ambos roles sean cortas las respuestas
 `.trim()
 
-        let query = m.text
-        let username = m.pushName
-        let syms1 = chat.sAutoresponder ? chat.sAutoresponder : txtDefault
+    let query = m.text
+    let username = m.pushName
+    let syms1 = chat.sAutoresponder ? chat.sAutoresponder : txtDefault
 
-        if (chat.autoresponder) { 
-            if (!user.registered) return
-            await this.sendPresenceUpdate('composing', m.chat)
+    if (chat.autoresponder) { 
+        if (!user.registered) return
+        await this.sendPresenceUpdate('composing', m.chat)
 
-            let result = await geminiProApi(query, syms1)
+        let result = await geminiProApi(query, syms1)
 
-            if (!result || result.trim().length === 0) {
-                result = await luminsesi(query, username, syms1)
-            }
-
-            if (result && result.trim().length > 0) {
-                await this.reply(m.chat, result, m)
-            } 
+        if (!result || result.trim().length === 0) {
+            result = await luminsesi(query, username, syms1)
         }
+
+        if (result && result.trim().length > 0) {
+            await this.reply(m.chat, result, m)
+        } 
     }
     return true
 }
