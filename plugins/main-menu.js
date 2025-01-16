@@ -25,26 +25,26 @@ let estilo = (text, style = 1) => {
   return output.join('');
 };
 const defaultMenu = {
-before: `> 「 🌲 FELIZ ENERO ⛄ 」\n
+before: `> 「 🌲 FELIZ ENERO 🌲 」\n
 
-› ╔──────¤◎¤──────╗
-› ┋# 💚☆𝐋𝐘𝐍𝐗-𝐃𝐀𝐑𝐊𝐂𝐎𝐑𝐄☆🎅
-› ╚──────¤◎¤──────╝
+ ╔──────¤◎¤──────╗
+ ┋ 💚☆𝐋𝐘𝐍𝐗-𝐃𝐀𝐑𝐊𝐂𝐎𝐑𝐄☆ 💚
+ ╚──────¤◎¤──────╝
 ╭━─━─━─≪𖣘≫─━─━─━╮
-┃❄️ ➬ *Cliente:* %name
-┃❄️ ➬ *Estrellas:* %limit
-┃❄️ ➬ *Nivel:* %level [ %xp4levelup Xp Para Subir De Nivel]
-┃❄️ ➬ *Xp:* %exp / %maxexp
-┃❄️ ➬ *TotalXp:* %totalexp
+┃💚 ➬ *Cliente:* %name
+┃💚 ➬ *Corazones:* %corazones
+┃💚 ➬ *Nivel:* %level [ %xp4 levelup Xp Para Subir De Nivel]
+┃💚 ➬ *Xp:* %exp / %maxexp
+┃💚 ➬ *TotalXp:* %totalexp
 ╰━─━─━─≪𖣘≫─━─━─━╯
 ╔──────¤◎¤──────╗
-┋#    ❄️   *𝐈 N F O  ‹‹❑*
+┋    💚   *𝐈 N F O  ‹‹❑*
 ╚──────¤◎¤──────╝
 ╭━─━─━─≪𖣘≫─━─━─━╮
-┃❄️ ➬ *Modo:* %mode
-┃❄️ ➬ *Prefijo:* [ *%_p* ]
-┃❄️ ➬ *Rutina:* %muptime 
-┃❄️ ➬ *Database:*  %totalreg
+┃💚 ➬ *Modo:* %mode
+┃💚 ➬ *Prefijo:* [ *%_p* ]
+┃💚 ➬ *Rutina:* %muptime 
+┃💚 ➬ *Database:*  %totalreg
 ╰━─━─━─≪𖣘≫─━─━─━╯
      
    ⏤͟͟͞͞★𝐋𝐘𝐍𝐗 - 𝐀𝐈 ꗄ➺
@@ -153,7 +153,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
     let wita = moment.tz('Asia/Makassar').format('HH:mm:ss')
     let wktuwib = `${wibh} H ${wibm} M ${wibs} S`
 
-    let mode = global.opts['self'] || global.opts['owneronly'] ? 'Private' : 'Publik'
+    let mode = global.opts['self'] || global.opts['owneronly'] ? 'Private' : 'Public'
     let _package = JSON.parse(await promises.readFile(join(__dirname, '../package.json')).catch(_ => ({}))) || {}
     let { age, exp, corazones, level, role, registered, money } = global.db.data.users[m.sender]
     let { min, xp, max } = xpRange(level, global.multiplier)
