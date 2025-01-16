@@ -85,7 +85,7 @@ let handler = async (m, { conn, text }) => {
       );
     }
 
-    await m.react('❤️');
+    await m.react('✅');
   } catch (error) {
     console.log(error);
     await m.react('✖️'); 
