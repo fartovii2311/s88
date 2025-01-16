@@ -71,7 +71,7 @@ Ayuda siempre respondiendo con emojis y siendo divertido, tambien recomienda est
         }
 
         if (result && result.trim().length > 0) {
-            await this.reply(m.chat, result, m)
+            await this.reply(m.chat, result, m,rcanal)
         } 
     }
     return true
