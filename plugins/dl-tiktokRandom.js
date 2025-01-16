@@ -43,6 +43,7 @@ let handler = async (m, { conn, args, text, usedPrefix, command }) => {
       caption: cap, 
       thumbnail: a.cover
     }, { quoted: m });
+     await m.react('✅');
   } catch (err) {
     m.reply('❌ *Error al obtener el video.* Intenta de nuevo.');
   }
