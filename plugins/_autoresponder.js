@@ -11,17 +11,12 @@ handler.all = async function (m, { conn }) {
               m.id.startsWith('B24E') && m.id.length === 20;
     if (m.isBot) return 
 
-    let prefixRegex = new RegExp('^[' + (opts['prefix'] || '‎z/i!#$%+£¢€¥^°=¶∆×÷π√✓©®:;?&.,\\-').replace(/[|\\{}()[\]^$+*?.\-\^]/g, '\\$&') + ']')
+    const botName = "Lynx-Ai"; 
 
-    if (prefixRegex.test(m.text)) return true;
-    if (m.isBot || m.sender.includes('bot') || m.sender.includes('Bot')) {
-        return true
-    }
+    const isMentioned = m.mentionedJid.includes(this.user.jid) || 
+                        m.text.toLowerCase().includes(botName.toLowerCase());
 
-    const botName = "Lynx-Ai";
-    if (!m.mentionedJid.includes(this.user.jid) && !m.text.toLowerCase().includes(botName.toLowerCase())) {
-        return true;
-    }
+    if (!isMentioned) return true;
 
     async function luminsesi(q, username, logic) {
         try {
