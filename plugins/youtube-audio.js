@@ -1,18 +1,20 @@
 import fetch from 'node-fetch';
 
 let handler = async (m, { conn, text }) => {
+  let user = global.db.data.users[m.sender]; 
+
   if (!m.quoted) {
-    return conn.reply(m.chat, `⚠️ Debes etiquetar el mensaje que contenga el resultado de YouTube Play.`, m,rcanal);
+    return conn.reply(m.chat, `⚠️ Debes etiquetar el mensaje que contenga el resultado de YouTube Play.`, m, rcanal);
   }
 
   if (!m.quoted.text.includes("乂  Y O U T U B E  -  P L A Y")) {
-    return conn.reply(m.chat, `⚠️ El mensaje etiquetado no contiene un resultado de YouTube Play.`, m,rcanal);
+    return conn.reply(m.chat, `⚠️ El mensaje etiquetado no contiene un resultado de YouTube Play.`, m, rcanal);
   }
 
   const urls = m.quoted.text.match(/(?:https?:\/\/)?(?:www\.|m\.)?(?:youtube\.com\/(?:watch\?v=|v\/|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/gi);
 
   if (!urls || urls.length < 1) {
-    return conn.reply(m.chat, `⚠️ No se encontraron enlaces válidos en el mensaje etiquetado.`, m,rcanal);
+    return conn.reply(m.chat, `⚠️ No se encontraron enlaces válidos en el mensaje etiquetado.`, m, rcanal);
   }
 
   await m.react('🕓'); 
@@ -47,19 +49,13 @@ let handler = async (m, { conn, text }) => {
       console.log(error);
     }
   }
-
-  if (!downloadUrl) {
-    await m.react('✖️');
-  }
-
+  
   try {
     const response = await fetch(downloadUrl);
     const buffer = await response.buffer();
     const fileSizeInMB = buffer.length / (1024 * 1024);
 
-    const caption = `
-🎵 *Título:* ${title}
-📦 *Calidad:* ${size}`.trim();
+    const caption = `🎵 *Título:* ${title}\n📦 *Calidad:* ${size}`.trim();
 
     if (fileSizeInMB > 16) {
       await conn.sendMessage(
@@ -87,7 +83,7 @@ let handler = async (m, { conn, text }) => {
     await m.react('✅');
   } catch (error) {
     console.log(error);
-    await m.react('✖️'); 
+    await m.react('✖️');
   }
 };
 
