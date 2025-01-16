@@ -25,15 +25,15 @@ let estilo = (text, style = 1) => {
   return output.join('');
 };
 const defaultMenu = {
-    before: `*${ucapan()} \`%name\`*
+before: `*${ucapan()} `%name`*
 
-_\`ᴀᴄᴛɪᴠᴏ\`_ :: _%muptime_
-_\`ᴜꜱᴜᴀʀɪᴏꜱ\`_ :: _%rtotalreg de %totalreg_
-_\`ᴄᴏʀᴀᴢᴏɴᴇꜱ\`_ :: _%corazones_
-_\`ᴘʀᴇꜰɪᴊᴏ\`_ :: _< . >_
-_\`ᴘᴀᴛʀᴏᴄɪɴᴀᴅᴏʀ\`_ :: __
-    
-    ▬▭▬▭▬▭▬▭▬▭▬▭▬▭▬
+│ `ᴀᴄᴛɪᴠᴏ` :: _%muptime_
+│ `ᴜꜱᴜᴀʀɪᴏꜱ` :: _%rtotalreg de %totalreg_
+│ `corazones`:: _%corazones_
+│ `prefixo` :: ( . )
+│ `database`:: %totalreg
+
+▬▭▬▭▬▭▬▭▬▭▬▭▬▭▬
      %readmore    
   `.trimStart(),
   header: '╭───┊*_`%category`_* ┊',
@@ -44,16 +44,16 @@ _\`ᴘᴀᴛʀᴏᴄɪɴᴀᴅᴏʀ\`_ :: __
 let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
 
   let tags = {
-    'main': 'ᴘʀɪɴᴄɪᴘᴀʟ',
-    'search': 'ʙᴜꜱQᴜᴇᴅᴀ',
-    'rpg': 'ʀᴏʟᴇᴘʟᴀʏ',
-    'start': 'ꜱᴛᴀʀᴛ',
+    'main': 'Principal',
+    'search': 'Busqueda',
+    'rpg': 'rpg juegos',
+    'start': 'Start',
     'sticker': 'ꜱᴛɪᴄᴋᴇʀ',
-    'dl': 'ᴅᴇꜱᴄᴀʀɢᴀꜱ',
-    'ai': 'ꜰᴜɴᴄɪᴏɴᴇꜱ ᴀɪ',
-    'tools': 'ʜᴇʀʀᴀᴍɪᴇɴᴛᴀꜱ',
-    'group': 'ɢʀᴜᴘᴏꜱ',
-    'owner': 'ᴏᴡɴᴇʀ',
+    'dl': 'Descargas',
+    'ai': 'Funciones ai',
+    'tools': 'Herramientas',
+    'group': 'Grupo',
+    'owner': 'Owner',
     'nsfw': 'nsfw Hot',
     'audio': 'Covertidores',
   }
