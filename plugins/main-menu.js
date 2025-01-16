@@ -27,12 +27,6 @@ let estilo = (text, style = 1) => {
 const defaultMenu = {
 before: `*${ucapan()} `%name`*
 
-│ `activos` :: _%muptime_
-│ `usuarios` :: _%rtotalreg de %totalreg_
-│ `corazones`:: _%corazones_
-│ `prefixo` :: ( . )
-│ `database`:: %totalreg
-
 ▬▭▬▭▬▭▬▭▬▭▬▭▬▭▬
      %readmore    
   `.trimStart(),
