@@ -25,9 +25,7 @@ let estilo = (text, style = 1) => {
   return output.join('');
 };
 const defaultMenu = {
-before: `*${ucapan()} `%name`*
-
-> 「 🌲 FELIZ ENERO ⛄ 」\n
+before: `> 「 🌲 FELIZ ENERO ⛄ 」\n
 
 › ╔──────¤◎¤──────╗
 › ┋# 💚☆𝐋𝐘𝐍𝐗-𝐃𝐀𝐑𝐊𝐂𝐎𝐑𝐄☆🎅
