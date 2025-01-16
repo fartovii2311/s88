@@ -8,11 +8,12 @@ let handler = async (m, { conn, text }) => {
   await m.react('🕓');
 
   try {
-    let title, dl_url, fileSizeStr, sizeBytes, sizeLimit = 50 * 1024 * 1024;
+    let title, dl_url, fileSizeStr, sizeBytes;
+    const sizeLimit = 50 * 1024 * 1024;
+
     const apiUrls = [
-      `https://axeel.my.id/api/download/video?url=${text}`,
-      `https://restapi.apibotwa.biz.id/api/ytmp4?url=${text}`,
-      `https://api.vreden.web.id/api/ytmp4?url=${text}`
+      `https://api.vreden.web.id/api/ytmp4?url=${text}`,
+      `https://delirius-apiofc.vercel.app/download/ytmp4?url=${text}`
     ];
 
     for (const apiUrl of apiUrls) {
@@ -34,20 +35,10 @@ let handler = async (m, { conn, text }) => {
           fileSizeStr = metadata.size || null;
           sizeBytes = fileSizeStr ? parseFloat(fileSizeStr) * 1024 * 1024 : null;
           break;
-        } else if (apiResponse.metadata) {
-          title = apiResponse.metadata.title || 'Video sin título';
-          dl_url = apiResponse.downloads.url;
-          fileSizeStr = apiResponse.downloads.size || null;
-          sizeBytes = fileSizeStr ? parseFloat(fileSizeStr) * 1024 * 1024 : null;
-          break;
         }
       } catch (err) {
         console.error(`Error al intentar con la API: ${apiUrl}`, err.message);
       }
-    }
-
-    if (!dl_url) {
-      return conn.reply(m.chat, '❌ No se pudo obtener el enlace de descarga del video.', m);
     }
 
     const sendAsDocument = sizeBytes && sizeBytes > sizeLimit;
@@ -66,7 +57,6 @@ let handler = async (m, { conn, text }) => {
   } catch (error) {
     console.error('❌ Error:', error.message);
     await m.react('❌');
-    conn.reply(m.chat, '❌ Ocurrió un error al procesar tu solicitud.', m);
   }
 };
 
