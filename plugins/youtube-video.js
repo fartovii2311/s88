@@ -9,20 +9,18 @@ const tempDir = './tmp';
 
 let handler = async (m, { conn, text }) => {
   if (!m.quoted) {
-    return conn.reply(m.chat, `⚠️ Debes etiquetar el mensaje que contenga el resultado de YouTube Play.`, m);
+    return conn.reply(m.chat, `🚩 Etiqueta el mensaje que contenga el resultado de YouTube Play.`, m);
   }
 
   if (!m.quoted.text.includes("乂  Y O U T U B E  -  P L A Y")) {
-    return conn.reply(m.chat, `⚠️ El mensaje etiquetado no contiene un resultado de YouTube Play.`, m);
+    return conn.reply(m.chat, `🚩 Etiqueta el mensaje que contenga el resultado de YouTube Play.`, m);
   }
 
   const urls = m.quoted.text.match(
-    /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|v\/|embed\/|shorts\/|playlist\?list=)|youtu\.be\/)([a-zA-Z0-9_-]{11,})/gi
+    /(?:https?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed|shorts)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9\_-]+)/gi
   );
 
-  if (!urls || urls.length < 1) {
-    return conn.reply(m.chat, `⚠️ No se encontraron enlaces válidos en el mensaje etiquetado.`, m);
-  }
+   let user = global.db.data.users[m.sender];
 
   const videoUrl = urls[0];
   await m.react('🕓');
@@ -50,6 +48,7 @@ let handler = async (m, { conn, text }) => {
       console.error(`Error al intentar con la API: ${apiUrl}`, error.message);
     }
   }
+
   await handleVideoDownload(conn, m, data);
 };
 
@@ -138,7 +137,7 @@ const compressVideo = async (inputPath, outputPath) => {
 
 handler.help = ['video'];
 handler.tags = ['downloader'];
-handler.customPrefix = /^(video|vídeo)$/i;
+handler.customPrefix = /^(Video|video|vídeo|Vídeo)/
 handler.command = new RegExp;
 
 export default handler;
