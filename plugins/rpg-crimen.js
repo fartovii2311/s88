@@ -46,7 +46,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
   case 1:
   let amountSubtracted = Math.min(Math.floor(Math.random() * (senderLimit - minAmount + 1)) + minAmount, maxAmount)
   users[senderId].limit -= amountSubtracted
-  conn.reply(m.chat, `💀TE HAN ATRAPADO DURANTE EL CRIMEN, SE TE RESTO *-${amountSubtracted} ❤️ CORAZONES* a ${senderName}.`, m)
+  conn.reply(m.chat, `💀 TE HAN ATRAPADO DURANTE EL CRIMEN, SE TE RESTO *-${amountSubtracted} ❤️ CORAZONES* a ${senderName}.`, m)
   break
 
   case 2:
