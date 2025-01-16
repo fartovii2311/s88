@@ -8,11 +8,15 @@ export async function before(m, { conn, isAdmin, isBotAdmin }) {
     let bot = global.db.data.settings[this.user.jid] || {};
     const isGroupOrChannelLink = linkRegex.exec(m.text);
 
-    if (chat.antiLink && isGroupOrChannelLink) {
-        const ownerJid = m.chat.split('@')[0]; 
-        const isOwner = m.sender === ownerJid; 
+    const ownerJid = chat.owner;
+    
+    const isOwner = m.sender === ownerJid;
 
-        if (isOwner) return true;  
+    if (chat.antiLink && isGroupOrChannelLink) {
+        if (isOwner) {
+            await conn.reply(m.chat, `🚨 No puedo eliminar tu mensaje porque eres el creador de este grupo, *@${m.sender.split('@')[0]}*.`, null, { mentions: [m.sender] });
+            return true;
+        }
 
         if (isBotAdmin) {
             const linkThisGroup = `https://chat.whatsapp.com/${await this.groupInviteCode(m.chat)}`;
