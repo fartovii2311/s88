@@ -10,12 +10,12 @@ let handler = async (m, { conn, text }) => {
   }
 
   const urls = m.quoted.text.match(/(?:https?:\/\/)?(?:www\.|m\.)?(?:youtube\.com\/(?:watch\?v=|v\/|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/gi);
-  
+
   if (!urls || urls.length < 1) {
     return conn.reply(m.chat, `⚠️ No se encontraron enlaces válidos en el mensaje etiquetado.`, m);
   }
 
-  await m.react('🕓');
+  await m.react('🕓'); // Emoji de reloj mientras procesa
 
   const videoUrl = urls[0];
   const apiUrls = [
@@ -44,14 +44,19 @@ let handler = async (m, { conn, text }) => {
         if (downloadUrl) break;
       }
     } catch (error) {
-    console.log(error)
+      console.log(error);
     }
+  }
+
+  if (!downloadUrl) {
+    await m.react('✖️'); // Emoji de error si no encuentra un enlace de descarga
+    return conn.reply(m.chat, `⚠️ No se pudo obtener el enlace de descarga.`, m);
   }
 
   try {
     const response = await fetch(downloadUrl);
     const buffer = await response.buffer();
-    const fileSizeInMB = buffer.length / (1024 * 1024); 
+    const fileSizeInMB = buffer.length / (1024 * 1024);
 
     const caption = `
 🎵 *Título:* ${title}
@@ -80,15 +85,16 @@ let handler = async (m, { conn, text }) => {
       );
     }
 
-    await m.react('✅');
+    await m.react('❤️');
   } catch (error) {
-    await m.react('✖️');
+    console.log(error);
+    await m.react('✖️'); 
   }
 };
 
 handler.help = ['Audio'];
 handler.tags = ['downloader'];
-handler.customPrefix = /^(Audio|❤️|💖|audio)$/i;
+handler.customPrefix = /^(❤️|💖|🎵|audio|Audio)$/i;
 handler.command = new RegExp;
 
 export default handler;
