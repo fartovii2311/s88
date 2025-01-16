@@ -51,6 +51,7 @@ async function tiktokdl(url) {
   
       if (videoBuffer) {
         conn.sendFile(m.chat, videoBuffer, 'video.mp4',listo, m);
+        await m.react('✅');
       } else {
         m.reply("❌ *No se pudo obtener el archivo MP4 del video.*");
       }
