@@ -30,7 +30,7 @@ global.jadi = 'LynxJadiBot'
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
 global.packname = ''
-global.author = '𝑳𝒚𝒏𝒙 - 𝑪𝒉𝒂𝒏𝒏𝒆𝒍' //rcanal 
+global.author = '➼ 𝑳𝒚𝒏𝒙 - 𝑪𝒉𝒂𝒏𝒏𝒆𝒍' //rcanal 
 global.namebot = 'Lynx - Ai'
 global.wait = '*Aɢᴜᴀʀᴅᴇ ᴜɴ ᴍᴏᴍᴇɴᴛᴏ ฅ^•ﻌ•^ฅ*'
 global.wm = ''
@@ -70,7 +70,7 @@ global.rcanal = {
   contextInfo: {
     isForwarded: true,
     forwardedNewsletterMessageInfo: {
-       newsletterJid: "120363371366801178@newsletter",
+       newsletterJid: "0029Vaxk8vvEFeXdzPKY8f3F@newsletter",
        serverMessageId: 100,
        newsletterName: author,
     },
@@ -81,7 +81,7 @@ global.rcanal = {
   contextInfo: {
           isForwarded: true,
   forwardedNewsletterMessageInfo: {
-    newsletterJid: "120363371366801178@newsletter",
+    newsletterJid: "0029Vaxk8vvEFeXdzPKY8f3F@newsletter",
     serverMessageId: 100,
     newsletterName: author,
   },
