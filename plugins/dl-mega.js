@@ -6,7 +6,7 @@ let handler = async (m, { conn, args, usedPrefix, text, command }) => {
 global.fcontact = {
         key: {
             fromMe: false,
-            participant: `0@s.whatsapp.net`,
+            participant: `51917154203@s.whatsapp.net`,
             remoteJid: "status@broadcast",
         },
         message: {
