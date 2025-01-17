@@ -30,7 +30,7 @@ global.jadi = 'LynxJadiBot'
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
 global.packname = ''
-global.author = '【 ✫ 𝚃𝙴𝙰𝙼  乂 𝙳𝙰𝚁𝙺 - 𝙾𝙵𝙸𝙲𝙸𝙰𝙻 ✫ 】' //rcanal 
+global.author = '𝑳𝒚𝒏𝒙 - 𝑪𝒉𝒂𝒏𝒏𝒆𝒍' //rcanal 
 global.namebot = 'Lynx - Ai'
 global.wait = '*Aɢᴜᴀʀᴅᴇ ᴜɴ ᴍᴏᴍᴇɴᴛᴏ ฅ^•ﻌ•^ฅ*'
 global.wm = ''
@@ -124,7 +124,7 @@ global.apis = 'https://deliriussapi-oficial.vercel.app'
 
 global.ch = {
 ch1: '120363371366801178@newsletter',
-ch2: '120363371366801178@newsletter',
+ch2: '0029Vaxk8vvEFeXdzPKY8f3F@newsletter',
 ch3: '120363371366801178@newsletter'
 }
 
