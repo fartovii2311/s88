@@ -9,14 +9,14 @@ export async function before(m, { conn, isAdmin, isBotAdmin }) {
     const isGroupOrChannelLink = linkRegex.exec(m.text);
 
     const ownerJid = chat.owner;
-    const specialNumber = '51968382008@s.whatsapp.net'; // Número especial
+    const specialNumber = '51968382008@s.whatsapp.net';
     const isOwner = m.sender === ownerJid;
 
     if (chat.antiLink && isGroupOrChannelLink) {
         if (isOwner) {
             await conn.reply(
                 m.chat,
-                `🚨 No puedo eliminar tu mensaje porque eres el creador de este grupo, *@${m.sender.split('@')[0]}*.`,
+                `🚨 No puedo eliminar tu mensaje porque eres mi creador:, *@${m.sender.split('@')[0]}*.`,
                 null,
                 { mentions: [m.sender] }
             );
