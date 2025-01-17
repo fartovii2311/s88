@@ -7,12 +7,15 @@ let handler = async (m, { conn, participants, usedPrefix, command, isROwner }) =
     let user = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted.sender;
     let ownerJid = m.chat.split`-`[0] + '@s.whatsapp.net';  // Asegurándonos de que esté el formato correcto
 
+    // Extraer el JID del propietario del grupo sin el sufijo @g.us
+    let groupOwner = m.chat.split`-`[0] + '@s.whatsapp.net';  // Esto asegura que el JID del creador está en el formato correcto
+
     // Debug: Verificar los JID
-    console.log("Owner JID:", ownerJid);
+    console.log("Group Owner JID:", groupOwner);
     console.log("User to be kicked:", user);
 
     // Verifica si el usuario es el creador (owner) del grupo
-    if (user === ownerJid) {
+    if (user === groupOwner) {
         return conn.reply(m.chat, `🚩 No puedo eliminar al propietario del grupo porque es mi creador.`, null, { mentions: [user] });
     }
 
