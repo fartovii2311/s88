@@ -310,7 +310,7 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
 │ ➤ Detect: ${chat.detect ? '✅ Activado' : '❌ Desactivado'}
 │ ➤ ModoAdmin: ${chat.modoadmin ? '✅ Activado' : '❌ Desactivado'}
 │ ➤ NSFW: ${chat.modohorny ? '✅ Activado' : '❌ Desactivado'}
-│ ➤ AntiLink:* ${chat.antiLink ? '✅ Activado' : '❌ Desactivado'}
+│ ➤ AntiLink: ${chat.antiLink ? '✅ Activado' : '❌ Desactivado'}
 ╰───────────────╯
 
 ╭───────────────✦
