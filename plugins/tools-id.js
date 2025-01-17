@@ -8,23 +8,33 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
 
   const link = args[0];
   const regexGroup = /https:\/\/chat\.whatsapp\.com\/([\w\d]+)/;
-  const match = link.match(regexGroup);
+  const regexChannel = /https:\/\/whatsapp\.com\/channel\/([\w\d]+)/;
 
-  if (!match) {
+  let id;
+
+  if (regexGroup.test(link)) {
+    const match = link.match(regexGroup);
+    id = match[1];
+  } else if (regexChannel.test(link)) {
+    const match = link.match(regexChannel);
+    id = match[1];
+  } else {
     await conn.sendMessage(m.chat, { 
-      text: 'Por favor, proporciona un enlace válido de WhatsApp.' 
+      text: 'Por favor, proporciona un enlace válido de grupo o canal de WhatsApp.' 
     });
     return;
   }
 
-  const inviteCode = match[1];
-  
   try {
-    const groupInfo = await conn.groupAcceptInvite(inviteCode);
-    const groupId = groupInfo.id;
+    let info;
+    if (regexGroup.test(link)) {
+      info = await conn.groupAcceptInvite(id);
+    } else {
+      info = { id }; // Canales no requieren aceptar invitación.
+    }
 
     await conn.sendMessage(m.chat, { 
-      text: `El ID del grupo/canal es: \n\n*${groupId}*` 
+      text: `El ID del grupo/canal es: \n\n*${info.id}*` 
     });
   } catch (e) {
     await conn.sendMessage(m.chat, { 
@@ -34,8 +44,8 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
   }
 };
 
-handler.help = ['channelid'];
+handler.help = ['id'];
 handler.tags = ['tools'];
-handler.command = /^channelid$/i;
+handler.command = /^id/i;
 
 export default handler;
