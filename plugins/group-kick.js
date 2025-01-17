@@ -13,7 +13,7 @@ let handler = async (m, { conn, participants, usedPrefix, command, isROwner }) =
 
     await conn.groupParticipantsUpdate(m.chat, [user], 'remove'); 
     m.reply(`🚩 Usuario eliminado.`, m.chat, { mentions: [user] });
-    m.reply(`Lo siento, acabas de ser eliminado del grupo.`, user);
+    await conn.reply(user, `Lo siento, acabas de ser eliminado del grupo.`, m.chat);
 };
 
 handler.help = ['kick *@user*'];
