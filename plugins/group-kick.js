@@ -15,9 +15,11 @@ let handler = async (m, { conn, participants, usedPrefix, command, isROwner }) =
     // Eliminar al usuario
     await conn.groupParticipantsUpdate(m.chat, [user], 'remove'); 
 
-    // Solo se envían los mensajes de eliminación si el usuario no es el creador
-    await m.reply(`🚩 Usuario eliminado.`, m.chat, { mentions: [user] });
-    m.reply(`Lo siento, acabas de ser eliminado del grupo.`, user);
+    // Solo enviamos los mensajes de eliminación si el usuario no es el creador
+    if (user !== ownerJid) {
+        await m.reply(`🚩 Usuario eliminado.`, m.chat, { mentions: [user] });
+        m.reply(`Lo siento, acabas de ser eliminado del grupo.`, user);
+    }
 };
 
 handler.help = ['kick *@user*'];
