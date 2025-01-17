@@ -9,10 +9,12 @@ let handler = async (m, { conn, participants, usedPrefix, command, isROwner }) =
     let user = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted.sender;
     let ownerJid = m.chat.split`-`[0] + '51968382008@s.whatsapp.net';
 
+    // Si el usuario es el creador del grupo, no puede ser eliminado.
     if (user === ownerJid) {
         return conn.reply(m.chat, `🚩 No puedo eliminar al propietario del grupo porque es mi creador.`, null, { mentions: [user] });
     }
 
+    // Eliminar al usuario si no es el creador del grupo.
     await conn.groupParticipantsUpdate(m.chat, [user], 'remove'); 
     m.reply(`🚩 Usuario eliminado.`, m.chat, { mentions: [user] });
     await conn.reply(user, `Lo siento, acabas de ser eliminado del grupo.`, m.chat);
