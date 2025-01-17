@@ -16,11 +16,11 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
   try {
     const { name, size, date, mime, link } = await mediafireDl(url);
     
-    let text = '`乂  M E D I A F I R E\n\n`';
-     text += `\t» *Título:* ${name}\n`;
-     text += `\t» *Tamaño:* ${size}\n`;
-     text += `\t» *Nime:* ${mime}\n\n`;
-    text += `> ${namebot}`;
+    let text = '`乂  M E D I A F I R E\n\n`'
+     text += `» *Título:* ${name}\n`
+     text += `» *Tamaño:* ${size}\n`
+     text += `» *Nime:* ${mime}\n\n`
+     text += `> ${namebot}`
 
     await conn.reply(m.chat,text,m,rcanal);
 
