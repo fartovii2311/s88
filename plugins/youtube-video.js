@@ -9,18 +9,18 @@ const tempDir = './tmp';
 
 let handler = async (m, { conn, text }) => {
   if (!m.quoted) {
-    return conn.reply(m.chat, `🚩 Etiqueta el mensaje que contenga el resultado de YouTube Play.`, m);
+    return conn.reply(m.chat, `🚩 Etiqueta el mensaje que contenga el resultado de YouTube Play.`, m,rcanal);
   }
 
   if (!m.quoted.text.includes("乂  Y O U T U B E  -  P L A Y")) {
-    return conn.reply(m.chat, `🚩 Etiqueta el mensaje que contenga el resultado de YouTube Play.`, m);
+    return conn.reply(m.chat, `🚩 Etiqueta el mensaje que contenga el resultado de YouTube Play.`, m,rcanal);
   }
 
   const urls = m.quoted.text.match(
     /(?:https?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed|shorts)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9\_-]+)/gi
   );
 
-   let user = global.db.data.users[m.sender];
+  let user = global.db.data.users[m.sender];
 
   const videoUrl = urls[0];
   await m.react('🕓');
