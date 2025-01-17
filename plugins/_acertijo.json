@@ -78,5 +78,57 @@
   {
     "question": "Tiene hojas pero no es árbol, tiene tinta pero no es calamar. ¿Qué es?",
     "response": "libro"
+  },
+  {
+    "question": "Me pinto sola sin pinceles y cambio de colores según las estaciones. ¿Qué soy?",
+    "response": "árbol"
+  },
+  {
+    "question": "Tengo ciudades pero no casas, tengo montañas pero no árboles, tengo agua pero no peces. ¿Qué soy?",
+    "response": "mapa"
+  },
+  {
+    "question": "Me tiras cuando me necesitas y me recoges cuando ya no me necesitas. ¿Qué soy?",
+    "response": "ancla"
+  },
+  {
+    "question": "Cuantos más me quitas, más dejo atrás. ¿Qué soy?",
+    "response": "huellas"
+  },
+  {
+    "question": "No soy un ser vivo, pero tengo corazón. ¿Qué soy?",
+    "response": "alcachofa"
+  },
+  {
+    "question": "Tiene raíces que nadie ve, es más alta que los árboles, y si subes por su cima nunca bajarás. ¿Qué es?",
+    "response": "montaña"
+  },
+  {
+    "question": "Un hombre construye una casa cuadrada, con todas las paredes orientadas al sur. Un oso pasa por ahí. ¿De qué color es el oso?",
+    "response": "blanco"
+  },
+  {
+    "question": "Tengo agujeros arriba, abajo, a la izquierda y a la derecha, pero sigo reteniendo agua. ¿Qué soy?",
+    "response": "esponja"
+  },
+  {
+    "question": "Vuelo todo el día pero no voy a ninguna parte. ¿Qué soy?",
+    "response": "bandera"
+  },
+  {
+    "question": "Me encuentras una vez en cada minuto, dos veces en cada momento, pero no en mil años. ¿Qué soy?",
+    "response": "letra m"
+  },
+  {
+    "question": "Llevo zapatos pero nunca camino. ¿Qué soy?",
+    "response": "caballo de ajedrez"
+  },
+  {
+    "question": "Cuatro patas en la mañana, dos patas al mediodía y tres patas por la tarde. ¿Qué es?",
+    "response": "hombre"
+  },
+  {
+    "question": "Crecí en el suelo, soy rico en sabor y me gusta el café. ¿Qué soy?",
+    "response": "chocolate"
   }
 ]
