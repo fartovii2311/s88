@@ -272,22 +272,24 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
     break
 
     case 'antilink':
-      if (m.isGroup) {
-        if (!(isAdmin || isOwner)) {
-          global.dfail('admin', m, conn)
-          throw false
-        }
-      }
-      chat.antiLink = isEnable
-      break
+    if (m.isGroup) {
+    if (!(isAdmin || isOwner)) {
+      global.dfail('admin', m, conn);
+      throw false;
+     }
+  }
+  chat.antiLink = isEnable; 
+  break;
+
 
       case 'nsfw':
       case 'modohorny':
-       if (m.isGroup) {
-         if (!(isAdmin || isOwner)) {
-           global.dfail('admin', m, conn)
-            throw false
-           }}
+      if (m.isGroup) {
+      if (!(isAdmin || isOwner)) {
+      global.dfail('admin', m, conn)
+      throw false
+      }
+    }
     chat.modohorny = isEnable          
     break
     default:
