@@ -52,7 +52,7 @@ before: `> 「 🌲 FELIZ ENERO 🌲 」\n
 %readmore
 \t\t\t🦌_*𝐋𝐈𝐒𝐓𝐀 𝐃𝐄 𝐂𝐎𝐌𝐀𝐍𝐃𝐎𝐒*_ 🌲
 `.trimStart(),
-  header: '╭━─━─━─≪*%category*─━─━─━╮',
+  header: '╭━─━─━─ `%category` ─━─━─━╮',
     body: '│👋⃟✨┊%cmd %isPremium\n',
   footer: '╰━─━─━─≪𖣘≫─━─━─━╯',
    after: `> [ ✰ ] Powered By Dark Team`,
@@ -70,8 +70,8 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname, args, command }) => {
     'tools': 'Herramientas',
     'group': 'Grupo',
     'owner': 'Owner',
-    'nsfw': 'nsfw Hot',
     'audio': 'Covertidores',
+    'nsfw': 'nsfw Hot',
   }
 
   try {
