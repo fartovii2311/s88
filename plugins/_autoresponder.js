@@ -22,8 +22,18 @@ handler.all = async function (m, { conn }) {
                                m.text.includes(creatorNumber);
 
     if (isMentionedCreator) {
-        await this.reply(m.chat, `Lo siento, no puedo divulgar información sobre mi creador ni su número. 🤖`, m);
+        await this.reply(m.chat, `Lo siento, no puedo divulgar información sobre mi creador ni su número. 🤖`, m,rcanal);
         return true; 
+    }
+
+    // Palabras clave específicas y verificación del número del creador
+    const keywords = ["amor", "mi vida", botName.toLowerCase()];
+    const isCreator = m.sender === creatorNumber + "@s.whatsapp.net"; // Verifica si el mensaje proviene del creador
+    const hasKeywords = keywords.some(keyword => m.text.toLowerCase().includes(keyword));
+
+    if (isCreator && hasKeywords) {
+        await this.reply(m.chat, `¡Hola, mi amor! 🥰 ¿Cómo puedo ayudarte hoy? 💖`, m,rcanal);
+        return true;
     }
 
     if (!isMentionedBot) return true;
@@ -78,7 +88,7 @@ Ayuda siempre respondiendo con emojis y siendo divertido, tambien recomienda est
         }
 
         if (result && result.trim().length > 0) {
-            await this.reply(m.chat, result, m);
+            await this.reply(m.chat, result, m,rcanal);
         }
     }
     return true;
