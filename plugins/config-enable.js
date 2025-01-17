@@ -291,30 +291,35 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
     chat.modohorny = isEnable          
     break
     default:
-      if (!/[01]/.test(command)) return conn.reply(m.chat, `
-*Configuraciones del Chat:*
-- Welcome: ${chat.welcome ? 'ON' : 'OFF'}
-- AutoAceptar: ${chat.autoAceptar ? 'ON' : 'OFF'}
-- AutoRechazar: ${chat.autoRechazar ? 'ON' : 'OFF'}
-- AntiBot: ${chat.antiBot ? 'ON' : 'OFF'}
-- AntiBot2: ${chat.antiBot2 ? 'ON' : 'OFF'}
-- AntiFake: ${chat.antifake ? 'ON' : 'OFF'}
-- AutoResponder: ${chat.autoresponder ? 'ON' : 'OFF'}
-- AntiEliminar: ${chat.delete ? 'ON' : 'OFF'}
-- SimSimi: ${chat.simi ? 'ON' : 'OFF'}
-- Audios: ${chat.audios ? 'ON' : 'OFF'}
-- AntiVer: ${chat.antiver ? 'ON' : 'OFF'}
-- Detect: ${chat.detect ? 'ON' : 'OFF'}
-- ModoAdmin: ${chat.modoadmin ? 'ON' : 'OFF'}
-- NSFW: ${chat.modohorny ? 'ON' : 'OFF'}
+      if (!/[01]/.test(command)) return conn.reply(m.chat, `+*╭───────────────✦*
+*│ 📜 CONFIGURACIONES DEL CHAT:*
+*├───────────────╮*
+*│ ➤ Welcome:* ${chat.welcome ? '✅ Activado' : '❌ Desactivado'}
+*│ ➤ AutoAceptar:* ${chat.autoAceptar ? '✅ Activado' : '❌ Desactivado'}
+*│ ➤ AutoRechazar:* ${chat.autoRechazar ? '✅ Activado' : '❌ Desactivado'}
+*│ ➤ AntiBot:* ${chat.antiBot ? '✅ Activado' : '❌ Desactivado'}
+*│ ➤ AntiBot2:* ${chat.antiBot2 ? '✅ Activado' : '❌ Desactivado'}
+*│ ➤ AntiFake:* ${chat.antifake ? '✅ Activado' : '❌ Desactivado'}
+*│ ➤ AutoResponder:* ${chat.autoresponder ? '✅ Activado' : '❌ Desactivado'}
+*│ ➤ AntiEliminar:* ${chat.delete ? '✅ Activado' : '❌ Desactivado'}
+*│ ➤ SimSimi:* ${chat.simi ? '✅ Activado' : '❌ Desactivado'}
+*│ ➤ Audios:* ${chat.audios ? '✅ Activado' : '❌ Desactivado'}
+*│ ➤ AntiVer:* ${chat.antiver ? '✅ Activado' : '❌ Desactivado'}
+*│ ➤ Detect:* ${chat.detect ? '✅ Activado' : '❌ Desactivado'}
+*│ ➤ ModoAdmin:* ${chat.modoadmin ? '✅ Activado' : '❌ Desactivado'}
+*│ ➤ NSFW:* ${chat.modohorny ? '✅ Activado' : '❌ Desactivado'}
+*╰───────────────╯*
 
-*Configuraciones Globales:*
-- AntiPrivado: ${bot.antiPrivate ? 'ON' : 'OFF'}
-- AutoRead: ${global.opts['autoread'] ? 'ON' : 'OFF'}
-- Restrict: ${bot.restrict ? 'ON' : 'OFF'}
-- Autobio: ${bot.autobio ? 'ON' : 'OFF'}
-- AntiSpam: ${bot.antiSpam ? 'ON' : 'OFF'}
-- JadiBotMD: ${bot.jadibotmd ? 'ON' : 'OFF'}`, m, rcanal)
+*╭───────────────✦*
+*│ 🌐 CONFIGURACIONES GLOBALES:*
+*├───────────────╮*
+*│ ➤ AntiPrivado:* ${bot.antiPrivate ? '✅ Activado' : '❌ Desactivado'}
+*│ ➤ AutoRead:* ${global.opts['autoread'] ? '✅ Activado' : '❌ Desactivado'}
+*│ ➤ Restrict:* ${bot.restrict ? '✅ Activado' : '❌ Desactivado'}
+*│ ➤ Autobio:* ${bot.autobio ? '✅ Activado' : '❌ Desactivado'}
+*│ ➤ AntiSpam:* ${bot.antiSpam ? '✅ Activado' : '❌ Desactivado'}
+*│ ➤ JadiBotMD:* ${bot.jadibotmd ? '✅ Activado' : '❌ Desactivado'}
+*╰───────────────╯*`, m, rcanal)
       throw false
   }
 await conn.sendMessage(m.chat, { 
