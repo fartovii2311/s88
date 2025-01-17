@@ -11,9 +11,9 @@ handler.all = async function (m, { conn }) {
               m.id.startsWith('B24E') && m.id.length === 20;
     if (m.isBot) return 
 
-    const botName = "LYNX"; // Nombre del bot
-    const creatorMention = "@DarkCore"; // Mención al creador
-    const creatorNumber = "51968382008"; // Número del creador
+    const botName = "LYNX";
+    const creatorMention = "@DarkCore";
+    const creatorNumber = "51968382008"; 
 
     const isMentionedBot = m.mentionedJid.includes(this.user.jid) || 
                            m.text.toLowerCase().includes(botName.toLowerCase());
@@ -35,7 +35,7 @@ handler.all = async function (m, { conn }) {
                 content: q,
                 user: username,
                 prompt: logic,
-                webSearchMode: true // true = resultado con url
+                webSearchMode: true
             });
             return response.data.result
         } catch (error) {
