@@ -15,9 +15,9 @@ handler.all = async function (m, { conn }) {
     const creatorMention = "@DarkCore";
     const creatorNumber = "51968382008";
 
-    const isCreator = m.sender === creatorNumber + "@s.whatsapp.net"; 
+    const isCreator = m.sender === creatorNumber + "@s.whatsapp.net";
 
-    if (isCreator) {
+    if (isCreator && m.text.toLowerCase() === "amor") {
         await this.reply(m.chat, `Hola, mi amor 🥰`, m, rcanal);
         return true;
     }
