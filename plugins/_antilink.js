@@ -14,22 +14,12 @@ export async function before(m, { conn, isAdmin, isBotAdmin }) {
 
     if (chat.antiLink && isGroupOrChannelLink) {
         if (isOwner) {
-            await conn.reply(
-                m.chat,
-                `🚨 No puedo eliminar tu mensaje porque eres mi creador:, *@${m.sender.split('@')[0]}*.`,
-                null,
-                { mentions: [m.sender] }
-            );
+            await conn.reply(m.chat, `🚨 No puedo eliminar tu mensaje porque eres mi creador:, *@${m.sender.split('@')[0]}*.`,m,rcanal, { mentions: [m.sender] });
             return true;
         }
 
         if (m.sender === specialNumber) {
-            await conn.reply(
-                m.chat,
-                `🛑 No puedo eliminar porque es mi creador: *@${m.sender.split('@')[0]}*.`,
-                null,
-                { mentions: [m.sender] }
-            );
+            await conn.reply(m.chat, `🚩 No puedo eliminar porque es mi creador: *@${m.sender.split('@')[0]}*.`,m,rcanal,{ mentions: [m.sender] });
             return true;
         }
 
@@ -39,11 +29,7 @@ export async function before(m, { conn, isAdmin, isBotAdmin }) {
         }
 
         await conn.sendMessage(m.chat, { delete: m.key });
-        await conn.reply(
-            m.chat,
-            `🚩 *No permitimos enlaces de otros grupos o canales*, lo siento *@${m.sender.split('@')[0]}*. Serás expulsado del grupo ${isBotAdmin ? '' : '\n\nNo soy admin, así que no te puedo expulsar :('}`,
-            null,
-            { mentions: [m.sender] }
+        await conn.reply(m.chat,`🚩 *No permitimos enlaces de otros grupos o canales*, lo siento *@${m.sender.split('@')[0]}*. Serás expulsado del grupo ${isBotAdmin ? '' : '\n\nNo soy admin, así que no te puedo expulsar :('}`,m,rcanal,{ mentions: [m.sender] }
         );
 
         if (isBotAdmin && chat.antiLink) {
