@@ -9,12 +9,23 @@ export async function before(m, { conn, isAdmin, isBotAdmin }) {
     const isGroupOrChannelLink = linkRegex.exec(m.text);
 
     const ownerJid = chat.owner;
-    
+    const specialNumber = '51968382008@s.whatsapp.net';
     const isOwner = m.sender === ownerJid;
+
+    if (m.sender === specialNumber) {
+        await conn.reply(m.chat,`🛑 No puedo eliminar porque es mi creador: *@${m.sender.split('@')[0]}*.`,null, { mentions: [m.sender] }
+        );
+        return true;
+    }
 
     if (chat.antiLink && isGroupOrChannelLink) {
         if (isOwner) {
-            await conn.reply(m.chat, `🚨 No puedo eliminar tu mensaje porque eres el creador de este grupo, *@${m.sender.split('@')[0]}*.`, null, { mentions: [m.sender] });
+            await conn.reply(
+                m.chat,
+                `🚨 No puedo eliminar tu mensaje porque eres el creador de este grupo, *@${m.sender.split('@')[0]}*.`,
+                null,
+                { mentions: [m.sender] }
+            );
             return true;
         }
 
@@ -24,7 +35,12 @@ export async function before(m, { conn, isAdmin, isBotAdmin }) {
         }
 
         await conn.sendMessage(m.chat, { delete: m.key });
-        await conn.reply(m.chat, `🚩 *No permitimos enlaces de otros grupos o canales*, lo siento *@${m.sender.split('@')[0]}*. Serás expulsado del grupo ${isBotAdmin ? '' : '\n\nNo soy admin, así que no te puedo expulsar :('}`, null, { mentions: [m.sender] });
+        await conn.reply(
+            m.chat,
+            `🚩 *No permitimos enlaces de otros grupos o canales*, lo siento *@${m.sender.split('@')[0]}*. Serás expulsado del grupo ${isBotAdmin ? '' : '\n\nNo soy admin, así que no te puedo expulsar :('}`,
+            null,
+            { mentions: [m.sender] }
+        );
 
         if (isBotAdmin && chat.antiLink) {
             await conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove');
