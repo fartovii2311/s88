@@ -21,7 +21,7 @@ handler.all = async function (m, { conn }) {
     const isMentionedCreator = m.text.toLowerCase().includes(creatorMention.toLowerCase()) || 
                                m.text.includes(creatorNumber);
 
-    const containsSensitiveKeyword = ["manuel", "Manuel"].some(keyword => m.text.includes(keyword));
+    const containsSensitiveKeyword = ["manuel", "Manuel", "Manu", "DarkCore", "Dark", "DARKCORE", "DARK" ].some(keyword => m.text.includes(keyword));
 
     if (isMentionedCreator || containsSensitiveKeyword) {
         await this.reply(m.chat, `Lo siento, no puedo divulgar información sobre mi creador ni sobre "Manuel". 🤖`, m,rcanal);
