@@ -20,7 +20,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
      text += `\t» *Título:* ${name}\n`;
      text += `\t» *Tamaño:* ${size}\n`;
      text += `\t» *Nime:* ${mime}\n`;
-    text += `\t» ${text}`;
+    text += `> ${namebot}`;
 
     await conn.reply(m.chat,text,m,rcanal);
 
