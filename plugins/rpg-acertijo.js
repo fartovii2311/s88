@@ -8,12 +8,12 @@ let now = new Date()
 let lastUsage = global.db.data.users[m.sender].lastAcet || 0
 if (now - lastUsage < cooldown) {
 let remainingTime = cooldown - (now - lastUsage)
-return m.reply(`⏱️ ¡Espera ${msToTime(remainingTime)} antes de volver a usar el comando!`)
+return conn.reply(m.chat,`⏱️ ¡Espera ${msToTime(remainingTime)} antes de volver a usar el comando!`,m,rcanal)
 }
 conn.tekateki = conn.tekateki ? conn.tekateki : {}
 let id = m.chat
 if (id in conn.tekateki) {
-conn.reply(m.chat, 'Todavía hay acertijos sin responder en este chat', conn.tekateki[id][0])
+conn.reply(m.chat, 'Todavía hay acertijos sin responder en este chat', conn.tekateki[id][0],m,rcanal)
 return null
 }
 let tekateki = JSON.parse(fs.readFileSync(`./plugins/_acertijo.json`))
@@ -29,7 +29,7 @@ conn.tekateki[id] = [
 await conn.reply(m.chat, caption, m), json, poin,
 setTimeout(async () => {
 if (conn.tekateki[id]) {
-await conn.reply(m.chat, `Se acabó el tiempo!\n*Respuesta:* ${json.response}`, conn.tekateki[id][0])
+await conn.reply(m.chat, `Se acabó el tiempo!\n*Respuesta:* ${json.response}`, conn.tekateki[id][0],m,rcanal)
 delete conn.tekateki[id]
 }
 }, cooldown)
