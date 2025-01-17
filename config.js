@@ -70,7 +70,7 @@ global.rcanal = {
   contextInfo: {
     isForwarded: true,
     forwardedNewsletterMessageInfo: {
-       newsletterJid: "0029Vaxk8vvEFeXdzPKY8f3F@newsletter",
+       newsletterJid: "120363371366801178@newsletter",
        serverMessageId: 100,
        newsletterName: author,
     },
@@ -81,7 +81,7 @@ global.rcanal = {
   contextInfo: {
           isForwarded: true,
   forwardedNewsletterMessageInfo: {
-    newsletterJid: "0029Vaxk8vvEFeXdzPKY8f3F@newsletter",
+    newsletterJid: "120363371366801178@newsletter",
     serverMessageId: 100,
     newsletterName: author,
   },
