@@ -13,7 +13,7 @@ handler.all = async function (m, { conn }) {
 
     const botName = "LYNX";
     const creatorMention = "@DarkCore";
-    const creatorNumber = "51968382008"; 
+    const creatorNumber = "51968382008";
 
     const isMentionedBot = m.mentionedJid.includes(this.user.jid) || 
                            m.text.toLowerCase().includes(botName.toLowerCase());
@@ -21,9 +21,11 @@ handler.all = async function (m, { conn }) {
     const isMentionedCreator = m.text.toLowerCase().includes(creatorMention.toLowerCase()) || 
                                m.text.includes(creatorNumber);
 
-    if (isMentionedCreator) {
-        await this.reply(m.chat, `Lo siento, no puedo divulgar información sobre mi creador ni su número. 🤖`, m,rcanal);
-        return true; 
+    const containsSensitiveKeyword = ["manuel", "Manuel"].some(keyword => m.text.includes(keyword));
+
+    if (isMentionedCreator || containsSensitiveKeyword) {
+        await this.reply(m.chat, `Lo siento, no puedo divulgar información sobre mi creador ni sobre "Manuel". 🤖`, m);
+        return true;
     }
 
     // Palabras clave específicas y verificación del número del creador
@@ -32,7 +34,7 @@ handler.all = async function (m, { conn }) {
     const hasKeywords = keywords.some(keyword => m.text.toLowerCase().includes(keyword));
 
     if (isCreator && hasKeywords) {
-        await this.reply(m.chat, `¡Hola, mi amor! 🥰 ¿Cómo puedo ayudarte hoy? 💖`, m,rcanal);
+        await this.reply(m.chat, `¡Hola, mi amor! 🥰 ¿Cómo puedo ayudarte hoy? 💖`, m);
         return true;
     }
 
@@ -88,7 +90,7 @@ Ayuda siempre respondiendo con emojis y siendo divertido, tambien recomienda est
         }
 
         if (result && result.trim().length > 0) {
-            await this.reply(m.chat, result, m,rcanal);
+            await this.reply(m.chat, result, m);
         }
     }
     return true;
