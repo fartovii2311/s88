@@ -1,4 +1,6 @@
 let handler = async (m, { conn, participants, usedPrefix, command, isROwner }) => {
+    if (!m || !m.chat) return;  // Verifica que el mensaje y el chat estén definidos.
+    
     let kickte = `🚩 Menciona al usuario que deseas eliminar.`;
 
     if (!m.mentionedJid[0] && !m.quoted) 
@@ -8,7 +10,7 @@ let handler = async (m, { conn, participants, usedPrefix, command, isROwner }) =
     let ownerJid = m.chat.split`-`[0] + '51968382008@s.whatsapp.net';
 
     if (user === ownerJid) {
-        return m.reply(`🚩 No puedo eliminar al propietario del grupo porque es mi creador.`, m.chat, { mentions: [user] });
+        return conn.reply(m.chat, `🚩 No puedo eliminar al propietario del grupo porque es mi creador.`, null, { mentions: [user] });
     }
 
     await conn.groupParticipantsUpdate(m.chat, [user], 'remove'); 
