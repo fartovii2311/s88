@@ -15,8 +15,10 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
   try {
     const { name, size, date, mime, link } = await mediafireDl(url);
-
-    await conn.reply(m.chat,`📥 *Descargando archivo...*\n\n*Nombre:* ${name}\n*Tamaño:* ${size}`,m,rcanal);
+    let text = `乂  M E D I A F I R E`\n\n`+
+               `*Nombre:* ${name}\n` +
+               `*Tamaño:* ${size}`
+    await conn.reply(m.chat,``,m,rcanal);
 
     const response = await axios.get(link, { responseType: 'arraybuffer' });
     const fileBuffer = response.data;
