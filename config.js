@@ -32,12 +32,12 @@ global.jadi = 'LynxJadiBot'
 global.packsticker = `【 ✫ 𝚃𝙴𝙰𝙼  乂 𝙳𝙰𝚁𝙺 - 𝙾𝙵𝙸𝙲𝙸𝙰𝙻 ✫ 】` //stiker
 global.author = '➼ 𝑳𝒚𝒏𝒙 - 𝑪𝒉𝒂𝒏𝒏𝒆𝒍' //rcanal 
 global.packname = '➼ 𝑳𝒚𝒏𝒙 - 𝑪𝒉𝒂𝒏𝒏𝒆𝒍' //stiker
+global.redes = ''
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 global.namebot = 'Lynx - Ai'
 global.wait = '*Aɢᴜᴀʀᴅᴇ ᴜɴ ᴍᴏᴍᴇɴᴛᴏ ฅ^•ﻌ•^ฅ*'
 global.wm = ''
-global.stickpack = ``
 global.titulowm = ''
 global.titulowm2 = ''
 global.igfg = ''
@@ -48,7 +48,6 @@ global.textbot = ''
 global.listo = '*Aqui tiene ฅ^•ﻌ•^ฅ*'
 global.vs = '2.0.0'
 global.namechannel = ''
-global.stickauth = ``
 global.dis = ':⁖֟⊱┈֟፝❥'
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
@@ -64,7 +63,6 @@ global.group2 = ''
 global.canal = 'https://whatsapp.com/channel/0029Vaxb5xr7z4koGtOAAc1Q'
 global.github = '' 
 global.instagram = '' 
-global.redes = '' 
 global.whatsApp = ''
 
 
