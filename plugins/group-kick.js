@@ -5,8 +5,13 @@ let handler = async (m, { conn, participants, usedPrefix, command, isROwner }) =
         return m.reply(kickte, m.chat, { mentions: conn.parseMention(kickte) });
 
     let user = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted.sender;
-    let ownerJid = m.chat.split`-`[0] + '@s.whatsapp.net';
+    let ownerJid = m.chat.split`-`[0] + '@s.whatsapp.net';  // Asegurándonos de que esté el formato correcto
 
+    // Debug: Verificar los JID
+    console.log("Owner JID:", ownerJid);
+    console.log("User to be kicked:", user);
+
+    // Verifica si el usuario es el creador (owner) del grupo
     if (user === ownerJid) {
         return conn.reply(m.chat, `🚩 No puedo eliminar al propietario del grupo porque es mi creador.`, null, { mentions: [user] });
     }
@@ -14,11 +19,9 @@ let handler = async (m, { conn, participants, usedPrefix, command, isROwner }) =
     // Eliminar al usuario
     await conn.groupParticipantsUpdate(m.chat, [user], 'remove'); 
 
-    // Solo enviamos los mensajes de eliminación si el usuario no es el creador
-    if (user !== ownerJid) {
-        await m.reply(`🚩 Usuario eliminado.`, m.chat, { mentions: [user] });
-        m.reply(`Lo siento, acabas de ser eliminado del grupo.`, user);
-    }
+    // Solo se envían los mensajes si el usuario no es el propietario
+    await m.reply(`🚩 Usuario eliminado.`, m.chat, { mentions: [user] });
+    m.reply(`Lo siento, acabas de ser eliminado del grupo.`, user);
 };
 
 handler.help = ['kick *@user*'];
