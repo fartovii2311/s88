@@ -1,1 +1,82 @@
-
+[
+  {
+    "question": "Cuanto más seco estoy, más mojo. ¿Qué soy?",
+    "response": "toalla"
+  },
+  {
+    "question": "Tiene un ojo pero no puede ver. ¿Qué es?",
+    "response": "aguja"
+  },
+  {
+    "question": "Caminan sin pies, vuelan sin alas y te persiguen donde vayas. ¿Qué son?",
+    "response": "pensamientos"
+  },
+  {
+    "question": "Es tuyo, pero otras personas lo usan más que tú. ¿Qué es?",
+    "response": "nombre"
+  },
+  {
+    "question": "Cuantos más tienes, menos ves. ¿Qué son?",
+    "response": "oscuridad"
+  },
+  {
+    "question": "¿Qué tiene cuello pero no cabeza?",
+    "response": "camisa"
+  },
+  {
+    "question": "Me puedes sostener en tu mano izquierda, pero nunca en tu mano derecha. ¿Qué soy?",
+    "response": "mano derecha"
+  },
+  {
+    "question": "Cuanto más me quitas, más grande me vuelvo. ¿Qué soy?",
+    "response": "agujero"
+  },
+  {
+    "question": "¿Qué tiene dientes pero no muerde?",
+    "response": "peine"
+  },
+  {
+    "question": "Vuelo sin alas, lloro sin ojos. Donde voy, la oscuridad sigue. ¿Qué soy?",
+    "response": "nube"
+  },
+  {
+    "question": "Siempre está entre la montaña y la colina, pero no puedes verlo. ¿Qué es?",
+    "response": "y"
+  },
+  {
+    "question": "Estoy en todo, pero no en nada. Soy el principio y el fin. ¿Qué soy?",
+    "response": "letra o"
+  },
+  {
+    "question": "¿Qué sube pero nunca baja?",
+    "response": "edad"
+  },
+  {
+    "question": "¿Qué cosa siempre contesta aunque nunca habla?",
+    "response": "eco"
+  },
+  {
+    "question": "¿Qué no puede ser usado hasta que se rompa?",
+    "response": "huevo"
+  },
+  {
+    "question": "Cuanto más largo es, más corto se vuelve. ¿Qué es?",
+    "response": "lápiz"
+  },
+  {
+    "question": "Todos lo tienen y nadie lo puede perder. ¿Qué es?",
+    "response": "sombra"
+  },
+  {
+    "question": "Pasa delante del sol pero nunca hace sombra. ¿Qué es?",
+    "response": "viento"
+  },
+  {
+    "question": "Cuando estoy lleno puedo contenerlo todo, pero cuando estoy vacío no puedo contener nada. ¿Qué soy?",
+    "response": "bolsillo"
+  },
+  {
+    "question": "Tiene hojas pero no es árbol, tiene tinta pero no es calamar. ¿Qué es?",
+    "response": "libro"
+  }
+]
