@@ -11,8 +11,8 @@ let handler = async (m, { conn }) => {
     : m.sender;
 
   let prefijos = {
-    '+51': 'Peru',
-    '+52': 'Mexico',
+    '+51': 'Perú',
+    '+52': 'México',
     '+54': 'Argentina',
     '+55': 'Brasil',
     '+56': 'Chile',
@@ -43,13 +43,10 @@ let handler = async (m, { conn }) => {
     '+1-242': 'Bahamas',
     '+1-284': 'Islas Vírgenes Británicas',
     '+1-767': 'Dominica',
-    '+1-345': 'Islas Caimán',
     '+1-441': 'Bermuda',
-    '+1-242': 'Bahamas',
-    '+1-809': 'República Dominicana',
     '+1-829': 'República Dominicana',
     '+1-849': 'República Dominicana'
-};
+  };
 
   let numeroCompleto = '+' + who.replace('@s.whatsapp.net', '');
   let nacionalidad = 'Desconocida';
@@ -60,16 +57,14 @@ let handler = async (m, { conn }) => {
     }
   }
 
-  let bio = await conn.fetchStatus(who).catch(() => 'undefined');
-  let biot = bio.status?.toString() || 'Sin información';
+  let bio = await conn.fetchStatus(who).catch(() => ({ status: 'Sin información' }));
+  let biot = bio.status || 'Sin información';
   let user = global.db.data.users[who];
   let pp = await conn.profilePictureUrl(who, 'image').catch(() => 'https://i.ibb.co/JndpnfX/LynxAI.jpg');
-  let { exp, corazones, name, registered, regTime, age, level } = global.db.data.users[who];
-  let { min, xp, max } = xpRange(user.level, global.multiplier);
-  let username = conn.getName(who);
+  let { exp = 0, corazones = 0, name = '-', registered = false, age = '-', level = 0 } = user || {};
+  let { min, xp, max } = xpRange(level, global.multiplier || 1);
   let prem = global.prems.includes(who.split`@`[0]);
-  let sn = createHash('md5').update(who).digest('hex');
-  let img = await (await fetch(pp)).buffer();
+  let username = conn.getName(who) || 'Usuario';
 
   let txt = `🎭 *P E R F I L  D E  U S U A R I O* 🎭\n\n`;
   txt += `💡 *Nombre*: ${name || username}\n`;
@@ -77,14 +72,14 @@ let handler = async (m, { conn }) => {
   txt += `📞 *Número*: ${PhoneNumber(numeroCompleto).getNumber('international')}\n`;
   txt += `🌍 *Nacionalidad*: ${nacionalidad}\n`;
   txt += `📌 *Link directo*: [Haga clic aquí](https://wa.me/${who.split`@`[0]})\n`;
-  txt += `❤️ *Corazones*: ${corazones || 0}\n`;
-  txt += `📈 *Nivel*: ${level || 0}\n`;
-  txt += `⚡ *XP*: Total ${exp || 0} (${user.exp - min}/${xp || 0})\n`;
+  txt += `❤️ *Corazones*: ${corazones}\n`;
+  txt += `📈 *Nivel*: ${level}\n`;
+  txt += `⚡ *XP*: Total ${exp} (${exp - min}/${xp})\n`;
   txt += `🌟 *Premium*: ${prem ? 'Sí' : 'No'}\n`;
   txt += `📝 *Estado*: ${biot}\n`;
   txt += `🕒 *Registrado*: ${registered ? 'Sí' : 'No'}\n`;
 
-  await conn.sendMessage(m.chat, { image: { url: pp },caption: txt, { quoted: m });
+  await conn.sendMessage(m.chat, { image: { url: pp }, caption: txt }, { quoted: m });
 };
 
 handler.help = ['perfil'];
