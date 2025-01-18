@@ -71,7 +71,7 @@ let handler = async (m, { conn }) => {
   txt += `🎂 *Edad*: ${registered ? `${age} años` : 'No registrado'}\n`;
   txt += `📞 *Número*: ${PhoneNumber(numeroCompleto).getNumber('international')}\n`;
   txt += `🌍 *Nacionalidad*: ${nacionalidad}\n`;
-  txt += `📌 *Link directo*: [Haga clic aquí](https://wa.me/${who.split`@`[0]})\n`;
+  txt += `📌 *Link directo*: (https://wa.me/${who.split`@`[0]})\n`;
   txt += `❤️ *Corazones*: ${corazones}\n`;
   txt += `📈 *Nivel*: ${level}\n`;
   txt += `⚡ *XP*: Total ${exp} (${exp - min}/${xp})\n`;
@@ -79,7 +79,7 @@ let handler = async (m, { conn }) => {
   txt += `📝 *Estado*: ${biot}\n`;
   txt += `🕒 *Registrado*: ${registered ? 'Sí' : 'No'}\n`;
 
-  await conn.sendMessage(m.chat, { image: { url: pp }, caption: txt }, { quoted: m });
+  await conn.reply(m.chat, txt, m,rcanal,fake);
 };
 
 handler.help = ['perfil'];
