@@ -2,18 +2,19 @@ import fetch from 'node-fetch';
 
 let handler = async (m, { conn, text }) => {
   if (!text) {
-    return conn.reply(m.chat, '❀ Ingresa un enlace de YouTube válido.', m);
+    return conn.reply(m.chat, '❀ Ingresa un enlace de YouTube válido.', m,rcanal);
   }
 
   await m.react('🕓');
 
   try {
     let title, dl_url, fileSizeStr, sizeBytes;
-    const sizeLimit = 50 * 1024 * 1024;
+    const sizeLimit = 50 * 1024 * 1024; 
 
     const apiUrls = [
       `https://api.vreden.web.id/api/ytmp4?url=${text}`,
-      `https://delirius-apiofc.vercel.app/download/ytmp4?url=${text}`
+      `https://delirius-apiofc.vercel.app/download/ytmp4?url=${text}`,
+      `https://api.siputzx.my.id/api/d/ytmp4?url=${text}`
     ];
 
     for (const apiUrl of apiUrls) {
@@ -34,6 +35,11 @@ let handler = async (m, { conn, text }) => {
           dl_url = apiResponse.data.download.url;
           fileSizeStr = metadata.size || null;
           sizeBytes = fileSizeStr ? parseFloat(fileSizeStr) * 1024 * 1024 : null;
+          break;
+        } else if (apiResponse.status && apiResponse.data?.dl) {
+          title = apiResponse.data.title || 'Video sin título';
+          dl_url = apiResponse.data.dl;
+          sizeBytes = null; 
           break;
         }
       } catch (err) {
