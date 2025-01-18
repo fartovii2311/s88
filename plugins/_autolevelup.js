@@ -42,25 +42,25 @@ handler.before = async function (m, { conn }) {
 ` +
       `- Rol actual: ${role}`;
 
-    await conn.sendMessage(
-      m.chat,
-      {
-        text: `*‌乂 L E V E L  -  U P 乂*
+    await conn.sendMessage(m.chat,
+  {
+    text: `✨ *‌乂 L E V E L  -  U P 乂* ✨
 
-` +
-          `*┌  ◦ Nombre:* ${name}
-` +
-          `*├  ◦ Rol:* ${role}
-` +
-          `*├  ◦ Exp:* ${user.exp} xp
-` +
-          `*└  ◦ Nivel:* [ ${before} ] ➠ [ ${user.level} ]
+─────────────────────
+🎮 *Nombre:* ${name}
+💼 *Rol:* ${role}
+🌟 *Exp:* ${user.exp} xp
+⬆️ *Nivel:* [ ${before} ] ➠ [ ${user.level} ]
+─────────────────────
 
-© Powered by DarkCore`,
-        mentions: [m.sender],
-      },
-      { quoted: m }
-    );
+🎉 *¡Enhorabuena! Has alcanzado un nuevo nivel. ¡Sigue así!* 🎉
+
+🌐 *¡Recuerda que con cada nivel, más beneficios vienen!* 🚀
+
+© Powered by DarkCore`
+  },
+  { quoted: m }
+);
   }
 };
 export default handler;
