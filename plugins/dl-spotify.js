@@ -32,7 +32,7 @@ let handler = async (m, { conn, command, text, usedPrefix }) => {
         let downloadUrl = backupJson.download;
         let titulo = `- Titulo: ${name}\n- Autor: ${artist}\n- Enlace: ${trackUrl}`;
 
-        await conn.sendFile(m.chat, cover_url, 'cover.jpg', titulo, m);
+        await conn.sendFile(m.chat, cover_url, 'cover.jpg', titulo, m,rcanal);
         await conn.sendFile(m.chat, downloadUrl, 'music.mp3', null, m);
         await m.react('✅');
       } else {
