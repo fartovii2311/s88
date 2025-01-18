@@ -21,10 +21,10 @@ let handler = async (m, { text, args, command, conn, usedPrefix }) => {
 
     if (mediaInfo.videoUrl) {
       let vid = await axios.get(mediaInfo.videoUrl, { responseType: 'arraybuffer' });
-      await conn.sendMessage(m.chat, { video: Buffer.from(vid.data), caption: '✅ Video descargado correctamente.' });
+      await conn.sendMessage(m.chat, { video: Buffer.from(vid.data), caption: '✅ Video descargado correctamente.' },{ quoted: m });
     } else if (mediaInfo.imageUrl) {
       let img = await axios.get(mediaInfo.imageUrl, { responseType: 'arraybuffer' });
-      await conn.sendMessage(m.chat, { image: Buffer.from(img.data), caption: '✅ Imagen descargada correctamente.' });
+      await conn.sendMessage(m.chat, { image: Buffer.from(img.data), caption: '✅ Imagen descargada correctamente.' },{ quoted: m });
     } else {
       return m.reply('❀ Sin resultados encontrados.');
     }
@@ -32,7 +32,6 @@ let handler = async (m, { text, args, command, conn, usedPrefix }) => {
     await m.react('✅');
   } catch (error) {
     await m.react('❌');
-    m.reply('❀ Ocurrió un error al procesar tu solicitud.');
   }
 };
 
