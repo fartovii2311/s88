@@ -7,14 +7,14 @@ let handler = async (m, { text, args, command, conn, usedPrefix }) => {
   await m.react('🕓');
 
   try {
-    let mediaInfo = await instagramdlVreden(args[0]);
+    let mediaInfo = await instagramdl(args[0]);
 
     if (mediaInfo.videoUrl) {
       let vid = await axios.get(mediaInfo.videoUrl, { responseType: 'arraybuffer' });
-      await conn.sendMessage(m.chat, { video: Buffer.from(vid.data), caption: '✅ Video descargado correctamente.' },{ quoted: m });
+      await conn.sendMessage(m.chat, { video: Buffer.from(vid.data), caption: '✅ Video descargado correctamente.' }, { quoted: m });
     } else if (mediaInfo.imageUrl) {
       let img = await axios.get(mediaInfo.imageUrl, { responseType: 'arraybuffer' });
-      await conn.sendMessage(m.chat, { image: Buffer.from(img.data), caption: '✅ Imagen descargada correctamente.' },{ quoted: m });
+      await conn.sendMessage(m.chat, { image: Buffer.from(img.data), caption: '✅ Imagen descargada correctamente.' }, { quoted: m });
     } else {
       return m.reply('❀ Sin resultados encontrados.');
     }
@@ -22,7 +22,6 @@ let handler = async (m, { text, args, command, conn, usedPrefix }) => {
     await m.react('✅');
   } catch (error) {
     await m.react('❌');
-    m.reply('❀ Ocurrió un error al procesar tu solicitud.');
   }
 };
 
@@ -32,20 +31,33 @@ handler.help = ['ig *<link>*'];
 
 export default handler;
 
-let instagramdlVreden = async (url) => {
+let instagramdl = async (url) => {
+  let mediaInfo = await getMediaInfoFromAPI(url, 'https://api.vreden.web.id/api/igdownload?url=');
+
+  if (!mediaInfo.videoUrl && !mediaInfo.imageUrl) {
+    mediaInfo = await getMediaInfoFromAPI(url, 'https://api.siputzx.my.id/api/d/igdl?url=');
+  }
+
+  return mediaInfo;
+};
+
+let getMediaInfoFromAPI = async (url, apiUrl) => {
   let config = {
     method: 'GET',
-    url: `https://api.vreden.web.id/api/igdownload?url=${encodeURIComponent(url)}`,
+    url: `${apiUrl}${encodeURIComponent(url)}`,
   };
 
   let res = await axios.request(config);
-  let data = res.data.result.response.data[0];
+  let data = res.data.data ? res.data.data[0] : null;
   let mediaInfo = {};
 
-  if (data.type === 'video') {
-    mediaInfo.videoUrl = data.url;
-  } else if (data.type === 'image') {
-    mediaInfo.imageUrl = data.thumb;
+  if (data) {
+    if (data.url) {
+      mediaInfo.videoUrl = data.url;
+    }
+    if (data.thumbnail) {
+      mediaInfo.imageUrl = data.thumbnail;
+    }
   }
 
   return mediaInfo;
