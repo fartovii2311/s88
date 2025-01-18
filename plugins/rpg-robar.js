@@ -14,10 +14,16 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 
   cooldowns[m.sender] = Date.now()
 
+  // Verificar que el usuario tiene el objeto 'corazones' en su base de datos
+  if (!users[senderId]) {
+    users[senderId] = { corazones: 0 }
+  }
+
   let sendercorazones = users[senderId].corazones || 0
 
   if (sendercorazones <= 0) {
     let groupParticipants = m.isGroup ? await conn.groupMetadata(m.chat).then(group => group.participants) : []
+    // Filtramos a los usuarios que tienen corazones mayores que 0
     let targetUserId = groupParticipants.find(participant => users[participant.id] && users[participant.id].corazones > 0)?.id
 
     if (!targetUserId) {
@@ -39,10 +45,23 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
   }
 
   let groupParticipants = m.isGroup ? await conn.groupMetadata(m.chat).then(group => group.participants) : []
-  let randomUserId = groupParticipants[Math.floor(Math.random() * groupParticipants.length)].id
+  // Filtrar solo a los participantes con corazones > 0
+  let validParticipants = groupParticipants.filter(participant => users[participant.id] && users[participant.id].corazones > 0)
+
+  if (validParticipants.length === 0) {
+    m.reply(`🤍 No hay usuarios con corazones para robar en este grupo.`)
+    return
+  }
+
+  let randomUserId = validParticipants[Math.floor(Math.random() * validParticipants.length)].id
 
   while (randomUserId === senderId) {
-    randomUserId = groupParticipants[Math.floor(Math.random() * groupParticipants.length)].id
+    randomUserId = validParticipants[Math.floor(Math.random() * validParticipants.length)].id
+  }
+
+  // Verificar que el usuario aleatorio tiene el objeto 'corazones'
+  if (!users[randomUserId]) {
+    users[randomUserId] = { corazones: 0 }
   }
 
   let randomUsercorazones = users[randomUserId].corazones || 0
@@ -89,6 +108,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 
   global.db.write()
 }
+
 handler.tags = ['rpg']
 handler.help = ['robar']
 handler.command = ['robarcorazones', 'stealhearts', 'robar', 'rb']
