@@ -29,7 +29,7 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
           throw false
         }
       }
-      chat.arabe = isEnable
+      chat.antiarabe = isEnable
       break
       
 
@@ -312,6 +312,7 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
 │ ➤ AutoAceptar: ${chat.autoAceptar ? '✅ Activado' : '❌ Desactivado'}
 │ ➤ AutoRechazar: ${chat.autoRechazar ? '✅ Activado' : '❌ Desactivado'}
 │ ➤ AntiBot: ${chat.antiBot ? '✅ Activado' : '❌ Desactivado'}
+│ ➤ AntiBot: ${chat.antiarabe ? '✅ Activado' : '❌ Desactivado'}
 │ ➤ AntiBot2: ${chat.antiBot2 ? '✅ Activado' : '❌ Desactivado'}
 │ ➤ AntiFake: ${chat.antifake ? '✅ Activado' : '❌ Desactivado'}
 │ ➤ AutoResponder: ${chat.autoresponder ? '✅ Activado' : '❌ Desactivado'}
