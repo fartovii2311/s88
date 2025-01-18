@@ -84,16 +84,7 @@ let handler = async (m, { conn }) => {
   txt += `📝 *Estado*: ${biot}\n`;
   txt += `🕒 *Registrado*: ${registered ? 'Sí' : 'No'}\n`;
 
-  await conn.sendMessage(m.chat, {
-    image: { url: pp },
-    caption: txt,
-    footer: '✨ Powered by Dark Team',
-    buttons: [
-      { buttonId: '.menu', buttonText: { displayText: '📜 MENÚ' }, type: 1 },
-      { buttonId: '.owner', buttonText: { displayText: '👤 OWNER' }, type: 1 },
-    ],
-    headerType: 4,
-  }, { quoted: m });
+  await conn.sendMessage(m.chat, { image: { url: pp },caption: txt, { quoted: m });
 };
 
 handler.help = ['perfil'];
