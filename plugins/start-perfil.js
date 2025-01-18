@@ -2,6 +2,7 @@ import { canLevelUp, xpRange } from '../lib/levelling.js';
 import { createHash } from 'crypto';
 import PhoneNumber from 'awesome-phonenumber';
 import fetch from 'node-fetch';
+import fs from 'fs';
 
 let handler = async (m, { conn }) => {
   let who = m.mentionedJid && m.mentionedJid[0] 
@@ -10,7 +11,7 @@ let handler = async (m, { conn }) => {
     ? conn.user.jid 
     : m.sender;
 
-  let prefijos = {
+let prefijos = {
     '+51': 'Peru',
     '+52': 'Mexico',
     '+54': 'Argentina',
@@ -49,7 +50,8 @@ let handler = async (m, { conn }) => {
     '+1-809': 'República Dominicana',
     '+1-829': 'República Dominicana',
     '+1-849': 'República Dominicana'
-  };
+};
+
 
   let numeroCompleto = '+' + who.replace('@s.whatsapp.net', '');
   let nacionalidad = 'Desconocida';
@@ -67,30 +69,27 @@ let handler = async (m, { conn }) => {
   let { exp, corazones, name, registered, regTime, age, level } = global.db.data.users[who];
   let { min, xp, max } = xpRange(user.level, global.multiplier);
   let username = conn.getName(who);
-  let prem = global.prems.includes(who.split`@`[0]);
+  let prem = global.prems.includes(who.split@[0]);
   let sn = createHash('md5').update(who).digest('hex');
+  let img = await (await fetch(${pp})).buffer();
 
-  
+  let txt = 🎭 *P E R F I L  D E  U S U A R I O* 🎭\n\n;
+  txt += 💡 *Nombre* : ${name}\n;
+  txt += 🎂 *Edad* : ${registered ? ${age} años : '×'}\n;
+  txt += 📞 *Número* : ${PhoneNumber(numeroCompleto).getNumber('international')}\n;
+  txt += 🌍 *Nacionalidad* : ${nacionalidad}\n;
+  txt += 📌 *Link* : wa.me/${who.split@[0]}\n;
+  txt += ❤️ *Corazones* : ${corazones}\n;
+  txt += 📈 *Nivel* : ${level}\n;
+  txt += ⚡ *XP* : Total ${exp} (${user.exp - min}/${xp})\n;
+  txt += 🌟  *Premium* : ${prem ? 'Sí' : 'No'}\n;
+  txt += 📝 *Registrado* : ${registered ? 'Sí' : 'No'};
 
-  let txt = `🎭 *P E R F I L  D E  U S U A R I O* 🎭\n\n`;
-  txt += `💡 *Nombre*: ${name || username}\n`;
-  txt += `🎂 *Edad*: ${registered ? `${age} años` : 'No registrado'}\n`;
-  txt += `📞 *Número*: ${PhoneNumber(numeroCompleto).getNumber('international')}\n`;
-  txt += `🌍 *Nacionalidad*: ${nacionalidad}\n`;
-  txt += `📌 *Link directo*: (https://wa.me/${who.split`@`[0]})\n`;
-  txt += `❤️ *Corazones*: ${corazones || 0}\n`;
-  txt += `📈 *Nivel*: ${level || 0}\n`;
-  txt += `⚡ *XP*: Total ${exp || 0} (${user.exp - min}/${xp || 0})\n`;
-  txt += `🌟 *Premium*: ${prem ? 'Sí' : 'No'}\n`;
-  txt += `📝 *Estado*: ${biot}\n`;
-  txt += `🕒 *Registrado*: ${registered ? 'Sí' : 'No'}\n`;
-
-  await conn.sendFile(m.chat, pp,txt, 'thumbnail.jpg', txt, m);
+  await conn.sendFile(m.chat, img, 'thumbnail.jpg', txt, m,rcanal,fake);
 };
 
 handler.help = ['perfil'];
 handler.tags = ['start'];
 handler.command = /^(perfil|profile)$/i;
-handler.register = true;
 
-export default handler;
+export default handler; 
