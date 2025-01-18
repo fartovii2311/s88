@@ -26,12 +26,12 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
                 fileName: 'video.mp4',
                 mimetype: 'video/mp4',
                 caption: '[ ᰔᩚ ] Aquí tienes el video solicitado como documento.',
-            });
+            },{ quoted: m });
         } else {
             await conn.sendMessage(m.chat, {
                 video: videoBuffer,
                 caption: '[ ᰔᩚ ] Aquí tienes el video solicitado.',
-            });
+            },{ quoted: m });
         }
 
         await m.react('✅');
