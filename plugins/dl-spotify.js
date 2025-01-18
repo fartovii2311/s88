@@ -20,7 +20,7 @@ let handler = async (m, { conn, command, text, usedPrefix }) => {
       let { title, artists, cover, music } = jsonDL.result;
       let titulo = `- Titulo: ${title}\n- Autor: ${artists}\n- Enlace: ${trackUrl}`;
 
-      await conn.sendFile(m.chat, cover, 'cover.jpg', titulo, m,rcanal);
+      await conn.sendFile(m.chat, cover, 'cover.jpg', titulo, m,rcanal,fake);
       await conn.sendFile(m.chat, music, 'music.mp3', null, m);
       await m.react('✅');
     } else {
@@ -32,7 +32,7 @@ let handler = async (m, { conn, command, text, usedPrefix }) => {
         let downloadUrl = backupJson.download;
         let titulo = `- Titulo: ${name}\n- Autor: ${artist}\n- Enlace: ${trackUrl}`;
 
-        await conn.sendFile(m.chat, cover_url, 'cover.jpg', titulo, m,rcanal);
+        await conn.sendFile(m.chat, cover_url, 'cover.jpg', titulo, m,rcanal,fake);
         await conn.sendFile(m.chat, downloadUrl, 'music.mp3', null, m);
         await m.react('✅');
       } else {
