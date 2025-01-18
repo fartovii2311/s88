@@ -20,14 +20,13 @@ let handler = async (m, { conn, text }) => {
     /(?:https?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed|shorts)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9\_-]+)/gi
   );
 
-  let user = global.db.data.users[m.sender];
-
   const videoUrl = urls[0];
   await m.react('🕓');
 
   const apiUrls = [
     `https://api.vreden.web.id/api/ytmp4?url=${videoUrl}`,
     `https://delirius-apiofc.vercel.app/download/ytmp4?url=${videoUrl}`,
+    `https://api.siputzx.my.id/api/d/ytmp4?url=${videoUrl}`, 
   ];
 
   let data = null;
@@ -43,19 +42,24 @@ let handler = async (m, { conn, text }) => {
       } else if (result.success && result.data?.download) {
         data = result.data;
         break;
+      } else if (result.status && result.data?.dl) {
+        data = {
+          title: result.data.title,
+          download: result.data.dl,
+          duration: "Desconocido",
+        };
+        break;
       }
     } catch (error) {
       console.error(`Error al intentar con la API: ${apiUrl}`, error.message);
     }
   }
-
-  await handleVideoDownload(conn, m, data);
+   await handleVideoDownload(conn, m, data);
 };
 
 const handleVideoDownload = async (conn, m, data) => {
   const title = data.title || "Desconocido";
   const duration = data.duration || "Desconocido";
-  const thumbnail = data.thumbnail || null;
   const downloadUrl = data.download?.url || data.download;
 
   const tempPath = `${tempDir}/${Date.now()}.mp4`;
@@ -137,7 +141,7 @@ const compressVideo = async (inputPath, outputPath) => {
 
 handler.help = ['video'];
 handler.tags = ['downloader'];
-handler.customPrefix = /^(VIDEO|Video|video|vídeo|Vídeo)/
+handler.customPrefix = /^(VIDEO|Video|video|vídeo|Vídeo)/;
 handler.command = new RegExp;
 
 export default handler;
