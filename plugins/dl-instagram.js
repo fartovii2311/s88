@@ -29,7 +29,6 @@ let handler = async (m, { text, args, command, conn, usedPrefix }) => {
   }
 };
 
-handler.corazones = 2;
 handler.command = ['ig', 'igdl', 'instagram'];
 handler.tags = ['dl'];
 handler.help = ['ig *<link>*'];
