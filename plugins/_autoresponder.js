@@ -17,8 +17,15 @@ handler.all = async function (m, { conn }) {
 
     const isCreator = m.sender === creatorNumber + "@s.whatsapp.net";
 
+    // Respuesta especial cuando el creador envía "amor"
     if (isCreator && m.text.toLowerCase() === "amor") {
-        await this.reply(m.chat, `Hola, mi amor 🥰`, m, rcanal);
+        let result = await geminiProApi("Hola, mi amor 🥰");
+
+        if (result && result.trim().length > 0) {
+            await this.reply(m.chat, result, m);
+        } else {
+            await this.reply(m.chat, `Hola, mi amor 🥰`, m);
+        }
         return true;
     }
 
@@ -31,7 +38,7 @@ handler.all = async function (m, { conn }) {
     const containsSensitiveKeyword = ["manuel", "Manuel", "Manu", "DarkCore", "Dark","dark", "DARKCORE", "DARK"].some(keyword => m.text.includes(keyword));
 
     if (isMentionedCreator || containsSensitiveKeyword) {
-        await this.reply(m.chat, `Lo siento, no puedo divulgar información sobre mi creador ni sobre "Manuel". 🤖`, m, rcanal);
+        await this.reply(m.chat, `Lo siento, no puedo divulgar información sobre mi creador ni sobre "Manuel". 🤖`, m);
         return true;
     }
 
@@ -87,7 +94,7 @@ Ayuda siempre respondiendo con emojis y siendo divertido, tambien recomienda est
         }
 
         if (result && result.trim().length > 0) {
-            await this.reply(m.chat, result, m, rcanal);
+            await this.reply(m.chat, result, m);
         }
     }
     return true;
