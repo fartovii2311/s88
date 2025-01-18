@@ -70,7 +70,7 @@ let handler = async (m, { conn }) => {
   let prem = global.prems.includes(who.split`@`[0]);
   let sn = createHash('md5').update(who).digest('hex');
 
-  await conn.sendFile(m.chat, pp, 'thumbnail.jpg', txt, m,fake);
+  
 
   let txt = `🎭 *P E R F I L  D E  U S U A R I O* 🎭\n\n`;
   txt += `💡 *Nombre*: ${name || username}\n`;
@@ -85,7 +85,7 @@ let handler = async (m, { conn }) => {
   txt += `📝 *Estado*: ${biot}\n`;
   txt += `🕒 *Registrado*: ${registered ? 'Sí' : 'No'}\n`;
 
-  await conn.reply(m.chat, txt, m);
+  await conn.sendFile(m.chat, pp,txt, 'thumbnail.jpg', txt, m,fake);
 };
 
 handler.help = ['perfil'];
