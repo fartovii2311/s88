@@ -32,7 +32,7 @@ const handler = async (m, {conn, args, groupMetadata, participants, usedPrefix, 
 handler.help = ['listanum', 'kicknum']
 handler.tags = ['group'];
 handler.command = /^(listanum|kicknum|listnum)$/i;
-handler.group = handler;
+handler.group = true;
 handler.admin = true;
 handler.fail = null;
 export default handler;
