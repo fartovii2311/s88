@@ -340,18 +340,18 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
   }
 await conn.sendMessage(m.chat, { 
   text: `` +
-        `*» 𝗢𝗣𝗖𝗜𝗢𝗡 |* ${type.toUpperCase()}\n` +
-        `*» 𝗘𝗦𝗧𝗔𝗗𝗢 |* ${isEnable ? 'ON' : 'OFF'}\n` +
-        `*» 𝗣𝗔𝗥𝗔 |* ${isAll ? 'ESTE BOT' : isUser ? '' : 'ESTE CHAT'}`, 
+        `*▷ 𝗢𝗽𝗰𝗶𝗼𝗻 |* ${type.toUpperCase()}\n` +
+        `*▷ 𝗘𝘀𝘁𝗮𝗱𝗼 |* ${isEnable ? '✅ Activado' : '❌ Desactivado'}\n` +
+        `*▷ 𝗣𝗮𝗿𝗮 |* ${isAll ? '🌍 Todo el Bot' : isUser ? '👤 Este Usuario' : '💬 Este Chat'}`,
   footer: dev, 
   buttons: [
     { 
       buttonId: isEnable ? `.off ${type}` : `.on ${type}`, 
-      buttonText: { displayText: isEnable ? 'OFF ☁️' : 'ON ☁️' } 
+      buttonText: { displayText: isEnable ? '❌ Desactivado' : '✅ Activado' } 
     },
     { 
       buttonId: ".menu", 
-      buttonText: { displayText: 'MENU ☁️' } 
+      buttonText: { displayText: '🌟 Menu' } 
     }
   ],
   viewOnce: true,
