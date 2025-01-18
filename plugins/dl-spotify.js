@@ -37,13 +37,13 @@ let handler = async (m, { conn, command, text, usedPrefix }) => {
         await m.react('✅');
       } else {
         await m.react('❌');
-        conn.reply(m.chat, '[ ᰔᩚ ] No se pudo obtener la música para este enlace.', m);
+        conn.reply(m.chat, '[ ᰔᩚ ] No se pudo obtener la música para este enlace.', m,rcanal);
       }
     }
   } catch (error) {
     console.error(error);
     await m.react('❌');
-    conn.reply(m.chat, '[ ᰔᩚ ] Ocurrió un error al procesar tu solicitud.', m);
+    conn.reply(m.chat, '[ ᰔᩚ ] Ocurrió un error al procesar tu solicitud.', m,rcanal);
   }
 };
 
