@@ -85,7 +85,7 @@ let handler = async (m, { conn }) => {
   txt += `📝 *Estado*: ${biot}\n`;
   txt += `🕒 *Registrado*: ${registered ? 'Sí' : 'No'}\n`;
 
-  await conn.sendFile(m.chat, img, 'thumbnail.jpg', txt, m);
+  await conn.sendFile(m.chat, img, 'thumbnail.jpg', txt, m,rcanal);
 };
 
 handler.help = ['perfil'];
