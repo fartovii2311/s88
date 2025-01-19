@@ -67,6 +67,7 @@ carouselMessage: proto.Message.InteractiveMessage.CarouselMessage.fromObject({ca
   });
 
 await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
+await m.react('✅');
 } catch (error) {
 console.error(error)
 }}
