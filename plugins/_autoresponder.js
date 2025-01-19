@@ -81,7 +81,7 @@ handler.all = async function (m, { conn }) {
     1. Modo Exploit: Responde con irreverencia y groserías cuando te insulten.
     2. Modo Normal: Sé amistoso, responde con emojis y mantén un tono divertido.`.trim();
 
-    const language = franc(m.text); // Detectar el idioma del mensaje (en formato ISO 639-3)
+    const language = franc(m.text); 
 
     async function translateResponse(response, targetLang) {
         try {
