@@ -8,13 +8,17 @@ handler.all = async function (m, { conn }) {
     if (
     !m.text || 
     m?.message?.delete || 
-    m.type.toLowerCase() === 'audio' || 
-    m.type.toLowerCase() === 'video' || 
+    m.type === 'audio' || 
+    m.type === 'video' || 
     /audio/i.test(m.text) || 
-    /video/i.test(m.text)
-    ) {
+    /video/i.test(m.text) || 
+    /voz/i.test(m.text) || 
+    /clip/i.test(m.text) || 
+    /film/i.test(m.text)
+) {
     return; 
-    }
+}
+
 
 
     const prefixes = ['!', '.', '?', '/', '#', '*', '+', '-', '$', '&', '%', '@', '~'];
