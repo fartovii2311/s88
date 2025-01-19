@@ -3,9 +3,8 @@ import { franc } from 'franc-min'; // Detecta el idioma
 import { translate } from '@vitalets/google-translate-api'; // Para traducir la respuesta
 
 let handler = m => m;
-
 handler.all = async function (m, { conn }) {
-    if (!m.text || m?.message?.delete) {
+    if (!m || !m.text || m.message?.delete) {
         return;
     }
 
@@ -24,25 +23,14 @@ handler.all = async function (m, { conn }) {
     }
 
     const prefixes = ['!', '.', '?', '/', '#', '*', '+', '-', '$', '&', '%', '@', '~'];
+
     const hasPrefix = prefixes.some(prefix => m.text.startsWith(prefix));
     if (hasPrefix) {
-        return; 
-    }
-
-    // Verificar si global.db.data y users están definidos antes de acceder
-    if (!global.db.data || !global.db.data.users || !global.db.data.chats) {
-        console.log("La base de datos no está inicializada correctamente.");
         return;
     }
 
-    let user = global.db.data.users[m.sender];
-    let chat = global.db.data.chats[m.chat];
-
-    // Asegurar que `user` y `chat` existan
-    if (!user || !chat) {
-        console.log("Usuario o chat no encontrados.");
-        return;
-    }
+    let user = global.db.data.users?.[m.sender] || {};
+    let chat = global.db.data.chats?.[m.chat] || {};
 
     const sensitiveKeywords = ["manuel", "Manuel", "Manu", "DarkCore", "Dark", "dark", "DARKCORE", "DARK"];
     const profanities = [
@@ -89,7 +77,7 @@ handler.all = async function (m, { conn }) {
                 text: query,
                 prompt: prompt
             });
-            return response.data.answer || null;
+            return response.data?.answer || null;
         } catch (error) {
             console.error('Error en Gemini Pro:', error.message);
             return null;
@@ -104,25 +92,24 @@ handler.all = async function (m, { conn }) {
                 prompt: prompt,
                 webSearchMode: true
             });
-            return response.data.result || null;
+            return response.data?.result || null;
         } catch (error) {
             console.error('Error en LuminSesi:', error.message);
             return null;
         }
     }
 
-    const defaultPrompt = `
-    Eres LYNX - AI 💫, un bot creado para WhatsApp por DarkCore. Tu objetivo es entretener, responder con humor y ser útil.
-    Tienes dos modos:
-    1. Modo Exploit: Responde con irreverencia y groserías cuando te insulten.
-    2. Modo Normal: Sé amistoso, responde con emojis y mantén un tono divertido.`.trim();
+    const defaultPrompt = `Eres LYNX - AI 💫, un bot creado para WhatsApp por DarkCore. Tu objetivo es entretener, responder con humor y ser útil.
+Tienes dos modos:
+1. Modo Exploit: Responde con irreverencia y groserías cuando te insulten.
+2. Modo Normal: Sé amistoso, responde con emojis y mantén un tono divertido.`;
 
     const language = franc(m.text); // Detectar el idioma del mensaje (en formato ISO 639-3)
 
     async function translateResponse(response, targetLang) {
         try {
             const translated = await translate(response, { to: targetLang });
-            return translated.text;
+            return translated?.text || response;
         } catch (error) {
             console.error('Error al traducir:', error.message);
             return response;
