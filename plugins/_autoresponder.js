@@ -8,10 +8,9 @@ handler.all = async function (m, { conn }) {
         return;
     }
 
-    // Verifica si hay reacciones al mensaje
-    if (m?.reaction) {
-        return; // Si hay una reacción, no responde
-    }
+   if (m.reaction && Object.keys(m.reaction).length > 0) {
+    return; 
+   }
 
     const prefixes = ['!', '.', '?', '/', '#', '*', '+', '-', '$', '&', '%', '@', '~'];
 
