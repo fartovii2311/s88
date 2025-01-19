@@ -93,7 +93,6 @@ handler.all = async function (m, { conn }) {
         }
     }
 
-    // Si el idioma detectado es diferente del idioma del usuario, traducir
     if (user?.registered) {
         await this.sendPresenceUpdate('composing', m.chat);
         let query = m.text;
@@ -109,10 +108,9 @@ handler.all = async function (m, { conn }) {
             return;
         }
 
-        const detectedLang = language || 'es';  // Por defecto usar español si no se detecta el idioma
+        const detectedLang = language || 'es';
 
-        // Si el idioma detectado es diferente del idioma original, traducir
-        if (detectedLang !== 'es') {  // Cambia 'es' por el idioma que esperas para tu respuesta
+        if (detectedLang !== 'es') { 
             const translatedResult = await translateResponse(result, detectedLang);
             await this.reply(m.chat, translatedResult, m);
         } else {
