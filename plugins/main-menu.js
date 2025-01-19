@@ -44,7 +44,7 @@ let loadd = [
     "ʟ ᴏ ᴀ ᴅ ɪ ɴ ɢ  ᴄ ᴏ ᴍ ᴘ ʟ ᴇ ᴛ ᴇ. . ."
   ]
 
-let { key } = await conn.sendMessage(m.chat, {text: 'ʟ ᴏ ᴀ ᴅ ɪ ɴ ɢ. . .'})//Pengalih isu
+let { key } = await conn.reply(m.chat, {text: 'ʟ ᴏ ᴀ ᴅ ɪ ɴ ɢ. . .'})//Pengalih isu
 
 for (let i = 0; i < loadd.length; i++) {
   await new Promise(resolve => setTimeout(resolve, 850));
