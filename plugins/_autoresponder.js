@@ -13,8 +13,8 @@ handler.all = async function (m, { conn }) {
 
     // Verificar si el mensaje comienza con alguno de los prefijos definidos
     const hasPrefix = prefixes.some(prefix => m.text.startsWith(prefix));
-    if (!hasPrefix) {
-        return; // Si no tiene un prefijo válido, no hacer nada
+    if (hasPrefix) {
+        return; // Si tiene un prefijo válido, no hacer nada (no responder)
     }
 
     let user = global.db.data.users[m.sender];
