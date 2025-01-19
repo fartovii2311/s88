@@ -5,7 +5,7 @@ let handler = async (m, { conn, command, text, usedPrefix }) => {
     return conn.reply(
       m.chat,
       '[ ᰔᩚ ] Ingresa el nombre o palabra clave para buscar en *Spotify*.\n\n' +
-        `Ejemplo:\n> *${usedPrefix + command}* https://open.spotify.com/track/37ZtpRBkHcaq6hHy0X98zn`,
+        `Ejemplo:\n> *${usedPrefix + command}* url`,
       m
     );
   }
@@ -13,12 +13,13 @@ let handler = async (m, { conn, command, text, usedPrefix }) => {
   await m.react('🕓');
 
   try {
-    let apiDL = await fetch(`https://delirius-apiofc.vercel.app/download/spotifydlv3?url=${encodeURIComponent(text)}`);
+    let apiURL = `https://delirius-apiofc.vercel.app/download/spotifydlv3?url=${encodeURIComponent(text)}`;
+    let apiDL = await fetch(apiURL);
     let jsonDL = await apiDL.json();
 
     if (jsonDL && jsonDL.status && jsonDL.data) {
       let { title, author, image, duration, url: musicUrl } = jsonDL.data;
-      
+
       let durationMinutes = Math.floor(duration / 60000);
       let durationSeconds = ((duration % 60000) / 1000).toFixed(0);
 
