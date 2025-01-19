@@ -4,8 +4,8 @@ import { sticker } from '../lib/sticker.js';
 
 let handler = m => m;
 handler.all = async function (m, { conn }) {
-    // Verificar si el mensaje ha sido eliminado
-    if (!m.text || m.message?.delete) {
+    // Verificar si el mensaje ha sido eliminado o está vacío
+    if (!m.text || m?.message?.delete) {
         return; // No hacer nada si el mensaje fue borrado o no tiene texto
     }
 
@@ -99,7 +99,7 @@ handler.all = async function (m, { conn }) {
         }
 
         if (!result) {
-            return;
+            return; // Si no hay respuesta, no hacer nada
         }
 
         if (language !== 'und') {
