@@ -1,5 +1,5 @@
 import axios from 'axios';
-import * as franc from 'franc-min'; // O usa require('franc-min') si no usas ESM
+import { franc } from 'franc-min'; // Importar correctamente la función
 import { sticker } from '../lib/sticker.js';
 
 let handler = m => m;
@@ -84,7 +84,7 @@ handler.all = async function (m, { conn }) {
     1. Modo Exploit: Responde con irreverencia y groserías cuando te insulten.
     2. Modo Normal: Sé amistoso, responde con emojis y mantén un tono divertido.`.trim();
 
-    const language = franc(m.text);
+    const language = franc(m.text); // Función franc ahora usada correctamente
 
     if (chat.autoresponder && user?.registered) {
         await this.sendPresenceUpdate('composing', m.chat);
