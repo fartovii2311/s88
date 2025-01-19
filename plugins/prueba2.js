@@ -7,7 +7,6 @@ let handler = async (m, { conn }) => {
             externalAdReply: {
                 title: 'Grupo • SKY - Publicidad (no bots)', // Título destacado
                 body: '', // Subtítulo (opcional)
-                thumbnail: await fetch('https://example.com/imagen.jpg').then(res => res.buffer()), // Reemplaza con la URL de tu imagen
                 mediaType: 1 // Tipo de contenido externo
             }
         }
