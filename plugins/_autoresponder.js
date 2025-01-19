@@ -4,12 +4,11 @@ import { translate } from '@vitalets/google-translate-api';
 
 let handler = m => m;
 handler.all = async function (m, { conn }) {
-    // Verifica si el mensaje es vacío o fue eliminado, o si es de tipo audio/video
-    if (!m.text || m?.message?.delete || m.type === 'audio' || m.type === 'video') {
+    
+    if (!m.text || m?.message?.delete || m.type === 'audio' || m.type === 'video' || m.text.toLowerCase() === 'audio') {
         return; 
     }
 
-    // Comprobación de prefijos, para evitar que responda a comandos
     const prefixes = ['!', '.', '?', '/', '#', '*', '+', '-', '$', '&', '%', '@', '~'];
     const hasPrefix = prefixes.some(prefix => m.text.startsWith(prefix));
     if (hasPrefix) {
