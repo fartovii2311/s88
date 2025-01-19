@@ -92,6 +92,7 @@ let handler = async (_0x10bd40, {
   await _0x9c7141.relayMessage(_0x10bd40.chat, _0x1ca5c6.message, {
     'messageId': _0x1ca5c6.key.id
   });
+   await m.react('✅');
 };
 handler.help = ["pinterest *<text>*"];
 handler.tags = ["search"];
