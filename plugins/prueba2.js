@@ -1,19 +1,18 @@
 let handler = async (m, { conn }) => {
     let mensaje = {
-        text: '*Este es un mensaje de ejemplo.*', 
+        text: '*Este es un mensaje de ejemplo.*', // Mensaje de texto
         contextInfo: {
-            externalAdReply: {
-                title: 'Grupo • SKY - Publicidad (no bots)',
-                body: false, 
-                renderLargerThumbnail: false,
-                url: false, 
-                mediaType: 0 
-            }
-        }
+            forwardedNewsletterMessageInfo: {
+                newsletterJid: "120363371366801178@newsletter", 
+                serverMessageId: 100, 
+                newsletterName: 'Grupo • SKY - Publicidad (no bots)',
+                renderLargerThumbnail: false, 
+            },
+        },
     };
 
     await conn.sendMessage(m.chat, mensaje, { quoted: m });
 };
 
-handler.command = ['grupopubli']; 
+handler.command = ['grupopubli']; // Comando para ejecutar
 export default handler;
