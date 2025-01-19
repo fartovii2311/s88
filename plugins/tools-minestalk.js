@@ -19,7 +19,7 @@ const MinecraftStalk = async (username) => {
 };
 
 let handler = async (m, { conn, args, usedPrefix, command }) => {
-  if (!args[0]) return conn.reply(m.chat, `🚩 Ingresa un nombre de jugador de Minecraft\n\nEjemplo:\n> *${usedPrefix + command}* hann`, m, rcanal);
+  if (!args[0]) return conn.reply(m.chat, `🚩 Ingresa un nombre de jugador de Minecraft\n\nEjemplo:\n> *${usedPrefix + command}* hann`, m);
 
   await m.react('🕓');
   try {
@@ -33,6 +33,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     txt += `  ✩   Skin Texture : ${playerData.skin_texture}\n`;
     txt += `  ✩   Name History : ${playerData.name_history.join(', ')}\n\n`;
 
+    // Enviar el mensaje con la imagen y el texto
     await conn.sendMessage(m.chat, { 
       text: txt,
       image: { url: playerData.avatar },
