@@ -117,6 +117,7 @@ handler.all = async function (m, { conn }) {
 
         const detectedLang = language || 'es';
 
+        // Si el idioma detectado no es español, responder en ese idioma
         if (detectedLang !== 'es') { 
             const translatedResult = await translateResponse(result, detectedLang);
             await this.reply(m.chat, translatedResult, m);
