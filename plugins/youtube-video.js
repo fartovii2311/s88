@@ -140,7 +140,7 @@ const compressVideo = async (inputPath, outputPath) => {
 };
 
 handler.help = ['video'];
-handler.tags = ['downloader'];
+handler.tags = ['dl'];
 handler.customPrefix = /^(VIDEO|Video|video|vídeo|Vídeo)/;
 handler.command = new RegExp;
 
