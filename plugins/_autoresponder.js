@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { franc } from 'franc-min';
 import { sticker } from '../lib/sticker.js';
-import { translate } from '@vitalets/google-translate-api'; // Usaremos la API de Google Translate para traducir las respuestas
+import { translate } from '@vitalets/google-translate-api';
 
 let handler = m => m;
 handler.all = async function (m, { conn }) {
@@ -92,7 +92,7 @@ handler.all = async function (m, { conn }) {
     1. Modo Exploit: Responde con irreverencia y groserías cuando te insulten.
     2. Modo Normal: Sé amistoso, responde con emojis y mantén un tono divertido.`.trim();
 
-    const language = franc(m.text);
+    const language = franc(m.text); // Detectar el idioma del mensaje
 
     async function translateResponse(response, targetLang) {
         try {
@@ -119,9 +119,15 @@ handler.all = async function (m, { conn }) {
             return;
         }
 
-        const translatedResult = await translateResponse(result, language);
-
-        await this.reply(m.chat, translatedResult, m);
+        // Si el idioma detectado no es el mismo que el original, traducir
+        const userLanguage = m.lang || 'es'; // Puedes personalizar el idioma de la respuesta
+        if (language !== userLanguage) {
+            const translatedResult = await translateResponse(result, userLanguage);
+            await this.reply(m.chat, translatedResult, m);
+        } else {
+            await this.reply(m.chat, result, m);
+        }
+        
         return true;
     }
 
