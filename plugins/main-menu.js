@@ -44,11 +44,11 @@ let loadd = [
     "ʟ ᴏ ᴀ ᴅ ɪ ɴ ɢ  ᴄ ᴏ ᴍ ᴘ ʟ ᴇ ᴛ ᴇ. . ."
   ]
 
-let { key } = await conn.reply(m.chat, {text: 'ʟ ᴏ ᴀ ᴅ ɪ ɴ ɢ. . .'})//Pengalih isu
+let { key } = await conn.reply(m.chat, { text: 'ʟ ᴏ ᴀ ᴅ ɪ ɴ ɢ. . .' });
 
 for (let i = 0; i < loadd.length; i++) {
   await new Promise(resolve => setTimeout(resolve, 850));
-await conn.reply(m.chat, {text: loadd[i], edit: key })}
+  await conn.reply(m.chat, { text: loadd[i], edit: key });
 
 const defaultMenu = {
   before: `*\`ʜᴏʟᴀ\`* %name *\`sᴏʏ ʟʏɴx - ᴀɪ ᴛᴜ ᴀsɪsᴛᴇɴᴛᴇ ᴠɪʀᴛᴜᴀʟ ᴄʀᴇᴀᴅᴏ ᴘᴏʀ ᴅᴀʀᴋᴄᴏʀᴇ , ᴇsᴛᴇ ᴇs ʀʟ ᴍᴇɴᴜ ᴄᴏᴍᴘʟᴇᴛᴏ ˙˚ʚ₍ ᐢ. ̫ .ᐢ ₎ɞ˚\`*
