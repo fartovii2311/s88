@@ -33,7 +33,12 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     txt += `  ✩   Skin Texture : ${playerData.skin_texture}\n`;
     txt += `  ✩   Name History : ${playerData.name_history.join(', ')}\n\n`;
 
-    await conn.sendMessage(m.chat, { text: txt }, { quoted: m });
+    await conn.sendMessage(m.chat, { 
+      text: txt,
+      image: { url: playerData.avatar }, 
+      caption: 'Avatar del jugador' 
+    }, { quoted: m });
+    
     await m.react('✅');
   } catch (error) {
     await conn.reply(m.chat, error.message, m);
