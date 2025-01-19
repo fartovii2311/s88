@@ -98,17 +98,11 @@ handler.all = async function (m, { conn }) {
             result = await luminsesi(query, username, prompt);
         }
 
-        // Evitar responder si no hay resultado
         if (!result) {
-            return; // Si no hay respuesta, no hacer nada
-        }
-
-        if (language !== 'und') {
-            result = result;
+            return;
         }
 
         await this.reply(m.chat, result, m);
-
         return true;
     }
 
