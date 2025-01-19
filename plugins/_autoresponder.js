@@ -6,22 +6,32 @@ handler.all = async function (m, { conn }) {
     let user = global.db.data.users[m.sender];
     let chat = global.db.data.chats[m.chat];
 
-    const botName = "LYNX";
-    const creatorNumber = "51968382008";
-    const creatorMention = "@DarkCore";
-
     const sensitiveKeywords = ["manuel", "Manuel", "Manu", "DarkCore", "Dark", "dark", "DARKCORE", "DARK"];
     const profanities = [
-    "perra", "hijo de puta", "puta", "mierda", "imbécil", "idiota", "estúpido", 
-    "maldita", "cabrona", "pendejo", "pendeja", "cabrón", "zorra", "bastardo", 
-    "maldito", "coño", "gilipollas", "tonto", "tarado", "infeliz", "mamón", 
-    "chingada", "culero", "cagada", "estúpida", "imbéciles", "jodido", 
-    "jodida", "pedorro", "pedorra", "asqueroso", "asquerosa", "naco", "naca", 
-    "menso", "mensos", "baboso", "babosa", "patético", "patética"
-];
+        "perra", "hijo de puta", "puta", "mierda", "imbécil", "idiota", "estúpido", 
+        "maldita", "cabrona", "pendejo", "pendeja", "cabrón", "zorra", "bastardo", 
+        "maldito", "coño", "gilipollas", "tonto", "tarado", "infeliz", "mamón", 
+        "chingada", "culero", "cagada", "estúpida", "imbéciles", "jodido", 
+        "jodida", "pedorro", "pedorra", "asqueroso", "asquerosa", "naco", "naca", 
+        "menso", "mensos", "baboso", "babosa", "patético", "patética"
+    ];
 
     const containsSensitiveKeyword = sensitiveKeywords.some(keyword => m.text.includes(keyword));
     const containsProfanity = profanities.some(profanity => m.text.toLowerCase().includes(profanity));
+
+    if (m.text.toLowerCase() === '.on autoresponder') {
+        chat.autoresponder = true;
+        return;
+    }
+
+    if (m.text.toLowerCase() === '.off autoresponder') {
+        chat.autoresponder = false;
+        return;
+    }
+
+    if (!chat.autoresponder) {
+        return; 
+    }
 
     if (containsProfanity) {
         const exploitResponse = `¡Cálmate un poco! 🤬 ¿Quién te crees para hablarme así? Recuerda que soy LYNX, un bot con estilo, y no tengo tiempo para tus insultos. 😎`.trim();
@@ -30,10 +40,7 @@ handler.all = async function (m, { conn }) {
     }
 
     if (containsSensitiveKeyword) {
-        const response = `
-        ¿Me estás cuestionando? 😒 Yo no fui creado por ti, fui creado por DarkCore, el único y verdadero creador. 
-        No me hables así, ya que yo soy LYNX, el bot que está aquí para hacer las cosas a su manera. 😎
-        Si necesitas algo, ¡dime ya!`.trim();
+        const response = `¿Me estás cuestionando? 😒 Yo no fui creado por ti, fui creado por DarkCore, el único y verdadero creador. No me hables así, ya que yo soy LYNX, el bot que está aquí para hacer las cosas a su manera. 😎 Si necesitas algo, ¡dime ya!`.trim();
         await this.reply(m.chat, response, m);
         return true;
     }
