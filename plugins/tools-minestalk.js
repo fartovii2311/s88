@@ -36,7 +36,6 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     await conn.sendMessage(m.chat, { 
       text: txt,
       image: { url: playerData.avatar },
-      caption: 'Avatar del jugador de Minecraft' 
     }, { quoted: m });
     
     await m.react('✅');
