@@ -1,7 +1,6 @@
 import axios from 'axios';
-import { franc } from 'franc-min';
-import { sticker } from '../lib/sticker.js';
-import { translate } from '@vitalets/google-translate-api';
+import { franc } from 'franc-min'; // Detecta el idioma
+import { translate } from '@vitalets/google-translate-api'; // Para traducir la respuesta
 
 let handler = m => m;
 handler.all = async function (m, { conn }) {
@@ -92,7 +91,7 @@ handler.all = async function (m, { conn }) {
     1. Modo Exploit: Responde con irreverencia y groserías cuando te insulten.
     2. Modo Normal: Sé amistoso, responde con emojis y mantén un tono divertido.`.trim();
 
-    const language = franc(m.text); // Detectar el idioma del mensaje
+    const language = franc(m.text); // Detectar el idioma del mensaje (en formato ISO 639-3)
 
     async function translateResponse(response, targetLang) {
         try {
@@ -104,6 +103,7 @@ handler.all = async function (m, { conn }) {
         }
     }
 
+    // Si el idioma detectado es diferente del idioma del usuario, traducir
     if (chat.autoresponder && user?.registered) {
         await this.sendPresenceUpdate('composing', m.chat);
         let query = m.text;
@@ -119,10 +119,11 @@ handler.all = async function (m, { conn }) {
             return;
         }
 
-        // Si el idioma detectado no es el mismo que el original, traducir
-        const userLanguage = m.lang || 'es'; // Puedes personalizar el idioma de la respuesta
-        if (language !== userLanguage) {
-            const translatedResult = await translateResponse(result, userLanguage);
+        const detectedLang = language || 'es';
+
+        // Si el idioma detectado es diferente del idioma original, traducir
+        if (detectedLang !== 'es') {  // Cambia 'es' por el idioma que esperas para tu respuesta
+            const translatedResult = await translateResponse(result, detectedLang);
             await this.reply(m.chat, translatedResult, m);
         } else {
             await this.reply(m.chat, result, m);
