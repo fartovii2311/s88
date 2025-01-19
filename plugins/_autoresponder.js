@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { franc } from 'franc-min';
 import { sticker } from '../lib/sticker.js';
+import { translate } from '@vitalets/google-translate-api'; // Usaremos la API de Google Translate para traducir las respuestas
 
 let handler = m => m;
 handler.all = async function (m, { conn }) {
@@ -93,6 +94,16 @@ handler.all = async function (m, { conn }) {
 
     const language = franc(m.text);
 
+    async function translateResponse(response, targetLang) {
+        try {
+            const translated = await translate(response, { to: targetLang });
+            return translated.text;
+        } catch (error) {
+            console.error('Error al traducir:', error.message);
+            return response;
+        }
+    }
+
     if (chat.autoresponder && user?.registered) {
         await this.sendPresenceUpdate('composing', m.chat);
         let query = m.text;
@@ -108,7 +119,9 @@ handler.all = async function (m, { conn }) {
             return;
         }
 
-        await this.reply(m.chat, result, m);
+        const translatedResult = await translateResponse(result, language);
+
+        await this.reply(m.chat, translatedResult, m);
         return true;
     }
 
