@@ -8,7 +8,7 @@ let handler = async (m, { conn }) => {
                 renderLargerThumbnail: false, // Sin miniatura
                 url: '', // Sin URL
                 mediaType: 0, // Solo texto, sin medios
-                thumbnail: null // Asegurarse de que no haya imagen
+                thumbnail: Buffer.from([]) // Asegurarse de que no haya una miniatura
             }
         }
     };
