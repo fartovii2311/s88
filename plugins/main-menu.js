@@ -39,7 +39,7 @@ const defaultMenu = {
 
  ▧ *\`INFO USUARIO\`*
  │ » *Cliente:* %name
- │ » *Estrellas:* %limit
+ │ » *Corazones:* %corazones
  │ » *Nivel:* %level
  │ » *Xp:* %exp / %maxexp
  │ » *TotalXp:* %totalexp
