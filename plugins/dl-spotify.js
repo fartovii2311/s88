@@ -2,37 +2,36 @@ import fetch from 'node-fetch';
 
 let handler = async (m, { conn, command, text, usedPrefix }) => {
   if (!text) {
-    return conn.reply(m.chat, '[ ᰔᩚ ] Ingresa el nombre o palabra clave para buscar en *Spotify*.\n\n' + `Ejemplo:\n> *${usedPrefix + command}* Ozuna`, m);
+    return conn.reply(
+      m.chat,
+      '[ ᰔᩚ ] Ingresa el nombre o palabra clave para buscar en *Spotify*.\n\n' +
+        `Ejemplo:\n> *${usedPrefix + command}* https://open.spotify.com/track/37ZtpRBkHcaq6hHy0X98zn`,
+      m
+    );
   }
 
   await m.react('🕓');
 
   try {
-    let apiSearch = await fetch(`https://api.vreden.web.id/api/spotifysearch?query=${encodeURIComponent(text)}`);
-    let jsonSearch = await apiSearch.json();
-    let selectedTrack = jsonSearch.result[0];
-    let trackUrl = selectedTrack.url;
-
-    let apiDL = await fetch(`https://restapi.apibotwa.biz.id/api/spotify?url=${encodeURIComponent(trackUrl)}`);
+    let apiDL = await fetch(`https://delirius-apiofc.vercel.app/download/spotifydlv3?url=${encodeURIComponent(text)}`);
     let jsonDL = await apiDL.json();
 
-    if (jsonDL.status === 200 && jsonDL.data && jsonDL.data.response) {
-      let downloadUrl = jsonDL.data.response;
-      let { title, artists, cover } = selectedTrack;
+    if (jsonDL && jsonDL.status && jsonDL.data) {
+      let { title, author, image, duration, url: musicUrl } = jsonDL.data;
+      
+      let durationMinutes = Math.floor(duration / 60000);
+      let durationSeconds = ((duration % 60000) / 1000).toFixed(0);
 
-      let titulo = `🎶 *Titulo*: ${title}\n🖊️ *Autor*: ${artists}\n🌐 *Enlace*: ${trackUrl}`;
+      let caption = `🎶 *Título*: ${title}\n🖊️ *Autor*: ${author}\n⏳ *Duración*: ${durationMinutes}:${durationSeconds.padStart(2, '0')}\n🌐 *Enlace*: ${text}`;
 
-      await conn.sendFile(m.chat, cover, 'cover.jpg', titulo, m);
-      await conn.sendFile(m.chat, downloadUrl, 'music.mp3', null, m);
+      await conn.sendFile(m.chat, image, 'cover.jpg', caption, m);
+      await conn.sendFile(m.chat, musicUrl, `${title}.mp3`, null, m);
       await m.react('✅');
     } else {
       await m.react('❌');
-      conn.reply(m.chat, '[ ᰔᩚ ] No se pudo obtener la música para este enlace.', m);
     }
   } catch (error) {
     console.error(error);
-    await m.react('❌');
-    conn.reply(m.chat, '[ ᰔᩚ ] Ocurrió un error al procesar tu solicitud.', m);
   }
 };
 
