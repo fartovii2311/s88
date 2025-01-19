@@ -5,9 +5,17 @@ import { translate } from '@vitalets/google-translate-api';
 let handler = m => m;
 handler.all = async function (m, { conn }) {
     
-    if (!m.text || m?.message?.delete || m.type === 'audio' || m.type === 'video' || m.text.toLowerCase() === 'audio') {
-        return; 
+    if (
+    !m.text || 
+    m?.message?.delete || 
+    m.type.toLowerCase() === 'audio' || 
+    m.type.toLowerCase() === 'video' || 
+    /audio/i.test(m.text) || 
+    /video/i.test(m.text)
+    ) {
+    return; 
     }
+
 
     const prefixes = ['!', '.', '?', '/', '#', '*', '+', '-', '$', '&', '%', '@', '~'];
     const hasPrefix = prefixes.some(prefix => m.text.startsWith(prefix));
