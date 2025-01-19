@@ -4,10 +4,9 @@ let handler = async (m, { conn }) => {
         contextInfo: {
             externalAdReply: {
                 title: 'Grupo • SKY - Publicidad (no bots)', // Título
-                body: false, // Desactivar el subtítulo
-                mediaType: 1, // Tipo de contenido
-                renderLargerThumbnail: false, // Evitar imagen
-                url: false // Evitar que aparezca la URL
+                mediaType: 1,
+                renderLargerThumbnail: false,
+                url: false
             }
         }
     };
