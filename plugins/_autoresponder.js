@@ -8,8 +8,8 @@ handler.all = async function (m, { conn }) {
         return;
     }
 
-   if (m.reactions && m.reactions.length > 0) {
-        return;
+    if (!m.text || m?.message?.delete || m.type === 'audio' || m.type === 'video') {
+    return;
     }
 
     if (m.type === 'audio' || m.type === 'video') {
