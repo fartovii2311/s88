@@ -2,14 +2,12 @@ let handler = async (m, { conn }) => {
     let mensaje = {
         text: '*Este es un mensaje de ejemplo.*',
         contextInfo: {
-            isForwarded: true, 
             externalAdReply: {
-                title: 'Grupo • SKY - Publicidad (no bots)',
-                newsletterJid: "120363371366801178@newsletter", 
-                mediaType: 1,
-                renderLargerThumbnail: false,
-                url: false,
-                body: false,
+                title: 'Grupo • SKY - Publicidad (no bots)', // Título
+                body: false, // No mostrar subtítulo
+                renderLargerThumbnail: false, // Evita el renderizado de miniatura
+                url: false, // No incluir URL
+                mediaType: 0, // 0 para texto, evitando tipo de contenido multimedia
             }
         }
     };
