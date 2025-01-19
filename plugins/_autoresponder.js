@@ -9,7 +9,7 @@ handler.all = async function (m, { conn }) {
     }
 
    if (m.reaction && Object.keys(m.reaction).length > 0) {
-    return; 
+    return;
    }
 
     const prefixes = ['!', '.', '?', '/', '#', '*', '+', '-', '$', '&', '%', '@', '~'];
