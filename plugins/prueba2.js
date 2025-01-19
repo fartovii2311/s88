@@ -1,10 +1,18 @@
 let handler = async (m, { conn }) => {
+    let text = 'hola';
     let mensaje = {
-        text: '*Este es un mensaje de ejemplo.*', // Mensaje de texto
-        title: 'Grupo • SKY - Publicidad (no bots)', // Solo el título
+        contextInfo: {
+            externalAdReply: {
+                title: 'Grupo • SKY - Publicidad (no bots)',
+                body: false, 
+                renderLargerThumbnail: false,
+                url: false, 
+                mediaType: 0 
+            }
+        }
     };
 
-    await conn.sendMessage(m.chat, mensaje, { quoted: m });
+    await conn.sendMessage(m.chat, mensaje,text, { quoted: m });
 };
 
 handler.command = ['grupopubli']; // Comando para ejecutar
