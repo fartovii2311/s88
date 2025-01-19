@@ -34,6 +34,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     }
 };
 
-handler.command = ['ytmp4'];
+handler.command = ['y4'];
 
 export default handler;
