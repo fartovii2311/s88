@@ -27,7 +27,12 @@ handler.all = async function (m, { conn }) {
     // Verifica si el chat tiene activado el modo de autoresponder
     let chat = global.db.data.chats?.[m.chat] || {};
     let user = global.db.data.users?.[m.sender] || {};
-    
+
+    // Asegura que el `users` esté definido en `global.db.data`
+    if (!global.db.data.users) {
+        global.db.data.users = {};  // Inicializa la estructura de `users` si no existe
+    }
+
     if (!chat.autoresponder) return;  // Si el autoresponder está desactivado, no responder
 
     // Palabras clave sensibles para reaccionar
