@@ -40,7 +40,7 @@ handler.all = async function (m, { conn }) {
         return true;
     }
 
-    const language = franc(m.text);
+    const language = franc(m.text); // Detectar el idioma del mensaje (en formato ISO 639-3)
 
     async function translateResponse(response, targetLang) {
         try {
@@ -57,8 +57,8 @@ handler.all = async function (m, { conn }) {
     }
 
     // Responder directamente en el idioma detectado
-    const result = "Aquí va la respuesta procesada"; // Este es el resultado que necesitas responder
-    const translatedResult = await translateResponse(result, language);
+    const responseText = "Aquí va la respuesta procesada"; // Este es el resultado que necesitas responder
+    const translatedResult = await translateResponse(responseText, language);
 
     await this.reply(m.chat, translatedResult, m);
     return true;
