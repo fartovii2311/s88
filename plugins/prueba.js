@@ -11,15 +11,14 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         
         let HS = `*Titulo :* ${title}\nDuración : ${duration}\nCalidad : ${quality}p`;
 
-        // Asegúrate de que el formato de duración esté correcto (hh:mm)
+        // Convertir la duración de "11.2 min" a segundos
         let durationInSeconds = 0;
-        if (duration.includes(':')) {
-            let timeParts = duration.split(':');
-            durationInSeconds = parseInt(timeParts[0]) * 60 + parseInt(timeParts[1]);
-        } else {
-            durationInSeconds = parseInt(duration); // Si es solo en segundos
+        if (duration.includes("min")) {
+            let minutes = parseFloat(duration.replace(" min", ""));
+            durationInSeconds = Math.round(minutes * 60); 
         }
 
+        // Si la duración es mayor o igual a 2400 segundos (40 minutos), enviar el documento
         if (durationInSeconds >= 2400) {
             await conn.sendMessage(m.chat, { 
                 document: { url: downloadUrl }, 
