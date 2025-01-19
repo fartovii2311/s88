@@ -3,6 +3,7 @@ import { franc } from 'franc-min'; // Detecta el idioma
 import { translate } from '@vitalets/google-translate-api'; // Para traducir la respuesta
 
 let handler = m => m;
+
 handler.all = async function (m, { conn }) {
     if (!m.text || m?.message?.delete) {
         return;
@@ -23,14 +24,25 @@ handler.all = async function (m, { conn }) {
     }
 
     const prefixes = ['!', '.', '?', '/', '#', '*', '+', '-', '$', '&', '%', '@', '~'];
-
     const hasPrefix = prefixes.some(prefix => m.text.startsWith(prefix));
     if (hasPrefix) {
         return; 
     }
 
+    // Verificar si global.db.data y users están definidos antes de acceder
+    if (!global.db.data || !global.db.data.users || !global.db.data.chats) {
+        console.log("La base de datos no está inicializada correctamente.");
+        return;
+    }
+
     let user = global.db.data.users[m.sender];
     let chat = global.db.data.chats[m.chat];
+
+    // Asegurar que `user` y `chat` existan
+    if (!user || !chat) {
+        console.log("Usuario o chat no encontrados.");
+        return;
+    }
 
     const sensitiveKeywords = ["manuel", "Manuel", "Manu", "DarkCore", "Dark", "dark", "DARKCORE", "DARK"];
     const profanities = [
