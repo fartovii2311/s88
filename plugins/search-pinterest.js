@@ -14,7 +14,8 @@ let handler = async (_0x10bd40, {
     return _0x9c7141.reply(_0x10bd40.chat, "🤍 *¿Que quieres buscar en pinterest?*", _0x10bd40, rcanal);
   }
 
- 
+  await m.react('🕓');
+  
   async function _0x3f3fc7(_0x5f4723) {
     const {
       imageMessage: _0x14a396
