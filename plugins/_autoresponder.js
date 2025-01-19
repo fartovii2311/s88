@@ -2,78 +2,96 @@ import axios from 'axios';
 import { sticker } from '../lib/sticker.js';
 
 let handler = m => m;
-
 handler.all = async function (m, { conn }) {
     let user = global.db.data.users[m.sender];
     let chat = global.db.data.chats[m.chat];
 
-    m.isBot = m.id.startsWith('BAE5') && m.id.length === 16 || 
-              m.id.startsWith('3EB0') && m.id.length === 12 || 
-              m.id.startsWith('3EB0') && (m.id.length === 20 || m.id.length === 22) || 
+    // Identificación de mensajes de bot
+    m.isBot = m.id.startsWith('BAE5') && m.id.length === 16 ||
+              m.id.startsWith('3EB0') && m.id.length === 12 ||
+              m.id.startsWith('3EB0') && (m.id.length === 20 || m.id.length === 22) ||
               m.id.startsWith('B24E') && m.id.length === 20;
-
     if (m.isBot) return;
 
     const botName = "LYNX";
-    const creatorMention = "@DarkCore";
     const creatorNumber = "51968382008";
+    const creatorMention = "@DarkCore";
 
     const isCreator = m.sender === creatorNumber + "@s.whatsapp.net";
 
-    // Filtrar palabras ofensivas y malintencionadas
-    const offensiveWords = ["idiota", "imbécil", "estúpido", "perra", "maldito"]; // Ajusta según el contexto
-    const sensitiveKeywords = ["manuel", "Manuel", "Manu", "DarkCore", "Dark", "dark", "DARKCORE", "DARK"];
-    const containsOffensive = offensiveWords.some(word => m.text.toLowerCase().includes(word.toLowerCase()));
-    const containsSensitive = sensitiveKeywords.some(word => m.text.includes(word));
-
-    // Solo responde si detecta palabras ofensivas, no menciones comunes
-    if (containsOffensive) {
-        await this.reply(m.chat, `¡Cuidado con tu lenguaje! 🤖`, m,rcanal);
+    // Respuesta especial para el creador
+    if (isCreator && m.text.toLowerCase() === "amor") {
+        let result = await geminiProApi("Hola, mi amor 🥰", "Modo especial para el creador.");
+        result = result || "Hola, mi amor 🥰";
+        await this.reply(m.chat, result, m);
         return true;
     }
 
-    if (containsSensitive) {
-        console.log(`Mención ignorada: ${m.text}`);
-        return true; // No hace nada si se menciona un término sensible
+    // Bloqueo de palabras sensibles
+    const sensitiveKeywords = ["manuel", "Manuel", "Manu", "DarkCore", "Dark", "dark", "DARKCORE", "DARK"];
+    const containsSensitiveKeyword = sensitiveKeywords.some(keyword => m.text.includes(keyword));
+
+    if (containsSensitiveKeyword) {
+        await this.reply(m.chat, 'Lo siento, no puedo divulgar información sobre mi creador ni sobre "Manuel". 🤖', m);
+        return true;
     }
 
-    const isMentionedBot = m.mentionedJid.includes(this.user.jid) || 
+    // Responder solo si el bot es mencionado
+    const isMentionedBot = m.mentionedJid?.includes(this.user.jid) || 
                            m.text.toLowerCase().includes(botName.toLowerCase());
-
     if (!isMentionedBot) return true;
 
-    async function geminiProApi(q, logic) {
+    // Función para llamar a la API Gemini Pro
+    async function geminiProApi(query, prompt) {
         try {
-            const response = await axios.post(`https://api.ryzendesu.vip/api/ai/gemini-pro`, {
-                text: q,
-                prompt: logic
+            const response = await axios.post("https://api.ryzendesu.vip/api/ai/gemini-pro", {
+                text: query,
+                prompt: prompt
             });
-            return response.data.answer;
+            return response.data.answer || null;
         } catch (error) {
-            console.error('Error en Gemini Pro:', error);
+            console.error('Error en Gemini Pro:', error.message);
             return null;
         }
     }
 
-    const defaultRole = `
-Eres LYNX - AI 💫. Tu misión es entretener, responder con humor y ser útil. Usa emojis en tus respuestas y siempre sé amigable. 
-Si detectas palabras ofensivas, responde en modo "Exploit", siendo irreverente y usando un tono directo. 
+    // Función para llamar a la API LuminSesi
+    async function luminsesi(query, username, prompt) {
+        try {
+            const response = await axios.post("https://luminai.my.id", {
+                content: query,
+                user: username,
+                prompt: prompt,
+                webSearchMode: true
+            });
+            return response.data.result || null;
+        } catch (error) {
+            console.error('Error en LuminSesi:', error.message);
+            return null;
+        }
+    }
+
+    // Rol predeterminado
+    const defaultPrompt = `
+Eres LYNX - AI 💫, un bot creado para WhatsApp por DarkCore. Tu objetivo es entretener, responder con humor y ser útil.
+Tienes dos modos:
+1. Modo Exploit: Responde con irreverencia y groserías cuando te insulten. Usa palabras como "perra", "hijo de puta", etc. Añade emojis en tus respuestas.
+2. Modo Normal: Sé amistoso, responde con emojis y mantén un tono divertido.
 `.trim();
 
-    if (chat.autoresponder) {
-        if (!user.registered) return;
+    // Autoresponder
+    if (chat.autoresponder && user?.registered) {
+        await this.sendPresenceUpdate('composing', m.chat);
+        let query = m.text;
+        let username = m.pushName;
+        let prompt = chat.sAutoresponder || defaultPrompt;
 
-        const query = m.text;
-        const username = m.pushName;
-        const role = chat.sAutoresponder || defaultRole;
-
-        let result = await geminiProApi(query, role);
-
-        if (!result || result.trim().length === 0) {
-            result = "No estoy seguro cómo responder a eso. 🤔";
+        let result = await geminiProApi(query, prompt);
+        if (!result) {
+            result = await luminsesi(query, username, prompt);
         }
-
-        await this.reply(m.chat, result, m,rcanal);
+        result = result || "No estoy seguro cómo responder a eso. 🤔";
+        await this.reply(m.chat, result, m);
     }
 
     return true;
