@@ -36,20 +36,6 @@ handler.all = async function (m, { conn }) {
     const containsSensitiveKeyword = sensitiveKeywords.some(keyword => m.text.includes(keyword));
     const containsProfanity = profanities.some(profanity => m.text.toLowerCase().includes(profanity));
 
-    if (m.text.toLowerCase() === '.on autoresponder') {
-        chat.autoresponder = true;
-        return; 
-    }
-
-    if (m.text.toLowerCase() === '.off autoresponder') {
-        chat.autoresponder = false;
-        return; 
-    }
-
-    if (!chat.autoresponder) {
-        return; 
-    }
-
     if (containsProfanity) {
         const exploitResponse = `¡Cálmate un poco! 🤬 ¿Quién te crees para hablarme así? Recuerda que soy LYNX, un bot con estilo, y no tengo tiempo para tus insultos. 😎`.trim();
         await this.reply(m.chat, exploitResponse, m);
@@ -109,7 +95,7 @@ handler.all = async function (m, { conn }) {
     }
 
     // Si el idioma detectado es diferente del idioma del usuario, traducir
-    if (chat.autoresponder && user?.registered) {
+    if (user?.registered) {
         await this.sendPresenceUpdate('composing', m.chat);
         let query = m.text;
         let username = m.pushName;
