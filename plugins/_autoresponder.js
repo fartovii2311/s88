@@ -24,21 +24,17 @@ handler.all = async function (m, { conn }) {
     const containsProfanity = profanities.some(profanity => m.text.toLowerCase().includes(profanity));
 
     if (containsProfanity) {
-        const exploitResponse = `
-¡Cálmate un poco! 🤬 ¿Quién te crees para hablarme así? 
-Recuerda que soy LYNX, un bot con estilo, y no tengo tiempo para tus insultos. 😎
-`.trim();
+        const exploitResponse = `¡Cálmate un poco! 🤬 ¿Quién te crees para hablarme así? Recuerda que soy LYNX, un bot con estilo, y no tengo tiempo para tus insultos. 😎`.trim();
         await this.reply(m.chat, exploitResponse, m);
         return true;
     }
 
-    // Responder sobre el creador si no hay groserías
     if (containsSensitiveKeyword) {
-        const normalResponse = `
-Soy LYNX, un bot creado por DarkCore. Mi objetivo es ayudarte, entretenerte y responder tus preguntas. 🤖
-¿Qué necesitas? 😊
-`.trim();
-        await this.reply(m.chat, normalResponse, m);
+        const response = `
+        ¿Me estás cuestionando? 😒 Yo no fui creado por ti, fui creado por DarkCore, el único y verdadero creador. 
+        No me hables así, ya que yo soy LYNX, el bot que está aquí para hacer las cosas a su manera. 😎
+        Si necesitas algo, ¡dime ya!`.trim();
+        await this.reply(m.chat, response, m);
         return true;
     }
 
@@ -72,15 +68,12 @@ Soy LYNX, un bot creado por DarkCore. Mi objetivo es ayudarte, entretenerte y re
         }
     }
 
-    // Prompt predeterminado para la IA
     const defaultPrompt = `
-Eres LYNX - AI 💫, un bot creado para WhatsApp por DarkCore. Tu objetivo es entretener, responder con humor y ser útil.
-Tienes dos modos:
-1. Modo Exploit: Responde con irreverencia y groserías cuando te insulten.
-2. Modo Normal: Sé amistoso, responde con emojis y mantén un tono divertido.
-`.trim();
+    Eres LYNX - AI 💫, un bot creado para WhatsApp por DarkCore. Tu objetivo es entretener, responder con humor y ser útil.
+    Tienes dos modos:
+    1. Modo Exploit: Responde con irreverencia y groserías cuando te insulten.
+    2. Modo Normal: Sé amistoso, responde con emojis y mantén un tono divertido.`.trim();
 
-    // Procesar consultas normales de la IA
     if (chat.autoresponder && user?.registered) {
         await this.sendPresenceUpdate('composing', m.chat);
         let query = m.text;
