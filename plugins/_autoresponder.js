@@ -12,6 +12,10 @@ handler.all = async function (m, { conn }) {
         return;
     }
 
+    if (m.type === 'audio' || m.type === 'video') {
+        return; 
+    }
+
     const prefixes = ['!', '.', '?', '/', '#', '*', '+', '-', '$', '&', '%', '@', '~'];
 
     const hasPrefix = prefixes.some(prefix => m.text.startsWith(prefix));
