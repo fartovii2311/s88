@@ -31,6 +31,7 @@ let tags = {
     'tools': 'Herramientas',
     'group': 'Grupo',
     'owner': 'Owner',
+    'enable': 'Enables',
     'audio': 'Covertidores',
     'nsfw': 'nsfw Hot',
   };
