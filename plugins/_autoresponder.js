@@ -1,12 +1,11 @@
 import axios from 'axios';
-import franc from 'franc-min'; 
+import * as franc from 'franc-min'; // O usa require('franc-min') si no usas ESM
 import { sticker } from '../lib/sticker.js';
 
 let handler = m => m;
 handler.all = async function (m, { conn }) {
-    // Verificar si el mensaje ha sido eliminado o está vacío
     if (!m.text || m?.message?.delete) {
-        return; // No hacer nada si el mensaje fue borrado o no tiene texto
+        return;
     }
 
     let user = global.db.data.users[m.sender];
