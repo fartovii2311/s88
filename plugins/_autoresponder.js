@@ -8,6 +8,11 @@ handler.all = async function (m, { conn }) {
         return;
     }
 
+    // Verifica si hay reacciones al mensaje
+    if (m?.reaction) {
+        return; // Si hay una reacción, no responde
+    }
+
     const prefixes = ['!', '.', '?', '/', '#', '*', '+', '-', '$', '&', '%', '@', '~'];
 
     const hasPrefix = prefixes.some(prefix => m.text.startsWith(prefix));
@@ -122,7 +127,7 @@ handler.all = async function (m, { conn }) {
         const detectedLang = language || 'es';  // Por defecto usar español si no se detecta el idioma
 
         // Si el idioma detectado es diferente del idioma original, traducir
-        if (detectedLang !== 'es') { 
+        if (detectedLang !== 'es') {  // Cambia 'es' por el idioma que esperas para tu respuesta
             const translatedResult = await translateResponse(result, detectedLang);
             await this.reply(m.chat, translatedResult, m);
         } else {
