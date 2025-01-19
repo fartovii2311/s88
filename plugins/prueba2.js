@@ -1,18 +1,18 @@
 let handler = async (m, { conn }) => {
     let mensaje = {
-        text: '*Este es un mensaje de ejemplo.*', // Mensaje de texto
+        text: '*Este es un mensaje de ejemplo.*', // El mensaje de texto
         contextInfo: {
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-                newsletterJid: "120363371366801178@newsletter", 
-                serverMessageId: 100, 
-                newsletterName: 'Grupo • SKY - Publicidad (no bots)',
-                renderLargerThumbnail: false, 
-                mediaType: 0,
-            },
-        },
+            externalAdReply: {
+                title: 'Grupo • SKY - Publicidad (no bots)', // Solo el título
+                body: '',  // Sin subtítulo
+                renderLargerThumbnail: false, // Sin miniatura
+                url: '', // Sin URL
+                mediaType: 0, // Solo texto, sin medios
+                thumbnail: null // Asegurarse de que no haya imagen
+            }
+        }
     };
-
+    
     await conn.sendMessage(m.chat, mensaje, { quoted: m });
 };
 
