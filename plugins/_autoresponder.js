@@ -98,6 +98,7 @@ handler.all = async function (m, { conn }) {
             result = await luminsesi(query, username, prompt);
         }
 
+        // Evitar responder si no hay resultado
         if (!result) {
             return; // Si no hay respuesta, no hacer nada
         }
