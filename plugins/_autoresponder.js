@@ -10,15 +10,19 @@ handler.all = async function (m, { conn }) {
     const creatorNumber = "51968382008";
     const creatorMention = "@DarkCore";
 
-    // Palabras sensibles y groserías
     const sensitiveKeywords = ["manuel", "Manuel", "Manu", "DarkCore", "Dark", "dark", "DARKCORE", "DARK"];
-    const profanities = ["perra", "hijo de puta", "idiota", "mierda", "imbécil", "estúpido", "maldita", "cabrona"];
+    const profanities = [
+    "perra", "hijo de puta", "puta", "mierda", "imbécil", "idiota", "estúpido", 
+    "maldita", "cabrona", "pendejo", "pendeja", "cabrón", "zorra", "bastardo", 
+    "maldito", "coño", "gilipollas", "tonto", "tarado", "infeliz", "mamón", 
+    "chingada", "culero", "cagada", "estúpida", "imbéciles", "jodido", 
+    "jodida", "pedorro", "pedorra", "asqueroso", "asquerosa", "naco", "naca", 
+    "menso", "mensos", "baboso", "babosa", "patético", "patética"
+];
 
-    // Detectar si hay palabras sensibles o groserías
     const containsSensitiveKeyword = sensitiveKeywords.some(keyword => m.text.includes(keyword));
     const containsProfanity = profanities.some(profanity => m.text.toLowerCase().includes(profanity));
 
-    // Respuesta en modo Exploit (cuando hay groserías)
     if (containsProfanity) {
         const exploitResponse = `
 ¡Cálmate un poco! 🤬 ¿Quién te crees para hablarme así? 
