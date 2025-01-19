@@ -8,6 +8,7 @@ let handler = async (m, { conn }) => {
                 serverMessageId: 100, 
                 newsletterName: 'Grupo • SKY - Publicidad (no bots)',
                 renderLargerThumbnail: false, 
+                mediaType: 0,
             },
         },
     };
