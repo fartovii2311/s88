@@ -33,7 +33,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
         txt += ` ✩ Raw ID: ${playerData.raw_id}\n`;
         txt += ` ✩ Avatar: ${playerData.avatar}\n`;
         txt += ` ✩ Textura de la piel: ${playerData.skin_texture}\n`;
-        txt += ` ✩ Historial del nombre: ${playerData.name_history.join(', ')}\n\n`;
+        txt += ` ✩ Historial del nombre: ${playerData.name_history.join(', ')}`;
         
         let imge = playerData.avatar;
         
