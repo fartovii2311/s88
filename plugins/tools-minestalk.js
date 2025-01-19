@@ -37,8 +37,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
         
         let imge = playerData.avatar;
         
-        await conn.sendFile(m.chat,imge,'imagen.jpg',txt,m,rcanal);
-
+        await conn.sendFile(m.chat,imge,'imagen.jpg',txt,m,rcanal,fake);
 
         await m.react('✅');
     } catch (error) {
