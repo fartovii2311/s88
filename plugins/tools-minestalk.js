@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const MinecraftStalk = async (username) => {
   try {
-    const response = await axios.get(https://playerdb.co/api/player/minecraft/${username});
+    const response = await axios.get(`https://playerdb.co/api/player/minecraft/${username}`);
     const data = response.data;
 
     return {
@@ -19,7 +19,7 @@ const MinecraftStalk = async (username) => {
 };
 
 let handler = async (m, { conn, args, usedPrefix, command }) => {
-  if (!args[0]) return conn.reply(m.chat, 🚩 Ingresa un nombre de jugador de Minecraft\n\nEjemplo:\n> *${usedPrefix + command}* hann, m, rcanal);
+  if (!args[0]) return conn.reply(m.chat, `🚩 Ingresa un nombre de jugador de Minecraft\n\nEjemplo:\n> *${usedPrefix + command}* hann`, m);
 
   await m.react('🕓');
   try {
@@ -33,7 +33,12 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     txt += `  ✩   Skin Texture : ${playerData.skin_texture}\n`;
     txt += `  ✩   Name History : ${playerData.name_history.join(', ')}\n\n`;
 
-    await conn.sendMessage(m.chat, { text: txt, caption: 'Información del jugador', image: { url: 'https://qu.ax/cuABj.jpg' } }, { quoted: m });
+    await conn.sendMessage(m.chat, { 
+      text: txt,
+      image: { url: playerData.avatar },
+      caption: 'Aquí está la información del jugador Minecraft'
+    }, { quoted: m });
+    
     await m.react('✅');
   } catch (error) {
     await conn.reply(m.chat, error.message, m);
