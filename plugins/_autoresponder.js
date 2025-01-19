@@ -9,7 +9,7 @@ handler.all = async function (m, { conn }) {
         return;
     }
 
-    const prefixes = ['!', '.', '?', '/'];
+    const prefixes = ['!', '.', '?', '/', '#', '*', '+', '-', '$', '&', '%', '@', '~'];
 
     const hasPrefix = prefixes.some(prefix => m.text.startsWith(prefix));
     if (hasPrefix) {
