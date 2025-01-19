@@ -1,4 +1,5 @@
 import axios from 'axios';
+import franc from 'franc-min'; 
 import { sticker } from '../lib/sticker.js';
 
 let handler = m => m;
@@ -21,12 +22,12 @@ handler.all = async function (m, { conn }) {
 
     if (m.text.toLowerCase() === '.on autoresponder') {
         chat.autoresponder = true;
-        return;
+        return; 
     }
 
     if (m.text.toLowerCase() === '.off autoresponder') {
         chat.autoresponder = false;
-        return;
+        return; 
     }
 
     if (!chat.autoresponder) {
@@ -45,7 +46,6 @@ handler.all = async function (m, { conn }) {
         return true;
     }
 
-    // Función para llamar a la API Gemini Pro
     async function geminiProApi(query, prompt) {
         try {
             const response = await axios.post("https://api.ryzendesu.vip/api/ai/gemini-pro", {
@@ -80,6 +80,8 @@ handler.all = async function (m, { conn }) {
     1. Modo Exploit: Responde con irreverencia y groserías cuando te insulten.
     2. Modo Normal: Sé amistoso, responde con emojis y mantén un tono divertido.`.trim();
 
+    const language = franc(m.text);
+
     if (chat.autoresponder && user?.registered) {
         await this.sendPresenceUpdate('composing', m.chat);
         let query = m.text;
@@ -90,8 +92,18 @@ handler.all = async function (m, { conn }) {
         if (!result) {
             result = await luminsesi(query, username, prompt);
         }
-        result = result || "No estoy seguro cómo responder a eso. 🤔";
+
+        if (!result) {
+            return;
+        }
+
+        if (language !== 'und') {
+            result = result;
+        }
+
         await this.reply(m.chat, result, m);
+
+        return true;
     }
 
     return true;
