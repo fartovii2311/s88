@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { franc } from 'franc-min'; // Importar correctamente la función
+import { franc } from 'franc-min';
 import { sticker } from '../lib/sticker.js';
 
 let handler = m => m;
@@ -8,13 +8,11 @@ handler.all = async function (m, { conn }) {
         return;
     }
 
-    // Definir todos los prefijos posibles
-    const prefixes = ['!', '.', '?', '/']; // Añadir aquí los prefijos que uses en tu bot
+    const prefixes = ['!', '.', '?', '/'];
 
-    // Verificar si el mensaje comienza con alguno de los prefijos definidos
     const hasPrefix = prefixes.some(prefix => m.text.startsWith(prefix));
     if (hasPrefix) {
-        return; // Si tiene un prefijo válido, no hacer nada (no responder)
+        return; 
     }
 
     let user = global.db.data.users[m.sender];
@@ -93,7 +91,7 @@ handler.all = async function (m, { conn }) {
     1. Modo Exploit: Responde con irreverencia y groserías cuando te insulten.
     2. Modo Normal: Sé amistoso, responde con emojis y mantén un tono divertido.`.trim();
 
-    const language = franc(m.text); // Función franc ahora usada correctamente
+    const language = franc(m.text);
 
     if (chat.autoresponder && user?.registered) {
         await this.sendPresenceUpdate('composing', m.chat);
