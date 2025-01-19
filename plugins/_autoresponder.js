@@ -51,8 +51,7 @@ handler.all = async function (m, { conn }) {
             return null;
         }
     }
-
-    // Función para llamar a la API LuminSesi
+    
     async function luminsesi(query, username, prompt) {
         try {
             const response = await axios.post("https://luminai.my.id", {
