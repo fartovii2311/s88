@@ -4,7 +4,13 @@ import { translate } from '@vitalets/google-translate-api'; // Para traducir la 
 
 let handler = m => m;
 handler.all = async function (m, { conn }) {
-    if (!m.text || m?.message?.delete) {
+    if (!m || !m.text || m?.message?.delete) {
+        return;
+    }
+
+    // Verificar que el objeto 'm' tenga la propiedad 'user'
+    if (!m.hasOwnProperty('user')) {
+        console.error('El objeto "m" no tiene la propiedad "user"');
         return;
     }
 
