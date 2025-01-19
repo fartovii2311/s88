@@ -4,6 +4,10 @@ import { sticker } from '../lib/sticker.js';
 
 let handler = m => m;
 handler.all = async function (m, { conn }) {
+    if (m.message && m.message.delete) {
+        return; // Si el mensaje ha sido borrado, no responder
+    }
+
     let user = global.db.data.users[m.sender];
     let chat = global.db.data.chats[m.chat];
 
