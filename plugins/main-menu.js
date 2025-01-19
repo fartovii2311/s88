@@ -56,7 +56,7 @@ const defaultMenu = {
 *\`🍁 L I S T A   D E   C O M A N D O S 🍁\`*
 
 `.trimStart(),
-  header: '─₍🌩️₎❝┊ `*%category*` ┊❜❜ ˚ ͙۪۪̥◌',
+  header: '─₍🌩️₎❝┊ *%category* ┊❜❜ ˚ ͙۪۪̥◌',
   body: `┊꒱ 🍁   %cmd %islimit %isPremium`,
   footer: '╰─── –',
   after: `> ʟʏɴx ᴀɪ - ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴅᴀʀᴋᴄᴏʀᴇ`,
