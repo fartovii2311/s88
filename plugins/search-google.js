@@ -33,7 +33,7 @@ const chromeStoreSearch = async (query) => {
 };
 
 let handler = async (m, { conn, args, usedPrefix, command }) => {
-  if (!args[0]) return conn.reply(m.chat, `🚩 Ingrese un término de búsqueda\n\nEjemplo:\n> *${usedPrefix + command}* cookie`, m);
+  if (!args[0]) return conn.reply(m.chat, `🚩 Ingrese un término de búsqueda\n\nEjemplo:\n> *${usedPrefix + command}* cookie`, m,rcanal);
 
   await m.react('🕓');
   try {
@@ -55,7 +55,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     await conn.sendMessage(m.chat, { text: txt }, { quoted: m });
     await m.react('✅');
   } catch (error) {
-    await conn.reply(m.chat, error.message, m);
+    await conn.reply(m.chat, error.message, m,rcanal);
     await m.react('✖');
   }
 };
