@@ -2,7 +2,6 @@ let handler = async (m, { conn }) => {
     let mensaje = {
         text: '*Este es un mensaje de ejemplo.*', // Mensaje de texto
         contextInfo: {
-            isForwarded: true,
             forwardedNewsletterMessageInfo: {
                 newsletterJid: "120363371366801178@newsletter", 
                 serverMessageId: 100, 
