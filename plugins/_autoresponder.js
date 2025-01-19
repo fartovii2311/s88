@@ -8,6 +8,15 @@ handler.all = async function (m, { conn }) {
         return;
     }
 
+    // Definir todos los prefijos posibles
+    const prefixes = ['!', '.', '?', '/']; // Añadir aquí los prefijos que uses en tu bot
+
+    // Verificar si el mensaje comienza con alguno de los prefijos definidos
+    const hasPrefix = prefixes.some(prefix => m.text.startsWith(prefix));
+    if (!hasPrefix) {
+        return; // Si no tiene un prefijo válido, no hacer nada
+    }
+
     let user = global.db.data.users[m.sender];
     let chat = global.db.data.chats[m.chat];
 
