@@ -361,7 +361,7 @@ await conn.sendMessage(m.chat, {
 }
 
 handler.help = ['enable *<opción>*', 'disable *<opción>*', 'on *<opción>*', 'off *<opción>*']
-handler.tags = ['nable']
+handler.tags = ['enable']
 handler.command = ['enable', 'disable', 'on', 'off', '1', '0']
 
 export default handler
