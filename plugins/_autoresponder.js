@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { franc } from 'franc-min'; // Detecta el idioma
-import { translate } from '@vitalets/google-translate-api'; // Para traducir la respuesta
+import { franc } from 'franc-min';
+import { translate } from '@vitalets/google-translate-api'; 
 
 let handler = m => m;
 handler.all = async function (m, { conn }) {
@@ -8,9 +8,9 @@ handler.all = async function (m, { conn }) {
         return;
     }
 
-   if (m.reaction && Object.keys(m.reaction).length > 0) {
-    return;
-   }
+   if (m.reactions && m.reactions.length > 0) {
+        return;
+    }
 
     const prefixes = ['!', '.', '?', '/', '#', '*', '+', '-', '$', '&', '%', '@', '~'];
 
