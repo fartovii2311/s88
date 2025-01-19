@@ -13,6 +13,15 @@ handler.all = async function (m, { conn }) {
         return; // Si hay una reacción, no responde
     }
 
+    // Verifica si el mensaje contiene una mención
+    const isMentioned = m.text.includes('@' + conn.user.name);
+    if (isMentioned) {
+        // Si el bot es mencionado, responder directamente
+        let mentionResponse = `¡Hola! ¿En qué puedo ayudarte? 😊`;
+        await this.reply(m.chat, mentionResponse, m);
+        return true;
+    }
+
     const prefixes = ['!', '.', '?', '/', '#', '*', '+', '-', '$', '&', '%', '@', '~'];
 
     const hasPrefix = prefixes.some(prefix => m.text.startsWith(prefix));
