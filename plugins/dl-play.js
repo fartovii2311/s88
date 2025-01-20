@@ -12,15 +12,15 @@ let handler = async (m, { conn: star, command, args, text, usedPrefix }) => {
     let res = await search(args.join(" "))
     let img = await (await fetch(`${res[0].image}`)).buffer()
    let txt = `🎬 *‌乂 Y O U T U B E  -  P L A Y 乂* 🎬\n\n`
-     txt += `━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`
-     txt += `🎥 *Título:* ${res[0].title}\n`
-     txt += `⏳ *Duración:* ${secondString(res[0].duration.seconds)}\n`
-     txt += `📅 *Publicado:* ${eYear(res[0].ago)}\n`
-     txt += `📺 *Canal:* ${res[0].author.name || 'Desconocido'}\n`
-     txt += `🔑 *ID:* ${res[0].videoId}\n`
-     txt += `🔗 *URL:* https://youtu.be/${res[0].videoId}\n`
-     txt += `━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`
-     txt += `> ⚡ Responde con *Video* o *Audio* para elegir el formato.`;
+     txt += `－－－－－－－－－－－－－－－－－－\n`
+     txt += `ﾒ 🎥 *TITULO:* ${res[0].title}\n`
+     txt += `ﾒ ⏳ *DURACION:* ${secondString(res[0].duration.seconds)}\n`
+     txt += `ﾒ 📅 *PUBLICACION:* ${eYear(res[0].ago)}\n`
+     txt += `ﾒ 📺 *CANAL:* ${res[0].author.name || 'Desconocido'}\n`
+     txt += `ﾒ 🔑 *ID:* ${res[0].videoId}\n`
+     txt += `ﾒ 🔗 *URL:* https://youtu.be/${res[0].videoId}\n`
+     txt += `－－－－－－－－－－－－－－－－－－\n\n`
+     txt += `> ↻ RESPONDE CON *Video* O *Audio* PARA ELEJIR TU FORMATO.`;
 
 
 
