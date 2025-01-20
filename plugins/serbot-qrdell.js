@@ -1,29 +1,47 @@
 import { promises as fs } from "fs";
+import { existsSync } from "fs";
 
-let handler = async (m, { conn }) => {
-  let who = m.mentionedJid && m.mentionedJid[0]
-            ? m.mentionedJid[0]
-            : m.fromMe
-            ? conn.user.jid
-            : m.sender;
-  let uniqid = `${who.split`@`[0]}`;
+let handler = async (m, { conn, args }) => {
+  // Verifica si se proporcionó un número en los argumentos
+  if (!args[0]) {
+    await conn.sendMessage(
+      m.chat,
+      { text: "❌ Por favor, ingrese el número asociado a la sesión que desea eliminar. Ejemplo: *.delqr 51912345678*" },
+      { quoted: m }
+    );
+    return;
+  }
+
+  let uniqid = args[0];
   let sessionPath = `./serbot/${uniqid}`;
 
   try {
-    await fs.rm(sessionPath, { recursive: true, force: true });
-    await conn.sendMessage(m.chat, { text: '🚩 Sub-Bot eliminado correctamente.' }, { quoted: m });
-  } catch (err) {
-    if (err.code === 'ENOENT') {
-      await conn.sendMessage(m.chat, { text: "❌ No se encontró ninguna sesión activa de Sub-Bot." }, { quoted: m });
-    } else {
-      console.error("Error al eliminar la sesión del Sub-Bot:", err.message);
-      await m.react('✖️');
+    // Verifica si la carpeta existe antes de intentar eliminarla
+    if (!existsSync(sessionPath)) {
+      await conn.sendMessage(
+        m.chat,
+        { text: `❌ No se encontró ninguna sesión activa de Sub-Bot para el número: ${uniqid}.` },
+        { quoted: m }
+      );
+      return;
     }
+
+    // Si la carpeta existe, eliminarla
+    await fs.rm(sessionPath, { recursive: true, force: true });
+    await conn.sendMessage(
+      m.chat,
+      { text: `🚩 Sub-Bot eliminado correctamente para el número: ${uniqid}.` },
+      { quoted: m }
+    );
+  } catch (err) {
+    console.error("Error al eliminar la sesión del Sub-Bot:", err.message);
+    await conn.sendMessage(m.chat, { text: "❌ Ocurrió un error al intentar eliminar la sesión." }, { quoted: m });
+    await m.react('✖️');
   }
 };
 
 handler.tags = ['serbot'];
-handler.help = ['delqr *< Numero >*'];
+handler.help = ['delqr *< Número >*'];
 handler.command = /^(delqr|delsession|delsesion|eliminarsesion|borrarsesion|cerrarsesion)$/i;
 
 export default handler;
