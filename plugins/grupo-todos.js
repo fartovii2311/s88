@@ -1,9 +1,5 @@
 let handler = async (m, { conn }) => {
-  const enlacesGrupos = [
-    "https://chat.whatsapp.com/KVpZsgm9wHG5ooZPsFVCac",
-    "https://chat.whatsapp.com/D58CSUpwMH2CQi3iLitIWp"
-  ];
-
+  
   const imageUrl = "https://i.ibb.co/JndpnfX/LynxAI.jpg";
 
   const mensaje = `
@@ -27,10 +23,11 @@ let handler = async (m, { conn }) => {
 - _Tu bot favorito_ ❤️
 `;
 
-  // Obtener todos los chats (grupos)
-  const chats = await conn.getChats();
+  // Obtener todos los chats
+  const chats = await conn.getAllChats(); // Verifica que esta función esté disponible en tu biblioteca
   const gruposActivos = chats.filter(chat => chat.isGroup);
 
+  // Enviar el mensaje a cada grupo
   for (let grupo of gruposActivos) {
     await conn.sendMessage(grupo.id, { 
       image: { url: imageUrl },
