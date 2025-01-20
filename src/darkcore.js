@@ -18,10 +18,10 @@ import P from 'pino'
 import pino from 'pino'
 import Pino from 'pino'
 import {Boom} from '@hapi/boom'
-import {makeWASocket, protoType, serialize} from '../lib/simple.js'
+import {makeWASocket, protoType, serialize} from './lib/simple.js'
 import {Low, JSONFile} from 'lowdb'
-import {mongoDB, mongoDBV2} from '../lib/mongoDB.js'
-import store from '../lib/store.js'
+import {mongoDB, mongoDBV2} from './lib/mongoDB.js'
+import store from './lib/store.js'
 const {proto} = (await import('@whiskeysockets/baileys')).default
 const {DisconnectReason, useMultiFileAuthState, MessageRetryMap, fetchLatestBaileysVersion, makeCacheableSignalKeyStore, jidNormalizedUser, PHONENUMBER_MCC} = await import('@whiskeysockets/baileys')
 import readline from 'readline'
@@ -186,7 +186,7 @@ conn.well = false;
 if (!opts['test']) {
 if (global.db) setInterval(async () => {
 if (global.db.data) await global.db.write()
-if (opts['autocleartmp'] && (global.support || {}).find) (tmp = [os.tmpdir(), './tmp', `${jadi}`], tmp.forEach((filename) => cp.spawn('find', [filename, '-amin', '3', '-type', 'f', '-delete'])));
+if (opts['autocleartmp'] && (global.support || {}).find) (tmp = [os.tmpdir(), 'tmp', `${jadi}`], tmp.forEach((filename) => cp.spawn('find', [filename, '-amin', '3', '-type', 'f', '-delete'])));
 }, 60 * 1000);
 }
 
@@ -280,7 +280,7 @@ isInit = false
 return true
 };
 
-const pluginFolder = global.__dirname(join(__dirname, '../plugins/index'))
+const pluginFolder = global.__dirname(join(__dirname, './plugins/index'))
 const pluginFilter = (filename) => /\.js$/.test(filename)
 global.plugins = {}
 async function filesInit() {
@@ -363,7 +363,7 @@ return file.startsWith('pre-key-')
 })
 prekey = [...prekey, ...filesFolderPreKeys]
 filesFolderPreKeys.forEach(files => {
-unlinkSync(`../${sessions}/${files}`)
+unlinkSync(`./${sessions}/${files}`)
 })
 }
 
@@ -382,13 +382,13 @@ try {
 let listaDirectorios = readdirSync(`./${jadi}/`);
 let SBprekey = []
 listaDirectorios.forEach(directorio => {
-if (statSync(`../${jadi}/${directorio}`).isDirectory()) {
-let DSBPreKeys = readdirSync(`../${jadi}/${directorio}`).filter(fileInDir => {
+if (statSync(`./${jadi}/${directorio}`).isDirectory()) {
+let DSBPreKeys = readdirSync(`./${jadi}/${directorio}`).filter(fileInDir => {
 return fileInDir.startsWith('pre-key-')
 })
 SBprekey = [...SBprekey, ...DSBPreKeys]
 DSBPreKeys.forEach(fileInDir => {
-unlinkSync(`../${jadi}/${directorio}/${fileInDir}`)
+unlinkSync(`./${jadi}/${directorio}/${fileInDir}`)
 })
 }
 })
