@@ -133,7 +133,7 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
         global.dfail('admin', m, conn)
         throw false
       }
-      chat.autoresponder = isEnable
+      chat.sAutoresponder = isEnable
       break
 
  case 'modoadmin':
