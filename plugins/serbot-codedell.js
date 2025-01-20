@@ -22,8 +22,8 @@ let handler = async (m, { conn }) => {
   }
 };
 
-handler.tags = ['jadibot'];
-handler.help = ['delsesion'];
-handler.command = /^(deljadibotsession|deljadibotsesion|borrarsesionjadibot|cerrarsesionjadibot)$/i;
+handler.tags = ['serbot'];
+handler.help = ['delcode *< Numero >*'];
+handler.command = /^(delcode|deljadibotsession|deljadibotsesion|borrarsesionjadibot|cerrarsesionjadibot)$/i;
 
 export default handler;
