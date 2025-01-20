@@ -1,28 +1,32 @@
 import axios from 'axios';
 
-const handler = async (m, { conn, text, usedPrefix, command }) => {
+const handler = async (m, { conn }) => {
     try {
+        // Solicita una imagen aleatoria de gato.
         const response = await axios.get('https://some-random-api.com/animal/cat');
         const imageUrl = response.data.image;
 
+        // Enviar la imagen con botón interactivo.
         await conn.sendMessage(
             m.chat, 
             { 
                 image: { url: imageUrl },
-                caption: "🐱 *G A T O* 🐱\nDisfruta de esta imagen aleatoria de un gato.",
+                caption: "🐱 *G A T O* 🐱\nAquí tienes una imagen aleatoria de un gato. ¡Espero que te guste!",
                 buttons: [
                     { 
                         buttonId: 'mas_gatos',
                         buttonText: { displayText: 'Otro Gato 🐾' },
-                        type: 1,
+                        type: 1
                     }
                 ],
+                viewOnce: true,
                 headerType: 4
             },
             { quoted: m }
         );
     } catch (error) {
         console.error('Error al obtener la imagen del gato:', error);
+        await conn.sendMessage(m.chat, { text: '❌ Ocurrió un error al intentar obtener la imagen del gato. Inténtalo nuevamente.' }, { quoted: m });
     }
 };
 
