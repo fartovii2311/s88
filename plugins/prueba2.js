@@ -9,17 +9,17 @@ let handler = async (m, { conn }) => {
         buttons: [
           { 
             buttonId: 'accion_1', 
-            buttonText: { displayText: 'Acción 1' }, 
+            buttonText: { displayText: 'Agregar a tu Grupo' }, 
             type: 1 
           },
           { 
             buttonId: 'accion_2', 
-            buttonText: { displayText: 'Acción 2' }, 
+            buttonText: { displayText: 'Actualizaciones' }, 
             type: 1 
           },
           { 
             buttonId: 'accion_3', 
-            buttonText: { displayText: 'Acción 3' }, 
+            buttonText: { displayText: 'Paguina Oficial' }, 
             type: 1 
           },
         ],
