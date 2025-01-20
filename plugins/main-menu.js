@@ -157,7 +157,6 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
  version: _package.version,
  exp: exp - min,
  maxexp: xp,
- islimit: limit,
  totalexp: exp,
  xp4levelup: max - exp,
  github: _package.homepage ? _package.homepage.url || _package.homepage : "[unknown github url]",
