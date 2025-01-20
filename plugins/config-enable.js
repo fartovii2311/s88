@@ -349,10 +349,6 @@ await conn.sendMessage(m.chat, {
       buttonId: isEnable ? `.off ${type}` : `.on ${type}`, 
       buttonText: { displayText: isEnable ? '❌ Desactivado' : '✅ Activado' } 
     },
-    { 
-      buttonId: ".menu", 
-      buttonText: { displayText: '🌟 Menu' } 
-    }
   ],
   viewOnce: true,
   headerType: 1
