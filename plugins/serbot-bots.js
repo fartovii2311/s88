@@ -19,10 +19,19 @@ async function handler(m, { conn: stars, usedPrefix }) {
 
   let img = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png')
 
-  let message = users.map((v, index) => `
+  let message = users.map((v, index) => {
+    const connectedAt = v.connectedAt || Date.now() // Asegúrate de que tenga un valor
+    const elapsedTime = Date.now() - connectedAt
+    const hours = Math.floor(elapsedTime / (1000 * 60 * 60))
+    const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60))
+    const seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000)
+
+    return `
 *[ \`${index + 1}\` - ${v.user.name || 'Sin Nombre'} ]*
 🤍 *Link:* https://wa.me/${v.user.jid.replace(/[^0-9]/g, '')}?text=.code
-`).join('\n')
+🕒 *Tiempo Activo:* ${hours}h ${minutes}m ${seconds}s
+`
+  }).join('\n')
 
   let responseMessage = `🟢 *Subbots Activos: ${totalUsers}*\n\n${message.trim() || '_No hay subbots activos en este momento._'}`
 
