@@ -4,55 +4,47 @@ import path from 'path';
 const databasePath = path.resolve('./storage/databases/database.json');
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
+    // Ruta completa del archivo JSON mencionado
+    const filePath = path.resolve('./storage/databases', text);
+
+    // Función para cargar la base de datos desde un archivo JSON
+    function loadDatabase() {
+        if (fs.existsSync(databasePath)) {
+            return JSON.parse(fs.readFileSync(databasePath, 'utf8'));
+        } else {
+            return {};
+        }
+    }
+
+    // Función para guardar la base de datos en un archivo JSON
+    function saveDatabase(db) {
+        fs.writeFileSync(databasePath, JSON.stringify(db, null, 2), 'utf8');
+    }
+
     let db = loadDatabase();
-
-    function addUserToDatabase(userId, userData) {
-        db.users = db.users || {};
-        db.users[userId] = userData;
-        saveDatabase(db);
-    }
-
-    function getUserFromDatabase(userId) {
-        return db.users ? db.users[userId] : null;
-    }
-
     let replyText = '';
 
-    if (command === 'agregardata') {
-        const [name, age] = text.split(',');
-        const userId = m.sender.split('@')[0];
-        const userData = { name, age: parseInt(age) };
+    if (command === 'agregardata' && fs.existsSync(filePath)) {
+        try {
+            // Cargar el archivo JSON mencionado
+            const newDatabase = JSON.parse(fs.readFileSync(filePath, 'utf8'));
 
-        addUserToDatabase(userId, userData);
+            // Combinar los datos del archivo mencionado con los datos existentes en la base de datos
+            db.users = { ...db.users, ...newDatabase.users };
 
-        replyText = `Usuario agregado: ${name}, Edad: ${age}`;
-    }
+            // Guardar la base de datos actualizada
+            saveDatabase(db);
 
-    if (command === 'getuser') {
-        const userId = m.sender.split('@')[0];
-        const userData = getUserFromDatabase(userId);
-
-        if (userData) {
-            replyText = `Datos de usuario: Nombre: ${userData.name}, Edad: ${userData.age}`;
-        } else {
-            replyText = 'Usuario no encontrado en la base de datos';
+            replyText = `Base de datos actualizada con éxito con el archivo ${text}.`;
+        } catch (error) {
+            replyText = `Hubo un error al procesar el archivo JSON: ${error.message}`;
         }
+    } else if (command === 'agregardata') {
+        replyText = 'No se encontró el archivo JSON mencionado.';
     }
 
     await conn.reply(m.chat, replyText, m);
 };
-
-function loadDatabase() {
-    if (fs.existsSync(databasePath)) {
-        return JSON.parse(fs.readFileSync(databasePath, 'utf8'));
-    } else {
-        return {};
-    }
-}
-
-function saveDatabase(db) {
-    fs.writeFileSync(databasePath, JSON.stringify(db, null, 2), 'utf8');
-}
 
 handler.help = ['agregardata'];
 handler.tags = ['owner'];
