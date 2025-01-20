@@ -115,31 +115,33 @@ handler.all = async function (m, { conn }) {
 
     // Verifica si el autoresponder está activado
     if (chat.sAutoresponder) {
-        if (user?.registered) {
-            await this.sendPresenceUpdate('composing', m.chat);
-            let query = m.text;
-            let username = m.pushName;
-            let prompt = chat.sAutoresponder ? 'Modo autoresponder activado' : defaultPrompt;
+        return; // Si el autoresponder está activado, no respondemos aquí
+    }
 
-            let result = await geminiProApi(query, prompt);
-            if (!result) {
-                result = await luminsesi(query, username, prompt);
-            }
+    if (user?.registered) {
+        await this.sendPresenceUpdate('composing', m.chat);
+        let query = m.text;
+        let username = m.pushName;
+        let prompt = chat.sAutoresponder ? 'Modo autoresponder activado' : defaultPrompt;
 
-            if (!result) {
-                return;
-            }
-
-            const detectedLang = language || 'es';
-
-            if (detectedLang !== 'es') { 
-                await this.reply(m.chat, result, m);
-            } else {
-                await this.reply(m.chat, result, m);
-            }
-            
-            return true;
+        let result = await geminiProApi(query, prompt);
+        if (!result) {
+            result = await luminsesi(query, username, prompt);
         }
+
+        if (!result) {
+            return;
+        }
+
+        const detectedLang = language || 'es';
+
+        if (detectedLang !== 'es') { 
+            await this.reply(m.chat, result, m);
+        } else {
+            await this.reply(m.chat, result, m);
+        }
+        
+        return true;
     }
 
     return true;
