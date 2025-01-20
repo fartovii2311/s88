@@ -24,7 +24,7 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
                 showAdAttribution: true,
                 title: 'һ᥆ᥣᥲ s᥆ᥡ ᑕrᥱᥲძ᥆r Darkcore ☁️',
                 body: 'Este es el contacto oficial de mi creador',
-                thumbnailUrl: 'https://i.ibb.co/44XMFDQ/file.jpg',
+                thumbnailUrl: '',
                 sourceUrl: 'https://darkcore-support.vercel.app/',
                 mediaType: 1,
                 renderLargerThumbnail: true
