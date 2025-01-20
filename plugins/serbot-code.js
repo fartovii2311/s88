@@ -108,7 +108,6 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
 
                 if (fs.existsSync(userFolderPath)) {
                     fs.rmdirSync(userFolderPath, { recursive: true });
-                    console.log(`Carpeta eliminada para el número ${authFolderB}`);
                 }
 
                 if (code !== DisconnectReason.connectionClosed) {
