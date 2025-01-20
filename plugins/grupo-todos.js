@@ -11,7 +11,7 @@ let handler = async (m, { conn }) => {
 
 ---
 
-**🔧 Funcionalidades:**
+*🔧 Funcionalidades:*
 - ✅ *Descargar Videos*: Descarga videos de YouTube, TikTok y más.
 - ✅ *Enviar Stickers*: Convierte imágenes y videos en stickers para WhatsApp.
 - ✅ *Descargar Música*: Descargar música directamente desde tu WhatsApp.
