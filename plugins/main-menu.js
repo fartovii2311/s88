@@ -165,7 +165,6 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
  tag,
  name,
  level,
- limit,
  name,
  totalreg,
  readmore: readMore
