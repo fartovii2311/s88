@@ -2,11 +2,9 @@ import axios from 'axios';
 
 const handler = async (m, { conn }) => {
     try {
-        // Solicita una imagen aleatoria de gato.
         const response = await axios.get('https://some-random-api.com/animal/cat');
         const imageUrl = response.data.image;
 
-        // Enviar la imagen con botón interactivo.
         await conn.sendMessage(
             m.chat, 
             { 
@@ -14,7 +12,7 @@ const handler = async (m, { conn }) => {
                 caption: "🐱 *G A T O* 🐱\nAquí tienes una imagen aleatoria de un gato. ¡Espero que te guste!",
                 buttons: [
                     { 
-                        buttonId: 'mas_gatos',
+                        buttonId: '.gato',
                         buttonText: { displayText: 'Otro Gato 🐾' },
                         type: 1
                     }
