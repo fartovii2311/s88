@@ -130,7 +130,6 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
           ...help.filter(menu => menu.tags && menu.tags.includes(tag) && menu.help).map(menu => {
             return menu.help.map(help => {
               return body.replace(/%cmd/g, menu.prefix ? help : '%p' + help)
-                .replace(/%corazones/g, menu.corazones ? '🤍')
                 .replace(/%islimit/g, menu.limit ? '◜⭐◞' : '')
                 .replace(/%isPremium/g, menu.premium ? '◜🪪◞' : '')
                 .trim()
@@ -161,6 +160,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
  tag,
  name,
  level,
+ corazones,
  limit,
  name,
  totalreg,
