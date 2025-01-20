@@ -19,7 +19,7 @@ let handler = async (m, { conn }) => {
           },
           { 
             buttonId: 'accion_3', 
-            buttonText: { displayText: 'Paguina Oficial' }, 
+            buttonText: { displayText: 'Pagina Oficial' }, 
             type: 1 
           },
         ],
