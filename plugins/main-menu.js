@@ -69,7 +69,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
     let mode = global.opts["self"] ? "Privado" : "Publico"
     let _package = JSON.parse(await promises.readFile(join(__dirname, '../package.json')).catch(_ => ({}))) || {}
 
-    let { age, exp, corazones, level, role, registered, money } = global.db.data.users[m.sender]
+    let {  age, exp, corazones, level, role, money} = global.db.data.users[m.sender]
     let { min, xp, max } = xpRange(level, global.multiplier)
 
 
@@ -157,6 +157,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
  version: _package.version,
  exp: exp - min,
  maxexp: xp,
+ islimit: limit,
  totalexp: exp,
  xp4levelup: max - exp,
  github: _package.homepage ? _package.homepage.url || _package.homepage : "[unknown github url]",
@@ -167,6 +168,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
  level,
  name,
  totalreg,
+ ucpn, platform, wib, mode, _p, money, age, tag, name, prems, level, corazones, name, weton, week, date, dateIslamic, time, totalreg, rtotalreg, role, totalf, userNationality,
  readmore: readMore
    }
     text = text.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), (_, name) => '' + replace[name])
