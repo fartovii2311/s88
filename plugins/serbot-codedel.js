@@ -2,6 +2,7 @@ import { promises as fs } from "fs";
 import { existsSync } from "fs";
 
 let handler = async (m, { conn, args }) => {
+  // Verifica si el número fue proporcionado
   if (!args[0]) {
     await conn.sendMessage(
       m.chat,
@@ -11,10 +12,23 @@ let handler = async (m, { conn, args }) => {
     return;
   }
 
+  // Extrae el número proporcionado por el usuario
   let uniqid = args[0];
-  let sessionPath = `./jadibot/${uniqid}`;
+
+  // Valida que el número sea un formato correcto (solo números, sin letras ni caracteres extraños)
+  if (!/^\d+$/.test(uniqid)) {
+    await conn.sendMessage(
+      m.chat,
+      { text: "❌ El número proporcionado no es válido. Asegúrese de usar solo números." },
+      { quoted: m }
+    );
+    return;
+  }
+
+  let sessionPath = `./jadibot/${uniqid}`;  // Ruta de la carpeta asociada al número
 
   try {
+    // Verifica si la carpeta asociada al número existe
     if (!existsSync(sessionPath)) {
       await conn.sendMessage(
         m.chat,
@@ -24,6 +38,7 @@ let handler = async (m, { conn, args }) => {
       return;
     }
 
+    // Elimina la carpeta de la sesión
     await fs.rm(sessionPath, { recursive: true, force: true });
     await conn.sendMessage(
       m.chat,
