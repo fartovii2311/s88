@@ -51,7 +51,8 @@ global.opts = new Object(yargs(process.argv.slice(2)).exitProcess(false).parse()
 global.prefix = new RegExp('^[/.$#!]')
 // global.opts['db'] = process.env['db']
 
-global.db = new Low(/https?:\/\//.test(opts['db'] || '') ? new cloudDBAdapter(opts['db']) : new JSONFile('./storage/databases/database.json'));
+global.db = new Low(/https?:\/\//.test(opts['db'] || '') ? new cloudDBAdapter(opts['db']) : new JSONFile('src/database/database.json'))
+
 global.DATABASE = global.db 
 global.loadDatabase = async function loadDatabase() {
 if (global.db.READ) {
@@ -123,7 +124,7 @@ const connectionOptions = {
 logger: pino({ level: 'silent' }),
 printQRInTerminal: opcion == '1' ? true : methodCodeQR ? true : false,
 mobile: MethodMobile, 
-browser: opcion == '1' ? [`Darkcore-Ultra`, 'Edge', '20.0.04'] : methodCodeQR ? [`Darkcore-Ultra`, 'Edge', '20.0.04'] : ['Ubuntu', 'Chrome', '20.0.04'], 
+browser: opcion == '1' ? [`Genesis-Ultra`, 'Edge', '20.0.04'] : methodCodeQR ? [`Genesis-Ultra`, 'Edge', '20.0.04'] : ['Ubuntu', 'Chrome', '20.0.04'], 
 auth: {
 creds: state.creds,
 keys: makeCacheableSignalKeyStore(state.keys, Pino({ level: "fatal" }).child({ level: "fatal" })),
@@ -170,15 +171,12 @@ rl.close()
 } 
 
 setTimeout(async () => {
-    try {
-        const codigo = await conn.requestPairingCode(numeroTelefono);
-        const formattedCode = codigo?.match(/.{1,4}/g)?.join("-") || codigo;
-        console.log(chalk.bold.white(chalk.bgBlue(`🤍 SU CÓDIGO:`)), chalk.bold.white(chalk.white(formattedCode)));
-    } catch (error) {
-        console.error(chalk.redBright(`Error al obtener el código de emparejamiento: ${error.message}`));
-    }
-}, 3000);
-}}}
+let codigo = await conn.requestPairingCode(numeroTelefono)
+codigo = codigo?.match(/.{1,4}/g)?.join("-") || codigo
+console.log(chalk.bold.white(chalk.bgBlue(`🤍 SU CÓDIGO:`)), chalk.bold.white(chalk.white(codigo)))
+}, 3000)
+}}
+}
 
 conn.isInit = false;
 conn.well = false;
@@ -241,7 +239,7 @@ let isInit = true;
 let handler = await import('./handler.js')
 global.reloadHandler = async function(restatConn) {
 try {
-const Handler = await import(`../handler.js?update=${Date.now()}`).catch(console.error);
+const Handler = await import(`./handler.js?update=${Date.now()}`).catch(console.error);
 if (Object.keys(Handler || {}).length) handler = Handler
 } catch (e) {
 console.error(e);
@@ -380,7 +378,7 @@ originalConsoleMethod.apply(console, arguments)
 
 function purgeSessionSB() {
 try {
-let listaDirectorios = readdirSync(`./${jadi}/`);
+let listaDirectorios = readdirSync('./${jadi}/');
 let SBprekey = []
 listaDirectorios.forEach(directorio => {
 if (statSync(`./${jadi}/${directorio}`).isDirectory()) {
