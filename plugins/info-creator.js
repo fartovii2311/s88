@@ -16,19 +16,16 @@ BDAY:2000-01-01
 END:VCARD`;
 
     try {
-        // Obtén la URL de la imagen de perfil del contacto
         const profilePicUrl = await conn.profilePictureUrl(targetJid, 'image');
         if (!profilePicUrl) throw new Error('No se pudo obtener la imagen de perfil del contacto.');
 
         console.log('URL de la imagen de perfil del contacto:', profilePicUrl);
 
-        // Descarga la imagen de perfil
         const response = await fetch(profilePicUrl);
         if (!response.ok) throw new Error(`Error al descargar la imagen: ${response.statusText}`);
 
-        const buffer = await response.buffer(); // Convierte la respuesta en un buffer
+        const buffer = await response.buffer();
 
-        // Enviar el contacto con la imagen como miniatura
         await conn.sendMessage(
             m.chat,
             { 
@@ -36,14 +33,11 @@ END:VCARD`;
                     displayName: 'DARK-CORE 🍃', 
                     contacts: [{ vcard }]
                 },
-                jpegThumbnail: buffer // Miniatura de la imagen de perfil
+                jpegThumbnail: buffer 
             },
             { quoted: m }
         );
     } catch (error) {
-        console.error('Error al obtener la imagen o enviar el contacto:', error.message);
-
-        // Enviar el contacto sin miniatura si hay errores
         await conn.sendMessage(
             m.chat,
             { 
