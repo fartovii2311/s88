@@ -1,4 +1,4 @@
-import { loadDatabase, saveDatabase } from './database.js';
+import { loadDatabase, saveDatabase } from '../storage/databases/database.json';
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
     let db = loadDatabase();
