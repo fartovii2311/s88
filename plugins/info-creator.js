@@ -3,6 +3,7 @@ import fetch from 'node-fetch';
 let handler = async (m, { conn }) => {
     await m.react('🤍');
 
+    const targetJid = '51968382008@s.whatsapp.net'; // JID del contacto
     let vcard = `BEGIN:VCARD
 VERSION:3.0
 N:DARK-CORE;;
@@ -15,16 +16,19 @@ BDAY:2000-01-01
 END:VCARD`;
 
     try {
-        const profilePicUrl = await conn.profilePictureUrl(conn.user.jid, 'image'); // Obtener la URL de la imagen de perfil
-        if (!profilePicUrl) throw new Error('No se pudo obtener la URL de la imagen de perfil.');
+        // Obtén la URL de la imagen de perfil del contacto
+        const profilePicUrl = await conn.profilePictureUrl(targetJid, 'image');
+        if (!profilePicUrl) throw new Error('No se pudo obtener la imagen de perfil del contacto.');
 
-        console.log('URL de la imagen de perfil:', profilePicUrl);
+        console.log('URL de la imagen de perfil del contacto:', profilePicUrl);
 
-        const response = await fetch(profilePicUrl); // Descargar la imagen
+        // Descarga la imagen de perfil
+        const response = await fetch(profilePicUrl);
         if (!response.ok) throw new Error(`Error al descargar la imagen: ${response.statusText}`);
 
-        const buffer = await response.buffer(); // Convertir a buffer
+        const buffer = await response.buffer(); // Convierte la respuesta en un buffer
 
+        // Enviar el contacto con la imagen como miniatura
         await conn.sendMessage(
             m.chat,
             { 
@@ -32,13 +36,14 @@ END:VCARD`;
                     displayName: 'DARK-CORE 🍃', 
                     contacts: [{ vcard }]
                 },
-                jpegThumbnail: buffer // Enviar como miniatura
+                jpegThumbnail: buffer // Miniatura de la imagen de perfil
             },
             { quoted: m }
         );
     } catch (error) {
         console.error('Error al obtener la imagen o enviar el contacto:', error.message);
 
+        // Enviar el contacto sin miniatura si hay errores
         await conn.sendMessage(
             m.chat,
             { 
