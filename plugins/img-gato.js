@@ -22,7 +22,10 @@ const handler = async (m, { conn }) => {
             },
             { quoted: m }
         );
+
+    await m.react('✅');
     } catch (error) {
+        await m.react('✖️');
         console.error('Error al obtener la imagen del gato:', error);
         await conn.sendMessage(m.chat, { text: '❌ Ocurrió un error al intentar obtener la imagen del gato. Inténtalo nuevamente.' }, { quoted: m });
     }
