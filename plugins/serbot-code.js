@@ -21,12 +21,9 @@ import { makeWASocket } from '../lib/simple.js';
 if (!(global.conns instanceof Array)) global.conns = [];
 
 let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => {
-    let parent = args[0] && args[0] == 'plz' ? _conn : await global.conn;
 
-    if (!((args[0] && args[0] == 'plz') || (await global.conn).user.jid == _conn.user.jid)) {
-        return m.reply(`Este comando solo puede ser usado en el bot principal! wa.me/${global.conn.user.jid.split`@`[0]}?text=${usedPrefix}code`);
-    }
-
+    let parent = _conn;
+    
     async function serbot() {
         let authFolderB = m.sender.split('@')[0];
         const userFolderPath = `./LynxJadiBot/${authFolderB}`;
@@ -109,6 +106,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
                 if (fs.existsSync(userFolderPath)) {
                     fs.rmdirSync(userFolderPath, { recursive: true });
                 }
+               
 
                 if (code !== DisconnectReason.connectionClosed) {
                     parent.sendMessage(m.chat, { text: "Conexión perdida.." }, { quoted: m });
@@ -120,7 +118,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
             if (connection == 'open') {
                 conn.isInit = true;
                 global.conns.push(conn);
-                await parent.reply(m.chat, args[0] ? 'Conectado con éxito' : '*\`[ Conectado Exitosamente 🤍 ]\`*\n\n> _Se intentará reconectar en caso de desconexión de sesión_\n> _Si quieres eliminar el subbot borra la sesión en dispositivos vinculados_\n> _El número del bot puede cambiar, guarda este enlace :_\n\nhttps://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F', m,rcanal,fake);
+                await parent.reply(m.chat, args[0] ? 'Conectado con éxito' : '*\`[ Conectado Exitosamente 🤍 ]\`*\n\n> _Se intentará reconectar en caso de desconexión de sesión_\n> _Si quieres eliminar el subbot borra la sesión en dispositivos vinculados_\n> _El número del bot puede cambiar, guarda este enlace :_\n\nhttps://whatsapp.com/channel/0029Vaxb5xr7z4koGtOAAc1Q', m,rcanal,fake);
                 await sleep(5000);
                 if (args[0]) return;
 
