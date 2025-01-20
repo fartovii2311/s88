@@ -42,7 +42,7 @@ let handler = async (m, { conn }) => {
 
 🌐 *¿Tienes alguna sugerencia?*
 
-- 🟢 [*DarkCore*]( +51912345678 ) 
+- 🟢 [ *DarkCore* ]( https://wa.me/51912345678?text=Hola ) 
 `;
 
   await conn.sendFile(m.chat, imageUrl, "imagen.jpg", mensaje,m,rcanal,fake);
