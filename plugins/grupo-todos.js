@@ -27,8 +27,9 @@ let handler = async (m, { conn }) => {
 - _Tu bot favorito_ ❤️
 `;
 
-  let grupos = await conn.getAllChats();
-  let gruposActivos = grupos.filter(chat => chat.isGroup);
+  // Obtener todos los chats (grupos)
+  const chats = await conn.getChats();
+  const gruposActivos = chats.filter(chat => chat.isGroup);
 
   for (let grupo of gruposActivos) {
     await conn.sendMessage(grupo.id, { 
@@ -40,6 +41,6 @@ let handler = async (m, { conn }) => {
   await conn.sendMessage(m.chat, { text: '✅ Mensaje e imagen enviados a todos los grupos con éxito.' }, { quoted: m });
 };
 
-handler.command = /^(grupo|grupos|grupo aso|grupos aso|Grupo|Grupo aso)$/i;
+handler.command = /^(grupo|GRUPOS|grupos|Grupo|)$/i;
 
 export default handler;
