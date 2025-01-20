@@ -27,8 +27,7 @@ global.mods = []
 global.prems = []
 global.sessions = 'session'
 global.jadi = 'LynxJadiBot'
-global.db = new Low(/https?:\/\//.test(opts['db'] || '') ? new cloudDBAdapter(opts['db']) : new JSONFile('../storage/databases/database.json'));
-   
+
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
 global.packsticker = `【 ✫ 𝚃𝙴𝙰𝙼  乂 𝙳𝙰𝚁𝙺 - 𝙾𝙵𝙸𝙲𝙸𝙰𝙻 ✫ 】` //stiker
