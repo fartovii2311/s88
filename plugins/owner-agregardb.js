@@ -24,23 +24,32 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     let db = loadDatabase();
     let replyText = '';
 
-    if (command === 'agregardata' && fs.existsSync(filePath)) {
-        try {
-            // Cargar el archivo JSON mencionado
-            const newDatabase = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    if (command === 'agregardata') {
+        // Verificar si el archivo existe y si es un archivo, no un directorio
+        if (fs.existsSync(filePath)) {
+            const stats = fs.statSync(filePath);
 
-            // Combinar los datos del archivo mencionado con los datos existentes en la base de datos
-            db.users = { ...db.users, ...newDatabase.users };
+            if (stats.isFile()) {
+                try {
+                    // Cargar el archivo JSON mencionado
+                    const newDatabase = JSON.parse(fs.readFileSync(filePath, 'utf8'));
 
-            // Guardar la base de datos actualizada
-            saveDatabase(db);
+                    // Combinar los datos del archivo mencionado con los datos existentes en la base de datos
+                    db.users = { ...db.users, ...newDatabase.users };
 
-            replyText = `Base de datos actualizada con éxito con el archivo ${text}.`;
-        } catch (error) {
-            replyText = `Hubo un error al procesar el archivo JSON: ${error.message}`;
+                    // Guardar la base de datos actualizada
+                    saveDatabase(db);
+
+                    replyText = `Base de datos actualizada con éxito con el archivo ${text}.`;
+                } catch (error) {
+                    replyText = `Hubo un error al procesar el archivo JSON: ${error.message}`;
+                }
+            } else {
+                replyText = 'El archivo mencionado no es un archivo válido.';
+            }
+        } else {
+            replyText = 'No se encontró el archivo JSON mencionado.';
         }
-    } else if (command === 'agregardata') {
-        replyText = 'No se encontró el archivo JSON mencionado.';
     }
 
     await conn.reply(m.chat, replyText, m);
