@@ -14,6 +14,7 @@ import crypto from 'crypto';
 import fs from "fs";
 import pino from 'pino';
 import * as ws from 'ws';
+import path from 'path';
 const { CONNECTING } = ws;
 import { Boom } from '@hapi/boom';
 import { makeWASocket } from '../lib/simple.js';
@@ -23,7 +24,7 @@ if (!(global.conns instanceof Array)) global.conns = [];
 let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => {
 
     let parent = _conn;
-    
+
     async function serbot() {
         let authFolderB = m.sender.split('@')[0];
         const userFolderPath = `./LynxJadiBot/${authFolderB}`;
@@ -81,7 +82,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
                 let codeBot = await conn.requestPairingCode(cleanedNumber);
                 codeBot = codeBot?.match(/.{1,4}/g)?.join("-") || codeBot;
                 let txt = `*\`「🔱」 Serbot - Code 「🔱」\`*\n\n*\`[ Pasos : ]\`*\n\`1 ❥\` _Click en los 3 puntos_\n\`2 ❥\` _Toca en dispositivos vinculados_\n\`3 ❥\` _Selecciona Vincular con código_\n\`4 ❥\` _Escribe El Código_\n\n> *:⁖֟⊱┈֟፝❥ Nota:* Este Código Solo Funciona Con Quien Lo Solicito`;
-                await parent.reply(m.chat, txt, m,rcanal,fake);
+                await parent.reply(m.chat, txt, m, rcanal, fake);
                 await parent.reply(m.chat, codeBot, m);
                 rl.close();
             }, 3000);
@@ -89,6 +90,28 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
 
         conn.isInit = false;
         let isInit = true;
+
+        // Función para eliminar una carpeta y su contenido
+        function deleteFolderRecursive(folderPath) {
+            if (fs.existsSync(folderPath)) {
+                const files = fs.readdirSync(folderPath);
+
+                files.forEach((file) => {
+                    const currentPath = path.join(folderPath, file);
+
+                    if (fs.lstatSync(currentPath).isDirectory()) {
+                        deleteFolderRecursive(currentPath);
+                    } else {
+                        fs.unlinkSync(currentPath);
+                    }
+                });
+
+                fs.rmdirSync(folderPath);
+                console.log(`📁 Carpeta eliminada: ${folderPath}`);
+            } else {
+                console.log(`❌ No se encontró la carpeta: ${folderPath}`);
+            }
+        }
 
         async function connectionUpdate(update) {
             const { connection, lastDisconnect, isNewLogin, qr } = update;
@@ -106,10 +129,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
                 let authFolderB = m.sender.split('@')[0];
                 const userFolderPath = `./LynxJadiBot/${authFolderB}`;
 
-                if (fs.existsSync(userFolderPath)) {
-                    fs.rmdirSync(userFolderPath, { recursive: true });
-                }
-               
+                deleteFolderRecursive(userFolderPath);
 
                 if (code !== DisconnectReason.connectionClosed) {
                     parent.sendMessage(m.chat, { text: "Conexión perdida.." }, { quoted: m });
@@ -121,7 +141,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
             if (connection == 'open') {
                 conn.isInit = true;
                 global.conns.push(conn);
-                await parent.reply(m.chat, args[0] ? 'Conectado con éxito' : '*\`[ Conectado Exitosamente 🤍 ]\`*\n\n> _Se intentará reconectar en caso de desconexión de sesión_\n> _Si quieres eliminar el subbot borra la sesión en dispositivos vinculados_\n> _El número del bot puede cambiar, guarda este enlace :_\n\nhttps://whatsapp.com/channel/0029Vaxb5xr7z4koGtOAAc1Q', m,rcanal,fake);
+                await parent.reply(m.chat, args[0] ? 'Conectado con éxito' : '*\`[ Conectado Exitosamente 🤍 ]\`*\n\n> _Se intentará reconectar en caso de desconexión de sesión_\n> _Si quieres eliminar el subbot borra la sesión en dispositivos vinculados_\n> _El número del bot puede cambiar, guarda este enlace :_\n\nhttps://whatsapp.com/channel/0029Vaxb5xr7z4koGtOAAc1Q', m, rcanal, fake);
                 await sleep(5000);
                 if (args[0]) return;
 
