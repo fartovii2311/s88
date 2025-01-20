@@ -52,9 +52,9 @@ global.dis = ':⁖֟⊱┈֟፝❥'
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
-global.catalogo = fs.readFileSync('./storage/img/catalogo.png')
-global.miniurl = fs.readFileSync('./storage/img/miniurl.jpg')
-global.icons = fs.readFileSync('./storage/img/miniurl.jpg')
+global.catalogo = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png')
+global.miniurl = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png')
+global.icons = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png')
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
