@@ -65,13 +65,13 @@ const defaultMenu = {
 
 let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
   try {
-     let tag = `@${m.sender.split("@")[0]}`
+    let tag = `@${m.sender.split("@")[0]}`
     let mode = global.opts["self"] ? "Privado" : "Publico"
     let _package = JSON.parse(await promises.readFile(join(__dirname, '../package.json')).catch(_ => ({}))) || {}
 
     let {  age, exp, corazones, level, role, money} = global.db.data.users[m.sender]
     let { min, xp, max } = xpRange(level, global.multiplier)
-
+    let ucpn = `${ucapan()}`
 
     let name = await conn.getName(m.sender)
     let d = new Date(new Date + 3600000)
@@ -226,4 +226,21 @@ switch(hour){
   case 23: hour = 'una linda noche 🌃'; break;
 }
   var greeting = "espero que tengas " + hour; 
-  
+
+function ucapan() {
+    const time = moment.tz('America/Buenos_Aires').format('HH')
+    let res = "Buenas Noches🌙"
+    if (time >= 5) {
+        res = "Buena Madrugada🌄"
+    }
+    if (time > 10) {
+        res = "Buenos días☀️"
+    }
+    if (time >= 12) {
+        res = "Buenas Tardes🌅"
+    }
+    if (time >= 19) {
+        res = "Buenas Noches🌙"
+    }
+    return res
+}
