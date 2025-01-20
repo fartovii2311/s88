@@ -45,19 +45,15 @@ handler.before = async function (m, { conn }) {
     await conn.sendMessage(m.chat,
   {
     text: `✨ *‌乂 L E V E L  -  U P 乂* ✨
-
 ─────────────────────
 🎮 *Nombre:* ${name}
 💼 *Rol:* ${role}
 🌟 *Exp:* ${user.exp} xp
 ⬆️ *Nivel:* [ ${before} ] ➠ [ ${user.level} ]
 ─────────────────────
-
 🎉 *¡Enhorabuena! Has alcanzado un nuevo nivel. ¡Sigue así!* 🎉
 
-🌐 *¡Recuerda que con cada nivel, más beneficios vienen!* 🚀
-
-© Powered by DarkCore`
+> © Powered by DarkCore`
   },
   { quoted: m }
 );
