@@ -13,7 +13,7 @@ const handler = async (m, { conn }) => {
                 buttons: [
                     { 
                         buttonId: '.gato',
-                        buttonText: { displayText: 'Otro Gato 🐾' },
+                        buttonText: { displayText: 'Siguiente 🐾' },
                         type: 1
                     }
                 ],
