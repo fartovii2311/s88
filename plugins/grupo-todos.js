@@ -23,8 +23,8 @@ let handler = async (m, { conn }) => {
 - _Tu bot favorito_ ❤️
 `;
 
-   await conn.sendFile(m.chat, imageUrl, mensaje,fake);
- 
+  await conn.sendFile(m.chat, imageUrl, "imagen.jpg", mensaje,rcanal);
+
 };
 
 handler.command = /^(|GRUPOS|grupos|Grupo|)$/i;
