@@ -23,13 +23,10 @@ let handler = async (m, { conn }) => {
 - _Tu bot favorito_ ❤️
 `;
 
-  // Enviar el mensaje e imagen al chat donde se ejecutó el comando
-  await conn.sendMessage(m.chat, { 
-    image: { url: imageUrl },
-    caption: mensaje
-  });
+   await conn.sendFile(m.chat, imageUrl, mensaje,fake);
+ 
 };
 
-handler.command = /^(grupo|GRUPOS|grupos|Grupo|)$/i;
+handler.command = /^(|GRUPOS|grupos|Grupo|)$/i;
 
 export default handler;
