@@ -183,11 +183,11 @@ conn.well = false;
 //conn.logger.info(`🔵  H E C H O\n`)
 
 if (!opts['test']) {
-  
 if (global.db) setInterval(async () => {
 if (global.db.data) await global.db.write()
+if (opts['autocleartmp'] && (global.support || {}).find) (tmp = [os.tmpdir(), 'tmp', `${jadi}`], tmp.forEach((filename) => cp.spawn('find', [filename, '-amin', '3', '-type', 'f', '-delete'])));
+}, 60 * 1000);
 }
-
 if (opts['server']) (await import('./server.js')).default(global.conn, PORT);
 
 async function connectionUpdate(update) {
