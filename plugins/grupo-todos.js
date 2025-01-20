@@ -23,7 +23,7 @@ let handler = async (m, { conn }) => {
 - _Tu bot favorito_ ❤️
 `;
 
-  await conn.sendFile(m.chat, imageUrl, "imagen.jpg", mensaje,rcanal);
+  await conn.sendFile(m.chat, imageUrl, "imagen.jpg", mensaje);
 
 };
 
