@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { franc } from 'franc-min';
-import { translate } from '@vitalets/google-translate-api'; 
+import { translate } from '@vitalets/google-translate-api';
 
 let handler = m => m;
 
@@ -54,17 +54,18 @@ handler.all = async function (m, { conn }) {
         return true;
     }
 
+    // Activar o desactivar el autoresponder
     if (m.text.toLowerCase() === '.on autoresponder') {
         chat.sAutoresponder = true;  // Activamos el autoresponder
         await this.reply(m.chat, 'Autoresponder activado. Ahora responderé automáticamente.', m);
         return true;
     }
+    
     if (m.text.toLowerCase() === '.off autoresponder') {
         chat.sAutoresponder = false; // Desactivamos el autoresponder
         await this.reply(m.chat, 'Autoresponder desactivado. No responderé automáticamente.', m);
         return true;
     }
-
 
     async function geminiProApi(query, prompt) {
         try {
@@ -112,30 +113,33 @@ handler.all = async function (m, { conn }) {
         }
     }
 
-    if (user?.registered) {
-        await this.sendPresenceUpdate('composing', m.chat);
-        let query = m.text;
-        let username = m.pushName;
-        let prompt = chat.sAutoresponder || defaultPrompt;
+    // Verifica si el autoresponder está activado
+    if (chat.sAutoresponder) {
+        if (user?.registered) {
+            await this.sendPresenceUpdate('composing', m.chat);
+            let query = m.text;
+            let username = m.pushName;
+            let prompt = chat.sAutoresponder ? 'Modo autoresponder activado' : defaultPrompt;
 
-        let result = await geminiProApi(query, prompt);
-        if (!result) {
-            result = await luminsesi(query, username, prompt);
+            let result = await geminiProApi(query, prompt);
+            if (!result) {
+                result = await luminsesi(query, username, prompt);
+            }
+
+            if (!result) {
+                return;
+            }
+
+            const detectedLang = language || 'es';
+
+            if (detectedLang !== 'es') { 
+                await this.reply(m.chat, result, m);
+            } else {
+                await this.reply(m.chat, result, m);
+            }
+            
+            return true;
         }
-
-        if (!result) {
-            return;
-        }
-
-        const detectedLang = language || 'es';
-
-        if (detectedLang !== 'es') { 
-            await this.reply(m.chat, result, m);
-        } else {
-            await this.reply(m.chat, result, m);
-        }
-        
-        return true;
     }
 
     return true;
