@@ -98,7 +98,7 @@ let opcion
 if (methodCodeQR) {
 opcion = '1'
 }
-if (!methodCodeQR && !methodCode && !fs.existsSync(`../${sessions}/creds.json`)) {
+if (!methodCodeQR && !methodCode && !fs.existsSync(`./${sessions}/creds.json`)) {
 do {
 opcion = await question(colores('Seleccione una opción:\n') + opcionQR('1. Con código QR\n') + opcionTexto('2. Con código de texto de 8 dígitos\n'))
 
@@ -144,7 +144,7 @@ version: [2, 3000, 1015901307],
 
 global.conn = makeWASocket(connectionOptions);
 
-if (!fs.existsSync(`../${sessions}/creds.json`)) {
+if (!fs.existsSync(`./${sessions}/creds.json`)) {
 if (opcion === '2' || methodCode) {
 
 opcion = '2'
@@ -359,7 +359,7 @@ unlinkSync(filePath)})
 
 function purgeSession() {
 let prekey = []
-let directorio = readdirSync(`../${sessions}`)
+let directorio = readdirSync(`./${sessions}`)
 let filesFolderPreKeys = directorio.filter(file => {
 return file.startsWith('pre-key-')
 })
@@ -381,7 +381,7 @@ originalConsoleMethod.apply(console, arguments)
 
 function purgeSessionSB() {
 try {
-let listaDirectorios = readdirSync(`../${jadi}/`);
+let listaDirectorios = readdirSync(`./${jadi}/`);
 let SBprekey = []
 listaDirectorios.forEach(directorio => {
 if (statSync(`../${jadi}/${directorio}`).isDirectory()) {
@@ -399,7 +399,7 @@ if (SBprekey.length === 0) return null
 }}
 
 function purgeOldFiles() {
-const directories = [`../${sessions}/`, `../${jadi}/`]
+const directories = [`./${sessions}/`, `./${jadi}/`]
 const oneHourAgo = Date.now() - (60 * 60 * 1000)
 directories.forEach(dir => {
 readdirSync(dir, (err, files) => {
