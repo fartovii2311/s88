@@ -54,6 +54,18 @@ handler.all = async function (m, { conn }) {
         return true;
     }
 
+    if (m.text.toLowerCase() === '.on autoresponder') {
+        chat.sAutoresponder = true;  // Activamos el autoresponder
+        await this.reply(m.chat, 'Autoresponder activado. Ahora responderé automáticamente.', m);
+        return true;
+    }
+    if (m.text.toLowerCase() === '.off autoresponder') {
+        chat.sAutoresponder = false; // Desactivamos el autoresponder
+        await this.reply(m.chat, 'Autoresponder desactivado. No responderé automáticamente.', m);
+        return true;
+    }
+
+
     async function geminiProApi(query, prompt) {
         try {
             const response = await axios.post("https://api.ryzendesu.vip/api/ai/gemini-pro", {
