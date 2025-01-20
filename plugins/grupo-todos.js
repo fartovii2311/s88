@@ -21,14 +21,14 @@ let handler = async (m, { conn }) => {
 ---
 
 *🔗 Enlaces a mis grupos:*
-- 🟢 [*Grupo 1*](https://chat.whatsapp.com/KVpZsgm9wHG5ooZPsFVCac) 
-- 🔵 [*Grupo 2*](https://chat.whatsapp.com/D58CSUpwMH2CQi3iLitIWp)
+- 🟢 [ *Grupo 1* ](https://chat.whatsapp.com/KVpZsgm9wHG5ooZPsFVCac) 
+- 🔵 [ *Grupo 2* ](https://chat.whatsapp.com/D58CSUpwMH2CQi3iLitIWp)
 
 ---
 
 *📡 Canal de Información:*
-- 📺 [*Canal de Lynx*](https://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F)
-- 📺 [*Canal de Darkcore*](https://whatsapp.com/channel/0029Vaxb5xr7z4koGtOAAc1Q)
+- 📺 [ *Canal de Lynx* ](https://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F)
+- 📺 [ *Canal de Darkcore* ](https://whatsapp.com/channel/0029Vaxb5xr7z4koGtOAAc1Q)
 
 ---
 
@@ -42,7 +42,7 @@ let handler = async (m, { conn }) => {
 
 🌐 *¿Tienes alguna sugerencia?*
 
-- 🟢 [*DarkCore*](https://wa.me/51912345678) 
+- 🟢 [*DarkCore*]( +51912345678 ) 
 `;
 
   await conn.sendFile(m.chat, imageUrl, "imagen.jpg", mensaje,m,rcanal,fake);
