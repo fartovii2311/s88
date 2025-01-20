@@ -25,10 +25,8 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 🎶 *Calidad:* ${quality}
 📅 *Hace:* ${metadata.ago}`;
 
-        await conn.sendMessage(m.chat, { 
-            image: { url: thumbnail },
-            caption: messageInfo 
-        }, { quoted: m });
+    await conn.sendFile(m.chat,thumbnail,'thumbnail.jpg',messageInfo,m,fake,rcanal);
+
 
         const maxSizeBytes = 100 * 1024 * 1024;
 
