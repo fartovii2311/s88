@@ -98,13 +98,13 @@ let opcion
 if (methodCodeQR) {
 opcion = '1'
 }
-if (!methodCodeQR && !methodCode && !fs.existsSync(`./${sessions}/creds.json`)) {
+if (!methodCodeQR && !methodCode && !fs.existsSync(`../${sessions}/creds.json`)) {
 do {
 opcion = await question(colores('Seleccione una opción:\n') + opcionQR('1. Con código QR\n') + opcionTexto('2. Con código de texto de 8 dígitos\n'))
 
 if (!/^[1-2]$/.test(opcion)) {
 console.log(chalk.bold.redBright(`🚩 No se permiten numeros que no sean 1 o 2, tampoco letras o símbolos especiales.`))
-}} while (opcion !== '1' && opcion !== '2' || fs.existsSync(`./${sessions}/creds.json`))
+}} while (opcion !== '1' && opcion !== '2' || fs.existsSync(`../${sessions}/creds.json`))
 } 
 
 const filterStrings = [
@@ -144,7 +144,7 @@ version: [2, 3000, 1015901307],
 
 global.conn = makeWASocket(connectionOptions);
 
-if (!fs.existsSync(`./${sessions}/creds.json`)) {
+if (!fs.existsSync(`../${sessions}/creds.json`)) {
 if (opcion === '2' || methodCode) {
 
 opcion = '2'
@@ -239,10 +239,10 @@ console.log(chalk.bold.redBright(`\n⚠️❗ RAZON DE DESCONEXIÓN DESCONOCIDA:
 process.on('uncaughtException', console.error)
 
 let isInit = true;
-let handler = await import('./handler.js')
+let handler = await import('../handler.js')
 global.reloadHandler = async function(restatConn) {
 try {
-const Handler = await import(`./handler.js?update=${Date.now()}`).catch(console.error);
+const Handler = await import(`../handler.js?update=${Date.now()}`).catch(console.error);
 if (Object.keys(Handler || {}).length) handler = Handler
 } catch (e) {
 console.error(e);
@@ -390,7 +390,7 @@ return fileInDir.startsWith('pre-key-')
 })
 SBprekey = [...SBprekey, ...DSBPreKeys]
 DSBPreKeys.forEach(fileInDir => {
-unlinkSync(`./${jadi}/${directorio}/${fileInDir}`)
+unlinkSync(`../${jadi}/${directorio}/${fileInDir}`)
 })
 }
 })
