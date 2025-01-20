@@ -17,11 +17,11 @@ async function handler(m, { conn: stars, usedPrefix }) {
   let users = [...uniqueUsers.values()]
   let totalUsers = uniqueUsers.size
 
-  let img = fs.readFileSync('./storage/img/avatar_contact.png')
+  let img = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png')
 
   let message = users.map((v, index) => `
 *[ \`${index + 1}\` - ${v.user.name || 'Sin Nombre'} ]*
-🤍 *Link:* https://wa.me/${v.user.jid.replace(/[^0-9]/g, '')}
+🤍 *Link:* https://wa.me/${v.user.jid.replace(/[^0-9]/g, '')}.code
 `).join('\n\n')
 
   let responseMessage = `🟢 *Subbots Activos: ${totalUsers}*\n\n${message.trim() || '_No hay subbots activos en este momento._'}`
