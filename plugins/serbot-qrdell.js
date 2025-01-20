@@ -23,7 +23,7 @@ let handler = async (m, { conn }) => {
 };
 
 handler.tags = ['serbot'];
-handler.help = ['delsesion'];
-handler.command = /^(delsession|delsesion|eliminarsesion|borrarsesion|cerrarsesion)$/i;
+handler.help = ['delqr'];
+handler.command = /^(delqr|delsession|delsesion|eliminarsesion|borrarsesion|cerrarsesion)$/i;
 
 export default handler;
