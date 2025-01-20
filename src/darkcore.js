@@ -51,7 +51,7 @@ global.opts = new Object(yargs(process.argv.slice(2)).exitProcess(false).parse()
 global.prefix = new RegExp('^[/.$#!]')
 // global.opts['db'] = process.env['db']
 
-global.db = new Low(/https?:\/\//.test(opts['db'] || '') ? new cloudDBAdapter(opts['db']) : new JSONFile('./storage/databases/database.json'))
+global.db = new Low(/https?:\/\//.test(opts['db'] || '') ? new cloudDBAdapter(opts['db']) : new JSONFile('../storage/databases/database.json'))
 
 global.DATABASE = global.db 
 global.loadDatabase = async function loadDatabase() {
@@ -282,7 +282,7 @@ isInit = false
 return true
 };
 
-const pluginFolder = global.__dirname(join(__dirname, './plugins/index'))
+const pluginFolder = global.__dirname(join(__dirname, '../plugins/index'))
 const pluginFilter = (filename) => /\.js$/.test(filename)
 global.plugins = {}
 async function filesInit() {
@@ -359,13 +359,13 @@ unlinkSync(filePath)})
 
 function purgeSession() {
 let prekey = []
-let directorio = readdirSync("./${sessions}")
+let directorio = readdirSync("../${sessions}")
 let filesFolderPreKeys = directorio.filter(file => {
 return file.startsWith('pre-key-')
 })
 prekey = [...prekey, ...filesFolderPreKeys]
 filesFolderPreKeys.forEach(files => {
-unlinkSync(`./${sessions}/${files}`)
+unlinkSync(`../${sessions}/${files}`)
 })
 }
 
@@ -381,11 +381,11 @@ originalConsoleMethod.apply(console, arguments)
 
 function purgeSessionSB() {
 try {
-let listaDirectorios = readdirSync('./${jadi}/');
+let listaDirectorios = readdirSync(`../${jadi}/`);
 let SBprekey = []
 listaDirectorios.forEach(directorio => {
-if (statSync(`./${jadi}/${directorio}`).isDirectory()) {
-let DSBPreKeys = readdirSync(`./${jadi}/${directorio}`).filter(fileInDir => {
+if (statSync(`../${jadi}/${directorio}`).isDirectory()) {
+let DSBPreKeys = readdirSync(`../${jadi}/${directorio}`).filter(fileInDir => {
 return fileInDir.startsWith('pre-key-')
 })
 SBprekey = [...SBprekey, ...DSBPreKeys]
@@ -399,7 +399,7 @@ if (SBprekey.length === 0) return null
 }}
 
 function purgeOldFiles() {
-const directories = [`./${sessions}/`, `./${jadi}/`]
+const directories = [`../${sessions}/`, `../${jadi}/`]
 const oneHourAgo = Date.now() - (60 * 60 * 1000)
 directories.forEach(dir => {
 readdirSync(dir, (err, files) => {
