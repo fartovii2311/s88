@@ -57,6 +57,20 @@ let handler = async (m, { conn, text }) => {
 
     const caption = `🎵 *Título:* ${title}\n📦 *Calidad:* ${size}`.trim();
 
+    const contextInfo = {
+      externalAdReply: {
+        title: title,
+        body: 'Genesis Ai By Izumi-kzx',
+        mediaType: 2,
+        mediaUrl: videoUrl,
+        thumbnailUrl: image || '',
+        sourceUrl: videoUrl,
+        containsAutoReply: true,
+        renderLargerThumbnail: true,
+        showAdAttribution: false,
+      }
+    };
+
     if (fileSizeInMB > 16) {
       await conn.sendMessage(
         m.chat,
@@ -65,6 +79,7 @@ let handler = async (m, { conn, text }) => {
           fileName: `${title}.mp3`,
           mimetype: 'audio/mpeg',
           caption: caption,
+          contextInfo: contextInfo, // Incluyendo contextInfo aquí
         },
         { quoted: m }
       );
@@ -75,6 +90,7 @@ let handler = async (m, { conn, text }) => {
           audio: buffer,
           fileName: `${title}.mp3`,
           mimetype: 'audio/mpeg',
+          contextInfo: contextInfo, // Incluyendo contextInfo aquí
         },
         { quoted: m }
       );
