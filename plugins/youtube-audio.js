@@ -60,7 +60,7 @@ let handler = async (m, { conn, text }) => {
     const contextInfo = {
       externalAdReply: {
         title: title,
-        body: 'Genesis Ai By Izumi-kzx',
+        body: 'Lynx - Ai',
         mediaType: 2,
         mediaUrl: videoUrl,
         thumbnailUrl: image || '',
