@@ -28,11 +28,14 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
         let authFolderB = m.sender.split('@')[0];
         const userFolderPath = `./LynxJadiBot/${authFolderB}`;
 
-        if (!fs.existsSync(userFolderPath)) {
-            fs.mkdirSync(userFolderPath, { recursive: true });
+        if (fs.existsSync(userFolderPath)) {
+            fs.rmSync(userFolderPath, { recursive: true, force: true });
         }
 
+        fs.mkdirSync(userFolderPath, { recursive: true });
+
         args[0] ? fs.writeFileSync(`${userFolderPath}/creds.json`, JSON.stringify(JSON.parse(Buffer.from(args[0], "base64").toString("utf-8")), null, '\t')) : "";
+
 
         const { state, saveState, saveCreds } = await useMultiFileAuthState(userFolderPath);
         const msgRetryCounterMap = (MessageRetryMap) => { };
@@ -177,7 +180,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
 
 handler.help = ['code'];
 handler.tags = ['serbot'];
-handler.command = ['code', 'serbot --code','Code'];
+handler.command = ['code', 'serbotcode'];
 handler.rowner = false;
 
 export default handler;
