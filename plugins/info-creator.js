@@ -34,25 +34,6 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
         quoted: m
     });
 
-    let txt = `👋 *Hola \`${username}\` este es*\n*el contacto de mi creador*`;
-
-    await conn.sendMessage(m.chat, {
-        text: txt,
-        footer: '© ᥴrᥱᥲძ᥆r ᥆𝖿іᥴіᥲᥣ Darkcore ☁️',
-        buttons: [
-            {
-                buttonId: ".menu",
-                buttonText: {
-                    displayText: 'MENU BOT'
-                },
-                type: 1
-            }
-        ],
-        viewOnce: true,
-        headerType: 1
-    }, { quoted: m });
-};
-
 handler.help = ['owner', 'creator'];
 handler.tags = ['main'];
 handler.command = /^(owner|creator|creador|dueño)$/i;
