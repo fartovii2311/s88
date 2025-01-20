@@ -15,9 +15,15 @@ BDAY:2000-01-01
 END:VCARD`;
 
     try {
-        const profilePicUrl = await conn.profilePictureUrl(conn.user.jid, 'image');
-        const response = await fetch(profilePicUrl);
-        const buffer = await response.buffer();
+        const profilePicUrl = await conn.profilePictureUrl(conn.user.jid, 'image'); // Obtener la URL de la imagen de perfil
+        if (!profilePicUrl) throw new Error('No se pudo obtener la URL de la imagen de perfil.');
+
+        console.log('URL de la imagen de perfil:', profilePicUrl);
+
+        const response = await fetch(profilePicUrl); // Descargar la imagen
+        if (!response.ok) throw new Error(`Error al descargar la imagen: ${response.statusText}`);
+
+        const buffer = await response.buffer(); // Convertir a buffer
 
         await conn.sendMessage(
             m.chat,
@@ -26,12 +32,13 @@ END:VCARD`;
                     displayName: 'DARK-CORE 🍃', 
                     contacts: [{ vcard }]
                 },
-                jpegThumbnail: buffer
-            }, 
+                jpegThumbnail: buffer // Enviar como miniatura
+            },
             { quoted: m }
         );
     } catch (error) {
-        console.error('Error al obtener la imagen de perfil:', error.message);
+        console.error('Error al obtener la imagen o enviar el contacto:', error.message);
+
         await conn.sendMessage(
             m.chat,
             { 
@@ -39,13 +46,13 @@ END:VCARD`;
                     displayName: 'DARK-CORE 🍃', 
                     contacts: [{ vcard }]
                 }
-            }, 
+            },
             { quoted: m }
         );
     }
 };
 
-handler.help = ['creator'];
+handler.help = ['owner', 'creator'];
 handler.tags = ['main'];
 handler.command = /^(owner|creator|creador|dueño)$/i;
 
