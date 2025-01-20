@@ -5,22 +5,43 @@ let handler = async (m, { conn }) => {
   const mensaje = `
 🌟 *¡Hola a todos!* 🌟
 
-📢 Este es un mensaje enviado desde mi bot de WhatsApp.
+📢 Este es un mensaje enviado desde *mi bot de WhatsApp*.
 
-🎨 *Diseño Bonito*:
-- ✅ *Funcionalidad 1*: Descripción corta.
-- ✅ *Funcionalidad 2*: Descripción corta.
-- ✅ *Funcionalidad 3*: Descripción corta.
+🎨 *Diseño Bonito* para todos:
 
-🔗 *Enlaces*:
-- 🟢 [Grupo 1](https://chat.whatsapp.com/KVpZsgm9wHG5ooZPsFVCac)
-- 🔵 [Grupo 2](https://chat.whatsapp.com/D58CSUpwMH2CQi3iLitIWp)
+---
 
-💬 ¡Gracias por estar aquí! Si tienes alguna duda, no dudes en preguntar.
+**🔧 Funcionalidades:**
+- ✅ *Descargar Videos*: Descarga videos de YouTube, TikTok y más.
+- ✅ *Enviar Stickers*: Convierte imágenes y videos en stickers para WhatsApp.
+- ✅ *Reproducir Música*: Escucha música directamente desde tu WhatsApp.
+- ✅ *Enlaces Rápidos*: Accede fácilmente a tus grupos y recursos favoritos.
+- ✅ *Generar Imágenes*: Crea imágenes personalizadas con texto y emojis.
+- ✅ *Crear Encargos*: Haz pedidos o solicitudes rápidamente.
+- ✅ *Automatización*: Realiza tareas automáticas como enviar recordatorios o mensajes.
 
-📅 ¡Nos vemos pronto!
+---
 
-- _Tu bot favorito_ ❤️
+**🔗 Enlaces a mis grupos:**
+- 🟢 [**Grupo 1**](https://chat.whatsapp.com/KVpZsgm9wHG5ooZPsFVCac) | *Únete a este grupo para más información*
+- 🔵 [**Grupo 2**](https://chat.whatsapp.com/D58CSUpwMH2CQi3iLitIWp) | *Participa en el debate y más*
+
+---
+
+**📡 Canal de Información:**
+- 📺 [**Canal de Noticias**](https://t.me/TuCanalDeNoticias) | *Únete a nuestro canal para noticias y actualizaciones.*
+
+---
+
+💬 *¡Gracias por estar aquí! Si tienes alguna duda, no dudes en preguntar.* 
+
+📅 *¡Nos vemos pronto!*
+
+- _**Tu bot favorito**_ ❤️
+
+---
+
+🌐 **¿Tienes alguna sugerencia?** Envíala por mensaje privado. ¡Estoy aquí para ayudarte!
 `;
 
   await conn.sendFile(m.chat, imageUrl, "imagen.jpg", mensaje);
