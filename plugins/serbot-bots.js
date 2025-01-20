@@ -21,7 +21,7 @@ async function handler(m, { conn: stars, usedPrefix }) {
 
   let message = users.map((v, index) => `
 *[ \`${index + 1}\` - ${v.user.name || 'Sin Nombre'} ]*
-🤍 *Link:* https://wa.me/${v.user.jid.replace(/[^0-9]/g, '')}.code
+🤍 *Link:* https://wa.me/${v.user.jid.replace(/[^0-9]/g, '')}?text=.code
 `).join('\n\n')
 
   let responseMessage = `🟢 *Subbots Activos: ${totalUsers}*\n\n${message.trim() || '_No hay subbots activos en este momento._'}`
