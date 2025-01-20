@@ -4,7 +4,7 @@ const handler = async (m, { conn }) => {
     try {
         const response = await axios.get('https://some-random-api.com/animal/cat');
         const imageUrl = response.data.image;
-
+        await m.react('🕓');
         await conn.sendMessage(
             m.chat, 
             { 
