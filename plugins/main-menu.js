@@ -68,8 +68,11 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
      let tag = `@${m.sender.split("@")[0]}`
     let mode = global.opts["self"] ? "Privado" : "Publico"
     let _package = JSON.parse(await promises.readFile(join(__dirname, '../package.json')).catch(_ => ({}))) || {}
-    let { exp, limit, level } = global.db.data.users[m.sender]
+
+    let { age, exp, corazones, level, role, registered, money } = global.db.data.users[m.sender]
     let { min, xp, max } = xpRange(level, global.multiplier)
+
+
     let name = await conn.getName(m.sender)
     let d = new Date(new Date + 3600000)
     let locale = 'es'
@@ -109,6 +112,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
         tags: Array.isArray(plugin.tags) ? plugin.tags : [plugin.tags],
         prefix: 'customPrefix' in plugin,
         limit: plugin.limit,
+        corazones: plugin.corazones,
         premium: plugin.premium,
         enabled: !plugin.disabled,
       }
@@ -131,6 +135,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
             return menu.help.map(help => {
               return body.replace(/%cmd/g, menu.prefix ? help : '%p' + help)
                 .replace(/%islimit/g, menu.limit ? '◜⭐◞' : '')
+                .replace(/%iscorazones/g, menu.corazones ? '◜🪙◞' : '')
                 .replace(/%isPremium/g, menu.premium ? '◜🪪◞' : '')
                 .trim()
             }).join('\n')
