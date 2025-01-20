@@ -25,8 +25,8 @@ global.owner = [
 
 global.mods = []
 global.prems = []
-global.sessions = 'session'
-global.jadi = 'LynxJadiBot'
+global.sessions = '../session'
+global.jadi = '../LynxJadiBot'
    
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
