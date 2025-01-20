@@ -23,7 +23,7 @@ handler.all = async function (m, { conn }) {
     const prefixes = ['!', '.', '?', '/', '#', '*', '+', '-', '$', '&', '%', '@', '~'];
     const hasPrefix = prefixes.some(prefix => m.text.startsWith(prefix));
     if (hasPrefix) {
-        return; // No responde si el mensaje comienza con un prefijo
+        return;
     }
 
     let user = global.db.data.users[m.sender];
@@ -54,16 +54,13 @@ handler.all = async function (m, { conn }) {
         return true;
     }
 
-    // Activar o desactivar el autoresponder
     if (m.text.toLowerCase() === '.on autoresponder') {
-        chat.sAutoresponder = true;  // Activamos el autoresponder
-        await this.reply(m.chat, 'Autoresponder activado. Ahora responderé automáticamente.', m);
+        chat.sAutoresponder = true;
         return true;
     }
     
     if (m.text.toLowerCase() === '.off autoresponder') {
-        chat.sAutoresponder = false; // Desactivamos el autoresponder
-        await this.reply(m.chat, 'Autoresponder desactivado. No responderé automáticamente.', m);
+        chat.sAutoresponder = false;
         return true;
     }
 
