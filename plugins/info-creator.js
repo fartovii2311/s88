@@ -28,22 +28,6 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
     }, {
         quoted: m
     });
-
-    await conn.sendMessage(m.chat, {
-        text: '👋 Hola, este es el contacto oficial de mi creador.',
-        footer: '© Darkcore ☁️',
-        buttons: [
-            {
-                buttonId: ".menu",
-                buttonText: {
-                    displayText: 'MENU BOT'
-                },
-                type: 1
-            }
-        ],
-        viewOnce: true,
-        headerType: 1
-    }, { quoted: m });
 };
 
 handler.help = ['owner', 'creator'];
