@@ -27,7 +27,8 @@ let handler = async (m, { conn }) => {
 ---
 
 *📡 Canal de Información:*
-- 📺 [*Canal de Lynx*](https://t.me/TuCanalDeNoticias)
+- 📺 [*Canal de Lynx*](https://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F)
+- 📺 [*Canal de Darkcore*](https://whatsapp.com/channel/0029Vaxb5xr7z4koGtOAAc1Q)
 
 ---
 
@@ -39,10 +40,12 @@ let handler = async (m, { conn }) => {
 
 ---
 
-🌐 *¿Tienes alguna sugerencia?* Envíala por mensaje privado. ¡Estoy aquí para ayudarte!
+🌐 *¿Tienes alguna sugerencia?*
+
+- 🟢 [*DarkCore*](https://wa.me/51912345678) 
 `;
 
-  await conn.sendFile(m.chat, imageUrl, "imagen.jpg", mensaje,m,rcanal);
+  await conn.sendFile(m.chat, imageUrl, "imagen.jpg", mensaje,m,rcanal,fake);
 
 };
 
