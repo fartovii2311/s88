@@ -13,10 +13,10 @@ let handler = async (m, { conn, args }) => {
   }
 
   let uniqid = args[0];
-  let sessionPath = `./serbot/${uniqid}`;
+  let sessionPath = `./serbot/${uniqid}`; // Carpeta asociada al número
 
   try {
-    // Verifica si la carpeta existe antes de intentar eliminarla
+    // Verifica si la carpeta asociada al número existe
     if (!existsSync(sessionPath)) {
       await conn.sendMessage(
         m.chat,
@@ -26,7 +26,7 @@ let handler = async (m, { conn, args }) => {
       return;
     }
 
-    // Si la carpeta existe, eliminarla
+    // Elimina la carpeta de la sesión
     await fs.rm(sessionPath, { recursive: true, force: true });
     await conn.sendMessage(
       m.chat,
@@ -35,8 +35,11 @@ let handler = async (m, { conn, args }) => {
     );
   } catch (err) {
     console.error("Error al eliminar la sesión del Sub-Bot:", err.message);
-    await conn.sendMessage(m.chat, { text: "❌ Ocurrió un error al intentar eliminar la sesión." }, { quoted: m });
-    await m.react('✖️');
+    await conn.sendMessage(
+      m.chat,
+      { text: "❌ Ocurrió un error al intentar eliminar la sesión." },
+      { quoted: m }
+    );
   }
 };
 
