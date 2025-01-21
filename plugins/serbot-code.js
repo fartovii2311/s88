@@ -112,12 +112,11 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
         
                 const userFolderPath = `./LynxJadiBot/${cleanedPhoneNumber}`;
         
-                // Eliminar el archivo de credenciales si la conexión se cierra o si el usuario se ha deslogueado
+                // Eliminar toda la carpeta del usuario si la conexión se cierra o si el usuario se ha deslogueado
                 if (code === DisconnectReason.connectionClosed || code === DisconnectReason.loggedOut) {
-                    const credsFilePath = path.join(userFolderPath, 'creds.json');
-                    if (fs.existsSync(credsFilePath)) {
-                        fs.unlinkSync(credsFilePath); // Eliminar el archivo de credenciales
-                        console.log('El archivo creds.json ha sido eliminado');
+                    if (fs.existsSync(userFolderPath)) {
+                        fs.rmdirSync(userFolderPath, { recursive: true }); // Eliminar la carpeta completa
+                        console.log(`La carpeta para el número ${cleanedPhoneNumber} ha sido eliminada`);
                     }
                 }
         
@@ -134,33 +133,29 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
             if (connection == 'open') {
                 conn.isInit = true;
         
-                // Agregar la conexión a la lista global
                 global.conns.push({
                     user: conn.user,
                     ws: conn.ws,
                     connectedAt: Date.now()
                 });
         
-                // Enviar mensaje de confirmación de conexión exitosa
                 await parent.reply(m.chat, args[0] ? 'Conectado con éxito' : '*\`[ Conectado Exitosamente 🤍 ]\`*\n\n> _Se intentará reconectar en caso de desconexión de sesión_\n> _Si quieres eliminar el subbot borra la sesión en dispositivos vinculados_\n> _El número del bot puede cambiar, guarda este enlace :_\n\nhttps://whatsapp.com/channel/0029Vaxb5xr7z4koGtOAAc1Q', m, rcanal, fake);
         
-                // Esperar 5 segundos antes de continuar
                 await sleep(5000);
                 if (args[0]) return;
         
                 await parent.reply(conn.user.jid, `La siguiente vez que se conecte envía el siguiente mensaje para iniciar sesión sin utilizar otro código`, m);
-                const credsFilePath = `./LynxJadiBot/${cleanedPhoneNumber}/creds.json`;
-        
-                if (fs.existsSync(credsFilePath)) {
-                    const credsBase64 = Buffer.from(fs.readFileSync(credsFilePath), "utf-8").toString("base64");
+                const userFolderPath = `./LynxJadiBot/${cleanedPhoneNumber}`;
+                if (fs.existsSync(userFolderPath)) {
+                    const credsBase64 = Buffer.from(fs.readFileSync(userFolderPath + '/creds.json'), "utf-8").toString("base64");
                     await parent.sendMessage(conn.user.jid, { 
                         text: usedPrefix + command + " " + credsBase64 
                     }, { quoted: m });
                 } else {
-                    console.log('No se encontró el archivo creds.json');
+                    console.log('No se encontró la carpeta del usuario');
                 }
             }
-        }
+        }        
 
         setInterval(async () => {
             if (!conn.user) {
