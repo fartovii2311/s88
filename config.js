@@ -91,7 +91,7 @@ global.menu = {
     }, 
     externalAdReply: { 
       showAdAttribution: true, 
-      title: "textbot,
+      title: textbot,
       body: '( ´͈ ᵕ `͈ )◞♡ Sɪᴍᴘʟᴇ ʙᴏᴛ ᴡʜᴀᴛsᴀᴘᴘ', 
       mediaUrl: null, 
       description: null, 
