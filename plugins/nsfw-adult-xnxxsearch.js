@@ -7,7 +7,7 @@ const handler = async (m, { text, usedPrefix, command, conn, rcanal }) => {
   if (!global.db.data.chats[m.chat]) global.db.data.chats[m.chat] = { nsfw: false };
 
   if (!global.db.data.chats[m.chat].nsfw) {
-    return conn.reply(m.chat, `🚩 El grupo no admite contenido *Nsfw.*\n\n> Para activarlo un *Administrador* debe usar el comando */nsfw on*`, m, rcanal);
+    return conn.reply(m.chat, `🚩 El grupo no admite contenido *Nsfw.*\n\n> Para activarlo un *Administrador* debe usar el comando */on nsfw*`, m, rcanal);
   }
 
   if (!text) {
