@@ -4,7 +4,7 @@ let handler = async (m, { args }) => {
    if (args[0] == 'all') {
       let count = parseInt(user.bank)
       user.bank -= count * 1
-      user.monedas += count * 1
+      user.Monedas += count * 1
       await m.reply(`🪙 Retiraste *${count} 🪙 monedas* del Banco.`)
       return !0
    }
