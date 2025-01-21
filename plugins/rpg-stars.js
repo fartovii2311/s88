@@ -7,9 +7,9 @@ let handler = async (m, {conn, usedPrefix}) => {
     let name = conn.getName(who)
     if (!(who in global.db.data.users)) return conn.reply(m.chat, '🪙 El usuario no se encuentra en mi base de Datos.', m, rcanal).then(_ => m.react('✖️'))
     let img = await (await fetch(`https://i.ibb.co/JndpnfX/LynxAI.jpg`)).buffer()
-    let txt = ` –  *🪙 M O N E D A S -  U S E R*\n\n`
+    let txt = ` –  *M O N E D A S -  U S E R*\n\n`
         txt += `✩ *Nombre* : ${user.name}\n`
-        txt += `✩ *🪙 Monedas* : ${toNum(user.Monedas)} ( *${user.Monedas}* )\n`
+        txt += `✩ *Monedas* : ${toNum(user.Monedas)} ( *${user.Monedas}* )\n`
         txt += `✩ *Bank* : ${toNum(user.bank)} ( *${user.bank}* )\n`
         txt += `✩ *XP* : ${toNum(user.exp)} ( *${user.exp}* )`
     let mentionedJid = [who]
