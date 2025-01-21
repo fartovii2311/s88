@@ -19,8 +19,10 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
     // Validar si el grupo realmente existe
     try {
       const groupInfo = await conn.groupMetadata(id);
+      console.log('Grupo encontrado:', groupInfo); // Agregar log para depuración
       isValid = !!groupInfo;
     } catch (e) {
+      console.error('Error al obtener información del grupo:', e); // Log de error
       isValid = false;
     }
   } else if (regexChannel.test(link)) {
@@ -33,8 +35,10 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
         attrs: { to: id, type: 'get', xmlns: 'w:biz' },
         content: [{ tag: 'newsletter', attrs: { xmlns: 'w:biz' } }],
       });
+      console.log('Canal encontrado:', channelInfo); // Agregar log para depuración
       isValid = !!channelInfo;
     } catch (e) {
+      console.error('Error al obtener información del canal:', e); // Log de error
       isValid = false;
     }
   } else {
@@ -51,9 +55,13 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
     return;
   }
 
-  await conn.sendMessage(m.chat, { 
-    text: `El ID del grupo/canal es: \n\n*${id}*` 
-  });
+  try {
+    await conn.sendMessage(m.chat, { 
+      text: `El ID del grupo/canal es: \n\n*${id}*` 
+    });
+  } catch (e) {
+    console.error('Error al enviar el mensaje con la ID:', e); // Log de error si falla el envío
+  }
 };
 
 handler.help = ['id'];
