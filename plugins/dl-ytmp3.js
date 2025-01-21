@@ -1,4 +1,4 @@
-import downloadMP3 from './lib/ytmp3.js';
+import downloadMP3 from '../lib/ytmp3.js';
 
 let handler = async (m, { conn, text }) => {
     if (!text) return conn.reply(m.chat, '🎁 Por favor, envíame una URL de YouTube válida para descargar el audio.');
