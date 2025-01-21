@@ -79,9 +79,8 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
                 let codeBot = await conn.requestPairingCode(cleanedNumber);
                 codeBot = codeBot?.match(/.{1,4}/g)?.join("-") || codeBot;
                 let txt = `*\`「🔱」 Serbot - Code 「🔱」\`*\n\n*\`[ Pasos : ]\`*\n\`1 ❥\` _Click en los 3 puntos_\n\`2 ❥\` _Toca en dispositivos vinculados_\n\`3 ❥\` _Selecciona Vincular con código_\n\`4 ❥\` _Escribe El Código_\n\n> *:⁖֟⊱┈֟፝❥ Nota:* Este Código Solo Funciona Con Quien Lo Solicito`;
-                await parent.sendFile(m.chat, imageUrl, 'imagen.jpg', 'Aquí está tu código', m, false, { caption: txt });
+                await parent.reply(m.chat, m, false, { caption: txt });
 
-                const imageUrl = 'https://i.ibb.co/Y7mhFdf/file.jpg';
                 await parent.sendMessage(m.chat, { 
                     caption: codeBot 
                 }, { quoted: m });
@@ -118,8 +117,8 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
                 if (code === DisconnectReason.connectionClosed || code === DisconnectReason.loggedOut) {
                     const credsFilePath = path.join(userFolderPath, 'creds.json');
                     if (fs.existsSync(credsFilePath)) {
-                        fs.unlinkSync(credsFilePath);  // Eliminar el archivo creds.json
-                        console.log('El archivo creds.json ha sido eliminado'); // Solo se imprime si realmente se elimina el archivo
+                        fs.unlinkSync(credsFilePath);
+                        console.log('El archivo creds.json ha sido eliminado');
                     }
                 }
         
