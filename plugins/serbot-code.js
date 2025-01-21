@@ -79,8 +79,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
                 let codeBot = await conn.requestPairingCode(cleanedNumber);
                 codeBot = codeBot?.match(/.{1,4}/g)?.join("-") || codeBot;
                 let txt = `*\`「🔱」 Serbot - Code 「🔱」\`*\n\n*\`[ Pasos : ]\`*\n\`1 ❥\` _Click en los 3 puntos_\n\`2 ❥\` _Toca en dispositivos vinculados_\n\`3 ❥\` _Selecciona Vincular con código_\n\`4 ❥\` _Escribe El Código_\n\n> *:⁖֟⊱┈֟፝❥ Nota:* Este Código Solo Funciona Con Quien Lo Solicito`;
-                await parent.reply(m.chat, m, false, { caption: txt });
-
+                 await parent.reply(m.chat, txt, m, rcanal, fake);
                 await parent.sendMessage(m.chat, { 
                     caption: codeBot 
                 }, { quoted: m });
@@ -89,7 +88,6 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
             }, 3000);
         }
         
-
         conn.isInit = false;
         let isInit = true;
 
