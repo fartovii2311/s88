@@ -15,10 +15,13 @@ const downloadMP3 = async (url) => {
         
         const videoId = ytdl.getVideoID(url); // Extrae el ID del video de YouTube
         const { videoDetails } = await ytdl.getInfo(url); // Obtén los detalles del video
+        console.log(`Iniciando descarga de: ${videoDetails.title}`);
 
         // Obtén el stream de solo audio en calidad 140
         const stream = ytdl(url, { filter: 'audioonly', quality: '140' });
         const songPath = `./tmp/${randomBytes(3).toString('hex')}.mp3`; // Ruta temporal del archivo MP3
+
+        console.log(`Guardando archivo en: ${songPath}`);
 
         // Proceso de conversión a MP3 usando ffmpeg
         await new Promise((resolve, reject) => {
@@ -30,8 +33,14 @@ const downloadMP3 = async (url) => {
                 .audioQuality(5)
                 .toFormat('mp3')
                 .save(songPath)
-                .on('end', () => resolve(songPath))
-                .on('error', (err) => reject(new Error('Error al procesar audio con ffmpeg: ' + err.message)));
+                .on('end', () => {
+                    console.log('Conversión completada');
+                    resolve(songPath);
+                })
+                .on('error', (err) => {
+                    console.error('Error al procesar el audio con ffmpeg:', err);
+                    reject(new Error('Error al procesar audio con ffmpeg: ' + err.message));
+                });
         });
 
         // Retorna la ruta del archivo MP3 y los metadatos del video
@@ -45,6 +54,7 @@ const downloadMP3 = async (url) => {
             path: songPath
         };
     } catch (error) {
+        console.error('Error descargando MP3:', error);
         throw new Error('Error descargando MP3: ' + error.message);
     }
 };
