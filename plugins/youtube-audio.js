@@ -20,7 +20,7 @@ let handler = async (m, { conn, text }) => {
   await m.react('🕓'); 
 
   const videoUrl = urls[0];
-  const apiUrl = `https://api.siputzx.my.id/api/d/ytmp3?url=${videoUrl}`;
+  const apiUrl = `https://api.siputzx.my.id/api/dl/youtube/mp3?url=${videoUrl}`;
 
   let downloadUrl = null;
 
@@ -29,8 +29,7 @@ let handler = async (m, { conn, text }) => {
     const data = await response.json();
 
     if (data.status === true) {
-      const result = data.data;
-      downloadUrl = result.dl;
+      downloadUrl = data.data;  // Ahora usamos la URL proporcionada en `data`
 
       if (downloadUrl) {
         const fileResponse = await fetch(downloadUrl);
@@ -44,8 +43,8 @@ let handler = async (m, { conn, text }) => {
             m.chat,
             {
               audio: buffer,
-              mimetype: 'audio/mp4', 
-              ptt: true,
+              mimetype: 'audio/mp4',  // Usamos 'audio/mp4' por compatibilidad con los archivos de YouTube
+              ptt: true,  // Para enviar como mensaje de voz
             },
             { quoted: m }
           );
