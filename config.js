@@ -70,27 +70,15 @@ global.ch = {
   ch1: "120363371366801178@newsletter",
 };
 
-global.rcanal = { 
-  contextInfo: { 
-    isForwarded: true, 
-    forwardedNewsletterMessageInfo: { 
-      newsletterJid: "120363371366801178@newsletter", 
-      serverMessageId: 100, 
-      newsletterName: 'Lyᥒ᥊ ᥴһᥲᥒᥒᥱᥣ', 
-    }, 
-    externalAdReply: { 
-      showAdAttribution: true, 
-      title: textbot, 
-      body: '( ´͈ ᵕ `͈ )◞♡ Sɪᴍᴘʟᴇ ʙᴏᴛ ᴡʜᴀᴛsᴀᴘᴘ', 
-      mediaUrl: null, 
-      description: null, 
-      previewType: "", 
-      thumbnailUrl: icons, 
-      sourceUrl: redes, 
-      mediaType: 1, 
-      renderLargerThumbnail: true 
-    }, 
-  }, 
+global.rcanal = {
+  contextInfo: {
+    isForwarded: true,
+    forwardedNewsletterMessageInfo: {
+       newsletterJid: "120363371366801178@newsletter",
+       serverMessageId: 100,
+       newsletterName: '',
+    },
+  },
 }
 
  global.fake = {
