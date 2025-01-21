@@ -9,11 +9,11 @@ const tempDir = './tmp';
 
 let handler = async (m, { conn, text }) => {
   if (!m.quoted) {
-    return conn.reply(m.chat, `🚩 Etiqueta el mensaje que contenga el resultado de YouTube Play.`, m,rcanal);
+    return conn.reply(m.chat, `🚩 Etiqueta el mensaje que contenga el resultado de YouTube Play.`, m, rcanal);
   }
 
   if (!m.quoted.text.includes("🎬 *‌乂 Y O U T U B E  -  P L A Y 乂* 🎬")) {
-    return conn.reply(m.chat, `🚩 Etiqueta el mensaje que contenga el resultado de YouTube Play.`, m,rcanal);
+    return conn.reply(m.chat, `🚩 Etiqueta el mensaje que contenga el resultado de YouTube Play.`, m, rcanal);
   }
 
   const urls = m.quoted.text.match(
@@ -36,16 +36,11 @@ let handler = async (m, { conn, text }) => {
       const response = await fetch(apiUrl);
       const result = await response.json();
 
-      if (result.status && result.result?.download) {
-        data = result.result;
-        break;
-      } else if (result.success && result.data?.download) {
-        data = result.data;
-        break;
-      } else if (result.status && result.data?.dl) {
+      // Se maneja la respuesta de la API siputzx correctamente
+      if (result.status && result.data?.dl) {
         data = {
           title: result.data.title,
-          download: result.data.dl,
+          downloadUrl: result.data.dl,
           duration: "Desconocido",
         };
         break;
@@ -54,13 +49,13 @@ let handler = async (m, { conn, text }) => {
       console.error(`Error al intentar con la API: ${apiUrl}`, error.message);
     }
   }
-   await handleVideoDownload(conn, m, data);
+
+  await handleVideoDownload(conn, m, data);
 };
 
 const handleVideoDownload = async (conn, m, data) => {
   const title = data.title || "Desconocido";
-  const duration = data.duration || "Desconocido";
-  const downloadUrl = data.download?.url || data.download;
+  const downloadUrl = data.downloadUrl;
 
   const tempPath = `${tempDir}/${Date.now()}.mp4`;
 
@@ -78,8 +73,8 @@ const handleVideoDownload = async (conn, m, data) => {
       const isLarge = compressedSize > videoLimit;
       const messageOptions = {
         caption: isLarge
-          ? `⚠️ El archivo comprimido aún supera el límite permitido (${(videoLimit / 1024 / 1024).toFixed(2)} MB). Se envía como documento.\n\n🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration}`
-          : `🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration}`,
+          ? `⚠️ El archivo comprimido aún supera el límite permitido (${(videoLimit / 1024 / 1024).toFixed(2)} MB). Se envía como documento.\n\n🎥 *Título:* ${title}\n⏱️ *Duración:* Desconocida`
+          : `🎥 *Título:* ${title}\n⏱️ *Duración:* Desconocida`,
         quoted: m,
       };
 
@@ -108,7 +103,7 @@ const handleVideoDownload = async (conn, m, data) => {
           video: { url: tempPath },
           fileName: `${title}.mp4`,
           mimetype: 'video/mp4',
-          caption: `🎥 *Título:* ${title}\n⏱️ *Duración:* ${duration}`,
+          caption: `🎥 *Título:* ${title}\n⏱️ *Duración:* Desconocida`,
         },
         { quoted: m }
       );
