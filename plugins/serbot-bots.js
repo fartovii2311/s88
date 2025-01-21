@@ -8,11 +8,11 @@ async function handler(m, { conn: stars, usedPrefix }) {
     global.conns = [];
   }
 
-  // Filtrar conexiones válidas (eliminar conexiones cerradas o inválidas)
+  // Filtrar conexiones válidas (solo las activas y con estado abierto)
   global.conns = global.conns.filter((conn) => {
-    const isValid = conn.user && conn.ws?.socket?.readyState !== ws.CLOSED;
+    const isValid = conn.user && conn.ws?.socket?.readyState === ws.OPEN;
     if (!isValid) {
-      console.log(`[INFO] Eliminando subbot desconectado: ${conn.user?.jid || 'desconocido'}`);
+      console.log(`[INFO] Eliminando subbot no activo: ${conn.user?.jid || 'desconocido'}`);
     }
     return isValid;
   });
@@ -35,30 +35,11 @@ async function handler(m, { conn: stars, usedPrefix }) {
     const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
 
-    // Determinar el estado del subbot
-    let status = '';
-    switch (v.ws?.socket?.readyState) {
-      case ws.OPEN:
-        status = '🟢 Activo';
-        break;
-      case ws.CLOSED:
-        status = '🔴 Desconectado';
-        break;
-      case ws.CLOSING:
-        status = '🟠 Cerrando';
-        break;
-      case ws.CONNECTING:
-        status = '🔵 Conectando';
-        break;
-      default:
-        status = '⚪ Estado desconocido';
-    }
-
     return `
 *[ \`${index + 1}\` - ${v.user.name || 'Sin Nombre'} ]*
 🤍 *Link:* https://wa.me/${v.user.jid.replace(/[^0-9]/g, '')}?text=.code
 🕒 *Tiempo Activo:* ${hours}h ${minutes}m ${seconds}s
-📡 *Estado:* ${status}
+📡 *Estado:* 🟢 Activo
 `;
   }).join('\n');
 
