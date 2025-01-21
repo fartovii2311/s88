@@ -55,7 +55,7 @@ const defaultMenu = {
  │ » *Database:*  %totalreg
  └───···
  
-*\`🍁 L I S T A   D E   C O M A N D O S 🍁\`*
+*\`🍁 ᥣ і s 𝗍 ᥲ  ძ ᥱ  ᥴ ᥆ m ᥲ ᥒ ძ ᥆ s 🍁\`*
 
 `.trimStart(),
   header: '─₍🌩️₎❝┊ *%category* ┊❜❜ ˚ ͙۪۪̥◌',
