@@ -1,6 +1,13 @@
 import { readdirSync, statSync, unlinkSync, existsSync, readFileSync, watch, rmSync, promises as fs } from "fs";
+const {
+    useMultiFileAuthState,
+    DisconnectReason,
+    fetchLatestBaileysVersion,
+    MessageRetryMap,
+    makeCacheableSignalKeyStore,
+    jidNormalizedUser
+} = await import('@whiskeysockets/baileys')
 import path, { join } from 'path';
-import { useMultiFileAuthState, DisconnectReason, fetchLatestBaileysVersion, MessageRetryMap, makeCacheableSignalKeyStore, jidNormalizedUser } from '@whiskeysockets/baileys';
 import moment from 'moment-timezone';
 import NodeCache from 'node-cache';
 import readline from 'readline';
