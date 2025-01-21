@@ -19,7 +19,7 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
     // Validar si el grupo realmente existe
     try {
       const groupInfo = await conn.groupMetadata(id);
-      console.log('Grupo encontrado:', groupInfo); // Agregar log para depuración
+      console.log('Grupo encontrado:', groupInfo); // Log para depuración
       isValid = !!groupInfo;
     } catch (e) {
       console.error('Error al obtener información del grupo:', e); // Log de error
@@ -35,7 +35,7 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
         attrs: { to: id, type: 'get', xmlns: 'w:biz' },
         content: [{ tag: 'newsletter', attrs: { xmlns: 'w:biz' } }],
       });
-      console.log('Canal encontrado:', channelInfo); // Agregar log para depuración
+      console.log('Canal encontrado:', channelInfo); // Log para depuración
       isValid = !!channelInfo;
     } catch (e) {
       console.error('Error al obtener información del canal:', e); // Log de error
@@ -55,10 +55,18 @@ const handler = async (m, { conn, args, usedPrefix, command }) => {
     return;
   }
 
+  // Verificar que el chat está definido
+  if (!m.chat) {
+    console.error('Chat no definido, no se puede enviar el mensaje');
+    return;
+  }
+
   try {
+    console.log(`Enviando mensaje con la ID: ${id}`); // Log para confirmar el envío
     await conn.sendMessage(m.chat, { 
       text: `El ID del grupo/canal es: \n\n*${id}*` 
     });
+    console.log('Mensaje enviado con éxito'); // Log para confirmar el envío exitoso
   } catch (e) {
     console.error('Error al enviar el mensaje con la ID:', e); // Log de error si falla el envío
   }
