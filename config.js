@@ -70,9 +70,6 @@ global.ch = {
   ch1: "120363371366801178@newsletter",
 };
 
-
-
-
 global.rcanal = { 
   contextInfo: { 
     isForwarded: true, 
@@ -87,7 +84,7 @@ global.rcanal = {
       body: '( ´͈ ᵕ `͈ )◞♡ Sɪᴍᴘʟᴇ ʙᴏᴛ ᴡʜᴀᴛsᴀᴘᴘ', 
       mediaUrl: null, 
       description: null, 
-      previewType: "PHOTO", 
+      previewType: "", 
       thumbnailUrl: icons, 
       sourceUrl: redes, 
       mediaType: 1, 
