@@ -12,7 +12,7 @@ let text = `
 *\`Top ${len} Monedas 🪙\`*
 
 ✩ Tú eres el *${usersLim.indexOf(m.sender) + 1}* de *${usersLim.length}*
-✩ ${sortedLim.slice(0, len).map(({ jid, corazones }, i) => `${i + 1}. ${participants.some(p => jid === p.jid) ? `(${conn.getName(jid)}) wa.me/` : '@'}${jid.split`@`[0]} *${corazones} 🪙*`).join`\n✩ `}
+✩ ${sortedLim.slice(0, len).map(({ jid, Monedas }, i) => `${i + 1}. ${participants.some(p => jid === p.jid) ? `(${conn.getName(jid)}) wa.me/` : '@'}${jid.split`@`[0]} *${Monedas} 🪙*`).join`\n✩ `}
 
 
 *\`TOP ${len} XP 💫\`*
