@@ -18,7 +18,7 @@ const {
   const { CONNECTING } = ws;
   import { Boom } from '@hapi/boom';
   import { makeWASocket } from '../lib/simple.js';
-import { channel } from 'diagnostics_channel';
+  import { channel } from 'diagnostics_channel';
   
   if (!(global.conns instanceof Array)) global.conns = [];
   
@@ -83,12 +83,12 @@ import { channel } from 'diagnostics_channel';
           let codeBot = await conn.requestPairingCode(cleanedNumber);
           codeBot = codeBot?.match(/.{1,4}/g)?.join("-") || codeBot;
               let txt = `┌  👑  *Usa este Código para convertirte en un Sub Bot*\n`
-              txt += `│  👑  Pasos\n`
-              txt += `│  👑  *1* : Haga click en los 3 puntos\n`
-              txt += `│  👑  *2* : Toque dispositivos vinculados\n`
-              txt += `│  👑  *3* : Selecciona *Vincular con el número de teléfono*\n` 
-              txt += `└  👑  *4* : Escriba el Codigo\n\n`
-              txt += `*👑Nota:* Este Código solo funciona en el número en el que se solicitó\n\n> *Sigan El Canal*\n> ${channel}`;
+                 txt += `│  👑  Pasos\n`
+                 txt += `│  👑  *1* : Haga click en los 3 puntos\n`
+                 txt += `│  👑  *2* : Toque dispositivos vinculados\n`
+                 txt += `│  👑  *3* : Selecciona *Vincular con el número de teléfono*\n` 
+                 txt += `└  👑  *4* : Escriba el Codigo\n\n`
+                 txt += `*👑Nota:* Este Código solo funciona en el número en el que se solicitó\n\n> *Sigan El Canal*\n> ${channel}`;
           await parent.reply(m.chat, txt, m);
           await parent.reply(m.chat, codeBot, m);
           rl.close();
@@ -124,7 +124,7 @@ import { channel } from 'diagnostics_channel';
                 ws: conn.ws,
                 connectedAt: Date.now()
           });
-          await parent.reply(m.chat, args[0] ? 'Conectado con éxito' : '*\`[ Conectado Exitosamente 🔱 ]\`*\n\n> _Se intentará reconectar en caso de desconexión de sesión_\n> _Si quieres eliminar el subbot borra la sesión en dispositivos vinculados_\n> _El número del bot puede cambiar, guarda este enlace :_\n\nhttps://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F', m);
+          await parent.reply(m.chat, args[0] ? 'Conectado con éxito' : '*\`[ Conectado Exitosamente 🔱 ]\`*\n\n> _Se intentará reconectar en caso de desconexión de sesión_\n> _Si quieres eliminar el subbot borra la sesión en dispositivos vinculados_\n> _El número del bot puede cambiar, guarda este enlace :_\n\nhttps://whatsapp.com/channel/0029Vb1AFK6HbFV9kaB3b13W', m);
           await sleep(5000);
           if (args[0]) return;
   
