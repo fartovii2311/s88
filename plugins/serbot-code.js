@@ -91,54 +91,76 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
         async function connectionUpdate(update) {
             const { connection, lastDisconnect, isNewLogin, qr } = update;
         
+            // Verificar si es un nuevo inicio de sesión
             if (isNewLogin) {
                 conn.isInit = true;
             }
         
             const code = lastDisconnect?.error?.output?.statusCode || lastDisconnect?.error?.output?.payload?.statusCode;
         
+            // Si hay un error en la desconexión y la conexión no está abierta, manejar la desconexión
             if (code && code !== DisconnectReason.loggedOut && conn?.ws.socket == null) {
                 let i = global.conns.indexOf(conn);
                 if (i < 0) return;
         
+                // Eliminar la conexión de la lista global
                 delete global.conns[i];
                 global.conns.splice(i, 1);
         
                 let phoneNumber = m.sender.split('@')[0];
-                let cleanedPhoneNumber = phoneNumber.replace(/\D/g, '');
+                let cleanedPhoneNumber = phoneNumber.replace(/\D/g, ''); // Limpiar el número de teléfono
         
                 const userFolderPath = `./LynxJadiBot/${cleanedPhoneNumber}`;
         
+                // Eliminar el archivo de credenciales si la conexión se cierra o si el usuario se ha deslogueado
                 if (code === DisconnectReason.connectionClosed || code === DisconnectReason.loggedOut) {
                     const credsFilePath = path.join(userFolderPath, 'creds.json');
                     if (fs.existsSync(credsFilePath)) {
-                        fs.unlinkSync(credsFilePath);
+                        fs.unlinkSync(credsFilePath); // Eliminar el archivo de credenciales
                         console.log('El archivo creds.json ha sido eliminado');
                     }
                 }
         
+                // Enviar mensaje si la conexión se ha perdido
                 if (code !== DisconnectReason.connectionClosed) {
-                    parent.sendMessage(m.chat, { text: "Conexión perdida.." }, { quoted: m });
+                    await parent.sendMessage(m.chat, { text: "Conexión perdida.." }, { quoted: m });
                 }
             }
         
+            // Verificar si la base de datos no está cargada
             if (global.db.data == null) loadDatabase();
         
+            // Si la conexión está abierta, procesar la reconexión
             if (connection == 'open') {
                 conn.isInit = true;
+        
+                // Agregar la conexión a la lista global
                 global.conns.push({
                     user: conn.user,
                     ws: conn.ws,
                     connectedAt: Date.now()
                 });
+        
+                // Enviar mensaje de confirmación de conexión exitosa
                 await parent.reply(m.chat, args[0] ? 'Conectado con éxito' : '*\`[ Conectado Exitosamente 🤍 ]\`*\n\n> _Se intentará reconectar en caso de desconexión de sesión_\n> _Si quieres eliminar el subbot borra la sesión en dispositivos vinculados_\n> _El número del bot puede cambiar, guarda este enlace :_\n\nhttps://whatsapp.com/channel/0029Vaxb5xr7z4koGtOAAc1Q', m, rcanal, fake);
+        
+                // Esperar 5 segundos antes de continuar
                 await sleep(5000);
                 if (args[0]) return;
         
-                await parent.reply(conn.user.jid, `La siguiente vez que se conecte envía el siguiente mensaje para iniciar sesión sin utilizar otro código `, m);
-                await parent.sendMessage(conn.user.jid, { text: usedPrefix + command + " " + Buffer.from(fs.readFileSync(`./LynxJadiBot/${cleanedPhoneNumber}/creds.json`), "utf-8").toString("base64") }, { quoted: m });
+                await parent.reply(conn.user.jid, `La siguiente vez que se conecte envía el siguiente mensaje para iniciar sesión sin utilizar otro código`, m);
+                const credsFilePath = `./LynxJadiBot/${cleanedPhoneNumber}/creds.json`;
+        
+                if (fs.existsSync(credsFilePath)) {
+                    const credsBase64 = Buffer.from(fs.readFileSync(credsFilePath), "utf-8").toString("base64");
+                    await parent.sendMessage(conn.user.jid, { 
+                        text: usedPrefix + command + " " + credsBase64 
+                    }, { quoted: m });
+                } else {
+                    console.log('No se encontró el archivo creds.json');
+                }
             }
-        }        
+        }
 
         setInterval(async () => {
             if (!conn.user) {
