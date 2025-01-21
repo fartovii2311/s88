@@ -44,7 +44,7 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
   user.registered = true;
 
   let sn = createHash('md5').update(m.sender).digest('hex').slice(0, 6);
-  let imgURL = 'https://i.ibb.co/JndpnfX/LynxAI.jpg';
+  let imgURL = 'https://i.ibb.co/Y7mhFdf/file.jpg';
   let now = new Date();
   let date = now.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
   let time = now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
