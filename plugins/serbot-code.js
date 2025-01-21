@@ -7,6 +7,7 @@ const {
     makeCacheableSignalKeyStore,
     jidNormalizedUser
 } = await import('@whiskeysockets/baileys')
+import { promises as fsPromises } from 'fs';
 import path, { join } from 'path';
 import moment from 'moment-timezone';
 import NodeCache from 'node-cache';
