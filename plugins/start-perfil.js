@@ -255,7 +255,7 @@ let handler = async (m, { conn }) => {
   txt += `📞 *Número*: ${PhoneNumber(numeroCompleto).getNumber('international')}\n`;
   txt += `🌍 *Nacionalidad*: ${nacionalidad}\n`;
   txt += `📌 *Link directo*: https://wa.me/${who.split`@`[0]}\n`;
-  txt += `❤️ *Corazones*: ${corazones || 0}\n`;
+  txt += `🪙 *Monedas*: ${corazones || 0}\n`;
   txt += `📈 *Nivel*: ${level || 0}\n`;
   txt += `⚡ *XP*: Total ${exp || 0} (${user.exp - min}/${xp || 0})\n`;
   txt += `🌟 *Premium*: ${prem ? 'Sí' : 'No'}\n`;
