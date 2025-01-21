@@ -38,7 +38,7 @@ let tags = {
     'nsfw': 'nsfw Hot',
   };
 const defaultMenu = {
-  before: `*\`һ᥆ᥣᥲ\`* *%name* *\`s᥆ᥡ ᥣᥡᥒᥡ᥊ - ᥲі 𝗍ᥙ ᥲsіs𝗍ᥱᥒ𝗍ᥱ ᥎іr𝗍ᥙᥲᥣ ᥴrᥱᥲძ᥆ ⍴᥆r ძᥲrkᥴ᥆rᥱ , ᥱs𝗍ᥱ ᥱs ᥱᥣ mᥱᥒᥙ ᥴ᥆m⍴ᥣᥱ𝗍᥆ ძᥱ ᥣᥲs 𝖿ᥙᥒᥴі᥆ᥒᥱs 𝗊ᥙᥱ ⍴ᥙᥱძ᥆ һᥲᥴᥱr. ˙˚ʚ₍ ᐢ. ̫ .ᐢ ₎ɞ˚\`*
+  before: `*\`ʜᴏʟᴀ\`* %name *\`sᴏʏ ʟʏɴx - ᴀɪ ᴛᴜ ᴀsɪsᴛᴇɴᴛᴇ ᴠɪʀᴛᴜᴀʟ ᴄʀᴇᴀᴅᴏ ᴘᴏʀ ᴅᴀʀᴋᴄᴏʀᴇ , ᴇsᴛᴇ ᴇs ʀʟ ᴍᴇɴᴜ ᴄᴏᴍᴘʟᴇᴛᴏ ˙˚ʚ₍ ᐢ. ̫ .ᐢ ₎ɞ˚\`*
 
  ▧ *\`INFO USUARIO\`*
  │ » *Cliente:* %name
@@ -55,7 +55,7 @@ const defaultMenu = {
  │ » *Database:*  %totalreg
  └───···
  
-*🍁 ᥣ і s 𝗍 ᥲ  ძ ᥱ  ᥴ ᥆ m ᥲ ᥒ ძ ᥆ s 🍁*
+*\`🍁 L I S T A   D E   C O M A N D O S 🍁\`*
 
 `.trimStart(),
   header: '─₍🌩️₎❝┊ *%category* ┊❜❜ ˚ ͙۪۪̥◌',
@@ -174,27 +174,8 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
     text = text.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), (_, name) => '' + replace[name])
     let img = 'https://i.ibb.co/Y7mhFdf/file.jpg'
     await m.react('🍁')
-    await conn.sendMessage(m.chat, {
-      image: { url: img },
-      caption: estilo(text),
-      footer: dev,
-      buttons: [
-        {
-          buttonId: `.grupos`,
-          buttonText: {
-            displayText: 'GRUPOS',
-          },
-        },
-        {
-          buttonId: `.owner`,
-          buttonText: {
-            displayText: 'OWNER',
-          },
-        },
-      ],
-      viewOnce: true,
-      headerType: 4,
-    }, { quoted: m })
+   // await conn.sendMessage(m.chat, { video: { url: [pp, pp2, pp3, pp4, pp5, pp6, pp7, pp8, pp9, pp10, pp11, pp12, pp13, pp14, pp15].getRandom() }, gifPlayback: true, caption: text.trim(), mentions: [m.sender] }, { quoted: estilo })
+    await conn.sendFile(m.chat, img, 'thumbnail.jpg', text.trim(), m, null, rcanal)
    
   } catch (e) {
     conn.reply(m.chat, '❎ Lo sentimos, el menú tiene un error.', m)
@@ -248,7 +229,7 @@ switch(hour){
   var greeting = "espero que tengas " + hour; 
 
 function ucapan() {
-    const time = moment.tz('America/Lima').format('HH')
+    const time = moment.tz('America/Buenos_Aires').format('HH')
     let res = "Buenas Noches🌙"
     if (time >= 5) {
         res = "Buena Madrugada🌄"
@@ -263,4 +244,4 @@ function ucapan() {
         res = "Buenas Noches🌙"
     }
     return res
-        }
+      }
