@@ -1,4 +1,4 @@
-const xppercorazones = 450
+const xppermoneda = 450
 const xpperlimit = 450
 let handler = async (m, { conn, command, args }) => {
   let count = command.replace(/^buycoins/i, '')
@@ -6,14 +6,14 @@ let handler = async (m, { conn, command, args }) => {
   count = Math.max(1, count)
   if (global.db.data.users[m.sender].exp >= xpperlimit * count) {
     global.db.data.users[m.sender].exp -= xpperlimit * count
-    global.db.data.users[m.sender].corazones += count
+    global.db.data.users[m.sender].monedas += count
     conn.reply(m.chat, `╭────═[ *R P G  -  S H O P* ]═─────⋆
 │╭───────────────···
-││✯ *Compra* : + ${count} 🤍 Corazones 
+││✯ *Compra* : + ${count} 🪙 Monedas 
 ││✯ *Costo* : -${xpperlimit * count} 💫 XP
 │╰────────────────···
 ╰───────────═┅═──────────`, m, rcanal)
-  } else conn.reply(m.chat, `🚩 Lo siento, no tienes suficientes *⭐ XP* para comprar *${count} 🤍 Corazones.*`, m, rcanal)
+  } else conn.reply(m.chat, `🚩 Lo siento, no tienes suficientes *💫 XP* para comprar *${count} 🪙 Monedas.*`, m, rcanal)
 }
 handler.help = ['buycoins', 'buyall']
 handler.tags = ['rpg']
