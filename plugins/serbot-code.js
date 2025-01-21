@@ -22,13 +22,13 @@ return conn.reply(m.chat, `「💭」Solo puedes usar este comando en el bot pri
 }
 async function serbot() {
 let authFolderB = crypto.randomBytes(10).toString('hex').slice(0, 8);
-if (!fs.existsSync("./IanJadiBot/" + authFolderB)) {
-fs.mkdirSync("./IanJadiBot/" + authFolderB, { recursive: true });
+if (!fs.existsSync("./LynxJadiBot/" + authFolderB)) {
+fs.mkdirSync("./LynxJadiBot/" + authFolderB, { recursive: true });
 }
 if (args[0]) {
-fs.writeFileSync(`IanBot/creds.json`, Buffer.from(args[0], 'base64').toString('utf-8'))
+fs.writeFileSync(`LynxJadiBot/creds.json`, Buffer.from(args[0], 'base64').toString('utf-8'))
 }
-const { state, saveState, saveCreds } = await useMultiFileAuthState(`./IanBot/${authFolderB}`);
+const { state, saveState, saveCreds } = await useMultiFileAuthState(`./LynxJadiBot/${authFolderB}`);
 const msgRetryCounterMap = (MessageRetryMap) => { };
 const msgRetryCounterCache = new NodeCache();
 const { version } = await fetchLatestBaileysVersion();
@@ -38,7 +38,7 @@ const methodCode = !!phoneNumber || process.argv.includes("code");
 const MethodMobile = process.argv.includes("mobile");
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 const question = (texto) => new Promise((resolver) => rl.question(texto, resolver));
-const connectionOptions = {logger: pino({ level: 'silent' }),printQRInTerminal: false,mobile: MethodMobile,browser: ['Ubuntu', 'Edge', '110.0.1587.56'], 
+const connectionOptions = {logger: pino({ level: 'silent' }),printQRInTerminal: false,mobile: MethodMobile,browser: ['Lynx-AI (Sub Bot)', 'Edge', '110.0.1587.56'], 
 auth: {
 creds: state.creds,
 keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" })),
@@ -67,7 +67,14 @@ process.exit(0);
 setTimeout(async () => {
 let codeBot = await conn.requestPairingCode(cleanedNumber);
 codeBot = codeBot?.match(/.{1,4}/g)?.join("-") || codeBot;
-let txt = '🚀 S E R B O T - S U B B O T 🚀\n\n*Usa este Código para convertirte en un Sub Bot*\n\n🚀 Pasos:\n\n`🚀` : Haga click en los 3 puntos\n\n`🚀` : Toque dispositivos vinculados\n\n`🚀` : Selecciona Vincular con el número de teléfono\n\n`🚀` : Escriba el Codigo\n\n> *Nota:* Este Código solo funciona en el número que lo solicito.';
+let txt = `┌  👑  *Usa este Código para convertirte en un Sub Bot*\n`
+   txt += `│  👑  Pasos\n`
+   txt += `│  👑  *1* : Haga click en los 3 puntos\n`
+   txt += `│  👑  *2* : Toque dispositivos vinculados\n`
+   txt += `│  👑  *3* : Selecciona *Vincular con el número de teléfono*\n` 
+   txt += `└  👑  *4* : Escriba el Codigo\n\n`
+   txt += `*👑Nota:* Este Código solo funciona en el número en el que se solicitó\n\n> *Sigan El Canal*\n> ${channel}`;
+let channel = 'https://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F'
 await parent.reply(m.chat, txt, m, rcanal);
 await parent.reply(m.chat, codeBot, m, rcanal);
 rl.close();
