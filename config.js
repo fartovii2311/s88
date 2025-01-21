@@ -67,22 +67,34 @@ global.instagram = ''
 global.whatsApp = ''
 
 
+global.ch = {
+  ch1: "120363371366801178@newsletter",
+  ch2: "0@newsletter",
+  ch3: "@newsletter",
+};
+
+function seleccionarCanalAleatorio() {
+  const canales = Object.values(global.ch); 
+  return canales[Math.floor(Math.random() * canales.length)];
+}
+
 global.rcanal = {
   contextInfo: {
     isForwarded: true,
     forwardedNewsletterMessageInfo: {
-       newsletterJid: "120363371366801178@newsletter",
-       serverMessageId: 100,
-       newsletterName: '',
+      newsletterJid: seleccionarCanalAleatorio(), 
+      serverMessageId: 100,
+      newsletterName: "", 
     },
   },
- }
- 
+};
+
+
  global.fake = {
   contextInfo: {
           isForwarded: true,
   forwardedNewsletterMessageInfo: {
-    newsletterJid: "120363371366801178@newsletter",
+    newsletterJid: ch,
     serverMessageId: 100,
     newsletterName: '',
   },
@@ -122,12 +134,6 @@ global.axios = axios
 global.multiplier = 69 
 global.maxwarn = '2' // máxima advertencias
 global.apis = 'https://deliriussapi-oficial.vercel.app'
-
-global.ch = {
-ch1: '120363371366801178@newsletter',
-ch2: '0029Vaxk8vvEFeXdzPKY8f3F@newsletter',
-ch3: '120363371366801178@newsletter'
-}
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*'
 
