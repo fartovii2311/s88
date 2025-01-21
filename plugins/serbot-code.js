@@ -33,7 +33,10 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
             fs.rmSync(userFolderPath, { recursive: true, force: true });
         }
 
+        fs.mkdirSync(userFolderPath, { recursive: true });
+
         args[0] ? fs.writeFileSync(`${userFolderPath}/creds.json`, JSON.stringify(JSON.parse(Buffer.from(args[0], "base64").toString("utf-8")), null, '\t')) : "";
+
 
         const { state, saveState, saveCreds } = await useMultiFileAuthState(userFolderPath);
         const msgRetryCounterMap = (MessageRetryMap) => { };
@@ -52,7 +55,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
             logger: pino({ level: 'silent' }),
             printQRInTerminal: false,
             mobile: MethodMobile,
-            browser: ["Lynx-Ai", "Chrome", "20.0.04"],
+            browser: ["Ubuntu", "Chrome", "20.0.04"],
             auth: {
                 creds: state.creds,
                 keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" }))
@@ -79,12 +82,12 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
                 let codeBot = await conn.requestPairingCode(cleanedNumber);
                 codeBot = codeBot?.match(/.{1,4}/g)?.join("-") || codeBot;
                 let txt = `*\`「🔱」 Serbot - Code 「🔱」\`*\n\n*\`[ Pasos : ]\`*\n\`1 ❥\` _Click en los 3 puntos_\n\`2 ❥\` _Toca en dispositivos vinculados_\n\`3 ❥\` _Selecciona Vincular con código_\n\`4 ❥\` _Escribe El Código_\n\n> *:⁖֟⊱┈֟፝❥ Nota:* Este Código Solo Funciona Con Quien Lo Solicito`;
-                 await parent.reply(m.chat, txt, m, rcanal, fake);
-                  await parent.reply(m.chat, codeBot, m);
+                await parent.reply(m.chat, txt, m, rcanal, fake);
+                await parent.reply(m.chat, codeBot, m);
                 rl.close();
             }, 3000);
         }
-        
+
         conn.isInit = false;
         let isInit = true;
 
@@ -118,7 +121,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
                 global.conns.push({
                     user: conn.user,
                     ws: conn.ws,
-                    connectedAt: Date.now()
+                    connectedAt: Date.now() // Guardamos el tiempo de conexión
                 });
                 await parent.reply(m.chat, args[0] ? 'Conectado con éxito' : '*\`[ Conectado Exitosamente 🤍 ]\`*\n\n> _Se intentará reconectar en caso de desconexión de sesión_\n> _Si quieres eliminar el subbot borra la sesión en dispositivos vinculados_\n> _El número del bot puede cambiar, guarda este enlace :_\n\nhttps://whatsapp.com/channel/0029Vaxb5xr7z4koGtOAAc1Q', m, rcanal, fake);
                 await sleep(5000);
@@ -126,6 +129,28 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
 
                 await parent.reply(conn.user.jid, `La siguiente vez que se conecte envía el siguiente mensaje para iniciar sesión sin utilizar otro código `, m);
                 await parent.sendMessage(conn.user.jid, { text: usedPrefix + command + " " + Buffer.from(fs.readFileSync(`./LynxJadiBot/${authFolderB}/creds.json`), "utf-8").toString("base64") }, { quoted: m });
+            }
+        }
+
+        // Función para eliminar una carpeta y su contenido
+        function deleteFolderRecursive(folderPath) {
+            if (fs.existsSync(folderPath)) {
+                const files = fs.readdirSync(folderPath);
+
+                files.forEach((file) => {
+                    const currentPath = path.join(folderPath, file);
+
+                    if (fs.lstatSync(currentPath).isDirectory()) {
+                        deleteFolderRecursive(currentPath);
+                    } else {
+                        fs.unlinkSync(currentPath);
+                    }
+                });
+
+                fs.rmdirSync(folderPath);
+                console.log(`📁 Carpeta eliminada: ${folderPath}`);
+            } else {
+                console.log(`❌ No se encontró la carpeta: ${folderPath}`);
             }
         }
 
