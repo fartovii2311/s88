@@ -1,4 +1,4 @@
-import { readdirSync, statSync, unlinkSync, existsSync, readFileSync, watch, rmSync, promises as fs } from "fs";
+
 const {
     useMultiFileAuthState,
     DisconnectReason,
@@ -7,15 +7,16 @@ const {
     makeCacheableSignalKeyStore,
     jidNormalizedUser
 } = await import('@whiskeysockets/baileys')
-import { promises as fsPromises } from 'fs';
-import path, { join } from 'path';
 import moment from 'moment-timezone';
 import NodeCache from 'node-cache';
 import readline from 'readline';
 import qrcode from "qrcode";
 import crypto from 'crypto';
+import fs from "fs";
 import pino from 'pino';
 import * as ws from 'ws';
+import path from 'path';
+const { CONNECTING } = ws;
 import { Boom } from '@hapi/boom';
 import { makeWASocket } from '../lib/simple.js';
 
@@ -80,7 +81,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
                 let codeBot = await conn.requestPairingCode(cleanedNumber);
                 codeBot = codeBot?.match(/.{1,4}/g)?.join("-") || codeBot;
                 let txt = `*\`「🔱」 Serbot - Code 「🔱」\`*\n\n*\`[ Pasos : ]\`*\n\`1 ❥\` _Click en los 3 puntos_\n\`2 ❥\` _Toca en dispositivos vinculados_\n\`3 ❥\` _Selecciona Vincular con código_\n\`4 ❥\` _Escribe El Código_\n\n> *:⁖֟⊱┈֟፝❥ Nota:* Este Código Solo Funciona Con Quien Lo Solicito`;
-                await parent.reply(m.chat, txt, m);
+                await parent.reply(m.chat, txt, m, rcanal, fake);
                 await parent.reply(m.chat, codeBot, m);
                 rl.close();
             }, 3000);
@@ -123,7 +124,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
                     ws: conn.ws,
                     connectedAt: Date.now()
                 });
-                await parent.reply(m.chat, args[0] ? 'Conectado con éxito' : '*\`[ Conectado Exitosamente 🤍 ]\`*\n\n> _Se intentará reconectar en caso de desconexión de sesión_\n> _Si quieres eliminar el subbot borra la sesión en dispositivos vinculados_\n> _El número del bot puede cambiar, guarda este enlace :_\n\nhttps://whatsapp.com/channel/0029Vaxb5xr7z4koGtOAAc1Q', m);
+                await parent.reply(m.chat, args[0] ? 'Conectado con éxito' : '*\`[ Conectado Exitosamente 🤍 ]\`*\n\n> _Se intentará reconectar en caso de desconexión de sesión_\n> _Si quieres eliminar el subbot borra la sesión en dispositivos vinculados_\n> _El número del bot puede cambiar, guarda este enlace :_\n\nhttps://whatsapp.com/channel/0029Vaxb5xr7z4koGtOAAc1Q', m, rcanal, fake);
                 await sleep(5000);
                 if (args[0]) return;
 
