@@ -70,7 +70,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
     let mode = global.opts["self"] ? "Privado" : "Publico"
     let _package = JSON.parse(await promises.readFile(join(__dirname, '../package.json')).catch(_ => ({}))) || {}
 
-    let {  age, exp, corazones, level, role, money} = global.db.data.users[m.sender]
+    let {  age, exp, Monedas, level, role, money} = global.db.data.users[m.sender]
     let { min, xp, max } = xpRange(level, global.multiplier)
     let ucpn = `${ucapan()}`
 
@@ -113,7 +113,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
         tags: Array.isArray(plugin.tags) ? plugin.tags : [plugin.tags],
         prefix: 'customPrefix' in plugin,
         limit: plugin.limit,
-        corazones: plugin.corazones,
+        Monedas: plugin.Monedas,
         premium: plugin.premium,
         enabled: !plugin.disabled,
       }
@@ -136,7 +136,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
             return menu.help.map(help => {
               return body.replace(/%cmd/g, menu.prefix ? help : '%p' + help)
                 .replace(/%islimit/g, menu.limit ? '◜⭐◞' : '')
-                .replace(/%iscorazones/g, menu.Monedas ? '◜🪙◞' : '')
+                .replace(/%isMonedas/g, menu.Monedas ? '◜🪙◞' : '')
                 .replace(/%isPremium/g, menu.premium ? '◜🪪◞' : '')
                 .trim()
             }).join('\n')
@@ -251,3 +251,4 @@ function ucapan() {
     }
     return res
       }
+corazones
