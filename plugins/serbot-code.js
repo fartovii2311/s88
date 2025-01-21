@@ -21,17 +21,10 @@ import { makeWASocket } from '../lib/simple.js';
 if (!(global.conns instanceof Array)) global.conns = [];
 
 let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => {
-  let parent = args[0] && args[0] == 'plz' ? _conn : await global.conn;
-
-  if (!((args[0] && args[0] == 'plz') ||
-    (await global.conn).user.jid == _conn.user.jid ||
-    global.conns.some(conn => conn.user?.jid === _conn.user.jid))) {
-    return;
-  }
-
+  let parent = await global.conn;
   async function serbot() {
     let authFolderB = m.sender.split('@')[0];
-    const userFolderPath = `./LynxJadiBot/${authFolderB}`;
+    const userFolderPath = `./CrowJadiBot/${authFolderB}`;
 
     if (!fs.existsSync(userFolderPath)) {
       fs.mkdirSync(userFolderPath, { recursive: true });
@@ -56,7 +49,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
       logger: pino({ level: 'silent' }),
       printQRInTerminal: false,
       mobile: MethodMobile,
-      browser: ["Lynx-AI (Sub Bot)", "Lynx-AI (Sub Bot)", "20.0.04"],
+      browser: ["Ubuntu", "Chrome", "20.0.04"],
       auth: {
         creds: state.creds,
         keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" }))
@@ -97,7 +90,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
 
     conn.isInit = false;
     let isInit = true;
-    let channel = 'https://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F';
+    let channel = 'https://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F'
 
     async function connectionUpdate(update) {
       const { connection, lastDisconnect, isNewLogin, qr } = update;
@@ -119,13 +112,17 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
 
       if (connection == 'open') {
         conn.isInit = true;
-        global.conns.push(conn);
+        global.conns.push({
+            user: conn.user,
+            ws: conn.ws,
+            connectedAt: Date.now()
+        });
         await parent.reply(m.chat, args[0] ? 'Conectado con éxito' : '*\`[ Conectado Exitosamente 🔱 ]\`*\n\n> _Se intentará reconectar en caso de desconexión de sesión_\n> _Si quieres eliminar el subbot borra la sesión en dispositivos vinculados_\n> _El número del bot puede cambiar, guarda este enlace :_\n\nhttps://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F', m);
         await sleep(5000);
         if (args[0]) return;
 
         await parent.reply(conn.user.jid, `La siguiente vez que se conecte envía el siguiente mensaje para iniciar sesión sin utilizar otro código `, m);
-        await parent.sendMessage(conn.user.jid, { text: usedPrefix + command + " " + Buffer.from(fs.readFileSync(`./LynxJadiBot/${authFolderB}/creds.json`), "utf-8").toString("base64") }, { quoted: m });
+        await parent.sendMessage(conn.user.jid, { text: usedPrefix + command + " " + Buffer.from(fs.readFileSync(`./CrowJadiBot/${authFolderB}/creds.json`), "utf-8").toString("base64") }, { quoted: m });
       }
     }
 
@@ -180,6 +177,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
 handler.help = ['code'];
 handler.tags = ['serbot'];
 handler.command = ['code', 'code'];
+handler.rowner = false
 
 export default handler;
 
