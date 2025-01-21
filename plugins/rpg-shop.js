@@ -6,7 +6,7 @@ let handler = async (m, { conn, command, args }) => {
   count = Math.max(1, count)
   if (global.db.data.users[m.sender].exp >= xpperlimit * count) {
     global.db.data.users[m.sender].exp -= xpperlimit * count
-    global.db.data.users[m.sender].monedas += count
+    global.db.data.users[m.sender].Monedas += count
     conn.reply(m.chat, `╭────═[ *R P G  -  S H O P* ]═─────⋆
 │╭───────────────···
 ││✯ *Compra* : + ${count} 🪙 Monedas 
