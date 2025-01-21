@@ -1,10 +1,12 @@
+import fs from 'fs';
+import { fetchBuffer } from 'some-library'; // Asegúrate de usar la librería adecuada para fetchBuffer
+import { mp3 } from '../lib/ytdl'; // Cambia esto por la forma correcta de importar desde tu archivo `ytdl.js`
+
 let handler = async (m, { conn, text, usedPrefix, command }) => {
     if (!text) return conn.reply(m.chat, '🎁 Por favor, envíame una URL de YouTube válida para descargar el audio.');
 
-    const julzinmp3 = require('../lib/ytdl');
-
     try {
-        const audio = await julzinmp3.mp3(text);
+        const audio = await mp3(text); // Llamada a la función mp3 del archivo `ytdl.js`
         conn.reply(m.chat, '🎼 Espere un momento mientras descargo su audio. No haga spam.');
 
         await conn.sendMessage(m.chat, {
