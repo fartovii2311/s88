@@ -8,7 +8,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
   let tiempoEspera = 5 * 60  // 5 minutos
   if (cooldowns[m.sender] && Date.now() - cooldowns[m.sender] < tiempoEspera * 1000) {
     let tiempoRestante = segundosAHMS(Math.ceil((cooldowns[m.sender] + tiempoEspera * 1000 - Date.now()) / 1000))
-    m.reply(`🤍 Ya has robado corazones recientemente, espera *⏱ ${tiempoRestante}* para hacer tu próximo robo.`)
+    m.reply(`🪙  Ya has robado Monedas recientemente, espera *⏱ ${tiempoRestante}* para hacer tu próximo robo.`)
     return
   }
 
@@ -16,22 +16,22 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 
   // Verificar que el usuario tiene el objeto 'corazones' en su base de datos
   if (!users[senderId]) {
-    users[senderId] = { corazones: 0 }
+    users[senderId] = { Monedas: 0 }
   }
 
-  let sendercorazones = users[senderId].corazones || 0
+  let senderMonedas = users[senderId].Monedas || 0
 
   // Verificar si se mencionó un usuario
   let targetUserId = m.mentionedJid[0]
   
   if (!targetUserId) {
-    if (sendercorazones <= 0) {
+    if (senderMonedas <= 0) {
       let groupParticipants = m.isGroup ? await conn.groupMetadata(m.chat).then(group => group.participants) : []
       // Filtramos a los usuarios que tienen corazones mayores que 0
-      targetUserId = groupParticipants.find(participant => users[participant.id] && users[participant.id].corazones > 0)?.id
+      targetUserId = groupParticipants.find(participant => users[participant.id] && users[participant.id].Monedas > 0)?.id
 
       if (!targetUserId) {
-        m.reply(`🤍 No hay usuarios con corazones para robar en este grupo.`)
+        m.reply(`🪙 No hay usuarios con Monedas para robar en este grupo.`)
         return
       }
     }
@@ -39,7 +39,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 
   // Si el objetivo es el mismo que el remitente, dar error
   if (targetUserId === senderId) {
-    m.reply("🤍 No puedes robar corazones a ti mismo.")
+    m.reply("🪙 No puedes robar Monedas a ti mismo.")
     return
   }
 
