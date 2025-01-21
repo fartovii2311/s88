@@ -21,50 +21,34 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 
   let sendercorazones = users[senderId].corazones || 0
 
-  if (sendercorazones <= 0) {
-    let groupParticipants = m.isGroup ? await conn.groupMetadata(m.chat).then(group => group.participants) : []
-    // Filtramos a los usuarios que tienen corazones mayores que 0
-    let targetUserId = groupParticipants.find(participant => users[participant.id] && users[participant.id].corazones > 0)?.id
+  // Verificar si se mencionó un usuario
+  let targetUserId = m.mentionedJid[0]
+  
+  if (!targetUserId) {
+    if (sendercorazones <= 0) {
+      let groupParticipants = m.isGroup ? await conn.groupMetadata(m.chat).then(group => group.participants) : []
+      // Filtramos a los usuarios que tienen corazones mayores que 0
+      targetUserId = groupParticipants.find(participant => users[participant.id] && users[participant.id].corazones > 0)?.id
 
-    if (!targetUserId) {
-      m.reply(`🤍 No hay usuarios con corazones para robar en este grupo.`)
-      return
-    }
-
-    let amountTaken = Math.floor(Math.random() * (50 - 15 + 1)) + 15
-    users[targetUserId].corazones -= amountTaken
-    users[senderId].corazones += amountTaken
-    conn.sendMessage(m.chat, {
-      text: `🤍 No tenías corazones, así que robaste *${amountTaken} 🤍 corazones* de @${targetUserId.split("@")[0]}. Se suman *+${amountTaken} 🤍 corazones* a ${senderName}.`,
-      contextInfo: { 
-        mentionedJid: [targetUserId],
+      if (!targetUserId) {
+        m.reply(`🤍 No hay usuarios con corazones para robar en este grupo.`)
+        return
       }
-    }, { quoted: m })
-    global.db.write()
+    }
+  }
+
+  // Si el objetivo es el mismo que el remitente, dar error
+  if (targetUserId === senderId) {
+    m.reply("🤍 No puedes robar corazones a ti mismo.")
     return
   }
 
-  let groupParticipants = m.isGroup ? await conn.groupMetadata(m.chat).then(group => group.participants) : []
-  // Filtrar solo a los participantes con corazones > 0
-  let validParticipants = groupParticipants.filter(participant => users[participant.id] && users[participant.id].corazones > 0)
-
-  if (validParticipants.length === 0) {
-    m.reply(`🤍 No hay usuarios con corazones para robar en este grupo.`)
-    return
+  // Verificar que el usuario tiene el objeto 'corazones'
+  if (!users[targetUserId]) {
+    users[targetUserId] = { corazones: 0 }
   }
 
-  let randomUserId = validParticipants[Math.floor(Math.random() * validParticipants.length)].id
-
-  while (randomUserId === senderId) {
-    randomUserId = validParticipants[Math.floor(Math.random() * validParticipants.length)].id
-  }
-
-  // Verificar que el usuario aleatorio tiene el objeto 'corazones'
-  if (!users[randomUserId]) {
-    users[randomUserId] = { corazones: 0 }
-  }
-
-  let randomUsercorazones = users[randomUserId].corazones || 0
+  let targetUsercorazones = users[targetUserId].corazones || 0
 
   let minAmount = 15
   let maxAmount = 50
@@ -77,11 +61,11 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
   case 0:
     // Si el robo fue exitoso, robar los corazones
     users[senderId].corazones += amountTaken
-    users[randomUserId].corazones -= amountTaken
+    users[targetUserId].corazones -= amountTaken
     conn.sendMessage(m.chat, {
-      text: `🤍¡Has robado con éxito! Robaste *${amountTaken} 🤍 corazones* a @${randomUserId.split("@")[0]}\n\nSe suman *+${amountTaken} 🤍 corazones* a ${senderName}.`,
+      text: `🤍¡Has robado con éxito! Robaste *${amountTaken} 🤍 corazones* a @${targetUserId.split("@")[0]}\n\nSe suman *+${amountTaken} 🤍 corazones* a ${senderName}.`,
       contextInfo: { 
-        mentionedJid: [randomUserId],
+        mentionedJid: [targetUserId],
       }
     }, { quoted: m })
     break
@@ -94,13 +78,13 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 
   case 2:
     // Si el robo es parcialmente exitoso
-    let smallAmountTaken = Math.min(Math.floor(Math.random() * (randomUsercorazones / 2 - minAmount + 1)) + minAmount, maxAmount)
+    let smallAmountTaken = Math.min(Math.floor(Math.random() * (targetUsercorazones / 2 - minAmount + 1)) + minAmount, maxAmount)
     users[senderId].corazones += smallAmountTaken
-    users[randomUserId].corazones -= smallAmountTaken
+    users[targetUserId].corazones -= smallAmountTaken
     conn.sendMessage(m.chat, {
-      text: `🤍 Lograste robar algunos corazones, pero no completamente. Tomaste *${smallAmountTaken} 🤍 corazones* de @${randomUserId.split("@")[0]}\n\nSe suman *+${smallAmountTaken} 🤍 corazones* a ${senderName}.`,
+      text: `🤍 Lograste robar algunos corazones, pero no completamente. Tomaste *${smallAmountTaken} 🤍 corazones* de @${targetUserId.split("@")[0]}\n\nSe suman *+${smallAmountTaken} 🤍 corazones* a ${senderName}.`,
       contextInfo: { 
-        mentionedJid: [randomUserId],
+        mentionedJid: [targetUserId],
       }
     }, { quoted: m })
     break
