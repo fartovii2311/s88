@@ -302,7 +302,7 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
       throw false
       }
     }
-    chat.modohorny = isEnable          
+    chat.nsfw = isEnable          
     break
     default:
       if (!/[01]/.test(command)) return conn.reply(m.chat, `╭───────────────✦
