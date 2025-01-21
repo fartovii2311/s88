@@ -68,21 +68,16 @@ global.whatsApp = ''
 
 global.ch = {
   ch1: "120363371366801178@newsletter",
-  ch2: "0@newsletter",
-  ch3: "@newsletter",
 };
 
-function seleccionarCanalAleatorio() {
-  const canales = Object.values(global.ch); 
-  return canales[Math.floor(Math.random() * canales.length)];
-}
+
 
 
 global.rcanal = { 
   contextInfo: { 
     isForwarded: true, 
     forwardedNewsletterMessageInfo: { 
-      newsletterJid: seleccionarCanalAleatorio(), 
+      newsletterJid: global.ch, 
       serverMessageId: 100, 
       newsletterName: 'Lyᥒ᥊ ᥴһᥲᥒᥒᥱᥣ', 
     }, 
