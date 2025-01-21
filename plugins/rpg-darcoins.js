@@ -3,20 +3,20 @@ import MessageType from '@whiskeysockets/baileys';
 let impuesto = 0.02; // Impuesto del 2%
 let handler = async (m, { conn, text }) => {
     let who;
-    if (m.isGroup) who = m.mentionedJid[0]; // Obtiene el primer usuario mencionado
-    else who = m.chat; // Si no es grupo, usa el chat como destinatario
+    if (m.isGroup) who = m.mentionedJid[0];
+    else who = m.chat; 
 
-    if (!who) throw '🤍 Menciona al usuario con *@user.*';
+    if (!who) throw '🪙 Monedas al usuario con *@user.*';
 
-    let txt = text.replace('@' + who.split`@`[0], '').trim(); // Extrae el texto restante
-    if (!txt) throw '🤍 Ingrese la cantidad de *🤍 corazones* que quiere transferir.';
+    let txt = text.replace('@' + who.split`@`[0], '').trim();
+    if (!txt) throw '🪙 Ingrese la cantidad de *🪙 Monedas* que quiere transferir.';
     if (isNaN(txt)) throw '🚩 Sólo números son permitidos.';
 
     let poin = parseInt(txt); // Convierte el texto en un número
-    if (poin < 1) throw '🤍 Mínimo es *1 🤍 corazones*.';
+    if (poin < 1) throw '🪙 Mínimo es *1 🪙 Moneda*.';
 
     let corazones = poin;
-    let imt = Math.ceil(poin * impuesto); // Calcula el impuesto
+    let imt = Math.ceil(poin * impuesto);
     corazones += imt;
 
     let users = global.db.data.users;
@@ -25,24 +25,21 @@ let handler = async (m, { conn, text }) => {
     const isOwner = global.owner.some(([jid]) => m.sender.endsWith(jid));
 
     if (!isOwner) {
-        // Si no es propietario, verifica si tiene suficientes corazones
-        if (corazones > users[m.sender].corazones) throw '🚩 No tienes suficientes *🤍 corazones* para dar.';
-        users[m.sender].corazones -= corazones; // Resta corazones del remitente
+        if (corazones > users[m.sender].corazones) throw '🚩 No tienes suficientes *🪙 Monedas* para dar.';
+        users[m.sender].corazones -= corazones; 
     }
 
-    // Agrega corazones al destinatario
-    if (!users[who]) users[who] = { corazones: 0 }; // Asegura que el destinatario tenga un registro
+    if (!users[who]) users[who] = { corazones: 0 };
     users[who].corazones += poin;
 
     await m.reply(
-        `🤍 *Transferencia completada exitosamente.*\n\n` +
-        `Enviado: *${poin}* 🤍 corazones\n` +
-        `Impuesto del 2%: *${imt}* 🤍 corazones\n` +
-        `${isOwner ? '*Nota: Eres propietario y tienes corazones ilimitados.*' : `Total gastado: *${corazones}* 🤍 corazones.`}`
+        `🪙 *Transferencia completada exitosamente.*\n\n` +
+        `Enviado: *${poin}* 🪙 Moneda\n` +
+        `Impuesto del 2%: *${imt}* 🪙 Moneda\n` +
+        `${isOwner ? '*Nota: Eres propietario y tienes corazones ilimitados.*' : `Total gastado: *${corazones}* 🪙 Moneda.`}`
     );
 
-    // Notifica al destinatario sobre la recepción de los corazones
-    conn.fakeReply(m.chat, `*+${poin}* 🤍 corazones recibidos.`, who, m.text);
+    conn.fakeReply(m.chat, `*+${poin}* 🪙 Moneda recibidos.`, who, m.text);
 };
 
 handler.help = ['darstars *@user <cantidad>*'];
