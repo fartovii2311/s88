@@ -29,3 +29,10 @@ let handler = async (m, { conn, text }) => {
         conn.reply(m.chat, '❀ Hubo un error al procesar el audio.');
     }
 };
+
+// Configuración del comando y los tags
+handler.help = ['mp3 *<url>*'];
+handler.tags = ['dl'];
+handler.command = ['mp3'];
+
+export default handler;
