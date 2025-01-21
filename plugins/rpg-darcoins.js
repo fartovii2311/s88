@@ -15,7 +15,7 @@ let handler = async (m, { conn, text }) => {
     let poin = parseInt(txt); // Convierte el texto en un número
     if (poin < 1) throw '🪙 Mínimo es *1 🪙 Moneda*.';
 
-    let corazones = poin;
+    let Monedas = poin;
     let imt = Math.ceil(poin * impuesto);
     corazones += imt;
 
@@ -26,17 +26,17 @@ let handler = async (m, { conn, text }) => {
 
     if (!isOwner) {
         if (corazones > users[m.sender].corazones) throw '🚩 No tienes suficientes *🪙 Monedas* para dar.';
-        users[m.sender].corazones -= corazones; 
+        users[m.sender].Monedas -= Monedas; 
     }
 
-    if (!users[who]) users[who] = { corazones: 0 };
-    users[who].corazones += poin;
+    if (!users[who]) users[who] = { Monedas: 0 };
+    users[who].Monedas += poin;
 
     await m.reply(
         `🪙 *Transferencia completada exitosamente.*\n\n` +
         `Enviado: *${poin}* 🪙 Moneda\n` +
         `Impuesto del 2%: *${imt}* 🪙 Moneda\n` +
-        `${isOwner ? '*Nota: Eres propietario y tienes corazones ilimitados.*' : `Total gastado: *${corazones}* 🪙 Moneda.`}`
+        `${isOwner ? '*Nota: Eres propietario y tienes corazones ilimitados.*' : `Total gastado: *${Monedas}* 🪙 Moneda.`}`
     );
 
     conn.fakeReply(m.chat, `*+${poin}* 🪙 Moneda recibidos.`, who, m.text);
