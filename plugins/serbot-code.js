@@ -96,31 +96,31 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
 
         async function connectionUpdate(update) {
             const { connection, lastDisconnect, isNewLogin, qr } = update;
-            if (isNewLogin) conn.isInit = true;
+        
+            if (isNewLogin) {
+                conn.isInit = true;
+            }
         
             const code = lastDisconnect?.error?.output?.statusCode || lastDisconnect?.error?.output?.payload?.statusCode;
         
             // Solo borrar el archivo creds.json cuando la conexión no se haya logrado y no se pueda reconectar
             if (code && code !== DisconnectReason.loggedOut && conn?.ws.socket == null) {
                 let i = global.conns.indexOf(conn);
-                if (i < 0) return console.log(await creloadHandler(true).catch(console.error));
+                if (i < 0) return;  // Evitar impresión o procesamiento innecesario
         
                 delete global.conns[i];
                 global.conns.splice(i, 1);
         
-                // Obtener el número de teléfono sin el prefijo "+" (por ejemplo, "573123456789")
                 let phoneNumber = m.sender.split('@')[0];
-                let cleanedPhoneNumber = phoneNumber.replace(/\D/g, ''); // Eliminar todos los caracteres no numéricos (incluyendo '+')
-                
+                let cleanedPhoneNumber = phoneNumber.replace(/\D/g, ''); // Eliminar caracteres no numéricos
+        
                 const userFolderPath = `./LynxJadiBot/${cleanedPhoneNumber}`;
         
-                // Verifica si el código de desconexión es por cierre de sesión o cualquier otro que indique desconexión permanente
                 if (code === DisconnectReason.connectionClosed || code === DisconnectReason.loggedOut) {
-                    // Eliminar el archivo creds.json
                     const credsFilePath = path.join(userFolderPath, 'creds.json');
                     if (fs.existsSync(credsFilePath)) {
-                        fs.unlinkSync(credsFilePath);  // Elimina el archivo creds.json
-                        console.log('El archivo creds.json ha sido eliminado');
+                        fs.unlinkSync(credsFilePath);  // Eliminar el archivo creds.json
+                        console.log('El archivo creds.json ha sido eliminado'); // Solo se imprime si realmente se elimina el archivo
                     }
                 }
         
@@ -145,7 +145,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
                 await parent.reply(conn.user.jid, `La siguiente vez que se conecte envía el siguiente mensaje para iniciar sesión sin utilizar otro código `, m);
                 await parent.sendMessage(conn.user.jid, { text: usedPrefix + command + " " + Buffer.from(fs.readFileSync(`./LynxJadiBot/${cleanedPhoneNumber}/creds.json`), "utf-8").toString("base64") }, { quoted: m });
             }
-        }
+        }        
 
         setInterval(async () => {
             if (!conn.user) {
