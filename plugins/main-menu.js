@@ -174,9 +174,8 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
     text = text.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), (_, name) => '' + replace[name])
     let img = ''
     await m.react('🍁')
-  
-    await conn.sendMessage(m.chat, text.trim(), { quoted: m, mentions: [m.sender], contextInfo: { mentionedJid: [m.sender] }, ...menu });
- 
+   await conn.reply(m.chat, text.trim(), { quoted: m, mentions: [m.sender], contextInfo: { mentionedJid: [m.sender] }, ...menu});
+
   } catch (e) {
     conn.reply(m.chat, '❎ Lo sentimos, el menú tiene un error.', m)
     throw e
