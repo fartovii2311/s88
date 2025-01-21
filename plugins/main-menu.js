@@ -38,11 +38,11 @@ let tags = {
     'nsfw': 'nsfw Hot',
   };
 const defaultMenu = {
-  before: `*\`һ᥆ᥣᥲ\`* *%name* *\`s᥆ᥡ ᥣᥡᥒᥡ᥊ - ᥲі 𝗍ᥙ ᥲsіs𝗍ᥱᥒ𝗍ᥱ ᥎іr𝗍ᥙᥲᥣ ᥴrᥱᥲძ᥆ ⍴᥆r ძᥲrkᥴ᥆rᥱ , ᥱs𝗍ᥱ ᥱs ᥱᥣ mᥱᥒᥙ ᥴ᥆m⍴ᥣᥱ𝗍᥆ ძᥱ ᥣᥲs 𝖿ᥙᥒᥴі᥆ᥒᥱs 𝗊ᥙᥱ ⍴ᥙᥱძ᥆ һᥲᥴᥱr. ˙˚ʚ₍ ᐢ. ̫ .ᐢ ₎ɞ˚\`*
+  before: `*\`һ᥆ᥣᥲ\`* *%name* *\`s᥆ᥡ ᥣᥡᥒ᥊ - ᥲі 𝗍ᥙ ᥲsіs𝗍ᥱᥒ𝗍ᥱ ᥎іr𝗍ᥙᥲᥣ ᥴrᥱᥲძ᥆ ⍴᥆r ძᥲrkᥴ᥆rᥱ , ᥱs𝗍ᥱ ᥱs ᥱᥣ mᥱᥒᥙ ᥴ᥆m⍴ᥣᥱ𝗍᥆ ძᥱ ᥣᥲs 𝖿ᥙᥒᥴі᥆ᥒᥱs 𝗊ᥙᥱ ⍴ᥙᥱძ᥆ һᥲᥴᥱr. ˙˚ʚ₍ ᐢ. ̫ .ᐢ ₎ɞ˚\`*
 
  ▧ *\`INFO USUARIO\`*
  │ » *Cliente:* %name
- │ » *Corazones:* %corazones
+ │ » *Cookies:* %cookies
  │ » *Nivel:* %level
  │ » *Xp:* %exp / %maxexp
  │ » *TotalXp:* %totalexp
@@ -70,7 +70,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
     let mode = global.opts["self"] ? "Privado" : "Publico"
     let _package = JSON.parse(await promises.readFile(join(__dirname, '../package.json')).catch(_ => ({}))) || {}
 
-    let {  age, exp, corazones, level, role, money} = global.db.data.users[m.sender]
+    let {  age, exp, cookies, level, role, money} = global.db.data.users[m.sender]
     let { min, xp, max } = xpRange(level, global.multiplier)
     let ucpn = `${ucapan()}`
 
@@ -113,7 +113,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
         tags: Array.isArray(plugin.tags) ? plugin.tags : [plugin.tags],
         prefix: 'customPrefix' in plugin,
         limit: plugin.limit,
-        corazones: plugin.corazones,
+        cookies: plugin.cookies,
         premium: plugin.premium,
         enabled: !plugin.disabled,
       }
@@ -136,7 +136,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
             return menu.help.map(help => {
               return body.replace(/%cmd/g, menu.prefix ? help : '%p' + help)
                 .replace(/%islimit/g, menu.limit ? '◜⭐◞' : '')
-                .replace(/%iscorazones/g, menu.corazones ? '◜🪙◞' : '')
+                .replace(/%iscookies/g, menu.cookies ? '◜🪙◞' : '')
                 .replace(/%isPremium/g, menu.premium ? '◜🪪◞' : '')
                 .trim()
             }).join('\n')
@@ -168,7 +168,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
  level,
  name,
  totalreg,
- ucpn,  mode, _p, money, age, tag, name, level, corazones, name, weton, week, date, dateIslamic, time, totalreg, rtotalreg, role,
+ ucpn,  mode, _p, money, age, tag, name, level, cookies, name, weton, week, date, dateIslamic, time, totalreg, rtotalreg, role,
  readmore: readMore
    }
     text = text.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), (_, name) => '' + replace[name])
@@ -244,4 +244,4 @@ function ucapan() {
         res = "Buenas Noches🌙"
     }
     return res
-                     }
+  }
