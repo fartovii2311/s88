@@ -44,7 +44,7 @@ global.igfg = ''
 global.botname = '۟Lynx-Ai'
 global.dev = ''
 global.titu = ''
-global.textbot = '𝑳𝒚𝒏𝒙 - 𝑪𝒉𝒂𝒏𝒏𝒆𝒍'
+global.textbot = 'Lyᥒ᥊ ᥴһᥲᥒᥒᥱᥣ'
 global.listo = '*Aqui tiene ฅ^•ﻌ•^ฅ*'
 global.vs = '2.0.0'
 global.namechannel = ''
@@ -70,7 +70,18 @@ global.ch = {
   ch1: "120363371366801178@newsletter",
 };
 
-global.rcanal = { 
+global.rcanal = {
+  contextInfo: {
+    isForwarded: true,
+    forwardedNewsletterMessageInfo: {
+       newsletterJid: "120363371366801178@newsletter",
+       serverMessageId: 100,
+       newsletterName: textbot,
+    },
+  },
+ }
+
+global.menu = { 
   contextInfo: { 
     isForwarded: true, 
     forwardedNewsletterMessageInfo: { 
@@ -93,28 +104,16 @@ global.rcanal = {
   }, 
 };
 
-global.fake = { 
-  contextInfo: { 
-    isForwarded: true, 
-    forwardedNewsletterMessageInfo: { 
-      newsletterJid: "120363371366801178@newsletter", 
-      serverMessageId: 100, 
-      newsletterName: 'Lyᥒ᥊ ᥴһᥲᥒᥒᥱᥣ', 
-    }, 
-    externalAdReply: { 
-      showAdAttribution: true, 
-      title: "Mi Bot", // Valor directo como texto
-      body: '( ´͈ ᵕ `͈ )◞♡ Sɪᴍᴘʟᴇ ʙᴏᴛ ᴡʜᴀᴛsᴀᴘᴘ', 
-      mediaUrl: null, 
-      description: null, 
-      previewType: "", 
-      thumbnailUrl: "https://mi-imagen.com/icono.jpg", // Imagen de ejemplo
-      sourceUrl: "https://www.miredsocial.com", // URL de ejemplo
-      mediaType: 1, 
-      renderLargerThumbnail: true 
-    }, 
-  }, 
-};
+global.fake = {
+  contextInfo: {
+    isForwarded: true,
+    forwardedNewsletterMessageInfo: {
+       newsletterJid: "120363371366801178@newsletter",
+       serverMessageId: 100,
+       newsletterName: textbot,
+    },
+  },
+ }
 
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
