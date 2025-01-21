@@ -1,4 +1,3 @@
-
 import { watchFile, unwatchFile } from 'fs' 
 import chalk from 'chalk'
 import { fileURLToPath } from 'url'
@@ -78,17 +77,29 @@ function seleccionarCanalAleatorio() {
   return canales[Math.floor(Math.random() * canales.length)];
 }
 
-global.rcanal = {
-  contextInfo: {
-    isForwarded: true,
-    forwardedNewsletterMessageInfo: {
-      newsletterJid: seleccionarCanalAleatorio(), 
-      serverMessageId: 100,
-      newsletterName: "", 
-    },
-  },
-};
 
+global.rcanal = { 
+  contextInfo: { 
+    isForwarded: true, 
+    forwardedNewsletterMessageInfo: { 
+      newsletterJid: seleccionarCanalAleatorio(), 
+      serverMessageId: 100, 
+      newsletterName: 'Lyᥒ᥊ ᥴһᥲᥒᥒᥱᥣ', 
+    }, 
+    externalAdReply: { 
+      showAdAttribution: true, 
+      title: textbot, 
+      body: '( ´͈ ᵕ `͈ )◞♡ Sɪᴍᴘʟᴇ ʙᴏᴛ ᴡʜᴀᴛsᴀᴘᴘ', 
+      mediaUrl: null, 
+      description: null, 
+      previewType: "PHOTO", 
+      thumbnailUrl: icons, 
+      sourceUrl: redes, 
+      mediaType: 1, 
+      renderLargerThumbnail: true 
+    }, 
+  }, 
+}
 
  global.fake = {
   contextInfo: {
