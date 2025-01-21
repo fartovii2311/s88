@@ -38,7 +38,7 @@ let tags = {
     'nsfw': 'nsfw Hot',
   };
 const defaultMenu = {
-  before: `*\`ʜᴏʟᴀ\`* %name *\`sᴏʏ ʟʏɴx - ᴀɪ ᴛᴜ ᴀsɪsᴛᴇɴᴛᴇ ᴠɪʀᴛᴜᴀʟ ᴄʀᴇᴀᴅᴏ ᴘᴏʀ ᴅᴀʀᴋᴄᴏʀᴇ , ᴇsᴛᴇ ᴇs ʀʟ ᴍᴇɴᴜ ᴄᴏᴍᴘʟᴇᴛᴏ ˙˚ʚ₍ ᐢ. ̫ .ᐢ ₎ɞ˚\`*
+  before: `*\`һ᥆ᥣᥲ\`* *%name* *\`s᥆ᥡ ᥣᥡᥒᥡ᥊ - ᥲі 𝗍ᥙ ᥲsіs𝗍ᥱᥒ𝗍ᥱ ᥎іr𝗍ᥙᥲᥣ ᥴrᥱᥲძ᥆ ⍴᥆r ძᥲrkᥴ᥆rᥱ , ᥱs𝗍ᥱ ᥱs ᥱᥣ mᥱᥒᥙ ᥴ᥆m⍴ᥣᥱ𝗍᥆ ძᥱ ᥣᥲs 𝖿ᥙᥒᥴі᥆ᥒᥱs 𝗊ᥙᥱ ⍴ᥙᥱძ᥆ һᥲᥴᥱr. ˙˚ʚ₍ ᐢ. ̫ .ᐢ ₎ɞ˚\`*
 
  ▧ *\`INFO USUARIO\`*
  │ » *Cliente:* %name
@@ -55,7 +55,7 @@ const defaultMenu = {
  │ » *Database:*  %totalreg
  └───···
  
-*\`🍁 ᥣ і s 𝗍 ᥲ  ძ ᥱ  ᥴ ᥆ m ᥲ ᥒ ძ ᥆ s 🍁\`*
+🍁 ᥣ і s 𝗍 ᥲ  ძ ᥱ  ᥴ ᥆ m ᥲ ᥒ ძ ᥆ s 🍁
 
 `.trimStart(),
   header: '─₍🌩️₎❝┊ *%category* ┊❜❜ ˚ ͙۪۪̥◌',
@@ -229,7 +229,7 @@ switch(hour){
   var greeting = "espero que tengas " + hour; 
 
 function ucapan() {
-    const time = moment.tz('America/Buenos_Aires').format('HH')
+    const time = moment.tz('America/Lima').format('HH')
     let res = "Buenas Noches🌙"
     if (time >= 5) {
         res = "Buena Madrugada🌄"
@@ -244,4 +244,4 @@ function ucapan() {
         res = "Buenas Noches🌙"
     }
     return res
-      }
+                     }
