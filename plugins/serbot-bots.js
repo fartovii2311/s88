@@ -8,8 +8,17 @@ async function handler(m, { conn: stars, usedPrefix }) {
     global.conns = []
   }
 
+  // Filtrar conexiones válidas (eliminar conexiones cerradas o inválidas)
+  global.conns = global.conns.filter((conn) => {
+    const isValid = conn.user && conn.ws?.socket?.readyState !== ws.CLOSED
+    if (!isValid) {
+      console.log(`[INFO] Eliminando subbot desconectado: ${conn.user?.jid || 'desconocido'}`)
+    }
+    return isValid
+  })
+
   global.conns.forEach((conn) => {
-    if (conn.user && conn.ws?.socket?.readyState !== ws.CLOSED) {
+    if (conn.user) {
       uniqueUsers.set(conn.user.jid, conn)
     }
   })
