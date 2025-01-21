@@ -73,7 +73,7 @@ global.rcanal = {
     forwardedNewsletterMessageInfo: {
        newsletterJid: "120363371366801178@newsletter",
        serverMessageId: 100,
-       newsletterName: author,
+       newsletterName: '',
     },
   },
  }
@@ -84,7 +84,7 @@ global.rcanal = {
   forwardedNewsletterMessageInfo: {
     newsletterJid: "120363371366801178@newsletter",
     serverMessageId: 100,
-    newsletterName: author,
+    newsletterName: '',
   },
   },
 }
