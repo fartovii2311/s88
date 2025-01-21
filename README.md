@@ -1,7 +1,7 @@
 # Lynx-Ai
 
 ---------
-<img src="https://i.ibb.co/JndpnfX/LynxAI.jpg" alt="Lynx Logo">
+<img src="https://i.ibb.co/Y7mhFdf/file.jpg" alt="Lynx Logo">
 
 ---------
 
@@ -20,7 +20,7 @@ git clone https://github.com/Manuel12yt/Lynx-Ai.git
 ```
 
 ```bash
-cd dark-ai
+cd Lynx-Ai
 ```
 
 ```bash
@@ -31,7 +31,7 @@ yarn install && npm install
 npm start
 ```
 
-> **`⛄ Versión Actual: 1.0.0`**
+> **`⛄ Versión Actual: 2.0.0`**
 
 ---------
 
