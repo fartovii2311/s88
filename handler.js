@@ -329,7 +329,7 @@ export async function handler(chatUpdate) {
                 else
                     m.exp += xp
                 if (!isPrems && plugin.corazones && global.db.data.users[m.sender].corazones < plugin.corazones * 1) {
-                    conn.reply(m.chat, `Se agotaron tus *🤍 corazones*`, m, fake)
+                    conn.reply(m.chat, `Se agotaron tus *🤍 corazones*`, m)
                     continue
                 }
                 let extra = {
@@ -377,7 +377,7 @@ export async function handler(chatUpdate) {
                         }
                     }
                     if (m.corazones)
-                        conn.reply(m.chat, `Utilizaste *${+m.corazones}* 🤍`, m, fake)
+                        conn.reply(m.chat, `Utilizaste *${+m.corazones}* 🤍`, m)
                 }
                 break
             }
