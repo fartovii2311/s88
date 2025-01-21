@@ -34,18 +34,27 @@ let handler = async (m, { conn, text }) => {
 
       if (downloadUrl) {
         const fileResponse = await fetch(downloadUrl);
-        const buffer = await fileResponse.buffer();
+        
+        // Verificar si la respuesta es correcta antes de procesarla
+        if (fileResponse.ok) {
+          const buffer = await fileResponse.buffer();
+          
+          // Enviar solo el audio
+          await conn.sendMessage(
+            m.chat,
+            {
+              audio: buffer,
+              mimetype: 'audio/mp4', 
+              ptt: true,
+            },
+            { quoted: m }
+          );
 
-        await conn.sendMessage(
-          m.chat,
-          {
-            audio: buffer,
-            mimetype: 'audio/mpeg',
-          },
-          { quoted: m }
-        );
-
-        await m.react('✅');
+          await m.react('✅');
+        } else {
+          console.log("Error en la descarga del archivo.");
+          await m.react('✖️');
+        }
       }
     }
   } catch (error) {
