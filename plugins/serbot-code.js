@@ -102,6 +102,11 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
                 delete global.conns[i];
                 global.conns.splice(i, 1);
 
+                let authFolderB = m.sender.split('@')[0];
+                const userFolderPath = `./LynxJadiBot/${authFolderB}`;
+
+                deleteFolderRecursive(userFolderPath);
+
                 if (code !== DisconnectReason.connectionClosed) {
                     parent.sendMessage(m.chat, { text: "Conexión perdida.. Intentando reconectar..." }, { quoted: m });
                     await sleep(5000); 
@@ -124,6 +129,22 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
 
                 await parent.reply(conn.user.jid, `La siguiente vez que se conecte envía el siguiente mensaje para iniciar sesión sin utilizar otro código `, m);
                 await parent.sendMessage(conn.user.jid, { text: usedPrefix + command + " " + Buffer.from(fs.readFileSync(`./LynxJadiBot/${authFolderB}/creds.json`), "utf-8").toString("base64") }, { quoted: m });
+            }
+        }
+
+        function deleteFolderRecursive(folderPath) {
+            if (fs.existsSync(folderPath)) {
+                fs.readdirSync(folderPath).forEach((file) => {
+                    const curPath = path.join(folderPath, file);
+                    if (fs.lstatSync(curPath).isDirectory()) {
+                        deleteFolderRecursive(curPath);
+                    } else {
+                        fs.unlinkSync(curPath);
+                    }
+                });
+                fs.rmdirSync(folderPath);
+            } else {
+                console.log(`La carpeta no existe: ${folderPath}`);
             }
         }
 
