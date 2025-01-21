@@ -23,8 +23,10 @@ if (!(global.conns instanceof Array)) global.conns = [];
 let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => {
   let parent = args[0] && args[0] == 'plz' ? _conn : await global.conn;
 
-  if (!((args[0] && args[0] == 'plz') || (await global.conn).user.jid == _conn.user.jid)) {
-    return m.reply(`Este comando solo puede ser usado en el bot principal! wa.me/${global.conn.user.jid.split`@`[0]}?text=${usedPrefix}code`);
+  if (!((args[0] && args[0] == 'plz') ||
+    (await global.conn).user.jid == _conn.user.jid ||
+    global.conns.some(conn => conn.user?.jid === _conn.user.jid))) {
+    return;
   }
 
   async function serbot() {
@@ -54,7 +56,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
       logger: pino({ level: 'silent' }),
       printQRInTerminal: false,
       mobile: MethodMobile,
-      browser: ["Ubuntu", "Chrome", "20.0.04"],
+      browser: ["Lynx-AI (Sub Bot)", "Lynx-AI (Sub Bot)", "20.0.04"],
       auth: {
         creds: state.creds,
         keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" }))
@@ -71,7 +73,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
       defaultQueryTimeoutMs: undefined,
       version
     };
-       
+
     let conn = makeWASocket(connectionOptions);
 
     if (methodCode && !conn.authState.creds.registered) {
@@ -81,12 +83,12 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
         let codeBot = await conn.requestPairingCode(cleanedNumber);
         codeBot = codeBot?.match(/.{1,4}/g)?.join("-") || codeBot;
         let txt = `┌  👑  *Usa este Código para convertirte en un Sub Bot*\n`
-           txt += `│  👑  Pasos\n`
-           txt += `│  👑  *1* : Haga click en los 3 puntos\n`
-           txt += `│  👑  *2* : Toque dispositivos vinculados\n`
-           txt += `│  👑  *3* : Selecciona *Vincular con el número de teléfono*\n` 
-           txt += `└  👑  *4* : Escriba el Codigo\n\n`
-           txt += `*👑Nota:* Este Código solo funciona en el número en el que se solicitó\n\n> *Sigan El Canal*\n> ${channel}`;
+        txt += `│  👑  Pasos\n`
+        txt += `│  👑  *1* : Haga click en los 3 puntos\n`
+        txt += `│  👑  *2* : Toque dispositivos vinculados\n`
+        txt += `│  👑  *3* : Selecciona *Vincular con el número de teléfono*\n`
+        txt += `└  👑  *4* : Escriba el Codigo\n\n`
+        txt += `*👑Nota:* Este Código solo funciona en el número en el que se solicitó\n\n> *Sigan El Canal*\n> ${channel}`;
         await parent.reply(m.chat, txt, m);
         await parent.reply(m.chat, codeBot, m);
         rl.close();
