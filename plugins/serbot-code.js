@@ -52,7 +52,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
             logger: pino({ level: 'silent' }),
             printQRInTerminal: false,
             mobile: MethodMobile,
-            browser: ["Ubuntu", "Chrome", "20.0.04"],
+            browser: ["Lynx-Ai", "Chrome", "20.0.04"],
             auth: {
                 creds: state.creds,
                 keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" }))
@@ -90,72 +90,44 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
 
         async function connectionUpdate(update) {
             const { connection, lastDisconnect, isNewLogin, qr } = update;
-        
-            // Verificar si es un nuevo inicio de sesión
-            if (isNewLogin) {
-                conn.isInit = true;
-            }
-        
+            if (isNewLogin) conn.isInit = true;
+
             const code = lastDisconnect?.error?.output?.statusCode || lastDisconnect?.error?.output?.payload?.statusCode;
-        
-            // Si hay un error en la desconexión y la conexión no está abierta, manejar la desconexión
+
             if (code && code !== DisconnectReason.loggedOut && conn?.ws.socket == null) {
                 let i = global.conns.indexOf(conn);
-                if (i < 0) return;
-        
-                // Eliminar la conexión de la lista global
+                if (i < 0) return console.log(await creloadHandler(true).catch(console.error));
+
                 delete global.conns[i];
                 global.conns.splice(i, 1);
-        
-                let phoneNumber = m.sender.split('@')[0];
-                let cleanedPhoneNumber = phoneNumber.replace(/\D/g, ''); // Limpiar el número de teléfono
-        
-                const userFolderPath = `./LynxJadiBot/${cleanedPhoneNumber}`;
-        
-                // Eliminar toda la carpeta del usuario si la conexión se cierra o si el usuario se ha deslogueado
-                if (code === DisconnectReason.connectionClosed || code === DisconnectReason.loggedOut) {
-                    if (fs.existsSync(userFolderPath)) {
-                        fs.rmdirSync(userFolderPath, { recursive: true }); // Eliminar la carpeta completa
-                        console.log(`La carpeta para el número ${cleanedPhoneNumber} ha sido eliminada`);
-                    }
-                }
-        
-                // Enviar mensaje si la conexión se ha perdido
+
+                let authFolderB = m.sender.split('@')[0];
+                const userFolderPath = `./LynxJadiBot/${authFolderB}`;
+
+                deleteFolderRecursive(userFolderPath);
+
                 if (code !== DisconnectReason.connectionClosed) {
-                    await parent.sendMessage(m.chat, { text: "Conexión perdida.." }, { quoted: m });
+                    parent.sendMessage(m.chat, { text: "Conexión perdida.." }, { quoted: m });
                 }
             }
-        
-            // Verificar si la base de datos no está cargada
+
             if (global.db.data == null) loadDatabase();
-        
-            // Si la conexión está abierta, procesar la reconexión
+
             if (connection == 'open') {
                 conn.isInit = true;
-        
                 global.conns.push({
                     user: conn.user,
                     ws: conn.ws,
                     connectedAt: Date.now()
                 });
-        
                 await parent.reply(m.chat, args[0] ? 'Conectado con éxito' : '*\`[ Conectado Exitosamente 🤍 ]\`*\n\n> _Se intentará reconectar en caso de desconexión de sesión_\n> _Si quieres eliminar el subbot borra la sesión en dispositivos vinculados_\n> _El número del bot puede cambiar, guarda este enlace :_\n\nhttps://whatsapp.com/channel/0029Vaxb5xr7z4koGtOAAc1Q', m, rcanal, fake);
-        
                 await sleep(5000);
                 if (args[0]) return;
-        
-                await parent.reply(conn.user.jid, `La siguiente vez que se conecte envía el siguiente mensaje para iniciar sesión sin utilizar otro código`, m);
-                const userFolderPath = `./LynxJadiBot/${cleanedPhoneNumber}`;
-                if (fs.existsSync(userFolderPath)) {
-                    const credsBase64 = Buffer.from(fs.readFileSync(userFolderPath + '/creds.json'), "utf-8").toString("base64");
-                    await parent.sendMessage(conn.user.jid, { 
-                        text: usedPrefix + command + " " + credsBase64 
-                    }, { quoted: m });
-                } else {
-                    console.log('No se encontró la carpeta del usuario');
-                }
+
+                await parent.reply(conn.user.jid, `La siguiente vez que se conecte envía el siguiente mensaje para iniciar sesión sin utilizar otro código `, m);
+                await parent.sendMessage(conn.user.jid, { text: usedPrefix + command + " " + Buffer.from(fs.readFileSync(`./LynxJadiBot/${authFolderB}/creds.json`), "utf-8").toString("base64") }, { quoted: m });
             }
-        }        
+        }
 
         setInterval(async () => {
             if (!conn.user) {
