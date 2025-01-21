@@ -136,7 +136,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
             return menu.help.map(help => {
               return body.replace(/%cmd/g, menu.prefix ? help : '%p' + help)
                 .replace(/%islimit/g, menu.limit ? '◜⭐◞' : '')
-                .replace(/%iscorazones/g, menu.corazones ? '◜🪙◞' : '')
+                .replace(/%iscorazones/g, menu.Monedas ? '◜🪙◞' : '')
                 .replace(/%isPremium/g, menu.premium ? '◜🪪◞' : '')
                 .trim()
             }).join('\n')
@@ -168,7 +168,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
  level,
  name,
  totalreg,
- ucpn,  mode, _p, money, age, tag, name, level, corazones, name, weton, week, date, dateIslamic, time, totalreg, rtotalreg, role,
+ ucpn,  mode, _p, money, age, tag, name, level, Monedas, name, weton, week, date, dateIslamic, time, totalreg, rtotalreg, role,
  readmore: readMore
    }
     text = text.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), (_, name) => '' + replace[name])
