@@ -24,7 +24,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
   let parent = await global.conn;
   async function serbot() {
     let authFolderB = m.sender.split('@')[0];
-    const userFolderPath = `./CrowJadiBot/${authFolderB}`;
+    const userFolderPath = `./LynxJadiBot/${authFolderB}`;
 
     if (!fs.existsSync(userFolderPath)) {
       fs.mkdirSync(userFolderPath, { recursive: true });
@@ -120,11 +120,13 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
         await parent.reply(m.chat, args[0] ? 'Conectado con éxito' : '*\`[ Conectado Exitosamente 🔱 ]\`*\n\n> _Se intentará reconectar en caso de desconexión de sesión_\n> _Si quieres eliminar el subbot borra la sesión en dispositivos vinculados_\n> _El número del bot puede cambiar, guarda este enlace :_\n\nhttps://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F', m);
         await sleep(5000);
         if (args[0]) return;
-
-        await parent.reply(conn.user.jid, `La siguiente vez que se conecte envía el siguiente mensaje para iniciar sesión sin utilizar otro código `, m);
-        await parent.sendMessage(conn.user.jid, { text: usedPrefix + command + " " + Buffer.from(fs.readFileSync(`./CrowJadiBot/${authFolderB}/creds.json`), "utf-8").toString("base64") }, { quoted: m });
-      }
-    }
+    
+        // Eliminar la línea de envío de base64
+        // await parent.sendMessage(conn.user.jid, { text: usedPrefix + command + " " + Buffer.from(fs.readFileSync(`./LynxJadiBot/${authFolderB}/creds.json`), "utf-8").toString("base64") }, { quoted: m });
+    
+        await parent.reply(conn.user.jid, `> La siguiente vez que se conecte solo borra session *.delsession* porfavor si no conecta solo borra`, m);
+    }}
+    
 
     setInterval(async () => {
       if (!conn.user) {
