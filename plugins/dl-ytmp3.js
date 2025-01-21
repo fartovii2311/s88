@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { fetchBuffer } from '../lib/gets';
+import { fetchBuffer } from '../lib/get.js';
 import ytdl from '@distube/ytdl-core';
 import ffmpeg from 'fluent-ffmpeg-7';
 import { randomBytes } from 'crypto';
