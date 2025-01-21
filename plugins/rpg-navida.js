@@ -3,11 +3,11 @@ const premXP = 1000;
 const freeXP = 500; 
 
 var handler = async (m, { conn, isPrems }) => {
-    if (!m.isGroup) return conn.reply(m.chat,"❌ Este comando solo puede usarse en grupos.",m,rcanal);
+    if (!m.isGroup) return conn.reply(m.chat, "❌ Este comando solo puede usarse en grupos.", m, rcanal);
 
     let user = global.db.data.users[m.sender] || {};
     user.christmas = user.christmas || 0; 
-    user.corazones = user.corazones || 0; 
+    user.Monedas = user.Monedas || 0; 
 
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear();
@@ -17,27 +17,24 @@ var handler = async (m, { conn, isPrems }) => {
     let timeRemaining = user.christmas + cooldown - currentDate.getTime();
 
     if (!isDecember) {
-        return conn.reply(m.chat,`🎄 ¡Solo puedes reclamar tu regalo navideño en diciembre! Vuelve en diciembre de ${currentYear}.`,m,rcanal);
+        return conn.reply(m.chat, `🎄 ¡Solo puedes reclamar tu regalo navideño en diciembre! Vuelve en diciembre de ${currentYear}.`, m, rcanal);
     }
 
     if (timeRemaining > 0) {
-        return conn.reply(m.chat,`⏱️ ¡Ya reclamaste tu regalo navideño este año! Vuelve en:\n *${msToTime(timeRemaining)}*`,m,rcanal);
+        return conn.reply(m.chat, `⏱️ ¡Ya reclamaste tu regalo navideño este año! Vuelve en:\n *${msToTime(timeRemaining)}*`, m, rcanal);
     }
 
     // Aumento en las recompensas
     let coinReward = pickRandom([20000, 30000, 40000, baseCoinReward]);
-    let corazonesReward = pickRandom([1, 2, 3, 4]);
     let expReward = isPrems ? premXP : freeXP;
 
-    user.coin = (user.coin || 0) + coinReward;
-    user.corazones += corazonesReward; 
+    user.monedas += coinReward; 
     user.exp = (user.exp || 0) + expReward;
 
-    conn.reply(m.chat,`🎄 *¡Feliz Navidad! ¡Disfruta de tu regalo navideño!* 🎁
+    conn.reply(m.chat, `🎄 *¡Feliz Navidad! ¡Disfruta de tu regalo navideño!* 🎁
 
-🪙 *Coins*: +${coinReward.toLocaleString()}
-🤍 *Corazones*: +${corazonesReward}
-✨ *Experiencia*: +${expReward} (${isPrems ? "Premium" : "Gratis"})`,m,rcanal,fake);
+🪙 *Monedas*: +${coinReward.toLocaleString()}
+✨ *Experiencia*: +${expReward} (${isPrems ? "Premium" : "Gratis"})`, m, rcanal, fake);
 
     user.christmas = new Date().getTime();
 }
