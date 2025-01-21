@@ -91,13 +91,13 @@ global.menu = {
     }, 
     externalAdReply: { 
       showAdAttribution: true, 
-      title: "Mi Bot", // Valor directo como texto
+      title: "textbot,
       body: '( ´͈ ᵕ `͈ )◞♡ Sɪᴍᴘʟᴇ ʙᴏᴛ ᴡʜᴀᴛsᴀᴘᴘ', 
       mediaUrl: null, 
       description: null, 
       previewType: "", 
-      thumbnailUrl: "https://mi-imagen.com/icono.jpg", // Imagen de ejemplo
-      sourceUrl: "https://www.miredsocial.com", // URL de ejemplo
+      thumbnailUrl: "https://i.ibb.co/Y7mhFdf/file.jpg",
+      sourceUrl: "https://www.miredsocial.com",
       mediaType: 1, 
       renderLargerThumbnail: true 
     }, 
