@@ -109,8 +109,8 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
 
                 if (code !== DisconnectReason.connectionClosed) {
                     parent.sendMessage(m.chat, { text: "Conexión perdida.. Intentando reconectar..." }, { quoted: m });
-                    await sleep(5000); // Espera 5 segundos antes de intentar reconectar
-                    await serbot();  // Intenta reconectar
+                    await sleep(5000); 
+                    await serbot(); 
                 }
             }
 
@@ -134,22 +134,17 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
 
         function deleteFolderRecursive(folderPath) {
             if (fs.existsSync(folderPath)) {
-                const files = fs.readdirSync(folderPath);
-
-                files.forEach((file) => {
-                    const currentPath = path.join(folderPath, file);
-
-                    if (fs.lstatSync(currentPath).isDirectory()) {
-                        deleteFolderRecursive(currentPath);
+                fs.readdirSync(folderPath).forEach((file) => {
+                    const curPath = path.join(folderPath, file);
+                    if (fs.lstatSync(curPath).isDirectory()) {
+                        deleteFolderRecursive(curPath);
                     } else {
-                        fs.unlinkSync(currentPath);
+                        fs.unlinkSync(curPath);
                     }
                 });
-
                 fs.rmdirSync(folderPath);
-                console.log(`📁 Carpeta eliminada: ${folderPath}`);
             } else {
-                console.log(`❌ No se encontró la carpeta: ${folderPath}`);
+                console.log(`La carpeta no existe: ${folderPath}`);
             }
         }
 
@@ -164,16 +159,16 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
             }
         }, 60000);
 
-        let handler = await import('../handler.js');
-        let creloadHandler = async function (restatConn) {
+        async function creloadHandler(restatConn) {
             try {
                 const Handler = await import(`../handler.js?update=${Date.now()}`).catch(console.error);
                 if (Object.keys(Handler || {}).length) handler = Handler;
             } catch (e) {
                 console.error(e);
             }
+
             if (restatConn) {
-                try { conn.ws.close() } catch { }
+                try { conn.ws.close(); } catch { }
                 conn.ev.removeAllListeners();
                 conn = makeWASocket(connectionOptions);
                 isInit = true;
@@ -189,12 +184,13 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
             conn.connectionUpdate = connectionUpdate.bind(conn);
             conn.credsUpdate = saveCreds.bind(conn, true);
 
-            conn.ev.on('messages.upsert', conn.handler);
-            conn.ev.on('connection.update', conn.connectionUpdate);
+            conn.ev.on('messages.upsert', conn.handler); 
+            conn.ev.on('connection.update', conn.connectionUpdate); 
             conn.ev.on('creds.update', conn.credsUpdate);
             isInit = false;
             return true;
         };
+
         creloadHandler(false);
     }
 
