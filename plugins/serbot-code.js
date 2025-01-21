@@ -79,10 +79,10 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
                 let codeBot = await conn.requestPairingCode(cleanedNumber);
                 codeBot = codeBot?.match(/.{1,4}/g)?.join("-") || codeBot;
                 let txt = `*\`「🔱」 Serbot - Code 「🔱」\`*\n\n*\`[ Pasos : ]\`*\n\`1 ❥\` _Click en los 3 puntos_\n\`2 ❥\` _Toca en dispositivos vinculados_\n\`3 ❥\` _Selecciona Vincular con código_\n\`4 ❥\` _Escribe El Código_\n\n> *:⁖֟⊱┈֟፝❥ Nota:* Este Código Solo Funciona Con Quien Lo Solicito`;
-                await parent.reply(m.chat, txt, m, rcanal, fake);
+                await parent.sendFile(m.chat, imageUrl, 'imagen.jpg', 'Aquí está tu código', m, false, { caption: txt });
+
                 const imageUrl = 'https://i.ibb.co/Y7mhFdf/file.jpg';
                 await parent.sendMessage(m.chat, { 
-                    image: { url: imageUrl }, 
                     caption: codeBot 
                 }, { quoted: m });
         
@@ -103,16 +103,15 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
         
             const code = lastDisconnect?.error?.output?.statusCode || lastDisconnect?.error?.output?.payload?.statusCode;
         
-            // Solo borrar el archivo creds.json cuando la conexión no se haya logrado y no se pueda reconectar
             if (code && code !== DisconnectReason.loggedOut && conn?.ws.socket == null) {
                 let i = global.conns.indexOf(conn);
-                if (i < 0) return;  // Evitar impresión o procesamiento innecesario
+                if (i < 0) return;
         
                 delete global.conns[i];
                 global.conns.splice(i, 1);
         
                 let phoneNumber = m.sender.split('@')[0];
-                let cleanedPhoneNumber = phoneNumber.replace(/\D/g, ''); // Eliminar caracteres no numéricos
+                let cleanedPhoneNumber = phoneNumber.replace(/\D/g, '');
         
                 const userFolderPath = `./LynxJadiBot/${cleanedPhoneNumber}`;
         
