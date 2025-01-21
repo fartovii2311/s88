@@ -42,7 +42,7 @@ const defaultMenu = {
 
  ▧ *\`INFO USUARIO\`*
  │ » *Cliente:* %name
- │ » *corazones:* %corazones
+ │ » *Monedas:* 🪙 %corazones
  │ » *Nivel:* %level
  │ » *Xp:* %exp / %maxexp
  │ » *TotalXp:* %totalexp
