@@ -251,4 +251,3 @@ function ucapan() {
     }
     return res
       }
-corazones
