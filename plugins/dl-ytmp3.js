@@ -12,6 +12,7 @@ import { randomBytes } from 'crypto';
 const downloadMP3 = async (url) => {
     try {
         if (!url) throw new Error('URL requerida');
+        
         const videoId = ytdl.getVideoID(url); // Extrae el ID del video de YouTube
         const { videoDetails } = await ytdl.getInfo(url); // Obtén los detalles del video
 
@@ -30,7 +31,7 @@ const downloadMP3 = async (url) => {
                 .toFormat('mp3')
                 .save(songPath)
                 .on('end', () => resolve(songPath))
-                .on('error', reject);
+                .on('error', (err) => reject(new Error('Error al procesar audio con ffmpeg: ' + err.message)));
         });
 
         // Retorna la ruta del archivo MP3 y los metadatos del video
@@ -52,8 +53,8 @@ let handler = async (m, { conn, text }) => {
     if (!text) return conn.reply(m.chat, '🎁 Por favor, envíame una URL de YouTube válida para descargar el audio.');
 
     try {
-        // Verificar si la URL es válida
-        const isValidUrl = /https?:\/\/(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/.test(text);
+        // Verificar si la URL es válida (incluyendo 'youtu.be')
+        const isValidUrl = /https?:\/\/(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/.test(text);
         if (!isValidUrl) {
             return conn.reply(m.chat, '❌ URL no válida. Asegúrate de enviar un enlace válido de YouTube.');
         }
