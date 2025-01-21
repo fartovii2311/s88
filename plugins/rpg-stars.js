@@ -9,7 +9,7 @@ let handler = async (m, {conn, usedPrefix}) => {
     let img = await (await fetch(`https://i.ibb.co/JndpnfX/LynxAI.jpg`)).buffer()
     let txt = ` –  *🪙 M O N E D A S -  U S E R*\n\n`
         txt += `✩ *Nombre* : ${user.name}\n`
-        txt += `✩ *🪙 Monedas* : ${toNum(user.corazones)} ( *${user.corazones}* )\n`
+        txt += `✩ *🪙 Monedas* : ${toNum(user.Monedas)} ( *${user.Monedas}* )\n`
         txt += `✩ *Bank* : ${toNum(user.bank)} ( *${user.bank}* )\n`
         txt += `✩ *XP* : ${toNum(user.exp)} ( *${user.exp}* )`
     let mentionedJid = [who]
