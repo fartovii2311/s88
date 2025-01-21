@@ -23,9 +23,6 @@ let handler = async (m, { conn, text }) => {
   const apiUrl = `https://api.siputzx.my.id/api/d/ytmp3?url=${videoUrl}`;
 
   let downloadUrl = null;
-  let title = "Archivo de YouTube";
-  let size = "Desconocido";
-  let image = null;
 
   try {
     const response = await fetch(apiUrl);
@@ -33,41 +30,20 @@ let handler = async (m, { conn, text }) => {
 
     if (data.status === true) {
       const result = data.data;
-
-      title = result.title || "Archivo MP3";
       downloadUrl = result.dl;
-      size = "128kbps";  // Usando una calidad predeterminada
-      image = result.image || '';
 
       if (downloadUrl) {
         const fileResponse = await fetch(downloadUrl);
         const buffer = await fileResponse.buffer();
-        const fileSizeInMB = buffer.length / (1024 * 1024);
 
-        const caption = `🎵 *Título:* ${title}\n📦 *Calidad:* ${size}`.trim();
-
-        if (fileSizeInMB > 16) {
-          await conn.sendMessage(
-            m.chat,
-            {
-              document: buffer,
-              fileName: `${title}.mp3`,
-              mimetype: 'audio/mpeg',
-              caption: caption,
-            },
-            { quoted: m }
-          );
-        } else {
-          await conn.sendMessage(
-            m.chat,
-            {
-              audio: buffer,
-              fileName: `${title}.mp3`,
-              mimetype: 'audio/mpeg',
-            },
-            { quoted: m }
-          );
-        }
+        await conn.sendMessage(
+          m.chat,
+          {
+            audio: buffer,
+            mimetype: 'audio/mpeg',
+          },
+          { quoted: m }
+        );
 
         await m.react('✅');
       }
