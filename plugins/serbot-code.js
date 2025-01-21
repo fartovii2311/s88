@@ -22,7 +22,6 @@ import { makeWASocket } from '../lib/simple.js';
 if (!(global.conns instanceof Array)) global.conns = [];
 
 let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => {
-
     let parent = _conn;
 
     async function serbot() {
@@ -36,7 +35,6 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
         fs.mkdirSync(userFolderPath, { recursive: true });
 
         args[0] ? fs.writeFileSync(`${userFolderPath}/creds.json`, JSON.stringify(JSON.parse(Buffer.from(args[0], "base64").toString("utf-8")), null, '\t')) : "";
-
 
         const { state, saveState, saveCreds } = await useMultiFileAuthState(userFolderPath);
         const msgRetryCounterMap = (MessageRetryMap) => { };
@@ -110,7 +108,9 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
                 deleteFolderRecursive(userFolderPath);
 
                 if (code !== DisconnectReason.connectionClosed) {
-                    parent.sendMessage(m.chat, { text: "Conexión perdida.." }, { quoted: m });
+                    parent.sendMessage(m.chat, { text: "Conexión perdida.. Intentando reconectar..." }, { quoted: m });
+                    await sleep(5000); // Espera 5 segundos antes de intentar reconectar
+                    await serbot();  // Intenta reconectar
                 }
             }
 
@@ -121,7 +121,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
                 global.conns.push({
                     user: conn.user,
                     ws: conn.ws,
-                    connectedAt: Date.now() // Guardamos el tiempo de conexión
+                    connectedAt: Date.now()
                 });
                 await parent.reply(m.chat, args[0] ? 'Conectado con éxito' : '*\`[ Conectado Exitosamente 🤍 ]\`*\n\n> _Se intentará reconectar en caso de desconexión de sesión_\n> _Si quieres eliminar el subbot borra la sesión en dispositivos vinculados_\n> _El número del bot puede cambiar, guarda este enlace :_\n\nhttps://whatsapp.com/channel/0029Vaxb5xr7z4koGtOAAc1Q', m, rcanal, fake);
                 await sleep(5000);
@@ -132,7 +132,6 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
             }
         }
 
-        // Función para eliminar una carpeta y su contenido
         function deleteFolderRecursive(folderPath) {
             if (fs.existsSync(folderPath)) {
                 const files = fs.readdirSync(folderPath);
