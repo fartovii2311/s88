@@ -20,83 +20,74 @@ let handler = async (m, { conn, text }) => {
   await m.react('🕓'); 
 
   const videoUrl = urls[0];
-  const apiUrls = [
-    `https://api.vreden.web.id/api/ytmp3?url=${videoUrl}`,
-    `https://delirius-apiofc.vercel.app/download/ytmp3?url=${videoUrl}`
-  ];
+  const apiUrl = `https://api.siputzx.my.id/api/d/ytmp3?url=${videoUrl}`;
 
   let downloadUrl = null;
   let title = "Archivo de YouTube";
   let size = "Desconocido";
   let image = null;
 
-  for (const apiUrl of apiUrls) {
-    try {
-      const response = await fetch(apiUrl);
-      const data = await response.json();
-
-      if (data.status === 200 || data.success) {
-        const result = data.result || data.data;
-
-        title = result.title || result.metadata?.title || "Archivo MP3";
-        downloadUrl = result.download?.url || result.download;
-        size = result.quality || result.duration || "128kbps";
-        image = result.image || result.metadata?.image;
-
-        if (downloadUrl) break;
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  
   try {
-    const response = await fetch(downloadUrl);
-    const buffer = await response.buffer();
-    const fileSizeInMB = buffer.length / (1024 * 1024);
+    const response = await fetch(apiUrl);
+    const data = await response.json();
 
-    const caption = `🎵 *Título:* ${title}\n📦 *Calidad:* ${size}`.trim();
+    if (data.status === true) {
+      const result = data.data;
 
-    const contextInfo = {
-      externalAdReply: {
-        title: title,
-        body: 'Lynx - Ai',
-        mediaType: 2,
-        mediaUrl: videoUrl,
-        thumbnailUrl: image || '',
-        sourceUrl: videoUrl,
-        containsAutoReply: true,
-        renderLargerThumbnail: true,
-        showAdAttribution: false,
+      title = result.title || "Archivo MP3";
+      downloadUrl = result.dl;
+      size = "128kbps";  // Usando una calidad predeterminada
+      image = result.image || '';
+
+      if (downloadUrl) {
+        const fileResponse = await fetch(downloadUrl);
+        const buffer = await fileResponse.buffer();
+        const fileSizeInMB = buffer.length / (1024 * 1024);
+
+        const caption = `🎵 *Título:* ${title}\n📦 *Calidad:* ${size}`.trim();
+
+        const contextInfo = {
+          externalAdReply: {
+            title: title,
+            body: 'Lynx - Ai',
+            mediaType: 2,
+            mediaUrl: videoUrl,
+            thumbnailUrl: image || '',
+            sourceUrl: videoUrl,
+            containsAutoReply: true,
+            renderLargerThumbnail: true,
+            showAdAttribution: false,
+          }
+        };
+
+        if (fileSizeInMB > 16) {
+          await conn.sendMessage(
+            m.chat,
+            {
+              document: buffer,
+              fileName: `${title}.mp3`,
+              mimetype: 'audio/mpeg',
+              caption: caption,
+              contextInfo: contextInfo, // Incluyendo contextInfo aquí
+            },
+            { quoted: m }
+          );
+        } else {
+          await conn.sendMessage(
+            m.chat,
+            {
+              audio: buffer,
+              fileName: `${title}.mp3`,
+              mimetype: 'audio/mpeg',
+              contextInfo: contextInfo, // Incluyendo contextInfo aquí
+            },
+            { quoted: m }
+          );
+        }
+
+        await m.react('✅');
       }
-    };
-
-    if (fileSizeInMB > 16) {
-      await conn.sendMessage(
-        m.chat,
-        {
-          document: buffer,
-          fileName: `${title}.mp3`,
-          mimetype: 'audio/mpeg',
-          caption: caption,
-          contextInfo: contextInfo, // Incluyendo contextInfo aquí
-        },
-        { quoted: m }
-      );
-    } else {
-      await conn.sendMessage(
-        m.chat,
-        {
-          audio: buffer,
-          fileName: `${title}.mp3`,
-          mimetype: 'audio/mpeg',
-          contextInfo: contextInfo, // Incluyendo contextInfo aquí
-        },
-        { quoted: m }
-      );
     }
-
-    await m.react('✅');
   } catch (error) {
     console.log(error);
     await m.react('✖️');
