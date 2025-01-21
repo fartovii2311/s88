@@ -80,18 +80,18 @@ global.rcanal = {
     }, 
     externalAdReply: { 
       showAdAttribution: true, 
-      title: textbot, 
+      title: "Mi Bot", // Valor directo como texto
       body: '( ´͈ ᵕ `͈ )◞♡ Sɪᴍᴘʟᴇ ʙᴏᴛ ᴡʜᴀᴛsᴀᴘᴘ', 
       mediaUrl: null, 
       description: null, 
       previewType: "", 
-      thumbnailUrl: icons, 
-      sourceUrl: redes, 
+      thumbnailUrl: "https://mi-imagen.com/icono.jpg", // Imagen de ejemplo
+      sourceUrl: "https://www.miredsocial.com", // URL de ejemplo
       mediaType: 1, 
       renderLargerThumbnail: true 
     }, 
   }, 
-}
+};
 
 global.fake = { 
   contextInfo: { 
@@ -103,18 +103,19 @@ global.fake = {
     }, 
     externalAdReply: { 
       showAdAttribution: true, 
-      title: textbot, 
+      title: "Mi Bot", // Valor directo como texto
       body: '( ´͈ ᵕ `͈ )◞♡ Sɪᴍᴘʟᴇ ʙᴏᴛ ᴡʜᴀᴛsᴀᴘᴘ', 
       mediaUrl: null, 
       description: null, 
       previewType: "", 
-      thumbnailUrl: icons, 
-      sourceUrl: redes, 
+      thumbnailUrl: "https://mi-imagen.com/icono.jpg", // Imagen de ejemplo
+      sourceUrl: "https://www.miredsocial.com", // URL de ejemplo
       mediaType: 1, 
       renderLargerThumbnail: true 
     }, 
   }, 
-}
+};
+
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 global.estilo = { key: {  fromMe: false, participant: `0@s.whatsapp.net`, ...(false ? { remoteJid: "51968382008-1625305606@g.us" } : {}) }, message: { orderMessage: { itemCount : -999999, status: 1, surface : 1, message: '⚘ DARK CORE VIP✨', orderTitle: 'packname', thumbnail: catalogo, sellerJid: '0@s.whatsapp.net'}}}
