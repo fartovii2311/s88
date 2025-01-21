@@ -1,4 +1,6 @@
+import fs from 'fs';
 import downloadMP3 from '../lib/ytmp3.js';
+import { fetchBuffer } from '../lib/gets';
 
 let handler = async (m, { conn, text }) => {
     if (!text) return conn.reply(m.chat, '🎁 Por favor, envíame una URL de YouTube válida para descargar el audio.');
@@ -10,7 +12,7 @@ let handler = async (m, { conn, text }) => {
         // Envía el audio
         await conn.sendMessage(m.chat, {
             audio: fs.readFileSync(path),
-            mimetype: 'audio/mp4',
+            mimetype: 'audio/mp3',  // Cambio de mimetype a audio/mp3
             ptt: false,
             contextInfo: {
                 externalAdReply: {
@@ -26,7 +28,8 @@ let handler = async (m, { conn, text }) => {
         // Elimina el archivo temporal
         fs.unlinkSync(path);
     } catch (error) {
-        conn.reply(m.chat, '❀ Hubo un error al procesar el audio.');
+        console.error(error);  // Agregar esta línea para ver el error en la consola
+        conn.reply(m.chat, '❀ Hubo un error al procesar el audio. Verifica la URL y prueba nuevamente.');
     }
 };
 
