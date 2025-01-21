@@ -23,21 +23,21 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     let puntos = 0
 
     if (text === astro) {
-        resultado = `[ ✿ ]︎ Fue un empate!! ten *100 🤍 Corazones* como recompensa`
+        resultado = `[ ✿ ]︎ Fue un empate!! ten *100 🪙 Monedas* como recompensa`
         puntos = 100
     } else if (
         (text === 'piedra' && astro === 'tijera') ||
         (text === 'tijera' && astro === 'papel') ||
         (text === 'papel' && astro === 'piedra')
     ) {
-        resultado = `[ ✰ ]︎ GANASTE!! acabas de ganar *300 🤍 Corazones*`
+        resultado = `[ ✰ ]︎ GANASTE!! acabas de ganar *300 🪙 Monedas*`
         puntos = poin
     } else {
-        resultado = `[ ✿︎ ] PERDISTE!! acabas de perder *300 🤍 Corazones*`
+        resultado = `[ ✿︎ ] PERDISTE!! acabas de perder *300 🪙 Monedas*`
         puntos = -poin
     }
 
-    user.corazones += puntos
+    user.monedas += puntos
     conn.reply(m.chat, `${resultado}`, m, rcanal)
 }
 
