@@ -180,7 +180,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
    await m.react('🍁');
 
   for (let i = 0; i < images.length; i++) {
-  await conn.sendFile(m.chat, images[i], `image${i + 1}.jpg`, text.trim(), m, null, menu);
+  await conn.sendFile(m.chat, images[i], `image${i + 1}.jpg`, text.trim(), m, null, rcanal);
   }
 
   } catch (e) {
