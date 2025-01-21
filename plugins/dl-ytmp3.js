@@ -1,63 +1,36 @@
-import fetch from 'node-fetch';
-
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-    if (!text) return conn.reply(m.chat, '❀ Ingresa un link de YouTube válido', m);
+    if (!text) return conn.reply(m.chat, '🎁 Por favor, envíame una URL de YouTube válida para descargar el audio.');
+
+    const julzinmp3 = require('../lib/ytdl');
 
     try {
-        await m.react('🕒');
+        const audio = await julzinmp3.mp3(text);
+        conn.reply(m.chat, '🎼 Espere un momento mientras descargo su audio. No haga spam.');
 
-        let apiUrl = `https://api.vreden.web.id/api/ytmp3?url=${text}`;
-        let apiResponse = await fetch(apiUrl);
-        let json = await apiResponse.json();
+        await conn.sendMessage(m.chat, {
+            audio: fs.readFileSync(audio.path),
+            mimetype: 'audio/mp4',
+            ptt: false,
+            contextInfo: {
+                externalAdReply: {
+                    title: audio.meta.title,
+                    body: "♡༺::Dark:: ༻♡",
+                    thumbnail: await fetchBuffer(audio.meta.image),
+                    mediaType: 2,
+                    mediaUrl: text,
+                }
+            },
+        }, { quoted: m });
 
-        if (!json?.result?.status) {
-            return conn.reply(m.chat, '❀ No se pudo obtener el archivo de audio. Verifica el enlace e inténtalo de nuevo.', m);
-        }
-
-        const { metadata, download } = json.result;
-        const { title, thumbnail, duration, views, author, timestamp } = metadata;
-        const { url: dl_url, quality, filename } = download;
-
-        let messageInfo = `✨ *Título:* ${title}
-⏳ *Duración:* ${timestamp}
-👤 *Autor:* ${author.name}
-👀 *Vistas:* ${views.toLocaleString()} 
-🎶 *Calidad:* ${quality}
-📅 *Hace:* ${metadata.ago}`;
-
-    await conn.sendFile(m.chat,thumbnail,'thumbnail.jpg',messageInfo,m,fake,rcanal);
-
-
-        const maxSizeBytes = 100 * 1024 * 1024;
-
-        let fileResponse = await fetch(dl_url, { method: 'HEAD' });
-        let fileSizeBytes = fileResponse.headers.get('content-length') || 0;
-        fileSizeBytes = parseInt(fileSizeBytes, 10);
-
-        if (fileSizeBytes >= maxSizeBytes) {
-            await conn.sendMessage(m.chat, { 
-                document: { url: dl_url }, 
-                mimetype: 'audio/mpeg',
-                fileName: filename,
-            }, { quoted: m });
-        } else {
-            await conn.sendMessage(m.chat, { 
-                audio: { url: dl_url }, 
-                mimetype: 'audio/mp4',
-                fileName: filename 
-            }, { quoted: m });
-        }
-
-        await m.react('✅');
+        await fs.unlinkSync(audio.path);
     } catch (error) {
         console.error(error);
-        await conn.reply(m.chat, '❀ Ocurrió un error al procesar tu solicitud. Por favor, inténtalo de nuevo más tarde.', m);
-        await m.react('✖');
+        conn.reply(m.chat, '❀ El audio es demasiado pesado o hubo un error al procesar la solicitud.');
     }
 };
 
-handler.help = ['ytmp3 *<url>*'];
+handler.help = ['mp3 *<url>*'];
 handler.tags = ['dl'];
-handler.command = ['ytmp3'];
+handler.command = ['mp3'];
 
 export default handler;
