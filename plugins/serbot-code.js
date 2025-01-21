@@ -1,12 +1,11 @@
 import { readdirSync, statSync, unlinkSync, existsSync, readFileSync, watch, rmSync, promises as fs } from "fs";
 import path, { join } from 'path';
-const { useMultiFileAuthState, DisconnectReason, fetchLatestBaileysVersion, MessageRetryMap, makeCacheableSignalKeyStore, jidNormalizedUser } = await import('@whiskeysockets/baileys');
+import { useMultiFileAuthState, DisconnectReason, fetchLatestBaileysVersion, MessageRetryMap, makeCacheableSignalKeyStore, jidNormalizedUser } from '@whiskeysockets/baileys';
 import moment from 'moment-timezone';
 import NodeCache from 'node-cache';
 import readline from 'readline';
 import qrcode from "qrcode";
 import crypto from 'crypto';
-import fs from "fs";
 import pino from 'pino';
 import * as ws from 'ws';
 import { Boom } from '@hapi/boom';
