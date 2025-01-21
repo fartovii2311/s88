@@ -74,7 +74,6 @@ let txt = `┌  👑  *Usa este Código para convertirte en un Sub Bot*\n`
    txt += `│  👑  *3* : Selecciona *Vincular con el número de teléfono*\n` 
    txt += `└  👑  *4* : Escriba el Codigo\n\n`
    txt += `*👑Nota:* Este Código solo funciona en el número en el que se solicitó\n\n> *Sigan El Canal*\n> ${channel}`;
-let channel = 'https://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F'
 await parent.reply(m.chat, txt, m, rcanal);
 await parent.reply(m.chat, codeBot, m, rcanal);
 rl.close();
@@ -82,6 +81,7 @@ rl.close();
 }
 conn.isInit = false;
 let isInit = true;
+let channel = 'https://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F'
 async function connectionUpdate(update) {
 const { connection, lastDisconnect, isNewLogin, qr } = update;
 if (isNewLogin) conn.isInit = true;
