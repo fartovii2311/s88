@@ -33,10 +33,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
             fs.rmSync(userFolderPath, { recursive: true, force: true });
         }
 
-        fs.mkdirSync(userFolderPath, { recursive: true });
-
         args[0] ? fs.writeFileSync(`${userFolderPath}/creds.json`, JSON.stringify(JSON.parse(Buffer.from(args[0], "base64").toString("utf-8")), null, '\t')) : "";
-
 
         const { state, saveState, saveCreds } = await useMultiFileAuthState(userFolderPath);
         const msgRetryCounterMap = (MessageRetryMap) => { };
@@ -83,10 +80,16 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
                 codeBot = codeBot?.match(/.{1,4}/g)?.join("-") || codeBot;
                 let txt = `*\`「🔱」 Serbot - Code 「🔱」\`*\n\n*\`[ Pasos : ]\`*\n\`1 ❥\` _Click en los 3 puntos_\n\`2 ❥\` _Toca en dispositivos vinculados_\n\`3 ❥\` _Selecciona Vincular con código_\n\`4 ❥\` _Escribe El Código_\n\n> *:⁖֟⊱┈֟፝❥ Nota:* Este Código Solo Funciona Con Quien Lo Solicito`;
                 await parent.reply(m.chat, txt, m, rcanal, fake);
-                await parent.reply(m.chat, codeBot, m);
+                const imageUrl = 'https://i.ibb.co/Y7mhFdf/file.jpg';
+                await parent.sendMessage(m.chat, { 
+                    image: { url: imageUrl }, 
+                    caption: codeBot 
+                }, { quoted: m });
+        
                 rl.close();
             }, 3000);
         }
+        
 
         conn.isInit = false;
         let isInit = true;
@@ -94,63 +97,53 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
         async function connectionUpdate(update) {
             const { connection, lastDisconnect, isNewLogin, qr } = update;
             if (isNewLogin) conn.isInit = true;
-
+        
             const code = lastDisconnect?.error?.output?.statusCode || lastDisconnect?.error?.output?.payload?.statusCode;
-
+        
+            // Solo borrar el archivo creds.json cuando la conexión no se haya logrado y no se pueda reconectar
             if (code && code !== DisconnectReason.loggedOut && conn?.ws.socket == null) {
                 let i = global.conns.indexOf(conn);
                 if (i < 0) return console.log(await creloadHandler(true).catch(console.error));
-
+        
                 delete global.conns[i];
                 global.conns.splice(i, 1);
-
-                let authFolderB = m.sender.split('@')[0];
-                const userFolderPath = `./LynxJadiBot/${authFolderB}`;
-
-                deleteFolderRecursive(userFolderPath);
-
+        
+                // Obtener el número de teléfono sin el prefijo "+" (por ejemplo, "573123456789")
+                let phoneNumber = m.sender.split('@')[0];
+                let cleanedPhoneNumber = phoneNumber.replace(/\D/g, ''); // Eliminar todos los caracteres no numéricos (incluyendo '+')
+                
+                const userFolderPath = `./LynxJadiBot/${cleanedPhoneNumber}`;
+        
+                // Verifica si el código de desconexión es por cierre de sesión o cualquier otro que indique desconexión permanente
+                if (code === DisconnectReason.connectionClosed || code === DisconnectReason.loggedOut) {
+                    // Eliminar el archivo creds.json
+                    const credsFilePath = path.join(userFolderPath, 'creds.json');
+                    if (fs.existsSync(credsFilePath)) {
+                        fs.unlinkSync(credsFilePath);  // Elimina el archivo creds.json
+                        console.log('El archivo creds.json ha sido eliminado');
+                    }
+                }
+        
                 if (code !== DisconnectReason.connectionClosed) {
                     parent.sendMessage(m.chat, { text: "Conexión perdida.." }, { quoted: m });
                 }
             }
-
+        
             if (global.db.data == null) loadDatabase();
-
+        
             if (connection == 'open') {
                 conn.isInit = true;
                 global.conns.push({
                     user: conn.user,
                     ws: conn.ws,
-                    connectedAt: Date.now() // Guardamos el tiempo de conexión
+                    connectedAt: Date.now()
                 });
                 await parent.reply(m.chat, args[0] ? 'Conectado con éxito' : '*\`[ Conectado Exitosamente 🤍 ]\`*\n\n> _Se intentará reconectar en caso de desconexión de sesión_\n> _Si quieres eliminar el subbot borra la sesión en dispositivos vinculados_\n> _El número del bot puede cambiar, guarda este enlace :_\n\nhttps://whatsapp.com/channel/0029Vaxb5xr7z4koGtOAAc1Q', m, rcanal, fake);
                 await sleep(5000);
                 if (args[0]) return;
-
+        
                 await parent.reply(conn.user.jid, `La siguiente vez que se conecte envía el siguiente mensaje para iniciar sesión sin utilizar otro código `, m);
-                await parent.sendMessage(conn.user.jid, { text: usedPrefix + command + " " + Buffer.from(fs.readFileSync(`./LynxJadiBot/${authFolderB}/creds.json`), "utf-8").toString("base64") }, { quoted: m });
-            }
-        }
-
-        // Función para eliminar una carpeta y su contenido
-        function deleteFolderRecursive(folderPath) {
-            if (fs.existsSync(folderPath)) {
-                const files = fs.readdirSync(folderPath);
-
-                files.forEach((file) => {
-                    const currentPath = path.join(folderPath, file);
-
-                    if (fs.lstatSync(currentPath).isDirectory()) {
-                        deleteFolderRecursive(currentPath);
-                    } else {
-                        fs.unlinkSync(currentPath);
-                    }
-                });
-
-                fs.rmdirSync(folderPath);
-                console.log(`📁 Carpeta eliminada: ${folderPath}`);
-            } else {
-                console.log(`❌ No se encontró la carpeta: ${folderPath}`);
+                await parent.sendMessage(conn.user.jid, { text: usedPrefix + command + " " + Buffer.from(fs.readFileSync(`./LynxJadiBot/${cleanedPhoneNumber}/creds.json`), "utf-8").toString("base64") }, { quoted: m });
             }
         }
 
