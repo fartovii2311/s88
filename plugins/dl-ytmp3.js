@@ -1,14 +1,13 @@
 import fs from 'fs';
 import fetch from 'node-fetch';  // Usamos node-fetch para obtener el buffer de la imagen
-import { mp3 } from '../lib/ytdl'; // Asegúrate de que esta función esté correctamente importada
+import { julzinmp3 } from '../lib/ytdl'; // Asegúrate de que esta función esté correctamente importada
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
     // Verifica si el usuario ha proporcionado una URL
     if (!text) return conn.reply(m.chat, '🎁 Por favor, envíame una URL de YouTube válida para descargar el audio.');
 
     try {
-        // Llama a la función mp3 para descargar el audio
-        const audio = await mp3(text); 
+        const audio = await julzinmp3(text); 
         conn.reply(m.chat, '🎼 Espere un momento mientras descargo su audio. No haga spam.');
 
         // Obtiene la miniatura (imagen) del video
