@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const handler = async (m, { text, conn }) => {
-    if (!text) return m.reply('⚠️ Proporcióname el enlace de YouTube para que pueda ayudarte. 🎵');
+    if (!text) return conn.reply(m.chat,'⚠️ Proporcióname el enlace de YouTube para que pueda ayudarte. 🎵',m,rcanal);
 
     try {
         await m.react('🕓');
