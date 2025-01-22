@@ -23,12 +23,12 @@ let Styles = (text, style = 1) => {
 };
 let tags = {
     'main': 'Principal',
+    'start': 'Start',
+    'dl': 'Descargas',
     'search': 'Busqueda',
     'rpg': 'rpg juegos',
     'fun': 'Funny',
-    'start': 'Start',
     'sticker': 'ꜱᴛɪᴄᴋᴇʀ',
-    'dl': 'Descargas',
     'ai': 'Funciones ai',
     'tools': 'Herramientas',
     'group': 'Grupo',
