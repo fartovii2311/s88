@@ -60,6 +60,7 @@ handler.all = async function (m, { conn }) {
                 prompt: prompt,
                 webSearchMode: true
             });
+            console.log("Respuesta de LuminSesi:", response.data.result);  // Agregado para depuración
             return response.data.result || null;
         } catch (error) {
             console.error('Error en LuminSesi:', error.message);
@@ -82,6 +83,7 @@ handler.all = async function (m, { conn }) {
                 source: "auto",
                 target: targetLang
             });
+            console.log("Traducción:", translation.data.translatedText);  // Agregado para depuración
             return translation.data.translatedText || response;
         } catch (error) {
             console.error('Error al traducir:', error.message);
@@ -97,6 +99,7 @@ handler.all = async function (m, { conn }) {
 
         let result = await luminsesi(query, username, prompt);
         if (!result) {
+            console.log("No se obtuvo respuesta de LuminSesi");  // Agregado para depuración
             return;
         }
 
