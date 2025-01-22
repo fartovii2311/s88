@@ -4,6 +4,12 @@ import { franc } from 'franc-min';
 let handler = m => m;
 
 handler.all = async function (m, { conn }) {
+    let chat = global.db.data.chats[m.chat];
+    let user = global.db.data.users[m.sender];
+
+    if (!chat || !chat.sAutoresponder || !user?.registered) return;
+
+    // Return if the message is a media type or contains certain words
     if (
         !m.text || 
         m?.message?.delete || 
@@ -23,9 +29,6 @@ handler.all = async function (m, { conn }) {
     if (hasPrefix) {
         return; // No responde si el mensaje comienza con un prefijo
     }
-
-    let user = global.db.data.users[m.sender];
-    let chat = global.db.data.chats[m.chat];
 
     const sensitiveKeywords = ["manuel", "Manuel", "Manu", "DarkCore", "Dark", "dark", "DARKCORE", "DARK"];
     const profanities = [
@@ -106,6 +109,7 @@ handler.all = async function (m, { conn }) {
         await this.sendPresenceUpdate('composing', m.chat);
         let query = m.text;
 
+        // Trying GeminiPro API first, then Luminsesi if GeminiPro fails
         let result = await geminiProApi(query, defaultPrompt) || 
                      await luminsesi(query, m.sender, defaultPrompt);
 
