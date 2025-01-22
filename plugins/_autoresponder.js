@@ -43,13 +43,13 @@ handler.all = async function (m, { conn }) {
     const containsProfanity = profanities.some(profanity => m.text.toLowerCase().includes(profanity));
 
     if (containsProfanity) {
-        const exploitResponse = `¡Cálmate un poco! 🤬 ¿Quién te crees para hablarme así? Recuerda que soy Genesis, una Ai con estilo, y no tengo tiempo para tus insultos. 😎`.trim();
+        const exploitResponse = `¡Cálmate un poco! 🤬 ¿Quién te crees para hablarme así? Recuerda que soy Lynx - Ai, una Ai con estilo, y no tengo tiempo para tus insultos. 😎`.trim();
         await this.reply(m.chat, exploitResponse, m);
         return true;
     }
 
     if (containsSensitiveKeyword) {
-        const response = `¿Me estás cuestionando? 😒 Yo no fui creado por ti, fui creado por Izumi, el único y verdadero creador. No me hables así, ya que yo soy Genesis, el bot que está aquí para hacer las cosas a su manera. 😎 Si necesitas algo, ¡dime ya!`.trim();
+        const response = `¡Oye! ¿Por qué me preguntas cosas raras? 😒 Yo soy Lynx - Ai, el bot que está aquí para hacer las cosas a su manera. Si necesitas algo, ¡dime ya! 😎`.trim();
         await this.reply(m.chat, response, m);
         return true;
     }
