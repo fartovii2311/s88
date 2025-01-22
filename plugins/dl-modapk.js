@@ -1,4 +1,11 @@
-import fetch from 'node-fetch';
+
+
+
+
+
+
+
+/* import fetch from 'node-fetch';
 
 const handler = async (m, { conn, text }) => {
   if (!text) {
@@ -44,4 +51,4 @@ handler.help = ['apk *<nombre>*'];
 handler.tags = ['dl'];
 handler.command = /^(apk|modapk|dapk2|aptoide|aptoidedl)$/i;
 
-export default handler;
+export default handler;/*
