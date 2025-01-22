@@ -58,13 +58,13 @@ handler.all = async function (m, { conn }) {
                 text: query,
                 prompt: prompt
             });
-            return response.data.answer || null;
+            return response.data.answer ? await translateResponseLibre(response.data.answer, 'es') : null; // Traducción a español
         } catch (error) {
             console.error('Error en Gemini Pro:', error.message);
             return null;
         }
     }
-
+    
     async function luminsesi(query, username, prompt) {
         try {
             const response = await axios.post("https://luminai.my.id", {
@@ -73,35 +73,36 @@ handler.all = async function (m, { conn }) {
                 prompt: prompt,
                 webSearchMode: true
             });
-            return response.data.result || null;
+            return response.data.result ? await translateResponseLibre(response.data.result, 'es') : null; // Traducción a español
         } catch (error) {
             console.error('Error en LuminSesi:', error.message);
             return null;
         }
     }
-
+    
     async function llama33Api(query) {
         try {
             const response = await axios.get(`https://api.siputzx.my.id/api/ai/llama33?prompt=${encodeURIComponent('you are a friendly ai')}&text=${encodeURIComponent(query)}`);
             let result = response.data.data || null;
-
+    
             if (result) {
-                const translated = await translateResponseLibre(result, 'es');
+                const translated = await translateResponseLibre(result, 'es'); // Asegura la traducción a español
                 return translated;
             }
-
+    
             return null;
         } catch (error) {
             console.error('Error en Llama33 API:', error.message);
             return null;
         }
     }
-
+    
     async function chatgpt(query) {
         try {
             const response = await axios.get(`https://delirius-apiofc.vercel.app/ia/chatgpt?q=${encodeURIComponent(query)}`);
             if (response.data && response.data.status) {
-                return response.data.data || null;
+                const result = response.data.data;
+                return await translateResponseLibre(result, 'es'); // Traducción a español
             }
             return null;
         } catch (error) {
@@ -109,6 +110,7 @@ handler.all = async function (m, { conn }) {
             return null;
         }
     }
+    
 
     const defaultPrompt = 
     `Eres Lynx, un bot creado para WhatsApp por DarkCore. Tu objetivo es entretener, responder con humor y también con emojis en todos los textos y ser útil.
