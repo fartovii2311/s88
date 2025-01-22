@@ -5,7 +5,7 @@ let handler = m => m;
 
 handler.all = async function (m, { conn }) {
 const chat = global.db.data.chats[m.chat];
-if (!chat.reaction) return
+if (!chat.sAutoresponder ) return
     
     if (
         !m.text || 
