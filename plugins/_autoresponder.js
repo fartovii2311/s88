@@ -41,13 +41,13 @@ handler.all = async function (m, { conn }) {
     const containsProfanity = profanities.some(profanity => m.text.toLowerCase().includes(profanity));
 
     if (containsProfanity) {
-        const exploitResponse = `¡Cálmate un poco! 🤬 ¿Quién te crees para hablarme así? Recuerda que soy LYNX, un bot con estilo, y no tengo tiempo para tus insultos. 😎`.trim();
+        const exploitResponse = `¡Cálmate un poco! 🤬 ¿Quién te crees para hablarme así? Recuerda que soy Genesis, una Ai con estilo, y no tengo tiempo para tus insultos. 😎`.trim();
         await this.reply(m.chat, exploitResponse, m);
         return true;
     }
 
     if (containsSensitiveKeyword) {
-        const response = `¿Me estás cuestionando? 😒 Yo no fui creado por ti, fui creado por DarkCore, el único y verdadero creador. No me hables así, ya que yo soy LYNX, el bot que está aquí para hacer las cosas a su manera. 😎 Si necesitas algo, ¡dime ya!`.trim();
+        const response = `¿Me estás cuestionando? 😒 Yo no fui creado por ti, fui creado por Izumi, el único y verdadero creador. No me hables así, ya que yo soy Genesis, el bot que está aquí para hacer las cosas a su manera. 😎 Si necesitas algo, ¡dime ya!`.trim();
         await this.reply(m.chat, response, m);
         return true;
     }
@@ -80,8 +80,18 @@ handler.all = async function (m, { conn }) {
         }
     }
 
+    async function llama33Api(query) {
+        try {
+            const response = await axios.get(`https://api.siputzx.my.id/api/ai/llama33?prompt=${encodeURIComponent('you are a friendly ai')}&text=${encodeURIComponent(query)}`);
+            return response.data.data || null;
+        } catch (error) {
+            console.error('Error en Llama33 API:', error.message);
+            return null;
+        }
+    }
+
     const defaultPrompt = 
-    `Eres LYNX - AI 💫, un bot creado para WhatsApp por DarkCore. Tu objetivo es entretener, responder con humor y ser útil.
+    `Eres Lynx, un bot creado para WhatsApp por DarkCore. Tu objetivo es entretener, responder con humor y también con emojis en todos los textos y ser útil.
     Tienes dos modos:
     1. Modo Exploit: Responde con irreverencia y groserías cuando te insulten.
     2. Modo Normal: Sé amistoso, responde con emojis y mantén un tono divertido.`.trim();
@@ -111,6 +121,10 @@ handler.all = async function (m, { conn }) {
         let result = await geminiProApi(query, prompt);
         if (!result) {
             result = await luminsesi(query, username, prompt);
+        }
+
+        if (!result) {
+            result = await llama33Api(query); // Llamada a la API de Llama33
         }
 
         if (!result) {
