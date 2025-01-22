@@ -4,6 +4,7 @@ import { franc } from 'franc-min';
 let handler = m => m;
 
 handler.all = async function (m, { conn }) {
+  
     if (
         !m.text || 
         m?.message?.delete || 
@@ -132,4 +133,4 @@ handler.all = async function (m, { conn }) {
     return true;
 };
 
-export default handler;
+export default handler; 
