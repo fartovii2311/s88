@@ -227,8 +227,6 @@ let handler = async (m, { conn }) => {
 };
 
    
-
-
   let numeroCompleto = '+' + who.replace('@s.whatsapp.net', '');
   let nacionalidad = 'Desconocida';
   for (let prefijo in prefijos) {
@@ -242,7 +240,7 @@ let handler = async (m, { conn }) => {
   let biot = bio.status?.toString() || 'Sin Info';
   let user = global.db.data.users[who];
   let pp = await conn.profilePictureUrl(who, 'image').catch(() => 'https://i.ibb.co/Y7mhFdf/file.jpg');
-  let { exp, corazones, name, registered, regTime, age, level } = global.db.data.users[who];
+  let { exp, Monedas, name, registered, regTime, age, level } = global.db.data.users[who];
   let { min, xp, max } = xpRange(user.level, global.multiplier);
   let username = conn.getName(who);
   let prem = global.prems.includes(who.split`@`[0]);
