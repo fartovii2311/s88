@@ -22,7 +22,7 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
   if (command === 'verificar') {
     name = name2.trim();
     age = 18; // Predeterminado a 18 si no se proporciona la edad
-    if (!name || isNaN(age) || age < 18 || age > 100) {
+    if (!name || isNaN(age) || age < 1 || age > 100) {
       return conn.reply(
         m.chat,
         `❌ *Registro fallido*\n\nNo se pudo obtener un nombre o edad válidos.\nUsa el formato:\n\`${usedPrefix + command} <nombre.edad>\``,
@@ -35,8 +35,8 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
     name = n.trim();
     age = parseInt(a);
     if (!name) return conn.reply(m.chat, '❌ El nombre no puede estar vacío.', m);
-    if (!age || age < 18 || age > 100) {
-      return conn.reply(m.chat, '❌ La edad debe ser entre 18 y 100 años.', m);
+    if (!age || age < 1 || age > 100) {
+      return conn.reply(m.chat, '❌ La edad debe ser entre 1 a 100 años.', m);
     }
   }
 
