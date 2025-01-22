@@ -4,6 +4,7 @@ import { franc } from 'franc-min';
 let handler = m => m;
 
 handler.all = async function (m, { conn }) {
+    let chat = global.db.data.chats[m.chat];
     if (!chat?.sAutoresponder) return;
     if (
         !m.text || 
@@ -26,7 +27,6 @@ handler.all = async function (m, { conn }) {
     }
 
     let user = global.db.data.users[m.sender];
-    let chat = global.db.data.chats[m.chat];
 
     const sensitiveKeywords = ["manuel", "Manuel", "Manu", "DarkCore", "Dark", "dark", "DARKCORE", "DARK"];
     const profanities = [
