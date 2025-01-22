@@ -18,9 +18,9 @@ const {
   import { Boom } from '@hapi/boom';
   import { makeWASocket } from '../lib/simple.js';
   
- if (!(global.conns instanceof Array)) global.conns = [];
+  if (!(global.conns instanceof Array)) global.conns = [];
   
- let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => {
+  let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => {
     let parent = await global.conn;
     async function serbot() {
       let authFolderB = m.sender.split('@')[0];
@@ -49,10 +49,10 @@ const {
         logger: pino({ level: 'silent' }),
         printQRInTerminal: false,
         mobile: MethodMobile,
-        browser: ["Lynx-Ai(Sub-bot)", "Lynx-Ai(Sub-bot)", "20.0.04"],
+        browser: ["Ubuntu", "Chrome", "20.0.04"],
         auth: {
-            creds: state.creds,
-            keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" }))
+          creds: state.creds,
+          keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" }))
         },
         markOnlineOnConnect: true,
         generateHighQualityLinkPreview: true,
@@ -76,12 +76,12 @@ const {
           let codeBot = await conn.requestPairingCode(cleanedNumber);
           codeBot = codeBot?.match(/.{1,4}/g)?.join("-") || codeBot;
           let txt = `┌  👑  *Usa este Código para convertirte en un Sub Bot*\n`
-             txt += `│  👑  Pasos\n`
-             txt += `│  👑  *1* : Haga click en los 3 puntos\n`
-             txt += `│  👑  *2* : Toque dispositivos vinculados\n`
-             txt += `│  👑  *3* : Selecciona *Vincular con el número de teléfono*\n`
-             txt += `└  👑  *4* : Escriba el Codigo\n\n`
-             txt += `*👑Nota:* Este Código solo funciona en el número en el que se solicitó\n\n> *Sigan El Canal*\n> ${channel}`;
+          txt += `│  👑  Pasos\n`
+          txt += `│  👑  *1* : Haga click en los 3 puntos\n`
+          txt += `│  👑  *2* : Toque dispositivos vinculados\n`
+          txt += `│  👑  *3* : Selecciona *Vincular con el número de teléfono*\n`
+          txt += `└  👑  *4* : Escriba el Codigo\n\n`
+          txt += `*👑Nota:* Este Código solo funciona en el número en el que se solicitó\n\n> *Sigan El Canal*\n> ${channel}`;
           await parent.reply(m.chat, txt, m);
           await parent.reply(m.chat, codeBot, m);
           rl.close();
@@ -102,19 +102,21 @@ const {
           if (i < 0) return console.log(await creloadHandler(true).catch(console.error));
           delete global.conns[i];
           global.conns.splice(i, 1);
-
+          fs.rmdirSync(userFolderPath, { recursive: true });
           if (code !== DisconnectReason.connectionClosed) {
-            fs.rmdirSync(userFolderPath, { recursive: true });
             parent.sendMessage(m.chat, { text: "Conexión perdida.." }, { quoted: m });
           }
         }
-          
   
         if (global.db.data == null) loadDatabase();
   
         if (connection == 'open') {
           conn.isInit = true;
-          global.conns.push({ user: conn.user, ws: conn.ws, connectedAt: Date.now() });
+          global.conns.push({
+              user: conn.user,
+              ws: conn.ws,
+              connectedAt: Date.now()
+          });
           await parent.reply(m.chat, args[0] ? 'Conectado con éxito' : '*\`[ Conectado Exitosamente 🔱 ]\`*\n\n> _Se intentará reconectar en caso de desconexión de sesión_\n> _Si quieres eliminar el subbot borra la sesión en dispositivos vinculados_\n> _El número del bot puede cambiar, guarda este enlace :_\n\nhttps://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F', m);
           await sleep(5000);
           if (args[0]) return;
@@ -124,7 +126,8 @@ const {
       
           await parent.reply(conn.user.jid, `> La siguiente vez que se conecte solo borra session *.delsession* porfavor si no conecta solo borra`, m);
       }}
-    
+      
+  
       setInterval(async () => {
         if (!conn.user) {
           try { conn.ws.close() } catch { }
@@ -183,3 +186,4 @@ const {
   function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
+  
