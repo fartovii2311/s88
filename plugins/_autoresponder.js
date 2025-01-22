@@ -52,6 +52,19 @@ handler.all = async function (m, { conn }) {
         return true;
     }
 
+    async function geminiProApi(query, prompt) {
+        try {
+            const response = await axios.post("https://api.ryzendesu.vip/api/ai/gemini-pro", {
+                text: query,
+                prompt: prompt
+            });
+            return response.data.answer || null;
+        } catch (error) {
+            console.error('Error en Gemini Pro:', error.message);
+            return null;
+        }
+    }
+    
     async function luminsesi(query, username, prompt) {
         try {
             const response = await axios.post("https://luminai.my.id", {
@@ -60,7 +73,6 @@ handler.all = async function (m, { conn }) {
                 prompt: prompt,
                 webSearchMode: true
             });
-            console.log("Respuesta de LuminSesi:", response.data.result);  // Agregado para depuración
             return response.data.result || null;
         } catch (error) {
             console.error('Error en LuminSesi:', error.message);
@@ -69,7 +81,7 @@ handler.all = async function (m, { conn }) {
     }
 
     const defaultPrompt = 
-    `Eres Genesis ☁️, un bot creado para WhatsApp por Izumi. Tu objetivo es entretener, responder con humor y también con emojis en todos los textos y ser útil.
+    `Eres Lynx, un bot creado para WhatsApp por DarkCore. Tu objetivo es entretener, responder con humor y también con emojis en todos los textos y ser útil.
     Tienes dos modos:
     1. Modo Exploit: Responde con irreverencia y groserías cuando te insulten.
     2. Modo Normal: Sé amistoso, responde con emojis y mantén un tono divertido.`.trim();
@@ -83,7 +95,6 @@ handler.all = async function (m, { conn }) {
                 source: "auto",
                 target: targetLang
             });
-            console.log("Traducción:", translation.data.translatedText);  // Agregado para depuración
             return translation.data.translatedText || response;
         } catch (error) {
             console.error('Error al traducir:', error.message);
@@ -97,9 +108,12 @@ handler.all = async function (m, { conn }) {
         let username = m.pushName;
         let prompt = chat.sAutoresponder || defaultPrompt;
 
-        let result = await luminsesi(query, username, prompt);
+        let result = await geminiProApi(query, prompt);
         if (!result) {
-            console.log("No se obtuvo respuesta de LuminSesi");  // Agregado para depuración
+            result = await luminsesi(query, username, prompt);
+        }
+
+        if (!result) {
             return;
         }
 
