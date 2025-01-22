@@ -41,7 +41,7 @@ let handler = async (m, { conn, text, command, usedPrefix, rcanal }) => {
   await conn.sendMessage(m.chat, { text: resultText }, { quoted: m, ...opt }, null, rcanal);
 };
 
-handler.help = ['playstore'];
+handler.help = ['playstore *<text>*'];
 handler.tags = ['dl'];
 handler.command = /^(playstore|plays|playstoresearch)$/i;
 
