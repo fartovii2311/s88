@@ -1,26 +1,4 @@
-import gplay from 'google-play-scraper'
-import fetch from 'node-fetch'
-let handler = async (m, {conn, args, usedPrefix: prefix, command, text}) => {
-if (!args[0]) throw `*❌ Ingresa un link de la PlayStore. Ejemplo:*\n\n ${prefix + command} url`;
-m.react('')
-const url = `${args[0]}`;
-const packageName = url.split("=")[1];
-console.log(packageName);
-const info = await gplay.app({appId: packageName})
-const h = info.title
-console.log(h + `\n` + info.appId)
-let link = `https://d.apkpure.com/b/APK/${info.appId}?version=latest`
-conn.sendFile(m.chat, link, h + '.apk', ``, m, false, { mimetype: 'application/videos.android.package-archive', asDocument: true })
-m.react('')
-}
-handler.help = ['dlplaystore *<url>*'];
-handler.tags = ['dl'];
-handler.command = /^(dlplaystore)$/i;
-export default handler
-
-
-
-/* import fetch from 'node-fetch';
+ import fetch from 'node-fetch';
 
 const handler = async (m, { conn, text }) => {
   if (!text) {
@@ -66,4 +44,4 @@ handler.help = ['apk *<nombre>*'];
 handler.tags = ['dl'];
 handler.command = /^(apk|modapk|dapk2|aptoide|aptoidedl)$/i;
 
-export default handler;/*
+export default handler;
