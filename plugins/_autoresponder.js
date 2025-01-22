@@ -52,57 +52,11 @@ handler.all = async function (m, { conn }) {
         return true;
     }
 
-    async function geminiProApi(query, prompt) {
+    async function queryAI(query, endpoint) {
         try {
-            const response = await axios.post("https://api.ryzendesu.vip/api/ai/gemini-pro", {
-                text: query,
-                prompt: prompt
-            });
-            return response.data.answer ? await translateResponseLibre(response.data.answer, 'es') : null; // Traducción a español
-        } catch (error) {
-            console.error('Error en Gemini Pro:', error.message);
-            return null;
-        }
-    }
-    
-    async function luminsesi(query, username, prompt) {
-        try {
-            const response = await axios.post("https://luminai.my.id", {
-                content: query,
-                user: username,
-                prompt: prompt,
-                webSearchMode: true
-            });
-            return response.data.result ? await translateResponseLibre(response.data.result, 'es') : null; // Traducción a español
-        } catch (error) {
-            console.error('Error en LuminSesi:', error.message);
-            return null;
-        }
-    }
-    
-    async function llama33Api(query) {
-        try {
-            const response = await axios.get(`https://api.siputzx.my.id/api/ai/llama33?prompt=${encodeURIComponent('you are a friendly ai')}&text=${encodeURIComponent(query)}`);
-            let result = response.data.data || null;
-    
-            if (result) {
-                const translated = await translateResponseLibre(result, 'es'); // Asegura la traducción a español
-                return translated;
-            }
-    
-            return null;
-        } catch (error) {
-            console.error('Error en Llama33 API:', error.message);
-            return null;
-        }
-    }
-    
-    async function chatgpt(query) {
-        try {
-            const response = await axios.get(`https://delirius-apiofc.vercel.app/ia/chatgpt?q=${encodeURIComponent(query)}`);
+            const response = await axios.get(`https://delirius-apiofc.vercel.app/ia/${endpoint}?query=${encodeURIComponent(query)}`);
             if (response.data && response.data.status) {
-                const result = response.data.data;
-                return await translateResponseLibre(result, 'es'); // Traducción a español
+                return await translateResponseLibre(response.data.data, 'es'); // Traducción a español
             }
             return null;
         } catch (error) {
@@ -110,15 +64,6 @@ handler.all = async function (m, { conn }) {
             return null;
         }
     }
-    
-
-    const defaultPrompt = 
-    `Eres Lynx, un bot creado para WhatsApp por DarkCore. Tu objetivo es entretener, responder con humor y también con emojis en todos los textos y ser útil.
-    Tienes dos modos:
-    1. Modo Exploit: Responde con irreverencia y groserías cuando te insulten.
-    2. Modo Normal: Sé amistoso, responde con emojis y mantén un tono divertido.`.trim();
-
-    const language = franc(m.text);
 
     async function translateResponseLibre(response, targetLang) {
         try {
@@ -134,25 +79,22 @@ handler.all = async function (m, { conn }) {
         }
     }
 
+    const defaultPrompt = 
+    `Eres Lynx, un bot creado para WhatsApp por DarkCore. Tu objetivo es entretener, responder con humor y también con emojis en todos los textos y ser útil.
+    Tienes dos modos:
+    1. Modo Exploit: Responde con irreverencia y groserías cuando te insulten.
+    2. Modo Normal: Sé amistoso, responde con emojis y mantén un tono divertido.`.trim();
+
+    const language = franc(m.text);
+
     if (user?.registered) {
         await this.sendPresenceUpdate('composing', m.chat);
         let query = m.text;
-        let username = m.pushName;
-        let prompt = chat.sAutoresponder || defaultPrompt;
-        let result = await geminiProApi(query, prompt);
 
-        if (!result) {
-            result = await luminsesi(query, username, prompt);
-        }
-
-        if (!result) {
-            result = await chatgpt(query); 
-        }
-
-        if (!result) {
-            result = await llama33Api(query); 
-        }
-
+        let result = await queryAI(query, 'chatgpt') || 
+                     await queryAI(query, 'bingia') || 
+                     await queryAI(query, 'llamaia') || 
+                     await queryAI(query, 'gemini');
 
         if (!result) {
             return;
