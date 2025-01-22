@@ -52,19 +52,6 @@ handler.all = async function (m, { conn }) {
         return true;
     }
 
-    async function geminiProApi(query, prompt) {
-        try {
-            const response = await axios.post("https://api.ryzendesu.vip/api/ai/gemini-pro", {
-                text: query,
-                prompt: prompt
-            });
-            return response.data.answer || null;
-        } catch (error) {
-            console.error('Error en Gemini Pro:', error.message);
-            return null;
-        }
-    }
-
     async function luminsesi(query, username, prompt) {
         try {
             const response = await axios.post("https://luminai.my.id", {
@@ -108,11 +95,7 @@ handler.all = async function (m, { conn }) {
         let username = m.pushName;
         let prompt = chat.sAutoresponder || defaultPrompt;
 
-        let result = await geminiProApi(query, prompt);
-        if (!result) {
-            result = await luminsesi(query, username, prompt);
-        }
-
+        let result = await luminsesi(query, username, prompt);
         if (!result) {
             return;
         }
@@ -125,7 +108,7 @@ handler.all = async function (m, { conn }) {
         } else {
             await this.reply(m.chat, result, m);
         }
-
+        
         return true;
     }
 
