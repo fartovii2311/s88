@@ -1,54 +1,47 @@
  // *[ ❀ FACEBOOK DL ]*
-import fetch from 'node-fetch';
+import axios from 'axios';
 
-let handler = async (m, { conn, text, usedPrefix, command }) => {
-    if (!text) {
-        return conn.reply(
-            m.chat,
-            '[ ᰔᩚ ] Ingresa la URL del video de *Facebook*.\n\n`Ejemplo:`\n' + `> *${usedPrefix + command}* https://www.facebook.com/share/`,
-            m,rcanal
-        );
-    }
-
-    await m.react('🕓');
-
+const getFacebookVideo = async (videoUrl) => {
     try {
-        let apiResponse = await fetch(`https://api.siputzx.my.id/api/d/facebook?url=${encodeURIComponent(text)}`);
-        let json = await apiResponse.json();
-        const videoUrl = json.data.video;
-        const videoSizeLimit = 50 * 1024 * 1024;
+        const response = await axios.get(`https://api.dorratz.com/fbvideo?url=${encodeURIComponent(videoUrl)}`);
+        const data = response.data;
 
-        let videoBuffer = await fetch(videoUrl).then((res) => res.buffer());
-        
-        if (videoBuffer.length > videoSizeLimit) {
-            await conn.sendMessage(m.chat, {
-                document: videoBuffer,
-                fileName: 'video.mp4',
-                mimetype: 'video/mp4',
-                caption: '[ ᰔᩚ ] Aquí tienes el video solicitado como documento.',
-            },{ quoted: m });
+        // Procesar los datos de los videos
+        if (Array.isArray(data) && data.length > 0) {
+            return data[0]; // Retornamos el primer video encontrado
         } else {
-            await conn.sendMessage(m.chat, {
-                video: videoBuffer,
-                caption: '[ ᰔᩚ ] Aquí tienes el video solicitado.',
-            },{ quoted: m });
+            throw new Error("No se encontraron videos para esta URL.");
         }
-
-        await m.react('✅');
     } catch (error) {
-        console.error(error);
-        await conn.reply(
-            m.chat,
-            `❀ Ocurrió un error al procesar tu solicitud. Por favor, verifica la URL y vuelve a intentarlo.`,
-            m,rcanal
-        );
-        await m.react('❌');
+        throw new Error("Error al obtener el video de Facebook: " + error.message);
     }
 };
 
-handler.help = ['fb *<link>*'];
-handler.tags = ['dl'];
-handler.command = /^(fb|facebook|Facebook|fbdl)$/i;
+let handler = async (m, { conn, args, usedPrefix, command }) => {
+    if (!args[0]) return conn.reply(m.chat, `🔥 Ingrese un enlace de video de Facebook\n\nEjemplo:\n> *${usedPrefix + command}* https://www.facebook.com/share/v/12DoEUCoFji/?mibextid=rS40aB7S9Ucbxw6v`, m, rcanal);
+
+    await m.react('🕓');
+    
+    try {
+        const videoData = await getFacebookVideo(args[0]);
+        const { resolution, url, thumbnail } = videoData;
+
+        let txt = '`乂  F A C E B O O K  -  D L`\n\n';
+        txt += `  ✩   *Resolución* : ${resolution}\n`;
+        txt += `  ✩   *Url* : ${url}\n`;
+        txt += `  ✩   *Thumbnail* : ${thumbnail}\n\n`;
+
+        await conn.sendMessage(m.chat, { video: { url }, caption: txt, mimetype: 'video/mp4', fileName: `facebook.mp4` }, { quoted: m });
+        await m.react('✅');
+    } catch (error) {
+        await conn.reply(m.chat, error.message, m);
+        await m.react('✖️');
+    }
+};
+
+handler.help = ['fb *<url fb>*'];
+handler.tags = ['downloader'];
+handler.command = ['fbdl', 'fbdownload', 'fb', 'facebook', 'Facebook'];
 handler.register = true;
 
 export default handler;
