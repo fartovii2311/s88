@@ -5,7 +5,7 @@ let handler = async (m, { conn, command, text, usedPrefix }) => {
     return conn.reply(
       m.chat,
       '[ ᰔᩚ ] Ingresa el nombre o palabra clave para buscar en *Spotify*.\n\n' +
-        `Ejemplo:`\n> *${usedPrefix + command}* url`,
+        `Ejemplo:\n> *${usedPrefix + command}* url`,
       m,rcanal
     );
   }
