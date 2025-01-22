@@ -5,6 +5,7 @@ let handler = async (m, { conn, args }) => {
   if (!args[0]) return conn.reply(m.chat, '*\`Ingresa el nombre de lo que quieres buscar\`*', m,rcanal);
 
   await m.react('🕓');
+  
   try {
     let res = await search(args.join(" "));
     let video = res[0];
