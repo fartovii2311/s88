@@ -1,3 +1,16 @@
+/*⚠ PROHIBIDO EDITAR ⚠
+
+El codigo de este archivo esta totalmente hecho por:
+- DarkCore >> https://github.com/Manuel12yt
+-
+El codigo de este archivo fue parchado por:
+- DarkCore >> https://github.com/Manuel12yt
+-
+Contenido adaptado por:
+- DarkCore >> https://github.com/Manuel12yt
+- Izumi-kzx >> https://github.com/Izumi-kzx
+*/
+
 import axios from 'axios';
 import { franc } from 'franc-min';
 
