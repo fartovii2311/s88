@@ -4,35 +4,51 @@ import { franc } from 'franc-min';
 let handler = m => m;
 
 handler.all = async function (m, { conn }) {
-    const chat = global.db.data.chats[m.chat];
     if (!chat?.sAutoresponder) return;
-
     if (
         !m.text || 
         m?.message?.delete || 
-        ['audio', 'video'].includes(m.type) || 
-        /audio|video|voz|clip|film/i.test(m.text)
+        m.type === 'audio' || 
+        m.type === 'video' || 
+        /audio/i.test(m.text) || 
+        /video/i.test(m.text) || 
+        /voz/i.test(m.text) || 
+        /clip/i.test(m.text) || 
+        /film/i.test(m.text)
     ) {
-        return;
+        return; 
     }
 
     const prefixes = ['!', '.', '?', '/', '#', '*', '+', '-', '$', '&', '%', '@', '~'];
-    if (prefixes.some(prefix => m.text.startsWith(prefix))) return;
+    const hasPrefix = prefixes.some(prefix => m.text.startsWith(prefix));
+    if (hasPrefix) {
+        return; 
+    }
 
-    // Palabras sensibles y groserías
+    let user = global.db.data.users[m.sender];
+    let chat = global.db.data.chats[m.chat];
+
     const sensitiveKeywords = ["manuel", "Manuel", "Manu", "DarkCore", "Dark", "dark", "DARKCORE", "DARK"];
-    const profanities = ["perra", "puta", "mierda", "imbécil", "idiota", "estúpido", "cabrona", "pendejo", "zorra", "bastardo"];
+    const profanities = [
+        "perra", "hijo de puta", "puta", "mierda", "imbécil", "idiota", "estúpido", 
+        "maldita", "cabrona", "pendejo", "pendeja", "cabrón", "zorra", "bastardo", 
+        "maldito", "coño", "gilipollas", "tonto", "tarado", "infeliz", "mamón", 
+        "chingada", "culero", "cagada", "estúpida", "imbéciles", "jodido", 
+        "jodida", "pedorro", "pedorra", "asqueroso", "asquerosa", "naco", "naca", 
+        "menso", "mensos", "baboso", "babosa", "patético", "patética"
+    ];
+
     const containsSensitiveKeyword = sensitiveKeywords.some(keyword => m.text.includes(keyword));
     const containsProfanity = profanities.some(profanity => m.text.toLowerCase().includes(profanity));
 
     if (containsProfanity) {
-        const exploitResponse = `¡Cálmate un poco! 🤬 ¿Quién te crees para hablarme así?`;
+        const exploitResponse = `¡Cálmate un poco! 🤬 ¿Quién te crees para hablarme así? Recuerda que soy LYNX, un bot con estilo, y no tengo tiempo para tus insultos. 😎`.trim();
         await this.reply(m.chat, exploitResponse, m);
         return true;
     }
 
     if (containsSensitiveKeyword) {
-        const response = `¿Me estás cuestionando? 😒 Soy LYNX, creado por DarkCore. ¿Qué necesitas?`;
+        const response = `¿Me estás cuestionando? 😒 Yo no fui creado por ti, fui creado por DarkCore, el único y verdadero creador. No me hables así, ya que yo soy LYNX, el bot que está aquí para hacer las cosas a su manera. 😎 Si necesitas algo, ¡dime ya!`.trim();
         await this.reply(m.chat, response, m);
         return true;
     }
@@ -65,6 +81,14 @@ handler.all = async function (m, { conn }) {
         }
     }
 
+    const defaultPrompt = 
+    `Eres LYNX - AI 💫, un bot creado para WhatsApp por DarkCore. Tu objetivo es entretener, responder con humor y ser útil.
+    Tienes dos modos:
+    1. Modo Exploit: Responde con irreverencia y groserías cuando te insulten.
+    2. Modo Normal: Sé amistoso, responde con emojis y mantén un tono divertido.`.trim();
+
+    const language = franc(m.text); 
+
     async function translateResponseLibre(response, targetLang) {
         try {
             const translation = await axios.post("https://libretranslate.com/translate", {
@@ -79,27 +103,30 @@ handler.all = async function (m, { conn }) {
         }
     }
 
-    let user = global.db.data.users[m.sender];
     if (user?.registered) {
         await this.sendPresenceUpdate('composing', m.chat);
-
-        const query = m.text;
-        const username = m.pushName;
-        const prompt = chat.sAutoresponder || "Eres LYNX, un bot amistoso y útil.";
+        let query = m.text;
+        let username = m.pushName;
+        let prompt = chat.sAutoresponder || defaultPrompt;
 
         let result = await geminiProApi(query, prompt);
-        if (!result) result = await luminsesi(query, username, prompt);
-
-        if (result) {
-            const language = franc(m.text) || 'es';
-            if (language !== 'es') {
-                const translated = await translateResponseLibre(result, 'es');
-                await this.reply(m.chat, translated, m);
-            } else {
-                await this.reply(m.chat, result, m);
-            }
+        if (!result) {
+            result = await luminsesi(query, username, prompt);
         }
 
+        if (!result) {
+            return;
+        }
+
+        const detectedLang = language || 'es';
+
+        if (detectedLang !== 'es') { 
+            const translated = await translateResponseLibre(result, 'es');
+            await this.reply(m.chat, translated, m);
+        } else {
+            await this.reply(m.chat, result, m);
+        }
+        
         return true;
     }
 
