@@ -2,21 +2,19 @@
 import { igdl } from 'ruhend-scraper';
 
 const handler = async (m, { text, conn, args }) => {
-  // Validar que se envíe un enlace
   if (!args[0]) {
     return conn.reply(
       m.chat,
       `🔔 Envíame el enlace del video de Facebook para descargarlo.`,
-      m
+      m,rcanal
     );
   }
 
   let res;
   try {
-    await m.react('🚀'); // Reacción de espera
-    res = await igdl(args[0]); // Descargar datos del enlace
+    await m.react('🚀');
+    res = await igdl(args[0]); 
   } catch (e) {
-    // Manejo de error en caso de enlace no válido
     await m.react('❌');
     return conn.reply(
       m.chat,
@@ -36,7 +34,6 @@ const handler = async (m, { text, conn, args }) => {
     );
   }
 
-  // Buscar video con la mejor resolución disponible
   let data;
   try {
     data =
@@ -60,16 +57,13 @@ const handler = async (m, { text, conn, args }) => {
     );
   }
 
-  // Enviar el video al chat
   let video = data.url;
   try {
     await conn.sendMessage(
       m.chat,
       {
         video: { url: video },
-        caption: `🚀 tu video de Facebook.
-
-\n> ⏤͟͟͞͞𝐋𝐲𝐧𝐱-𝐀𝐈ꗄ➺`,
+        caption: `🚀 tu video de Facebook.\n> ⏤͟͟͞͞𝐋𝐲𝐧𝐱-𝐀𝐈ꗄ➺`,
         fileName: 'facebook_video.mp4',
         mimetype: 'video/mp4',
       },
