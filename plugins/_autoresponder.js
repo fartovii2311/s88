@@ -4,6 +4,7 @@ import { franc } from 'franc-min';
 let handler = m => m;
 
 handler.all = async function (m, { conn }) {
+const chat = global.db.data.chats[m.chat];
     if (
         !m.text || 
         m?.message?.delete || 
