@@ -9,7 +9,6 @@ handler.all = async function (m, { conn }) {
 
     if (!chat || !chat.sAutoresponder || !user?.registered) return;
 
-    // Return if the message is a media type or contains certain words
     if (
         !m.text || 
         m?.message?.delete || 
@@ -27,7 +26,7 @@ handler.all = async function (m, { conn }) {
     const prefixes = ['!', '.', '?', '/', '#', '*', '+', '-', '$', '&', '%', '@', '~'];
     const hasPrefix = prefixes.some(prefix => m.text.startsWith(prefix));
     if (hasPrefix) {
-        return; // No responde si el mensaje comienza con un prefijo
+        return;
     }
 
     const sensitiveKeywords = ["manuel", "Manuel", "Manu", "DarkCore", "Dark", "dark", "DARKCORE", "DARK"];
