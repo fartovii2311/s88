@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 
 let handler = async (m, { conn, text, command, usedPrefix, rcanal }) => {
   if (!text) {
-    return conn.reply(m.chat, `*\🚩 Ingresa el nombre de la aplicación que deseas buscar en la Play Store.\`*\n\n*\Ejemplo:\*\n*\${usedPrefix + command} WhatsApp\*`);
+    return conn.reply(m.chat, `*\🚩 Ingresa el nombre de la aplicación que deseas buscar en la Play Store.\`*\n\n*\Ejemplo:\*\n*\${usedPrefix + command} WhatsApp\*`,m,rcanal);
   }
 
   let res;
@@ -37,7 +37,6 @@ let handler = async (m, { conn, text, command, usedPrefix, rcanal }) => {
     quoted: m,
   };
 
-  // Enviando la respuesta - usar sendMessage
   await conn.sendMessage(m.chat, { text: resultText }, { quoted: m, ...opt }, null, rcanal);
 };
 
