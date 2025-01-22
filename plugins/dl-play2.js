@@ -48,7 +48,7 @@ let handler = async (m, { conn, args }) => {
   }
 };
 
-handler.help = ['play33 *<texto>*'];
+handler.help = ['play3 *<texto>*'];
 handler.tags = ['dl'];
 handler.command = ['play33'];
 handler.register = true 
