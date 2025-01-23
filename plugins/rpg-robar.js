@@ -5,29 +5,26 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
   let senderId = m.sender
   let senderName = conn.getName(senderId)
 
-  let tiempoEspera = 5 * 60  // 5 minutos
+  let tiempoEspera = 5 * 60
   if (cooldowns[m.sender] && Date.now() - cooldowns[m.sender] < tiempoEspera * 1000) {
     let tiempoRestante = segundosAHMS(Math.ceil((cooldowns[m.sender] + tiempoEspera * 1000 - Date.now()) / 1000))
-    m.reply(`🪙  Ya has robado Monedas recientemente, espera *⏱ ${tiempoRestante}* para hacer tu próximo robo.`)
+    m.reply(`🪙 Ya has robado Monedas recientemente, espera *⏱ ${tiempoRestante}* para hacer tu próximo robo.`)
     return
   }
 
   cooldowns[m.sender] = Date.now()
 
-  // Verificar que el usuario tiene el objeto 'corazones' en su base de datos
   if (!users[senderId]) {
     users[senderId] = { Monedas: 0 }
   }
 
   let senderMonedas = users[senderId].Monedas || 0
 
-  // Verificar si se mencionó un usuario
-  let targetUserId = m.mentionedJid[0]
+  let targetUserId = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : null
   
   if (!targetUserId) {
     if (senderMonedas <= 0) {
       let groupParticipants = m.isGroup ? await conn.groupMetadata(m.chat).then(group => group.participants) : []
-      // Filtramos a los usuarios que tienen corazones mayores que 0
       targetUserId = groupParticipants.find(participant => users[participant.id] && users[participant.id].Monedas > 0)?.id
 
       if (!targetUserId) {
@@ -37,18 +34,16 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
     }
   }
 
-  // Si el objetivo es el mismo que el remitente, dar error
   if (targetUserId === senderId) {
     m.reply("🪙 No puedes robar Monedas a ti mismo.")
     return
   }
 
-  // Verificar que el usuario tiene el objeto 'corazones'
   if (!users[targetUserId]) {
-    users[targetUserId] = { corazones: 0 }
+    users[targetUserId] = { Monedas: 0 }
   }
 
-  let targetUsercorazones = users[targetUserId].corazones || 0
+  let targetUserMonedas = users[targetUserId].Monedas || 0
 
   let minAmount = 15
   let maxAmount = 50
@@ -58,36 +53,38 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
   let randomOption = Math.floor(Math.random() * 3)
 
   switch (randomOption) {
-  case 0:
-    // Si el robo fue exitoso, robar los corazones
-    users[senderId].corazones += amountTaken
-    users[targetUserId].corazones -= amountTaken
-    conn.sendMessage(m.chat, {
-      text: `🤍¡Has robado con éxito! Robaste *${amountTaken} 🤍 corazones* a @${targetUserId.split("@")[0]}\n\nSe suman *+${amountTaken} 🤍 corazones* a ${senderName}.`,
-      contextInfo: { 
-        mentionedJid: [targetUserId],
+    case 0:
+      if (targetUserMonedas >= amountTaken) {
+        users[senderId].Monedas += amountTaken
+        users[targetUserId].Monedas -= amountTaken
+        conn.sendMessage(m.chat, {
+          text: `🪙 ¡Has robado con éxito! Robaste *${amountTaken} 🪙 Monedas* a @${targetUserId.split("@")[0]}\n\nSe suman *+${amountTaken} 🪙 Monedas* a ${senderName}.`,
+          contextInfo: { 
+            mentionedJid: [targetUserId],
+          }
+        }, { quoted: m })
+      } else {
+        m.reply(`🪙 El usuario no tiene suficientes Monedas para robar.`)
       }
-    }, { quoted: m })
-    break
+      break
 
-  case 1:
-    let amountSubtracted = Math.min(Math.floor(Math.random() * (sendercorazones - minAmount + 1)) + minAmount, maxAmount)
-    users[senderId].corazones -= amountSubtracted
-    conn.reply(m.chat, `🤍 No fuiste cuidadoso y te atraparon mientras intentabas robar corazones, se restaron *-${amountSubtracted} 🤍 corazones* a ${senderName}.`, m)
-    break
+    case 1:
+      let amountSubtracted = Math.min(Math.floor(Math.random() * (senderMonedas - minAmount + 1)) + minAmount, maxAmount)
+      users[senderId].Monedas -= amountSubtracted
+      conn.reply(m.chat, `🪙 No fuiste cuidadoso y te atraparon mientras intentabas robar Monedas, se restaron *-${amountSubtracted} 🪙 Monedas* a ${senderName}.`, m)
+      break
 
-  case 2:
-    // Si el robo es parcialmente exitoso
-    let smallAmountTaken = Math.min(Math.floor(Math.random() * (targetUsercorazones / 2 - minAmount + 1)) + minAmount, maxAmount)
-    users[senderId].corazones += smallAmountTaken
-    users[targetUserId].corazones -= smallAmountTaken
-    conn.sendMessage(m.chat, {
-      text: `🤍 Lograste robar algunos corazones, pero no completamente. Tomaste *${smallAmountTaken} 🤍 corazones* de @${targetUserId.split("@")[0]}\n\nSe suman *+${smallAmountTaken} 🤍 corazones* a ${senderName}.`,
-      contextInfo: { 
-        mentionedJid: [targetUserId],
-      }
-    }, { quoted: m })
-    break
+    case 2:
+      let smallAmountTaken = Math.min(Math.floor(Math.random() * (targetUserMonedas / 2 - minAmount + 1)) + minAmount, maxAmount)
+      users[senderId].Monedas += smallAmountTaken
+      users[targetUserId].Monedas -= smallAmountTaken
+      conn.sendMessage(m.chat, {
+        text: `🪙 Lograste robar algunas Monedas, pero no completamente. Tomaste *${smallAmountTaken} 🪙 Monedas* de @${targetUserId.split("@")[0]}\n\nSe suman *+${smallAmountTaken} 🪙 Monedas* a ${senderName}.`,
+        contextInfo: { 
+          mentionedJid: [targetUserId],
+        }
+      }, { quoted: m })
+      break
   }
 
   global.db.write()
@@ -95,7 +92,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 
 handler.tags = ['rpg']
 handler.help = ['robar']
-handler.command = ['robarcorazones', 'stealhearts', 'robar', 'rb']
+handler.command = ['robarmonedas', 'stealmoney', 'robar']
 handler.register = true
 handler.group = true
 
