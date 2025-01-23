@@ -142,7 +142,7 @@ defaultQueryTimeoutMs: undefined,
 version: [2, 3000, 1015901307],
 }
 
-if (!fs.existsSync(`./${authFile}/creds.json`)) {
+if (!fs.existsSync(`./${sessions}/creds.json`)) {
 if (opcion === '2' || methodCode) {
 opcion = '2'
 if (!conn.authState.creds.registered) {
