@@ -30,6 +30,26 @@ const {DisconnectReason, useMultiFileAuthState, MessageRetryMap, fetchLatestBail
 const { CONNECTING } = ws
 const { chain } = lodash
 const PORT = process.env.PORT || process.env.SERVER_PORT || 3000
+
+console.log(chalk.bold.redBright(`\n💥 Iniciando Lynx - Bot - MD\n`))
+
+say('Darkcore', {
+font: 'block',
+align: 'center',
+colors: ['white']
+}) 
+
+say(`Multi Device`, {
+font: 'chrome',
+align: 'center',
+colors: ['red']
+})
+
+say(`Developed By • Manuel12yt`, {
+font: 'console',
+align: 'center',
+colors: ['yellow']
+})
 protoType()
 serialize()
 global.__filename = function filename(pathURL = import.meta.url, rmPrefix = platform !== 'win32') {
