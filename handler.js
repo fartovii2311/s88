@@ -45,12 +45,12 @@ export async function handler(chatUpdate) {
                 if (!('registered' in user))
                     user.registered = false
                 if (!user.registered) {
-                    if (!('name' in user))
-                        user.name = m.name
-                    if (!isNumber(user.age))
-                        user.age = -1
-                    if (!isNumber(user.regTime))
-                        user.regTime = -1
+                if (!('name' in user))
+                    user.name = m.name
+                if (!isNumber(user.age))
+                    user.age = -1
+                if (!isNumber(user.regTime))
+                    user.regTime = -1
                 }
                 if (!isNumber(user.afk))
                     user.afk = -1
