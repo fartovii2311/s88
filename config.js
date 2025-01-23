@@ -8,9 +8,6 @@ import axios from 'axios'
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
-global.botNumberCode = ''
-global.confirmCode = ''
-
 global.owner = [
   ['51968382008', 'DARK CORE', true],
   ['51917154203', 'Lynx - Ai', true],
@@ -24,8 +21,6 @@ global.owner = [
 
 global.mods = []
 global.prems = []
-global.sessions = 'session'
-global.jadi = 'LynxJadiBot'
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
