@@ -75,5 +75,5 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 handler.help = ['id'];
 handler.tags = ['tools'];
 handler.command = /^id/i;
-
+handler.register = true;
 export default handler;
