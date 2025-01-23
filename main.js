@@ -173,11 +173,10 @@ rl.close()
 setTimeout(async () => {
 let codigo = await conn.requestPairingCode(numeroTelefono)
 codigo = codigo?.match(/.{1,4}/g)?.join("-") || codigo
-console.log(chalk.bold.white(chalk.bgBlue(🤍 SU CÓDIGO:)), chalk.bold.white(chalk.white(codigo)))
+console.log(chalk.bold.white(chalk.bgBlue(`🤍 SU CÓDIGO:`)), chalk.bold.white(chalk.white(codigo)))
 }, 3000)
 }}
-} 
-
+}
 
 conn.isInit = false;
 conn.well = false;
