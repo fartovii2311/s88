@@ -137,6 +137,8 @@ const compressVideo = async (inputPath, outputPath) => {
 handler.help = ['video'];
 handler.tags = ['dl'];
 handler.customPrefix = /^(VIDEO|Video|video|vídeo|Vídeo)/;
+handler.register = true 
+handler.Monedas = 1
 handler.command = new RegExp;
 
 export default handler;
