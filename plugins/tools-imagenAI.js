@@ -21,15 +21,15 @@ const handler = async (m, { conn, text }) => {
 
     const finalBuffer = await mainImage.getBufferAsync(Jimp.MIME_JPEG);
 
-    const thumbBuffer = fs.readFileSync('https://files.catbox.moe/ohla62.png'); 
-    await conn.sendFile(m.chat, buffer, 'imagen.jpg', '¡Aquí está tu imagen generada! 🎨', m, false, {
-      thumbnail: thumbBuffer
-    });
+    m.react('✔️');
+    await conn.sendFile(m.chat, finalBuffer, 'imagen.jpg', '🌸 Imagen generada con éxito', m);
   } catch (error) {
     console.error(error);
-    throw `*🚨 Lo sentimos, ha ocurrido un error 😔*`;
+    throw '*🚨 Lo sentimos, ha ocurrido un error 😔*';
   }
-}
+};
+const thumbBuffer = fs.readFileSync('https://files.catbox.moe/ohla62.png'); 
+ 
 handler.tags = ['tools'];
 handler.help = ['genearimg'];
 handler.command = ['genearimg', 'imgg'];
