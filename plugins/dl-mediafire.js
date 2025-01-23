@@ -70,5 +70,6 @@ async function mediafireDl(url) {
 handler.help = ['mediafire *<url>*'];
 handler.tags = ['dl'];
 handler.command = ['mediafire'];
-
+handler.register = true 
+handler.Monedas = 1
 export default handler;
