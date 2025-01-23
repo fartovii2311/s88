@@ -20,7 +20,6 @@ let handler = async (m, { conn }) => {
 
     try {
         let msg = m.quoted.message;
-        console.log("Mensaje recibido:", msg); 
         let type = Object.keys(msg)[0];
 
         if (!['imageMessage', 'videoMessage', 'audioMessage'].includes(type)) {
