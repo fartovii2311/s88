@@ -180,7 +180,7 @@ console.log(chalk.bold.white(chalk.bgBlue(`🤍 SU CÓDIGO:`)), chalk.bold.white
 
 conn.isInit = false;
 conn.well = false;
-conn.logger.info(`🔵  H E C H O\n`)
+//conn.logger.info(`🔵  H E C H O\n`)
 
 if (!opts['test']) {
 if (global.db) setInterval(async () => {
