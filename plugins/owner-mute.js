@@ -1,16 +1,19 @@
 const handler = async (message, { conn, command, text, isAdmin }) => {
-  const db = global['db'] || { users: {} };
-  const ownerJid = global['owner']?.[0]?.[0] + '@s.whatsapp.net';
-  const botJid = conn?.user?.jid;
+  const db = global['db'] || { users: {} }; // Asegurar que `db` y `users` existan
+  const ownerJid = global['owner']?.[0]?.[0] + '@s.whatsapp.net'; // Creador del bot
+  const botJid = conn?.user?.jid; // JID del bot
 
   if (!isAdmin) throw '🚫 Solo un administrador puede ejecutar este comando';
 
-  const targetUser = message.mentionedJid?.[0] || message.quoted?.sender;
+  const targetUser =
+    message.mentionedJid?.[0] || message.quoted?.sender || text?.trim();
+
   if (!targetUser) throw '❗ Menciona o responde a un usuario para mutar/desmutar';
 
   if (targetUser === ownerJid) throw '🚫 No puedes mutar al creador del bot';
   if (targetUser === botJid) throw '🚫 No puedes mutar al bot';
 
+  // Inicializar datos del usuario si no existen
   if (!db.users[targetUser]) db.users[targetUser] = { mute: false };
 
   const targetUserData = db.users[targetUser];
@@ -20,7 +23,7 @@ const handler = async (message, { conn, command, text, isAdmin }) => {
     targetUserData.mute = true;
     await conn.reply(
       message.chat,
-      `🔇 *${targetUser} ha sido mutado. Sus mensajes serán eliminados.*`,
+      `🔇 *El usuario ${targetUser.split('@')[0]} ha sido mutado. Sus mensajes serán eliminados.*`,
       message,
       {
         mentions: [targetUser],
@@ -31,7 +34,7 @@ const handler = async (message, { conn, command, text, isAdmin }) => {
     targetUserData.mute = false;
     await conn.reply(
       message.chat,
-      `🔊 *${targetUser} ha sido desmutado. Sus mensajes ya no serán eliminados.*`,
+      `🔊 *El usuario ${targetUser.split('@')[0]} ha sido desmutado. Sus mensajes ya no serán eliminados.*`,
       message,
       {
         mentions: [targetUser],
