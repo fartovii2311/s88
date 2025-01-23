@@ -40,5 +40,5 @@ handler.corazones = 2;
 handler.tags = ['dl']
 handler.command = /^(gitclone)$/i
 handler.register = true 
-//handler.star = 1
+handler.Monedas = 1
 export default handler
