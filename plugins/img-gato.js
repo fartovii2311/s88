@@ -33,7 +33,7 @@ const handler = async (m, { conn }) => {
 
 handler.help = ['gato'];
 handler.tags = ['img'];
-handler.register = true;
 handler.command = /^(gato|cat|gatarandom)$/i;
-
+handler.register = true 
+handler.Monedas = 1
 export default handler;
