@@ -46,5 +46,5 @@ handler.help = ['ytmp4 *<url>*'];
 handler.tags = ['dl'];
 handler.command = ['ytmp4'];
 handler.register = true;
-
+handler.Monedas = 1
 export default handler;
