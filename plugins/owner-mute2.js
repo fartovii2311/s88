@@ -117,6 +117,7 @@ const handler = async (message, { conn: botConnection, command, text, isAdmin })
 };
 
 handler.command = ['mute2', 'unmute2'];
+handler.tag = ['owner'];
 handler.group = true;
 handler.admin = true;
 handler.botAdmin = true;
