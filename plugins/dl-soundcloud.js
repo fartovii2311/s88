@@ -34,7 +34,8 @@ await m.react('✖️');
 handler.help = ['soundcloud *<búsqueda>*']
 handler.tags = ['dl']
 handler.command = ['soundcloud', 'sound']
-handler.register = true 
+handler.register = true;
+handler.Monedas = 1
 export default handler
 
 const getBuffer = async (url, options) => {
