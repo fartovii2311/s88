@@ -38,4 +38,6 @@ let handler = async (m, { conn, text }) => {
 handler.help = ['playstore', 'playstoresearch']; 
 handler.tags = ['dl'];
 handler.command = /^(playstore|playstoresearch)$/i; 
+handler.register = true;
+handler.Monedas = 1
 export default handler;
