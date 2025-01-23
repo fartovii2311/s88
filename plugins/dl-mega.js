@@ -55,6 +55,8 @@ global.fcontact = {
 handler.help = ["mega *<url>*"]
 handler.tags = ["dl"]
 handler.command = /^(mega)$/i
+handler.register = true 
+handler.Monedas = 1
 export default handler
 
 function formatBytes(bytes) {
