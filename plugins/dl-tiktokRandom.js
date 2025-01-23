@@ -53,7 +53,7 @@ handler.help = ['tiktokrandom *<consulta>*'];
 handler.tags = ['dl'];
 handler.command = ['tiktokrandom','tkrandom'];
 handler.register = true;
-
+handler.Monedas = 1
 export default handler;
 
 async function tiktoks(query) {
