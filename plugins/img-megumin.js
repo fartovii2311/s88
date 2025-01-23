@@ -37,6 +37,6 @@ let handler = async (m, { conn }) => {
 handler.help = ['megumin'];
 handler.tags = ['img'];
 handler.command = ['megumin'];
-handler.register = true;
-
+handler.register = true 
+handler.Monedas = 1
 export default handler;
