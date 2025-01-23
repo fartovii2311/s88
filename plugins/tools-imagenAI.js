@@ -16,15 +16,15 @@ const buffer = await response.buffer();
 // Mostramos un emoji de éxito
 m.react('✔️');
 // Enviamos la imagen generada al chat
-await conn.sendMessage(m.chat, {image: buffer}, {quoted: m});
+await conn.sendFile(m.chat, buffer, 'imagen.jpg', '', m,rcanal);
 } catch (error) {
 console.error(error);
 throw `*🚨 Lo sentimos, ha ocurrido un error 😔*`;
 }
 }
-// Definimos las etiquetas y comandos para el handler
+
 handler.tags = ['tools'];
 handler.help = ['genearimg'];
 handler.command = ['genearimg', 'imgg'];
-// Exportamos el handler
+handler.Monedas = 1
 export default handler;
