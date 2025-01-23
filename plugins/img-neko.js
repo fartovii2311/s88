@@ -15,12 +15,12 @@ let handler = async (m, { conn, usedPrefix, command }) => {
                 caption: "✨ Aquí tienes una imagen de *Neko*. ¿Quieres otra? ✨",
                 buttons: [
                     {
-                        buttonId: '.neko', // Botón que llama al mismo comando
+                        buttonId: '.neko',
                         buttonText: { displayText: 'Siguiente 🔄' },
                         type: 1,
                     },
                 ],
-                viewOnce: true, // Imagen en modo "ver una vez"
+                viewOnce: true, 
                 headerType: 4,
             },
             { quoted: m }
@@ -36,7 +36,6 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 handler.help = ['neko'];
 handler.tags = ['img'];
 handler.command = ['neko'];
-//handler.limit = 1
-handler.register = true;
-
+handler.register = true 
+handler.Monedas = 1
 export default handler;
