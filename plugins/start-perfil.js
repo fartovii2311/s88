@@ -247,9 +247,9 @@ let handler = async (m, { conn }) => {
   let sn = createHash('md5').update(who).digest('hex');
   let img = await (await fetch(pp)).buffer();
 
-  let txt = `*╔═════════ ✿ 🌸 ✿ ═════════╗*\n`;
+  let txt = `*╔══════ ✿ 🌸 ✿ ══════╗*\n`;
 txt += `🎀 *── 𝒫𝐸𝑅𝐹𝐼𝐿 𝒟𝐸 𝒰𝒮𝒰𝒜𝑅𝐼𝒪 ──* 🎀\n`;
-txt += `*╚═════════ ✿ 🌸 ✿ ═════════╝*\n\n`;
+txt += `*╚══════ ✿ 🌸 ✿ ══════╝*\n\n`;
 txt += `💖 *Nombre*: ${name || username}\n`;
 txt += `🎂 *Edad*: ${registered ? `${age} años` : 'No registrado'}\n`;
 txt += `📱 *Número*: ${PhoneNumber(numeroCompleto).getNumber('international')}\n`;
@@ -261,9 +261,9 @@ txt += `✨ *XP*: ${exp || 0} (Progreso: ${user.exp - min}/${xp || 0})\n`;
 txt += `🌸 *Premium*: ${prem ? '✅ Sí' : '❌ No'}\n`;
 txt += `💬 *Estado*: ${biot}\n`;
 txt += `🌟 *Registrado*: ${registered ? '✅ Sí' : '❌ No'}\n\n`;
-txt += `*╔════════════ ✿ 🌷 ✿ ════════════╗*\n`;
+txt += `*╔═════════ ✿ 🌷 ✿ ═════════╗*\n`;
 txt += `         💖 *Gracias por estar aquí* 💖\n`;
-txt += `*╚════════════ ✿ 🌷 ✿ ════════════╝*`;
+txt += `*╚═════════ ✿ 🌷 ✿ ═════════╝*`;
 
   await conn.sendFile(m.chat, img, 'thumbnail.jpg', txt, m,rcanal,fake);
 };
