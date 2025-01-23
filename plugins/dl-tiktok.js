@@ -63,6 +63,6 @@ async function tiktokdl(url) {
   handler.help = ['tiktok *<url>*'];
   handler.tags = ['dl'];
   handler.command = /^(tiktok)$/i;
-  
+  handler.Monedas = 1
   export default handler;
   
