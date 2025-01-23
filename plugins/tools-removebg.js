@@ -23,4 +23,5 @@ throw `Error: ${error.message}`;
 handler.tags = ['tools'];
 handler.help = ['removebg'];
 handler.command = ['removebg','bg'];
+handler.Monedas = 5
 export default handler;
