@@ -8,17 +8,16 @@ async function handler(m, { conn: stars, usedPrefix }) {
     global.conns = [];
   }
 
-  // Filtrar conexiones válidas (solo las activas y con estado abierto)
   global.conns = global.conns.filter((conn) => {
-    const isValid = conn.user && conn.ws?.socket?.readyState === ws.OPEN;
+    const isValid = conn && conn.user && conn.ws?.socket?.readyState === ws.OPEN;
     if (!isValid) {
-      console.log(`[INFO] Eliminando subbot no activo: ${conn.user?.jid || 'desconocido'}`);
+      console.log(`[INFO] Eliminando subbot no activo: ${conn?.user?.jid || 'desconocido'}`);
     }
     return isValid;
   });
 
   global.conns.forEach((conn) => {
-    if (conn.user) {
+    if (conn && conn.user) {
       uniqueUsers.set(conn.user.jid, conn);
     }
   });
@@ -28,8 +27,9 @@ async function handler(m, { conn: stars, usedPrefix }) {
 
   let img = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png');
 
+  // Crear mensaje con la información de cada subbot activo
   let message = users.map((v, index) => {
-    const connectedAt = v.connectedAt || Date.now(); // Asegúrate de que tenga un valor
+    const connectedAt = v.connectedAt || Date.now(); // Si no tiene un valor, usa la fecha actual
     const elapsedTime = Date.now() - connectedAt;
     const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
     const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
