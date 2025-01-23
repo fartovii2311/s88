@@ -1,27 +1,24 @@
 const handler = async (message, { conn, command, text, isAdmin }) => {
-  // Asegurar que `db` y `users` existan
   if (!global.db) global.db = { users: {} };
   if (!global.db.users) global.db.users = {};
 
   const db = global.db;
-  const ownerJid = global.owner?.[0]?.[0] + '@s.whatsapp.net'; // Creador del bot
-  const botJid = conn?.user?.jid; // JID del bot
+  const ownerJid = global.owner?.[0]?.[0] + '@s.whatsapp.net';
+  const botJid = conn?.user?.jid;
 
   if (!isAdmin) throw '🚫 Solo un administrador puede ejecutar este comando';
 
-  // Obtener el usuario objetivo (mencionado, citado o texto)
   const targetUser =
     message.mentionedJid?.[0] || message.quoted?.sender || text?.trim();
 
   if (!targetUser) throw '❗ Menciona o responde a un usuario para mutar/desmutar';
 
-  // Validaciones adicionales
   if (targetUser === ownerJid) throw '🚫 No puedes mutar al creador del bot';
   if (targetUser === botJid) throw '🚫 No puedes mutar al bot';
 
-  // Inicializar datos del usuario si no existen
+  // Inicializa datos del usuario si no existen
   if (!db.users[targetUser]) {
-    db.users[targetUser] = { mute: false }; // Crear un nuevo registro
+    db.users[targetUser] = { mute: false };
   }
 
   const targetUserData = db.users[targetUser];
@@ -48,6 +45,14 @@ const handler = async (message, { conn, command, text, isAdmin }) => {
         mentions: [targetUser],
       }
     );
+  }
+
+  // Lógica para borrar mensajes de usuarios muteados
+  if (targetUserData.mute) {
+    if (message.sender === targetUser) {
+      await conn.deleteMessage(message.chat, message.key);
+      console.log(`Mensaje de ${targetUser.split('@')[0]} ha sido eliminado porque está muteado.`);
+    }
   }
 };
 
