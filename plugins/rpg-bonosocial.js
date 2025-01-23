@@ -30,7 +30,7 @@ let handler = async (m, { conn, command, usedPrefix }) => {
 
 handler.tags = ['rpg']
 handler.help = ['bonosocial']
-handler.command = ['bonosocial']
+handler.command = ['bonosocial', 'bs']
 handler.register = true
 handler.group = true
 
