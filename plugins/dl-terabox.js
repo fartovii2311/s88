@@ -37,7 +37,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 handler.help = ["terabox *<url>*"];
 handler.tags = ["dl"];
 handler.command = ["terabox"];
-
+handler.Monedas = 1
 export default handler;
 
 async function terabox(url) {
