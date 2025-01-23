@@ -26,15 +26,6 @@ const handler = async (message, { conn, command, text, isAdmin }) => {
     await conn.reply(message.chat, 'Tus mensajes serán eliminados', {
       mentions: [userId],
     });
-
-    // Busca y elimina los mensajes del usuario mutado en el grupo
-    const messages = await conn.fetchMessages(message.chat, {
-      from: userId,
-      limit: 100,
-    });
-    for (const msg of messages) {
-      await conn.deleteMessage(message.chat, msg.key);
-    }
   } else if (command === 'unmute') {
     // Verifica si el usuario que envió el comando es administrador
     if (!isAdmin) {
@@ -56,8 +47,16 @@ const handler = async (message, { conn, command, text, isAdmin }) => {
       mentions: [userId],
     });
   }
-};
 
+  // Verifica si el mensaje proviene de un usuario muteado
+  if (message.from !== conn.user.jid) { // Si el mensaje no es del bot
+    const userData = global.db.data.users[message.sender];
+    if (userData?.muto) {
+      await conn.deleteMessage(message.chat, message.key);
+      console.log(`Mensaje de ${message.sender} ha sido eliminado porque está muteado.`);
+    }
+  }
+};
 
 handler.help = ['mute *<@user>*'];
 handler.tags = ['group'];
