@@ -5,7 +5,7 @@ const handler = async (m, {conn, text, usedPrefix, command}) => {
 if (!text) throw `*🌸 Ingresa un texto para generar tu imagen a tu gusto*`;
 // Mostramos un emoji de reloj mientras generamos la imagen
 m.react('🪷');
-await conn.sendMessage(m.chat, {text: '*🌺 Espere, Estamos Trabajando en su imagen*'}, {quoted: m});
+await conn.reply(m.chat, text: '*🌺 Espere, Estamos Trabajando en su imagen*',m,rcanal);
 try {
 // Hacemos la solicitud a la API con el texto proporcionado
 const response = await fetch(`https://eliasar-yt-api.vercel.app/api/ai/text2img?prompt=${encodeURIComponent(text)}`);
@@ -16,7 +16,7 @@ const buffer = await response.buffer();
 // Mostramos un emoji de éxito
 m.react('✔️');
 // Enviamos la imagen generada al chat
-await conn.sendFile(m.chat, buffer, 'imagen.jpg', '', m,rcanal,fake);
+await conn.sendFile(m.chat, buffer, 'imagen.jpg', listo, m,rcanal,fake);
 } catch (error) {
 console.error(error);
 throw `*🚨 Lo sentimos, ha ocurrido un error 😔*`;
