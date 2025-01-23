@@ -278,7 +278,7 @@ console.log(chalk.bold.redBright(`\n⚠️❗ RAZON DE DESCONEXIÓN DESCONOCIDA:
 process.on('uncaughtException', console.error);
 
 async function connectSubBots() {
-const subBotDirectory = './CrowJadiBot';
+const subBotDirectory = './LynxJadiBot';
 if (!existsSync(subBotDirectory)) {
 console.log('🍭 Lynx-Ai no tiene Sub-Bots vinculados.');
 return;
@@ -432,7 +432,7 @@ unlinkSync(filePath)})
 }
 function purgeSession() {
 let prekey = []
-let directorio = readdirSync("./CrowSession")
+let directorio = readdirSync("./LynxSession")
 let filesFolderPreKeys = directorio.filter(file => {
 return file.startsWith('pre-key-')
 })
