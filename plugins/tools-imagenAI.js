@@ -15,7 +15,7 @@ const handler = async (m, {conn, text, usedPrefix, command}) => {
     m.react('✔️');
     
     
-    const thumbBuffer = fs.readFileSync('/ruta/a/la/imagen/pequena.jpg'); // Cambiar por la ruta donde esté almacenada la imagen
+    const thumbBuffer = fs.readFileSync('https://files.catbox.moe/ohla62.png'); 
     await conn.sendFile(m.chat, buffer, 'imagen.jpg', '¡Aquí está tu imagen generada! 🎨', m, false, {
       thumbnail: thumbBuffer
     });
