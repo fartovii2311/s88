@@ -1,78 +1,70 @@
+import fetch from 'node-fetch';
+
+// Define la función handler que maneja los comandos de muteo y desmuteo
 const handler = async (message, { conn, command, text, isAdmin }) => {
-  if (!global.db) global.db = { users: {} };
-  if (!global.db.users) global.db.users = {};
-
-  const db = global.db;
-  const ownerJid = global.owner?.[0]?.[0] + '@s.whatsapp.net';
-  const botJid = conn?.user?.jid;
-
-  // Verificar si el comando es de mute o unmute
   if (command === 'mute') {
-    if (!isAdmin) throw '🚫 Solo un administrador puede ejecutar este comando';
-    const targetUser =
-      message.mentionedJid?.[0] || message.quoted?.sender || text?.trim();
-    if (!targetUser) throw '❗ Menciona o responde a un usuario para mutar';
-
-    if (targetUser === ownerJid) throw '🚫 No puedes mutar al creador del bot';
-    if (targetUser === botJid) throw '🚫 No puedes mutar al bot';
-
-    if (!db.users[targetUser]) {
-      db.users[targetUser] = { mute: false };
+    if (!isAdmin) {
+      throw 'Solo un administrador puede ejecutar este comando';
     }
 
-    const targetUserData = db.users[targetUser];
+    // Obtiene el ID del usuario que se quiere mutar
+    const userId = message.mentionedJid[0] || message.quoted.sender;
 
-    if (targetUserData.mute) throw '🔇 Este usuario ya está mutado';
-    targetUserData.mute = true;
+    // Verifica si el usuario que se quiere mutar es el creador del bot
+    if (userId === global.owner[0][0] + '@s.whatsapp.net') {
+      throw 'El creador del bot no puede ser mutado';
+    }
 
-    await conn.reply(
-      message.chat,
-      `🔇 *El usuario ${targetUser.split('@')[0]} ha sido mutado. Sus mensajes serán eliminados.*`,
-      message,
-      {
-        mentions: [targetUser],
-      }
-    );
+    // Verifica si el usuario que se quiere mutar ya ha sido mutado
+    const userData = global.db.data.users[userId];
+    if (userData.muto === true) {
+      throw 'Este usuario ya ha sido mutado';
+    }
+
+    // Muta al usuario y envía un mensaje de confirmación
+    userData.muto = true;
+    await conn.reply(message.chat, 'Tus mensajes serán eliminados', {
+      mentions: [userId],
+    });
+
+    // Busca y elimina los mensajes del usuario mutado en el grupo
+    const messages = await conn.fetchMessages(message.chat, {
+      from: userId,
+      limit: 100,
+    });
+    for (const msg of messages) {
+      await conn.deleteMessage(message.chat, msg.key);
+    }
   } else if (command === 'unmute') {
-    if (!isAdmin) throw '🚫 Solo un administrador puede ejecutar este comando';
-    const targetUser =
-      message.mentionedJid?.[0] || message.quoted?.sender || text?.trim();
-    if (!targetUser) throw '❗ Menciona o responde a un usuario para desmutar';
-
-    if (targetUser === ownerJid) throw '🚫 No puedes desmutar al creador del bot';
-    if (targetUser === botJid) throw '🚫 No puedes desmutar al bot';
-
-    if (!db.users[targetUser]) {
-      db.users[targetUser] = { mute: false };
+    // Verifica si el usuario que envió el comando es administrador
+    if (!isAdmin) {
+      throw 'Solo un administrador puede ejecutar este comando';
     }
 
-    const targetUserData = db.users[targetUser];
+    // Obtiene el ID del usuario que se quiere desmutar
+    const userId = message.mentionedJid[0] || message.quoted.sender;
 
-    if (!targetUserData.mute) throw '🔊 Este usuario no está mutado';
-    targetUserData.mute = false;
-
-    await conn.reply(
-      message.chat,
-      `🔊 *El usuario ${targetUser.split('@')[0]} ha sido desmutado. Sus mensajes ya no serán eliminados.*`,
-      message,
-      {
-        mentions: [targetUser],
-      }
-    );
-  }
-
-  // Lógica para eliminar mensajes de usuarios muteados
-  if (message.from !== conn.user.jid) { // Si el mensaje no es del bot
-    const userData = db.users[message.sender];
-    if (userData?.mute) {
-      await conn.deleteMessage(message.chat, message.key);
-      console.log(`Mensaje de ${message.sender} ha sido eliminado porque está muteado.`);
+    // Verifica si el usuario que se quiere desmutar ya ha sido desmutado
+    const userData = global.db.data.users[userId];
+    if (userData.muto === false) {
+      throw 'Este usuario no ha sido mutado';
     }
+
+    // Desmuta al usuario y envía un mensaje de confirmación
+    userData.muto = false;
+    await conn.reply(message.chat, 'Tus mensajes no serán eliminados', {
+      mentions: [userId],
+    });
   }
 };
 
+
+handler.help = ['mute *<@user>*'];
+handler.tags = ['group'];
 handler.command = ['mute', 'unmute'];
+handler.group = true;
 handler.admin = true;
 handler.botAdmin = true;
 
+// Exporta el handler
 export default handler;
