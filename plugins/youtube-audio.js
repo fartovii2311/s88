@@ -74,6 +74,7 @@ let handler = async (m, { conn, text }) => {
 handler.help = ['Audio'];
 handler.tags = ['dl'];
 handler.customPrefix = /^(AUDIO|audio|Audio)$/i;
+handler.register = true 
+handler.Monedas = 1
 handler.command = new RegExp;
-
 export default handler;
