@@ -41,10 +41,9 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     conn.reply(m.chat, `${resultado}`, m, rcanal)
 }
 
-handler.help = ['ppt']
+handler.help = ['ppt (papel/tijera)']
 handler.tags = ['rpg']
 handler.command = ['ppt']
-//handler.group = true
 handler.register = true
 export default handler
 
