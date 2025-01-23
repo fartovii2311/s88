@@ -6,7 +6,7 @@ let handler = async (m, { conn }) => {
         return conn.reply(
             m.chat, 
             `🚩 Responde a una imagen, video o audio ViewOnce.`, 
-            m
+            m,rcanal
         );
     }
 
@@ -14,7 +14,7 @@ let handler = async (m, { conn }) => {
         return conn.reply(
             m.chat, 
             `🚩 Responde a una imagen, video o audio ViewOnce.`, 
-            m
+            m,rcanal
         );
     }
 
@@ -26,7 +26,7 @@ let handler = async (m, { conn }) => {
             return conn.reply(
                 m.chat, 
                 `🚩 Tipo de archivo no soportado.`, 
-                m
+                m,rcanal
             );
         }
 
@@ -46,7 +46,7 @@ let handler = async (m, { conn }) => {
             return conn.reply(
                 m.chat, 
                 `🚩 No se pudo descargar el contenido.`, 
-                m
+                m,rcanal
             );
         }
         
@@ -82,7 +82,7 @@ let handler = async (m, { conn }) => {
             return conn.reply(
                 m.chat, 
                 `🚩 Tipo de archivo no soportado.`, 
-                m
+                m,rcanal
             );
         }
     } catch (error) {
@@ -90,7 +90,7 @@ let handler = async (m, { conn }) => {
         return conn.reply(
             m.chat, 
             `🚩 Error al procesar el mensaje ViewOnce: ${error.message}`, 
-            m
+            m,rcanal
         );
     }
 };
