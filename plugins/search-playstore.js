@@ -35,9 +35,9 @@ let handler = async (m, { conn, text }) => {
   conn.reply(m.chat, res, m, opt); 
 };
 
-handler.help = ['playstore *<texto>*']; 
+handler.help = ['splaystore *<texto>*']; 
 handler.tags = ['search'];
-handler.command = /^(playstore|playstoresearch)$/i; 
+handler.command = /^(searchplaystore|Searchplaystore|splaystore)$/i; 
 handler.register = true;
 handler.Monedas = 1
 export default handler;
