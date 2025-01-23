@@ -261,9 +261,9 @@ txt += `✨ *XP*: ${exp || 0} (Progreso: ${user.exp - min}/${xp || 0})\n`;
 txt += `🌸 *Premium*: ${prem ? '✅ Sí' : '❌ No'}\n`;
 txt += `💬 *Estado*: ${biot}\n`;
 txt += `🌟 *Registrado*: ${registered ? '✅ Sí' : '❌ No'}\n\n`;
-txt += `*╔════════ ✿ 🌷 ✿ ════════╗*\n`;
+txt += `*╔═══════ ✿ 🌷 ✿ ═══════╗*\n`;
 txt += `     💖 *Gracias por estar aquí* 💖\n`;
-txt += `*╚════════ ✿ 🌷 ✿ ════════╝*`;
+txt += `*╚═══════ ✿ 🌷 ✿ ═══════╝*`;
 
   await conn.sendFile(m.chat, img, 'thumbnail.jpg', txt, m,rcanal,fake);
 };
