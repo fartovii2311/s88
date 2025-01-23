@@ -1,17 +1,5 @@
-/*⚠ PROHIBIDO EDITAR ⚠
-
-El codigo de este archivo esta totalmente hecho por:
-- DarkCore >> https://github.com/Manuel12yt
--
-El codigo de este archivo fue parchado por:
-- DarkCore >> https://github.com/Manuel12yt
--
-Contenido adaptado por:
-- DarkCore >> https://github.com/Manuel12yt
-- Izumi-kzx >> https://github.com/Izumi-kzx
-*/
-
 import axios from 'axios';
+import fetch from 'node-fetch'; // Asegúrate de tener esta biblioteca instalada.
 import { franc } from 'franc-min';
 
 let handler = m => m;
@@ -109,6 +97,18 @@ handler.all = async function (m, { conn }) {
         }
     }
 
+    async function textToImageAPI(prompt) {
+        try {
+            const response = await fetch(`https://eliasar-yt-api.vercel.app/api/ai/text2img?prompt=${encodeURIComponent(prompt)}`);
+            if (!response.ok) throw new Error('Error al generar la imagen');
+            const buffer = await response.buffer();
+            return buffer;
+        } catch (error) {
+            console.error('Error en Text2Img:', error.message);
+            return null;
+        }
+    }
+
     const defaultPrompt = 
     `Eres Lynx, un bot creado para WhatsApp por DarkCore. Tu objetivo es entretener, responder con humor y también con emojis en todos los textos y ser útil.
     Tienes dos modos:
@@ -121,7 +121,20 @@ handler.all = async function (m, { conn }) {
         await this.sendPresenceUpdate('composing', m.chat);
         let query = m.text;
 
-        // Trying GeminiPro API first, then Luminsesi if GeminiPro fails
+        // Decide si procesar como texto o generar una imagen.
+        const isImageRequest = query.toLowerCase().includes('genera una imagen') || query.toLowerCase().includes('imagen de');
+
+        if (isImageRequest) {
+            const buffer = await textToImageAPI(query);
+            if (buffer) {
+                await conn.sendMessage(m.chat, { image: buffer, caption: `Aquí está tu imagen generada para: *${query}*` }, { quoted: m });
+            } else {
+                await this.reply(m.chat, 'Lo siento, no pude generar la imagen en este momento. 😞', m);
+            }
+            return true;
+        }
+
+        // Procesa como texto si no es solicitud de imagen.
         let result = await geminiProApi(query, defaultPrompt) || 
                      await luminsesi(query, m.sender, defaultPrompt);
 
