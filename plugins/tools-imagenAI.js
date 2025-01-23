@@ -28,8 +28,7 @@ const handler = async (m, { conn, text }) => {
     throw '*🚨 Lo sentimos, ha ocurrido un error 😔*';
   }
 };
-const thumbBuffer = fs.readFileSync('https://files.catbox.moe/ohla62.png'); 
- 
+
 handler.tags = ['tools'];
 handler.help = ['genearimg'];
 handler.command = ['genearimg', 'imgg'];
