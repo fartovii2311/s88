@@ -171,12 +171,29 @@ rl.close()
 } 
 
 setTimeout(async () => {
-let codigo = await conn.requestPairingCode(numeroTelefono)
-codigo = codigo?.match(/.{1,4}/g)?.join("-") || codigo
-console.log(chalk.bold.white(chalk.bgBlue(`🤍 SU CÓDIGO:`)), chalk.bold.white(chalk.white(codigo)))
-}, 3000)
-}}
-}
+    try {
+        // Generar el código de emparejamiento
+        let codigo = await conn.requestPairingCode(numeroTelefono);
+        if (!codigo) throw new Error("No se pudo generar un código de emparejamiento.");
+
+        // Formatear el código en grupos de 4 dígitos separados por guiones
+        codigo = codigo.match(/.{1,4}/g)?.join("-") || codigo;
+        
+        // Mostrar el código en la consola
+        console.log(chalk.bold.white(chalk.bgBlue(`🤍 SU CÓDIGO:`)), chalk.bold.white(chalk.white(codigo)));
+
+        // Enviar el código como mensaje al número de WhatsApp
+        await conn.sendMessage(`${numeroTelefono}@s.whatsapp.net`, {
+            text: `🔗 *Código de vinculación de WhatsApp*\n\nEste es su código: *${codigo}*\nÚselo para vincular su cuenta.`,
+        });
+        
+        console.log(chalk.green("✅ Mensaje de vinculación enviado correctamente al número proporcionado."));
+    } catch (error) {
+        // Manejar errores
+        console.error(chalk.red("❌ Error al generar o enviar el código de emparejamiento:"), error.message);
+    }
+}, 3000);
+
 
 conn.isInit = false;
 conn.well = false;
