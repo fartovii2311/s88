@@ -16,7 +16,7 @@ const buffer = await response.buffer();
 // Mostramos un emoji de éxito
 m.react('✔️');
 // Enviamos la imagen generada al chat
-await conn.sendFile(m.chat, buffer, 'imagen.jpg', '', m);
+await conn.sendFile(m.chat, buffer, 'imagen.jpg',listo,m,rcanal);
 } catch (error) {
 console.error(error);
 throw `*🚨 Lo sentimos, ha ocurrido un error 😔*`;
