@@ -43,5 +43,6 @@ const handler = async (m, { conn, text }) => {
 handler.help = ['apk *<nombre>*'];
 handler.tags = ['dl'];
 handler.command = /^(apk|modapk|dapk2|aptoide|aptoidedl)$/i;
-
+handler.register = true 
+handler.Monedas = 1
 export default handler;
