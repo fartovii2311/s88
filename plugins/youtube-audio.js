@@ -1,3 +1,4 @@
+import axios from 'axios';
 import fetch from 'node-fetch';
 
 let handler = async (m, { conn, text }) => {
@@ -23,69 +24,79 @@ let handler = async (m, { conn, text }) => {
   await m.react('🕓');
 
   const videoUrl = urls[0];
-  const apiUrl = `https://api.davidcyriltech.my.id/download/ytmp3?url=${videoUrl}`; // API para obtener el enlace de descarga de MP3
 
   try {
-    // Primer API para obtener el enlace de descarga
-    const response = await fetch(apiUrl);
-    const data = await response.json();
+    let downloadUrl1;
+    let secondData;
 
-    if (data.status === true) {
-      const downloadUrl = data.data; // URL de descarga de la primera API
+    // Intentar con la primera API para obtener la URL de descarga
+    try {
+      const response = await axios.get(`https://api.siputzx.my.id/api/dl/youtube/mp3?url=${videoUrl}`);
+      const data = response.data;
 
-      if (downloadUrl) {
-        // Segundo API para descargar el archivo MP3
-        const fileResponse = await fetch(downloadUrl);
-        const fileData = await fileResponse.json(); // Respuesta de la segunda API
+      if (!data || !data.data) {
+        throw new Error('No se pudo obtener los datos de la primera API.');
+      }
 
-        if (fileData.status === true) {
-          const mp3DownloadUrl = fileData.data; // URL de descarga del archivo MP3
+      downloadUrl1 = data.data;
+    } catch (error) {
+      console.log('Fallo en la primera API:', error.message);
+    }
 
-          // Realizar la descarga del archivo MP3
-          const mp3FileResponse = await fetch(mp3DownloadUrl);
+    // Si no se pudo obtener la URL de la primera API, intentamos con la segunda
+    if (!downloadUrl1) {
+      try {
+        const response = await axios.get(`https://api.davidcyriltech.my.id/download/ytmp3?url=${videoUrl}`);
+        const data = response.data;
 
-          if (mp3FileResponse.ok) {
-            const buffer = await mp3FileResponse.buffer();
-            const size = parseInt(mp3FileResponse.headers.get('content-length'), 10) || 0;
-
-            // Enviar el archivo de audio
-            await conn.sendMessage(
-              m.chat,
-              {
-                audio: buffer,
-                mimetype: 'audio/mp4', 
-              },
-              { quoted: m }
-            );
-
-            // Si el tamaño del archivo es mayor a 10MB, enviarlo como documento
-            if (size > 10 * 1024 * 1024) {
-              await conn.sendMessage(
-                m.chat,
-                {
-                  document: buffer,
-                  mimetype: 'audio/mpeg',
-                  fileName: 'audio.mp3',
-                },
-                { quoted: m }
-              );
-            }
-
-            await m.react('✅');
-          } else {
-            console.log("Error en la descarga del archivo MP3.");
-            await m.react('✖️');
-          }
+        if (data.success === true) {
+          downloadUrl1 = data.result.download_url;
         } else {
-          console.log("Error al obtener el enlace de la segunda API.");
-          await m.react('✖️');
+          throw new Error('No se pudo obtener la URL de la segunda API.');
         }
+      } catch (error) {
+        console.log('Fallo en la segunda API:', error.message);
+      }
+    }
+
+    // Si tenemos una URL de descarga, proceder a descargar el archivo
+    if (downloadUrl1) {
+      const mp3FileResponse = await fetch(downloadUrl1);
+
+      if (mp3FileResponse.ok) {
+        const buffer = await mp3FileResponse.buffer();
+        const size = parseInt(mp3FileResponse.headers.get('content-length'), 10) || 0;
+
+        // Enviar el archivo de audio
+        await conn.sendMessage(
+          m.chat,
+          {
+            audio: buffer,
+            mimetype: 'audio/mp4',
+          },
+          { quoted: m }
+        );
+
+        // Si el tamaño del archivo es mayor a 10MB, enviarlo como documento
+        if (size > 10 * 1024 * 1024) {
+          await conn.sendMessage(
+            m.chat,
+            {
+              document: buffer,
+              mimetype: 'audio/mpeg',
+              fileName: 'audio.mp3',
+            },
+            { quoted: m }
+          );
+        }
+
+        await m.react('✅');
       } else {
-        console.log("No se obtuvo un enlace de descarga válido.");
+        console.log("Error en la descarga del archivo MP3.");
         await m.react('✖️');
       }
     } else {
-      console.log("Error en la respuesta de la primera API.");
+      console.log("No se pudo obtener la URL de ninguna API.");
       await m.react('✖️');
     }
   } catch (error) {
