@@ -4,17 +4,14 @@ import fetch from 'node-fetch';
 let handler = async (m, { conn, text }) => {
   let user = global.db.data.users[m.sender];
 
-  // Verificar si hay un mensaje citado
   if (!m.quoted) {
     return conn.reply(m.chat, `⚠️ Debes etiquetar el mensaje que contenga el resultado de YouTube Play.`, m);
   }
 
-  // Verificar que el mensaje citado contiene un enlace de YouTube
   if (!m.quoted.text.includes("🎬 *‌乂 Y O U T U B E  -  P L A Y 乂* 🎬")) {
     return conn.reply(m.chat, `⚠️ El mensaje etiquetado no contiene un resultado de YouTube Play.`, m);
   }
 
-  // Extraer la URL de YouTube del mensaje citado
   const urls = m.quoted.text.match(/(?:https?:\/\/)?(?:www\.|m\.)?(?:youtube\.com\/(?:watch\?v=|v\/|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/gi);
 
   if (!urls || urls.length < 1) {
@@ -28,7 +25,6 @@ let handler = async (m, { conn, text }) => {
   try {
     let downloadUrl;
     
-    // Intentar con la primera API para obtener la URL de descarga
     try {
       const response = await axios.get(`https://api.siputzx.my.id/api/dl/youtube/mp3?url=${videoUrl}`);
       const data = response.data;
@@ -41,8 +37,6 @@ let handler = async (m, { conn, text }) => {
     } catch (error) {
       console.log('Fallo en la primera API:', error.message);
     }
-
-    // Si no se pudo obtener la URL de la primera API, intentamos con la segunda
     if (!downloadUrl) {
       try {
         const response = await axios.get(`https://api.davidcyriltech.my.id/download/ytmp3?url=${videoUrl}`);
@@ -58,7 +52,6 @@ let handler = async (m, { conn, text }) => {
       }
     }
 
-    // Si tenemos una URL de descarga, proceder a descargar el archivo
     if (downloadUrl) {
       const mp3FileResponse = await fetch(downloadUrl);
 
@@ -66,9 +59,7 @@ let handler = async (m, { conn, text }) => {
         const buffer = await mp3FileResponse.buffer();
         const size = parseInt(mp3FileResponse.headers.get('content-length'), 10) || 0;
 
-        // Verificar si el archivo es mayor a 10MB
         if (size > 10 * 1024 * 1024) {
-          // Enviar como documento
           await conn.sendMessage(
             m.chat,
             {
@@ -79,7 +70,6 @@ let handler = async (m, { conn, text }) => {
             { quoted: m }
           );
         } else {
-          // Enviar como audio
           await conn.sendMessage(
             m.chat,
             {
