@@ -271,5 +271,4 @@ txt += `*╚═══════ ✿ 🌷 ✿ ═══════╝*`;
 handler.help = ['perfil'];
 handler.tags = ['start'];
 handler.command = /^(perfil|profile)$/i;
-
 export default handler;
