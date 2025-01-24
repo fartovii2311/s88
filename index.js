@@ -12,7 +12,7 @@ import { spawn } from 'child_process'
 import lodash from 'lodash'
 import { promises as fsPromises } from 'fs'
 import chalk from 'chalk'
-import path from 'path'
+const path = require('path');
 import cfonts from 'cfonts'
 import syntaxerror from 'syntax-error'
 import { tmpdir } from 'os'
