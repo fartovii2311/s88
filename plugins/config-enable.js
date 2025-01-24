@@ -18,7 +18,7 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
         global.dfail('admin', m, conn)
         throw false
       }
-      chat.welcome = isEnable
+      chat.bienvenida = isEnable
       break
       
   case 'antiarabe':
