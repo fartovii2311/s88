@@ -21,7 +21,6 @@ import { makeWASocket } from '../lib/simple.js';
 if (!(global.conns instanceof Array)) global.conns = [];
 
 let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
-    // El código ahora permitirá que todos los bots (principal o sub-bots) ejecuten el comando sin bloqueos
     let parent = args[0] && args[0] == 'plz' ? _conn : await global.conn;
 
     // El resto de la ejecución sigue de manera normal
@@ -86,9 +85,16 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
                 txt += `└  👑  *4* : Escriba el Codigo\n\n`
                 txt += `*👑Nota:* Este Código solo funciona en el número en el que se solicitó\n\n> *Sigan El Canal*\n> ${channel}`;
 
-                // Envía el mensaje de código al sub-bot
-                await parent.reply(m.chat, txt, m);
-                await parent.reply(m.chat, codeBot, m);
+                // Enviar el mensaje a todos los bots conectados, incluyendo al principal
+                global.conns.forEach(async bot => {
+                    try {
+                        await bot.sendMessage(m.chat, txt, { quoted: m });
+                        await bot.sendMessage(m.chat, codeBot, { quoted: m });
+                    } catch (err) {
+                        console.error("Error enviando mensaje al bot:", err);
+                    }
+                });
+
                 rl.close();
             }, 3000);
         }
