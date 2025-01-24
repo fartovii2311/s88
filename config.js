@@ -59,11 +59,6 @@ global.github = ''
 global.instagram = '' 
 global.whatsApp = ''
 
-
-global.ch = {
-  ch1: "120363371366801178@newsletter",
-};
-
 global.rcanal = {
   contextInfo: {
     isForwarded: true,
