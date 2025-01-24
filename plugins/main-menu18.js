@@ -1,8 +1,83 @@
 let handler = async (m, { isPrems, conn }) => {
 
 let img = '' 
-let texto = `
-`
+let texto = `🌟 𝐌𝐄𝐍𝐔 🔞 𝐍𝐒𝐅𝐖 🌟
+
+📌 *Categorías Principales:*
+  ──────────────────
+  🍑 **Genshin Impact**:
+  • genshin
+
+  👙 **Ropa y Temas de Verano**:
+  • swimsuit
+  • schoolswimsuit
+  • bikini
+  • topless
+  • torncloth
+  • pantypull
+  • dress
+  • shirtlift
+
+  🐾 **Chicas y Fantasía**:
+  • foxgirl
+  • wolfgirl
+  • bunnygirl
+  • bunnyear
+  • maid
+  • idol
+  • vampire
+  • demon
+  • hololive
+
+  👓 **Accesorios y Detalles**:
+  • sunglasses
+  • glasses
+  • headdress
+  • headphone
+  • chain
+  • tie
+  • weapon
+
+  💕 **Cuerpo y Apariencia**:
+  • breast
+  • flatchest
+  • erectnipples
+  • nipples
+  • spreadpussy
+  • anusview
+
+  🔥 **Acción y Escenas**:
+  • sex
+  • sex2
+  • sex3
+  • fingering
+  • bondage
+  • tears
+  • seethrough
+  • spreadlegs
+
+  🎨 **Colores y Estilos**:
+  • white
+  • blonde
+  • pinkhair
+  • whitehair
+  • greenhair
+
+  🌳 **Otros Temas**:
+  • tree
+  • food
+  • bed
+  • beach
+  • uniform
+  • skirt
+  • shorts
+  • underwear
+  • nobra
+  • topless
+  • fateseries
+  • catgirl
+──────────────────
+⚠️ *Nota:* Usa estos comandos bajo tu responsabilidad.`
 const fkontak = {
         "key": {
     "participants":"0@s.whatsapp.net",
