@@ -18,10 +18,10 @@ const handler = async (m, { conn, args }) => {
     const { title, quality, thumbnail, download_url } = response.data.result;
 
     // Preparar el texto para el documento del video
-    const caption = `🔥 *\`Título:\`* ${title}
-🤍 *\`Calidad:\`* ${quality}
-🌩 *\`Miniatura:\`* ${thumbnail}
-🚩 *\`Descargar el video:\`* ${download_url}`;
+    const caption = `*\`Título:\`* ${title}
+*\`Calidad:\`* ${quality}
+*\`Miniatura:\`* ${thumbnail}
+*\`Descargar el video:\`* ${download_url}`;
 
     // Enviar el video como un documento
     await conn.sendMessage(m.chat, {
