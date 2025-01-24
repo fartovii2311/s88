@@ -3,7 +3,7 @@ const handler = async (m, { conn }) => {
   
     let text = `
 ╭───────⚔──────╮  
-\t\t\tDESARROLLADORES  
+\t\tDESARROLLADORES  
 ╰───────⚔──────╯  
   
 🔹 *SOBRE EL BOT:* 
@@ -12,20 +12,21 @@ const handler = async (m, { conn }) => {
 
 🔹 *CONTACTO DE LOS DESARROLLADORES:*  
 ╭─────────────────────────╮  
-│🏆 * - Equipo Oficial*  
+│🏆 * - Equipo Oficial- *  
 │  
 │📌 *DARCORE*: [ +51968382008 ]  
-│📌 **: [ +51917154203 ]  
-│📌 **: []  
+│📌 *Lynx*: [ +51917154203 ]   
+│  
 ╰─────────────────────────╯  
   
 🔹 *AGRADECIMIENTOS:*  
-  
+- DARKCORE
+- 
+-
 🔹 *¿DUDAS O SUGERENCIAS?*  
-
+- 
 🔹 *GRUPOS OFICIALES*
 - https://chat.whatsapp.com/D58CSUpwMH2CQi3iLitIWp
--
 `.trim();
   
   
