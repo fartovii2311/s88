@@ -12,9 +12,7 @@ let handler = async (m, { conn: parentw, usedPrefix, command }, args) => {
   } catch (err) {
     if (err.code === 'ENOENT' && err.path === `./LynxJadiBot/${uniqid}`) {
       await parentw.sendMessage(m.chat, { text: "🌠 No cuentas con ninguna sesión de Sub-Bot." }, { quoted: m });
-    } else {
-      await m.react("❌");
-    }
+    } 
   }
 };
 
