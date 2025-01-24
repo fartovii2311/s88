@@ -37,6 +37,13 @@ let handler = async (m, { conn, text, command }) => {
 
   // Elegir un monstruo aleatorio según el nivel del jugador
   let availableMonsters = monsters.filter(m => m.level <= senderLevel);
+
+  // Comprobar si hay monstruos disponibles
+  if (availableMonsters.length === 0) {
+    m.reply("⚔️ No hay monstruos disponibles para tu nivel. Intenta subir de nivel.");
+    return;
+  }
+
   let monster = availableMonsters[Math.floor(Math.random() * availableMonsters.length)];
 
   // Luchar contra el monstruo
