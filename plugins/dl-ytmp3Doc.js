@@ -28,7 +28,6 @@ const handler = async (m, { conn, args }) => {
   } catch (error) {
     console.error('Error en el comando ytmp3:', error.message);
     await m.react('❌');
-    m.reply('⚠️ *Ocurrió un error al procesar tu solicitud.* Por favor, intenta nuevamente más tarde.');
   }
 };
 
