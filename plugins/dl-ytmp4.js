@@ -72,7 +72,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     } catch (error) {
         console.error(error);
         await m.react('✖');
-        await conn.reply(m.chat, '⚠️ *Ocurrió un error al procesar tu solicitud.* Por favor, intenta nuevamente más tarde.', m);
     }
 };
 
