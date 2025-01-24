@@ -9,11 +9,11 @@ const tempDir = './tmp';
 
 let handler = async (m, { conn, text }) => {
   if (!m.quoted) {
-    return conn.reply(m.chat, `🚩 Etiqueta el mensaje que contenga el resultado de YouTube Play.`, m, rcanal);
+    return conn.reply(m.chat, `🚩 Etiqueta el mensaje que contenga el resultado de YouTube Play.`, m);
   }
 
   if (!m.quoted.text.includes("🎬 *‌乂 Y O U T U B E  -  P L A Y 乂* 🎬")) {
-    return conn.reply(m.chat, `🚩 Etiqueta el mensaje que contenga el resultado de YouTube Play.`, m, rcanal);
+    return conn.reply(m.chat, `🚩 Etiqueta el mensaje que contenga el resultado de YouTube Play.`, m);
   }
 
   const urls = m.quoted.text.match(
@@ -26,7 +26,8 @@ let handler = async (m, { conn, text }) => {
   const apiUrls = [
     `https://api.vreden.web.id/api/ytmp4?url=${videoUrl}`,
     `https://delirius-apiofc.vercel.app/download/ytmp4?url=${videoUrl}`,
-    `https://api.siputzx.my.id/api/d/ytmp4?url=${videoUrl}`, 
+    `https://api.siputzx.my.id/api/d/ytmp4?url=${videoUrl}`,
+    `https://api.davidcyriltech.my.id/download/ytmp4?url=${videoUrl}`,
   ];
 
   let data = null;
@@ -36,18 +37,25 @@ let handler = async (m, { conn, text }) => {
       const response = await fetch(apiUrl);
       const result = await response.json();
 
-      // Se maneja la respuesta de la API siputzx correctamente
       if (result.status && result.data?.dl) {
         data = {
-          title: result.data.title,
+          title: result.data.title || "Desconocido",
           downloadUrl: result.data.dl,
-          duration: "Desconocido",
+          duration: "Desconocida",
         };
         break;
       }
     } catch (error) {
       console.error(`Error al intentar con la API: ${apiUrl}`, error.message);
     }
+  }
+
+  if (!data) {
+    return conn.reply(
+      m.chat,
+      '❌ No se pudo obtener el enlace de descarga del video. Intenta de nuevo más tarde.',
+      m
+    );
   }
 
   await handleVideoDownload(conn, m, data);
@@ -114,6 +122,7 @@ const handleVideoDownload = async (conn, m, data) => {
     await m.react('✅');
   } catch (error) {
     console.error('Error al manejar el video:', error);
+    await conn.reply(m.chat, '❌ Error al descargar o procesar el video.', m);
     await m.react('✖️');
   }
 };
@@ -137,8 +146,8 @@ const compressVideo = async (inputPath, outputPath) => {
 handler.help = ['video'];
 handler.tags = ['dl'];
 handler.customPrefix = /^(VIDEO|Video|video|vídeo|Vídeo)/;
-handler.register = true 
-handler.Monedas = 1
+handler.register = true;
+handler.Monedas = 1;
 handler.command = new RegExp;
 
 export default handler;
