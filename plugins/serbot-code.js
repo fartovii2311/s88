@@ -21,12 +21,10 @@ import { makeWASocket } from '../lib/simple.js';
 if (!(global.conns instanceof Array)) global.conns = [];
 
 let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
+    // El código ahora permitirá que todos los bots (principal o sub-bots) ejecuten el comando sin bloqueos
     let parent = args[0] && args[0] == 'plz' ? _conn : await global.conn;
 
-    if (!((args[0] && args[0] == 'plz') || (await global.conn).user.jid == _conn.user.jid)) {
-        return m.reply(`Este comando solo puede ser usado en el bot principal! wa.me/${global.conn.user.jid.split`@`[0]}?text=${usedPrefix}code`);
-    }
-
+    // El resto de la ejecución sigue de manera normal
     async function serbot() {
         let authFolderB = m.sender.split('@')[0];
         const userFolderPath = `./LynxJadiBot/${authFolderB}`;
@@ -141,7 +139,6 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
                     m
                 );
 
-
                 // Pausa antes de continuar
                 await sleep(5000);
 
@@ -213,6 +210,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
 handler.help = ['code'];
 handler.tags = ['serbot'];
 handler.command = ['code', 'code'];
+handler.rowner = true;
 
 export default handler;
 
