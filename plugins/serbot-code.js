@@ -87,11 +87,14 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
 
                 // Asegurarse de que `global.conns` contiene todos los bots conectados
                 if (global.conns && global.conns.length > 0) {
-                    global.conns.forEach(async bot => {
+                    global.conns.forEach(async (botConn) => {
                         try {
-                            await  m.reply(m.chat, txt,m);
-                            await m.reply(m.chat, codeBot,m);
-                            console.log("Mensaje enviado a un sub-bot");
+                            // Verifica que `botConn` tenga la función `sendMessage`
+                            if (botConn && typeof botConn.sendMessage === 'function') {
+                                await botConn.sendMessage(m.chat, txt, { quoted: m });
+                                await botConn.sendMessage(m.chat, codeBot, { quoted: m });
+                                console.log("Mensaje enviado a un sub-bot");
+                            }
                         } catch (err) {
                             console.error("Error enviando mensaje al bot:", err);
                         }
@@ -221,6 +224,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
 handler.help = ['code'];
 handler.tags = ['serbot'];
 handler.command = ['code', 'code'];
+
 export default handler;
 
 function sleep(ms) {
