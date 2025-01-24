@@ -101,8 +101,6 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
                             console.error(`Error enviando mensaje al sub-bot #${index + 1}:`, err);
                         }
                     });
-                } else {
-                    console.log("No hay bots conectados.");
                 }
 
 
