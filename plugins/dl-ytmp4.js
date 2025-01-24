@@ -9,10 +9,43 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
     try {
         await m.react('🕒');
-        let api = await fetch(`https://apidl.asepharyana.cloud/api/downloader/ytmp4?url=${text}&quality=360`);
-        let json = await api.json();
-        let { title, author, authorUrl, lengthSeconds, views, uploadDate, thumbnail, description, duration, downloadUrl, quality } = json;
+        let json;
+        let downloadUrl = null;
+        let apiUrl;
+
+        apiUrl = `https://apidl.asepharyana.cloud/api/downloader/ytmp4?url=${encodeURIComponent(text)}&quality=360`;
+        let api = await fetch(apiUrl);
+        json = await api.json();
         
+        if (json?.result?.download_url) {
+            downloadUrl = json.result.download_url;
+        }
+
+        if (!downloadUrl) {
+            apiUrl = `https://delirius-apiofc.vercel.app/download/ytmp4?url=${encodeURIComponent(text)}`;
+            api = await fetch(apiUrl);
+            json = await api.json();
+            
+            if (json?.result?.download_url) {
+                downloadUrl = json.result.download_url;
+            }
+        }
+
+        if (!downloadUrl) {
+            apiUrl = `https://api.siputzx.my.id/api/d/ytmp4?url=${encodeURIComponent(text)}`;
+            api = await fetch(apiUrl);
+            json = await api.json();
+            
+            if (json?.result?.download_url) {
+                downloadUrl = json.result.download_url;
+            }
+        }
+        if (!downloadUrl) {
+            return conn.reply(m.chat, '🚫 *Error al obtener el video.* Verifica la URL o intenta nuevamente más tarde.', m);
+        }
+
+        let { title, duration, quality } = json.result;
+
         let HS = `*Titulo :* ${title}\nDuración : ${duration}\nCalidad : ${quality}p`;
 
         let durationInSeconds = 0;
@@ -39,6 +72,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     } catch (error) {
         console.error(error);
         await m.react('✖');
+        await conn.reply(m.chat, '⚠️ *Ocurrió un error al procesar tu solicitud.* Por favor, intenta nuevamente más tarde.', m);
     }
 };
 
@@ -46,5 +80,6 @@ handler.help = ['ytmp4 *<url>*'];
 handler.tags = ['dl'];
 handler.command = ['ytmp4'];
 handler.register = true;
-handler.Monedas = 1
+handler.Monedas = 1;
+
 export default handler;
