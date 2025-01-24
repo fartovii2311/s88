@@ -316,6 +316,7 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
 │ ➤ AntiBot2: ${chat.antiBot2 ? '✅ Activado' : '❌ Desactivado'}
 │ ➤ AntiFake: ${chat.antifake ? '✅ Activado' : '❌ Desactivado'}
 │ ➤ AutoResponder: ${chat.autoresponder ? '✅ Activado' : '❌ Desactivado'}
+│ ➤ Autolevelup: ${chat.autolevelup ? '✅ Activado' : '❌ Desactivado'}
 │ ➤ AntiEliminar: ${chat.delete ? '✅ Activado' : '❌ Desactivado'}
 │ ➤ SimSimi: ${chat.simi ? '✅ Activado' : '❌ Desactivado'}
 │ ➤ Audios: ${chat.audios ? '✅ Activado' : '❌ Desactivado'}
