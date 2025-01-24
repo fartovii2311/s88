@@ -197,8 +197,6 @@ const {
   handler.help = ['code'];
   handler.tags = ['serbot'];
   handler.command = ['code', 'code'];
-  handler.rowner = true
-  
   export default handler;
   
   function sleep(ms) {
