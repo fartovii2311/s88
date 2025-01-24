@@ -49,6 +49,6 @@ let handler = async (m, { conn }) => {
 
 };
 
-handler.command = /^(|GRUPOS|grupos|Grupo|)$/i;
+handler.command = /^(GRUPOS|grupos|Grupo|)$/i;
 
 export default handler;
