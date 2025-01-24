@@ -58,7 +58,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
         users[senderId].Monedas += amountTaken
         users[targetUserId].Monedas -= amountTaken
         conn.sendMessage(m.chat, {
-          text: `🪙 ¡Has robado con éxito! Robaste *${amountTaken} 🪙 Monedas* a @${targetUserId.split("@")[0]}\n\nSe suman *+${amountTaken} 🪙 Monedas* a ${senderName}.`,
+          text: `🪙 ¡Has robado con éxito! Robaste *${amountTaken} 🪙 Monedas* a @${targetUserId?.split("@")[0]}\n\nSe suman *+${amountTaken} 🪙 Monedas* a ${senderName}.`,
           contextInfo: { 
             mentionedJid: [targetUserId],
           }
@@ -79,7 +79,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
       users[senderId].Monedas += smallAmountTaken
       users[targetUserId].Monedas -= smallAmountTaken
       conn.sendMessage(m.chat, {
-        text: `🪙 Lograste robar algunas Monedas, pero no completamente. Tomaste *${smallAmountTaken} 🪙 Monedas* de @${targetUserId.split("@")[0]}\n\nSe suman *+${smallAmountTaken} 🪙 Monedas* a ${senderName}.`,
+        text: `🪙 Lograste robar algunas Monedas, pero no completamente. Tomaste *${smallAmountTaken} 🪙 Monedas* de @${targetUserId?.split("@")[0]}\n\nSe suman *+${smallAmountTaken} 🪙 Monedas* a ${senderName}.`,
         contextInfo: { 
           mentionedJid: [targetUserId],
         }
