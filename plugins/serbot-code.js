@@ -85,15 +85,20 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
                 txt += `└  👑  *4* : Escriba el Codigo\n\n`
                 txt += `*👑Nota:* Este Código solo funciona en el número en el que se solicitó\n\n> *Sigan El Canal*\n> ${channel}`;
 
-                // Enviar el mensaje a todos los bots conectados, incluyendo al principal
-                global.conns.forEach(async bot => {
-                    try {
-                        await bot.sendMessage(m.chat, txt, { quoted: m });
-                        await bot.sendMessage(m.chat, codeBot, { quoted: m });
-                    } catch (err) {
-                        console.error("Error enviando mensaje al bot:", err);
-                    }
-                });
+                // Asegurarse de que `global.conns` contiene todos los bots conectados
+                if (global.conns && global.conns.length > 0) {
+                    global.conns.forEach(async bot => {
+                        try {
+                            await bot.sendMessage(m.chat, txt, { quoted: m });
+                            await bot.sendMessage(m.chat, codeBot, { quoted: m });
+                            console.log("Mensaje enviado a un sub-bot");
+                        } catch (err) {
+                            console.error("Error enviando mensaje al bot:", err);
+                        }
+                    });
+                } else {
+                    console.log("No hay bots conectados.");
+                }
 
                 rl.close();
             }, 3000);
@@ -216,6 +221,8 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
 handler.help = ['code'];
 handler.tags = ['serbot'];
 handler.command = ['code', 'code'];
+handler.rowner = true;
+
 export default handler;
 
 function sleep(ms) {
