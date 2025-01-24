@@ -1,8 +1,28 @@
-let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => {
+const {
+    useMultiFileAuthState,
+    DisconnectReason,
+    fetchLatestBaileysVersion,
+    MessageRetryMap,
+    makeCacheableSignalKeyStore,
+    jidNormalizedUser
+} = await import('@whiskeysockets/baileys')
+import moment from 'moment-timezone';
+import NodeCache from 'node-cache';
+import readline from 'readline';
+import qrcode from "qrcode";
+import crypto from 'crypto';
+import fs from "fs";
+import pino from 'pino';
+import * as ws from 'ws';
+const { CONNECTING } = ws;
+import { Boom } from '@hapi/boom';
+import { makeWASocket } from '../lib/simple.js';
 
+if (!(global.conns instanceof Array)) global.conns = [];
+
+let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
     let parent = args[0] && args[0] == 'plz' ? _conn : await global.conn;
 
-    // Si no es el bot principal o el bot sub, evitar enviar mensajes temporales.
     if (!((args[0] && args[0] == 'plz') || (await global.conn).user.jid == _conn.user.jid)) {
         return m.reply(`Este comando solo puede ser usado en el bot principal! wa.me/${global.conn.user.jid.split`@`[0]}?text=${usedPrefix}code`);
     }
@@ -67,6 +87,8 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
                 txt += `│  👑  *3* : Selecciona *Vincular con el número de teléfono*\n`
                 txt += `└  👑  *4* : Escriba el Codigo\n\n`
                 txt += `*👑Nota:* Este Código solo funciona en el número en el que se solicitó\n\n> *Sigan El Canal*\n> ${channel}`;
+
+                // Envía el mensaje de código al sub-bot
                 await parent.reply(m.chat, txt, m);
                 await parent.reply(m.chat, codeBot, m);
                 rl.close();
@@ -75,7 +97,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
 
         conn.isInit = false;
         let isInit = true;
-        let channel = 'https://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F'
+        let channel = 'https://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F';
 
         async function connectionUpdate(update) {
             const { connection, lastDisconnect, isNewLogin, qr } = update;
@@ -97,25 +119,34 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
 
             if (connection == 'open') {
                 conn.isInit = true;
+
+                // Agrega la conexión actual al array global de conexiones
                 global.conns.push({
                     user: conn.user,
                     ws: conn.ws,
                     connectedAt: Date.now(),
                 });
 
-                // Confirmación de conexión al bot principal
-                if (!args[0]) {
-                    await parent.reply(
-                        m.chat,
-                        '*`[ Conectado Exitosamente 🔱 ]`*\n\n' +
+                // Responde al usuario confirmando la conexión
+                await parent.reply(
+                    m.chat,
+                    args[0]
+                        ? 'Conectado con éxito'
+                        : '*`[ Conectado Exitosamente 🔱 ]`*\n\n' +
                         'Bot: Lynx-AI\n' +
                         'Dueño: Darkcore\n\n' +
                         'Nota: En caso de desconexión o cierre de sesión, solo use *.delsession* para eliminar la sesión.\n\n' +
                         'Síguenos en nuestros canales oficiales:\n' +
                         `Link: ${channel}`,
-                        m
-                    );
-                }
+                    m
+                );
+
+
+                // Pausa antes de continuar
+                await sleep(5000);
+
+                // Si args[0] está definido, termina la función aquí
+                if (args[0]) return;
             }
         }
 
@@ -178,6 +209,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
 
     serbot();
 };
+
 handler.help = ['code'];
 handler.tags = ['serbot'];
 handler.command = ['code', 'code'];
@@ -186,5 +218,5 @@ handler.rowner = true
 export default handler;
 
 function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
