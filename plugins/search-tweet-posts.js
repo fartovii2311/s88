@@ -25,6 +25,6 @@ await m.react('✖️')
 handler.help = ['tweetposts *<búsqueda>*']
 handler.tags = ['search']
 handler.command = ['tweetposts']
-handler.register = true 
-
+handler.register = true;
+handler.Monedas = 3
 export default handler
