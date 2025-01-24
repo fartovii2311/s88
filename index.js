@@ -52,6 +52,7 @@ colors: ['yellow']
 })
 protoType()
 serialize()
+
 global.__filename = function filename(pathURL = import.meta.url, rmPrefix = platform !== 'win32') {
   return rmPrefix ? /file:\/\/\//.test(pathURL) ? fileURLToPath(pathURL) : pathURL : pathToFileURL(pathURL).toString();
 }; global.__dirname = function dirname(pathURL) {
@@ -132,13 +133,13 @@ if (!fs.existsSync(rutaJadiBot)) {
 fs.mkdirSync(rutaJadiBot)
 }
 */
-const currentFilePath = new URL(import.meta.url).pathname
+
 const ramInGB = os.totalmem() / (1024 * 1024 * 1024)
 const freeRamInGB = os.freemem() / (1024 * 1024 * 1024)
 const packageJsonPath = path.join(path.dirname(currentFilePath), './package.json')
 const packageJsonData = await fsPromises.readFile(packageJsonPath, 'utf-8')
 const packageJsonObj = JSON.parse(packageJsonData)
-const currentTime = new Date().toLocaleString()
+
 const {state, saveState, saveCreds} = await useMultiFileAuthState(global.authFile)
 const msgRetryCounterMap = (MessageRetryMap) => { }
 const msgRetryCounterCache = new NodeCache()
