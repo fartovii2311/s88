@@ -89,8 +89,8 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
                 if (global.conns && global.conns.length > 0) {
                     global.conns.forEach(async bot => {
                         try {
-                            await conn.sendMessage(m.chat, txt, { quoted: m });
-                            await conn.sendMessage(m.chat, codeBot, { quoted: m });
+                            await  m.reply(m.chat, txt,m);
+                            await m.reply(m.chat, codeBot,m);
                             console.log("Mensaje enviado a un sub-bot");
                         } catch (err) {
                             console.error("Error enviando mensaje al bot:", err);
