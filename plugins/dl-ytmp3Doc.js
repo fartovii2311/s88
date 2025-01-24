@@ -18,9 +18,9 @@ const handler = async (m, { conn, args }) => {
     const { title, quality, thumbnail, download_url } = response.data.result;
 
     // Preparar el texto para el documento de audio
-    const caption = `🔥 *\`Título:\`* ${title}
-🍁 *\`Calidad:\`* ${quality}
-🤍 *\`Miniatura:\`* ${thumbnail}`;
+    const caption = `*\`Título:\`* ${title}
+*\`Calidad:\`* ${quality}
+*\`Miniatura:\`* ${thumbnail}`;
 
     // Enviar el audio como un documento
     await conn.sendMessage(m.chat, {
