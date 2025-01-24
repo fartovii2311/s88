@@ -40,13 +40,11 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
     }
   }
 
-  // Guardar los datos del usuario
   user.name = name;
   user.age = age;
   user.regTime = +new Date();
   user.registered = true;
 
-  // Generar un serial único para el usuario
   let sn = createHash('md5').update(m.sender).digest('hex').slice(0, 6);
   let imgURL = 'https://i.ibb.co/Y7mhFdf/file.jpg';
   let now = new Date();
@@ -63,30 +61,14 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
             `🔑 *N° Serial:* ${sn}\n\n` +
             `🌟 *Bienvenido a la comunidad Dark Team.*`;
 
-  // Intentar enviar el mensaje al usuario con manejo de errores
   try {
-    await conn.sendMessage(
-      m.chat,
-      {
-        image: { url: imgURL },
-        caption: txt,
-        footer: '✨ Powered by Dark Team',
-        buttons: [
-          { buttonId: `.perfil`, buttonText: { displayText: '👤 VER PERFIL' } },
-          { buttonId: `.owner`, buttonText: { displayText: '🛠️ CONTACTAR OWNER' } },
-        ],
-        viewOnce: true,
-        headerType: 4,
-      },
-      { quoted: m }
-    );
+    await conn.sendMessage(m.chat,{image: { url: imgURL },caption: txt,footer: '✨ Powered by Dark Team',{ quoted: m });
   } catch (err) {
     console.error("Error al enviar el mensaje al usuario:", err);
     return m.reply("❌ Hubo un problema al procesar tu registro. Por favor, intenta nuevamente.");
   }
 
-  // Enviar mensaje al canal de noticias con manejo de errores
-  let channelId = '120363372958306577@newsletter'; // Asegúrate de que este canal sea correcto
+  let channelId = '120363372958306577@newsletter';
   try {
     await conn.sendMessage(
       channelId,
@@ -114,7 +96,7 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
             thumbnailUrl: imgURL,
             mediaType: 1,
             mediaUrl: 'https://darkteam.com',
-            sourceUrl: 'https://darkteam.com', // Fuente del enlace
+            sourceUrl: 'https://darkteam.com',
           },
         },
       }
@@ -123,7 +105,6 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
     console.error("Error al enviar el mensaje al canal de noticias:", err);
   }
 
-  // Reaccionar al mensaje del usuario con manejo de errores
   try {
     await m.react('✅');
   } catch (err) {
