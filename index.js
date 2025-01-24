@@ -132,8 +132,10 @@ if (!fs.existsSync(rutaJadiBot)) {
 fs.mkdirSync(rutaJadiBot)
 }
 */
+if (!Array.isArray(disks)) {
+  return;
+}
 const disks = getDiskInfoSync();
-disks.forEach()
 const ramInGB = os.totalmem() / (1024 * 1024 * 1024)
 const freeRamInGB = os.freemem() / (1024 * 1024 * 1024)
 const {state, saveState, saveCreds} = await useMultiFileAuthState(global.authFile)
