@@ -91,5 +91,6 @@ handler.help = ["tiktoksearch <txt>"];
 handler.register = true
 handler.tags = ["search"];
 handler.command = ["tiktoksearch", "ttss", "tiktoks"];
-
+handler.register = true;
+handler.Monedas = 3
 export default handler;
