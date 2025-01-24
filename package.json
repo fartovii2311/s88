@@ -25,14 +25,14 @@
     "MD",
     "baileys-md"
   ],
-  "homepage": "https://github.com/Manuel12yt/dark-ai",
+  "homepage": "https://github.com/Manuel12yt/Lynx-Ai",
   "author": "DARK-CODE",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Manuel12yt/dark-ai.git"
+    "url": "git+https://github.com/Manuel12yt/Lynx-Ai.git"
   },
   "bugs": {
-    "url": "https://github.com/Manuel12yt/dark-ai/issues"
+    "url": "https://github.com/Manuel12yt/Lynx-Ai/issues"
   },
   "license": "GPL-3.0-or-later",
   "dependencies": {
