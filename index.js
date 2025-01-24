@@ -12,7 +12,6 @@ import { spawn } from 'child_process'
 import lodash from 'lodash'
 import { promises as fsPromises } from 'fs'
 import chalk from 'chalk'
-const path = require('path');
 import cfonts from 'cfonts'
 import syntaxerror from 'syntax-error'
 import { tmpdir } from 'os'
@@ -134,11 +133,8 @@ if (!fs.existsSync(rutaJadiBot)) {
 fs.mkdirSync(rutaJadiBot)
 }
 */
-const currentFilePath = __filename;
 const ramInGB = os.totalmem() / (1024 * 1024 * 1024)
 const freeRamInGB = os.freemem() / (1024 * 1024 * 1024)
-const packageJsonPath = path.join(path.dirname(currentFilePath), './package.json')
-const packageJsonData = await fsPromises.readFile(packageJsonPath, 'utf-8')
 const packageJsonObj = JSON.parse(packageJsonData)
 
 const {state, saveState, saveCreds} = await useMultiFileAuthState(global.authFile)
@@ -180,10 +176,6 @@ opcion = await question(`╭${lineM}
 │ ${chalk.blueBright('╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅')}
 │ ${chalk.blueBright('┊')} ${chalk.blue.bold(`🟢INFORMACIÓN :`)}
 │ ${chalk.blueBright('┊')} ${chalk.blueBright('┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅')} 
-│ ${chalk.blueBright('┊')}${chalk.cyan(`💚 Nombre: ${packageJsonObj.name}`)}
-│ ${chalk.blueBright('┊')}${chalk.cyan(`❇️ Versión: ${packageJsonObj.version}`)}
-│ ${chalk.blueBright('┊')}${chalk.cyan(`📌 Descripción: ${packageJsonObj.description}`)}
-│ ${chalk.blueBright('┊')}${chalk.cyan(`👤 Creador: ${packageJsonObj.author.name}`)}
 │ ${chalk.blueBright('╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅')} 
 │ ${chalk.blueBright('╭┄┈┅┈┄┈┅┈┄┅┈┄┈┅┄┈┅┈┄')}
 │ ${chalk.blueBright('┊')} ${chalk.blue.bgBlue.bold.cyan("MÉTODO DE VINCULACIÓN")}
