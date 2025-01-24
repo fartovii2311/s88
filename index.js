@@ -133,7 +133,7 @@ fs.mkdirSync(rutaJadiBot)
 }
 */
 const disks = getDiskInfoSync();
-disks.forEach(disk)
+disks.forEach()
 const ramInGB = os.totalmem() / (1024 * 1024 * 1024)
 const freeRamInGB = os.freemem() / (1024 * 1024 * 1024)
 const {state, saveState, saveCreds} = await useMultiFileAuthState(global.authFile)
