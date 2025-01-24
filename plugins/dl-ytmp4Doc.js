@@ -25,8 +25,7 @@ const handler = async (m, { conn, args }) => {
 
     const caption = `*\`Título:\`* ${title}
 *\`Calidad:\`* ${quality}
-*\`Miniatura:\`* ${thumbnail}
-*\`Descargar el video:\`* ${download_url}`;
+*\`Miniatura:\`* ${thumbnail}`;
 
     await conn.sendMessage(m.chat, {
       document: { url: download_url },
