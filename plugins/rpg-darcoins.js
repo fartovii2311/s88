@@ -25,7 +25,7 @@ let handler = async (m, { conn, text }) => {
     const isOwner = global.owner.some(([jid]) => m.sender.endsWith(jid));
 
     if (!isOwner) {
-        if (corazones > users[m.sender].corazones) throw '🚩 No tienes suficientes *🪙 Monedas* para dar.';
+        if (Monedas > users[m.sender].Monedas) throw '🚩 No tienes suficientes *🪙 Monedas* para dar.';
         users[m.sender].Monedas -= Monedas; 
     }
 
