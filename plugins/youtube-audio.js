@@ -26,9 +26,8 @@ let handler = async (m, { conn, text }) => {
   const videoUrl = urls[0];
 
   try {
-    let downloadUrl1;
-    let secondData;
-
+    let downloadUrl;
+    
     // Intentar con la primera API para obtener la URL de descarga
     try {
       const response = await axios.get(`https://api.siputzx.my.id/api/dl/youtube/mp3?url=${videoUrl}`);
@@ -38,19 +37,19 @@ let handler = async (m, { conn, text }) => {
         throw new Error('No se pudo obtener los datos de la primera API.');
       }
 
-      downloadUrl1 = data.data;
+      downloadUrl = data.data;
     } catch (error) {
       console.log('Fallo en la primera API:', error.message);
     }
 
     // Si no se pudo obtener la URL de la primera API, intentamos con la segunda
-    if (!downloadUrl1) {
+    if (!downloadUrl) {
       try {
         const response = await axios.get(`https://api.davidcyriltech.my.id/download/ytmp3?url=${videoUrl}`);
         const data = response.data;
 
         if (data.success === true) {
-          downloadUrl1 = data.result.download_url;
+          downloadUrl = data.result.download_url;
         } else {
           throw new Error('No se pudo obtener la URL de la segunda API.');
         }
@@ -60,31 +59,32 @@ let handler = async (m, { conn, text }) => {
     }
 
     // Si tenemos una URL de descarga, proceder a descargar el archivo
-    if (downloadUrl1) {
-      const mp3FileResponse = await fetch(downloadUrl1);
+    if (downloadUrl) {
+      const mp3FileResponse = await fetch(downloadUrl);
 
       if (mp3FileResponse.ok) {
         const buffer = await mp3FileResponse.buffer();
         const size = parseInt(mp3FileResponse.headers.get('content-length'), 10) || 0;
 
-        // Enviar el archivo de audio
-        await conn.sendMessage(
-          m.chat,
-          {
-            audio: buffer,
-            mimetype: 'audio/mp4',
-          },
-          { quoted: m }
-        );
-
-        // Si el tamaño del archivo es mayor a 10MB, enviarlo como documento
+        // Verificar si el archivo es mayor a 10MB
         if (size > 10 * 1024 * 1024) {
+          // Enviar como documento
           await conn.sendMessage(
             m.chat,
             {
               document: buffer,
               mimetype: 'audio/mpeg',
               fileName: 'audio.mp3',
+            },
+            { quoted: m }
+          );
+        } else {
+          // Enviar como audio
+          await conn.sendMessage(
+            m.chat,
+            {
+              audio: buffer,
+              mimetype: 'audio/mp4',
             },
             { quoted: m }
           );
