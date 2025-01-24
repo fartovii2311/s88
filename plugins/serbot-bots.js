@@ -37,7 +37,7 @@ async function handler(m, { conn: stars, usedPrefix }) {
 
     return `
 *[ \`${index + 1}\` - ${v.user.name || 'Sin Nombre'} ]*
-🤍 *Link:* https://wa.me/${v.user.jid.replace(/[^0-9]/g, '')}?text=.code
+🤍 *Link:* https://wa.me/${v.user.jid.replace(/[^0-9]/g, '')}?text=.menu
 🕒 *Tiempo Activo:* ${hours}h ${minutes}m ${seconds}s
 📡 *Estado:* 🟢 Activo
 `;
