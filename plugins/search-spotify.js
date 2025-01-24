@@ -75,5 +75,6 @@ console.error(error)
 handler.help = ["spotifysearch *<text>*"]
 handler.tags = ["search"]
 handler.command = /^(spotifysearch)$/i
-handler.register = true
+handler.register = true;
+handler.Monedas = 5
 export default handler
