@@ -62,7 +62,7 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
             `🌟 *Bienvenido a la comunidad Dark Team.*`;
 
   try {
-    await conn.sendMessage(m.chat,{image: { url: imgURL },caption: txt,footer: '✨ Powered by Dark Team',{ quoted: m });
+   await conn.sendMessage(m.chat, { image: { url: imgURL }, caption: txt }, { quoted: m });
   } catch (err) {
     console.error("Error al enviar el mensaje al usuario:", err);
     return m.reply("❌ Hubo un problema al procesar tu registro. Por favor, intenta nuevamente.");
