@@ -11,7 +11,6 @@ import axios from 'axios'
 global.owner = [
   ['51968382008', 'DARK CORE', true],
   ['51917154203', 'Lynx - Ai', true],
-  ['50488198573','⁨᭄𝑫𝒆𝒚𝒍𝒊𝒏࿐ཽ༵𝑲⁩', true],
   [''],
   ['']
 
