@@ -10,6 +10,7 @@ import fs, { watchFile, unwatchFile, writeFileSync, readdirSync, statSync, unlin
 import yargs from 'yargs'
 import { spawn } from 'child_process'
 import lodash from 'lodash'
+import { promises as fsPromises } from 'fs'
 import chalk from 'chalk'
 import cfonts from 'cfonts'
 import syntaxerror from 'syntax-error'
