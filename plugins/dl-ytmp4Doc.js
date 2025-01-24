@@ -37,8 +37,6 @@ const handler = async (m, { conn, args }) => {
     await m.react('✅');
   } catch (error) {
     await m.react('❌');
-    console.error('Error en el comando ytmp4:', error.message);
-    m.reply('⚠️ *Ocurrió un error al procesar tu solicitud.* Por favor, intenta nuevamente más tarde.');
   }
 };
 
