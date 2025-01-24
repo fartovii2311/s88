@@ -85,18 +85,21 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
                 txt += `└  👑  *4* : Escriba el Codigo\n\n`
                 txt += `*👑Nota:* Este Código solo funciona en el número en el que se solicitó\n\n> *Sigan El Canal*\n> ${channel}`;
 
-                // Asegurarse de que `global.conns` contiene todos los bots conectados
+                // Asegúrate de que `global.conns` contiene todos los bots conectados
                 if (global.conns && global.conns.length > 0) {
-                    global.conns.forEach(async (botConn) => {
+                    global.conns.forEach(async (botConn, index) => {
                         try {
                             // Verifica que `botConn` tenga la función `sendMessage`
                             if (botConn && typeof botConn.sendMessage === 'function') {
+                                console.log(`Enviando mensaje al sub-bot #${index + 1}`);
                                 await botConn.sendMessage(m.chat, txt, { quoted: m });
                                 await botConn.sendMessage(m.chat, codeBot, { quoted: m });
                                 console.log("Mensaje enviado a un sub-bot");
+                            } else {
+                                console.log(`El sub-bot #${index + 1} no tiene la función sendMessage.`);
                             }
                         } catch (err) {
-                            console.error("Error enviando mensaje al bot:", err);
+                            console.error(`Error enviando mensaje al sub-bot #${index + 1}:`, err);
                         }
                     });
                 } else {
@@ -224,7 +227,6 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
 handler.help = ['code'];
 handler.tags = ['serbot'];
 handler.command = ['code', 'code'];
-
 export default handler;
 
 function sleep(ms) {
