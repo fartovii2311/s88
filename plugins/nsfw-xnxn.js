@@ -31,8 +31,6 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
   }
 };
 
-handler.help = ['xnxx'].map(v => v + ' <url>');
-handler.tags = ['dl'];
 handler.command = ['xnxx', 'xn'];
 handler.register = true;
 
