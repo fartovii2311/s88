@@ -12,16 +12,15 @@ let handler = async (m, { conn, text }) => {
     if (!txt) throw '🪙 Ingrese la cantidad de *🪙 Monedas* que quiere transferir.';
     if (isNaN(txt)) throw '🚩 Sólo números son permitidos.';
 
-    let poin = parseInt(txt); // Convierte el texto en un número
+    let poin = parseInt(txt);
     if (poin < 1) throw '🪙 Mínimo es *1 🪙 Moneda*.';
 
     let Monedas = poin;
     let imt = Math.ceil(poin * impuesto);
-    corazones += imt;
+    Monedas += imt;
 
     let users = global.db.data.users;
 
-    // Verifica si el remitente es un propietario
     const isOwner = global.owner.some(([jid]) => m.sender.endsWith(jid));
 
     if (!isOwner) {
@@ -36,7 +35,7 @@ let handler = async (m, { conn, text }) => {
         `🪙 *Transferencia completada exitosamente.*\n\n` +
         `Enviado: *${poin}* 🪙 Moneda\n` +
         `Impuesto del 2%: *${imt}* 🪙 Moneda\n` +
-        `${isOwner ? '*Nota: Eres propietario y tienes corazones ilimitados.*' : `Total gastado: *${Monedas}* 🪙 Moneda.`}`
+        `${isOwner ? '*Nota: Eres propietario y tienes Monedas ilimitados.*' : `Total gastado: *${Monedas}* 🪙 Moneda.`}`
     );
 
     conn.fakeReply(m.chat, `*+${poin}* 🪙 Moneda recibidos.`, who, m.text);
