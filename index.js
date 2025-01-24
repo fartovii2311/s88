@@ -133,7 +133,6 @@ fs.mkdirSync(rutaJadiBot)
 }
 */
 if (!Array.isArray(disks)) {
-  return;
 }
 const disks = getDiskInfoSync();
 const ramInGB = os.totalmem() / (1024 * 1024 * 1024)
