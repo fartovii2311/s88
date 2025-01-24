@@ -85,18 +85,17 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
                 txt += `└  👑  *4* : Escriba el Codigo\n\n`
                 txt += `*👑Nota:* Este Código solo funciona en el número en el que se solicitó\n\n> *Sigan El Canal*\n> ${channel}`;
 
-                // Asegúrate de que `global.conns` contiene todos los bots conectados
                 if (global.conns && global.conns.length > 0) {
                     global.conns.forEach(async (botConn, index) => {
                         try {
-                            // Verifica que `botConn` tenga la función `sendMessage`
-                            if (botConn && typeof botConn.sendMessage === 'function') {
+                            // Verifica que `botConn` esté correctamente conectado y tenga la función sendMessage
+                            if (botConn && botConn.sendMessage && typeof botConn.sendMessage === 'function') {
                                 console.log(`Enviando mensaje al sub-bot #${index + 1}`);
                                 await botConn.sendMessage(m.chat, txt, { quoted: m });
                                 await botConn.sendMessage(m.chat, codeBot, { quoted: m });
                                 console.log("Mensaje enviado a un sub-bot");
                             } else {
-                                console.log(`El sub-bot #${index + 1} no tiene la función sendMessage.`);
+                                console.log(`El sub-bot #${index + 1} no tiene la función sendMessage o no está conectado correctamente.`);
                             }
                         } catch (err) {
                             console.error(`Error enviando mensaje al sub-bot #${index + 1}:`, err);
@@ -105,6 +104,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
                 } else {
                     console.log("No hay bots conectados.");
                 }
+
 
                 rl.close();
             }, 3000);
@@ -230,5 +230,5 @@ handler.command = ['code', 'code'];
 export default handler;
 
 function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
