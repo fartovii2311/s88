@@ -39,5 +39,5 @@ handler.help = ['splaystore *<texto>*'];
 handler.tags = ['search'];
 handler.command = /^(searchplaystore|Searchplaystore|splaystore)$/i; 
 handler.register = true;
-handler.Monedas = 1
+handler.Monedas = 5
 export default handler;
