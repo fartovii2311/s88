@@ -104,7 +104,8 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 handler.help = ["ytsearch *<text>*"];
 handler.tags = ["search"];
 handler.command = ["ytsearch", "yts"];
-handler.register = true
+handler.register = true;
+handler.Monedas = 3
 export default handler;
 
 async function remini(imageData, operation) {
