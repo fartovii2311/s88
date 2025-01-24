@@ -173,7 +173,6 @@ opcion = await question(`╭${lineM}
 │ ${chalk.blueBright('┊')}${chalk.yellow(`⇢ 💽 Free RAM: ${freeRamInGB.toFixed(2)} KB`)}
 │ ${chalk.blueBright('┊')}${chalk.yellow(`⇢ 🟢 Node.js: ${process.version}`)}
 │ ${chalk.blueBright('┊')}${chalk.yellow(`⇢ 🚀 V8: ${process.versions.v8}`)}
-│ ${chalk.blueBright('┊')}${chalk.yellow(`⇢ 📦 NPM: ${npmVersion}`)}
 │ ${chalk.blueBright('╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅')}
 │ ${chalk.blueBright('╭┄┈┅┈┄┈┅┈┄┅┈┄┈┅┄┈┅┈┄')}
 │ ${chalk.blueBright('┊')} ${chalk.blue.bgBlue.bold.cyan("MÉTODO DE VINCULACIÓN")}
