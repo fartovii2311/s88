@@ -133,6 +133,8 @@ if (!fs.existsSync(rutaJadiBot)) {
 fs.mkdirSync(rutaJadiBot)
 }
 */
+const disk = require('diskusage');
+const { free, total } = await disk.check('/');
 const ramInGB = os.totalmem() / (1024 * 1024 * 1024)
 const freeRamInGB = os.freemem() / (1024 * 1024 * 1024)
 const {state, saveState, saveCreds} = await useMultiFileAuthState(global.authFile)
@@ -169,9 +171,14 @@ opcion = await question(`╭${lineM}
 │ ${chalk.blueBright('╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅')}
 │ ${chalk.blueBright('┊')} ${chalk.blue.bold(`🟢INFORMACIÓN :`)}
 │ ${chalk.blueBright('┊')} ${chalk.blueBright('┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅')}
-│ ${chalk.blueBright('┊')}${chalk.yellow(`🖥️ ${os.type()}, ${os.release()} - ${os.arch()}`)}
-│ ${chalk.blueBright('┊')}${chalk.yellow(`💾 Total RAM: ${ramInGB.toFixed(2)} KB`)}
-│ ${chalk.blueBright('┊')}${chalk.yellow(`💽 Free RAM: ${freeRamInGB.toFixed(2)} KB`)}
+│ ${chalk.blueBright('┊')}${chalk.yellow(`⇢ 🖥️ ${os.type()}, ${os.release()} - ${os.arch()}`)}
+│ ${chalk.blueBright('┊')}${chalk.yellow(`⇢ 💾 Total RAM: ${ramInGB.toFixed(2)} KB`)}
+│ ${chalk.blueBright('┊')}${chalk.yellow(`⇢ 💽 Free RAM: ${freeRamInGB.toFixed(2)} KB`)}
+│ ${chalk.blueBright('┊')}${chalk.yellow(`⇢ 📀 Espacio total: ${(total / 1024 / 1024 / 1024).toFixed(2)} GB`)}
+│ ${chalk.blueBright('┊')}${chalk.yellow(`⇢ 📂 Espacio libre: ${(free / 1024 / 1024 / 1024).toFixed(2)} GB`)}
+│ ${chalk.blueBright('┊')}${chalk.yellow(`⇢ 🟢 Node.js: ${process.version}`)}
+│ ${chalk.blueBright('┊')}${chalk.yellow(`⇢ 🚀 V8: ${process.versions.v8}`)}
+│ ${chalk.blueBright('┊')}${chalk.yellow(`⇢ 📦 NPM: ${npmVersion}`)}
 │ ${chalk.blueBright('╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅')}
 │ ${chalk.blueBright('╭┄┈┅┈┄┈┅┈┄┅┈┄┈┅┄┈┅┈┄')}
 │ ${chalk.blueBright('┊')} ${chalk.blue.bgBlue.bold.cyan("MÉTODO DE VINCULACIÓN")}
