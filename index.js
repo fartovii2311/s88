@@ -133,7 +133,7 @@ if (!fs.existsSync(rutaJadiBot)) {
 fs.mkdirSync(rutaJadiBot)
 }
 */
-
+const currentFilePath = __filename;
 const ramInGB = os.totalmem() / (1024 * 1024 * 1024)
 const freeRamInGB = os.freemem() / (1024 * 1024 * 1024)
 const packageJsonPath = path.join(path.dirname(currentFilePath), './package.json')
