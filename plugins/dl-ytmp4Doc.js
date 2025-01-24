@@ -36,6 +36,7 @@ const handler = async (m, { conn, args }) => {
 
     await m.react('✅');
   } catch (error) {
+    console.error('Error en el comando ytmp3:', error.message);
     await m.react('❌');
   }
 };
