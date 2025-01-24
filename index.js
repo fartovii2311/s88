@@ -27,6 +27,7 @@ import store from './lib/store.js'
 import readline from 'readline'
 import NodeCache from 'node-cache'
 import pkg from 'google-libphonenumber'
+import disk from 'diskusage';
 const { PhoneNumberUtil } = pkg
 const phoneUtil = PhoneNumberUtil.getInstance()
 const {DisconnectReason, useMultiFileAuthState, MessageRetryMap, fetchLatestBaileysVersion, makeCacheableSignalKeyStore, jidNormalizedUser, PHONENUMBER_MCC} = await import('@whiskeysockets/baileys')
@@ -133,7 +134,7 @@ if (!fs.existsSync(rutaJadiBot)) {
 fs.mkdirSync(rutaJadiBot)
 }
 */
-const disk = require('diskusage');
+
 const { free, total } = await disk.check('/');
 const ramInGB = os.totalmem() / (1024 * 1024 * 1024)
 const freeRamInGB = os.freemem() / (1024 * 1024 * 1024)
