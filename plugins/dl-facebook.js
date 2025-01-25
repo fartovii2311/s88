@@ -7,7 +7,7 @@ const handler = async (m, { text, conn, args }) => {
     return conn.reply(
       m.chat,
       `🔔 Envíame el enlace del video de Facebook para descargarlo.`,
-      m.rcanal
+      m,rcanal
     );
   }
 
