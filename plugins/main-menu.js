@@ -93,6 +93,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
       minute: 'numeric',
       second: 'numeric'
     })
+    let muptime
     let uptime = clockString(process.uptime() * 1000); // Calcula el tiempo de actividad del bot en horas:minutos:segundos
     let totalreg = Object.keys(global.db.data.users).length
     let rtotalreg = Object.values(global.db.data.users).filter(user => user.registered == true).length
@@ -123,7 +124,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
         return header.replace(/%category/g, tags[tag]) + '\n' + [
           ...help.filter(menu => menu.tags && menu.tags.includes(tag) && menu.help).map(menu => {
             return menu.help.map(help => {
-              return body.replace(/%cmd/g, menu.prefix ? help : '' + help)
+              return body.replace(/%cmd/g, menu.prefix ? help : '%_p' + help)
                 .replace(/%islimit/g, menu.limit ? '◜⭐◞' : '')
                 .replace(/%isMonedas/g, menu.Monedas ? '◜🪙◞' : '')
                 .replace(/%isPremium/g, menu.premium ? '◜🪪◞' : '')
@@ -139,7 +140,8 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
     let text = typeof conn.menu == 'string' ? conn.menu : typeof conn.menu == 'object' ? _text : ''
     let replace = {
       "%": "%",
-      p: uptime,
+      p: uptime, 
+      muptime,
       me: conn.getName(conn.user.jid),
       npmname: _package.name,
       npmdesc: _package.description,
