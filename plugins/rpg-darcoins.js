@@ -26,11 +26,13 @@ let handler = async (m, { conn, text }) => {
     // Validación para no propietarios
     if (!isOwner) {
         if (Monedas > users[m.sender].Monedas) throw '🚩 No tienes suficientes *🪙 Monedas* para dar.';
-        users[m.sender].Monedas -= Monedas; 
+        users[m.sender].Monedas -= Monedas; // Descuenta monedas del saldo del usuario normal
     }
 
     // Inicializa el usuario receptor si no existe
     if (!users[who]) users[who] = { Monedas: 0 };
+
+    // Suma monedas al receptor (propietario también puede enviar sin restricciones)
     users[who].Monedas += poin;
 
     // Respuesta al remitente
