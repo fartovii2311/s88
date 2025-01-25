@@ -5,6 +5,9 @@ let texto = `🌟 𝐌𝐄𝐍𝐔 🔞 𝐍𝐒𝐅𝐖 🌟
 
 📌 *Categorías Principales:*
   ──────────────────
+  🍑 Descargas xxx
+  • xnxx < url >
+  
   🍑 **Genshin Impact**:
   • genshin
 
