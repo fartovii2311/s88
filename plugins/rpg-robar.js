@@ -5,7 +5,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
   let senderId = m.sender
   let senderName = conn.getName(senderId)
 
-  let tiempoEspera = 5 * 60
+  let tiempoEspera = 30 * 60 // 30 minutos en segundos
   if (cooldowns[m.sender] && Date.now() - cooldowns[m.sender] < tiempoEspera * 1000) {
     let tiempoRestante = segundosAHMS(Math.ceil((cooldowns[m.sender] + tiempoEspera * 1000 - Date.now()) / 1000))
     m.reply(`🪙 Ya has robado Monedas recientemente, espera *⏱ ${tiempoRestante}* para hacer tu próximo robo.`)
@@ -21,7 +21,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
   let senderMonedas = users[senderId].Monedas || 0
 
   let targetUserId = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : null
-  
+
   if (!targetUserId) {
     if (senderMonedas <= 0) {
       let groupParticipants = m.isGroup ? await conn.groupMetadata(m.chat).then(group => group.participants) : []
