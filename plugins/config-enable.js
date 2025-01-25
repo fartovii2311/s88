@@ -308,34 +308,34 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
       if (!/[01]/.test(command)) return conn.reply(m.chat, `╭───────────────✦
 │ 📜 *CONFIGURACIONES DEL CHAT:*
 ├───────────────╮
-│ ➤ Welcome: ${chat.welcome ? '✅ Activado' : '❌ Desactivado'}
-│ ➤ AutoAceptar: ${chat.autoAceptar ? '✅ Activado' : '❌ Desactivado'}
-│ ➤ AutoRechazar: ${chat.autoRechazar ? '✅ Activado' : '❌ Desactivado'}
-│ ➤ AntiBot: ${chat.antiBot ? '✅ Activado' : '❌ Desactivado'}
-│ ➤ AntiArabe: ${chat.antiarabe ? '✅ Activado' : '❌ Desactivado'}
-│ ➤ AntiBot2: ${chat.antiBot2 ? '✅ Activado' : '❌ Desactivado'}
-│ ➤ AntiFake: ${chat.antifake ? '✅ Activado' : '❌ Desactivado'}
-│ ➤ AutoResponder: ${chat.autoresponder ? '✅ Activado' : '❌ Desactivado'}
-│ ➤ Autolevelup: ${chat.autolevelup ? '✅ Activado' : '❌ Desactivado'}
-│ ➤ AntiEliminar: ${chat.delete ? '✅ Activado' : '❌ Desactivado'}
-│ ➤ SimSimi: ${chat.simi ? '✅ Activado' : '❌ Desactivado'}
-│ ➤ Audios: ${chat.audios ? '✅ Activado' : '❌ Desactivado'}
-│ ➤ AntiVer: ${chat.antiver ? '✅ Activado' : '❌ Desactivado'}
-│ ➤ Detect: ${chat.detect ? '✅ Activado' : '❌ Desactivado'}
-│ ➤ ModoAdmin: ${chat.modoadmin ? '✅ Activado' : '❌ Desactivado'}
-│ ➤ NSFW: ${chat.modohorny ? '✅ Activado' : '❌ Desactivado'}
-│ ➤ AntiLink: ${chat.antiLink ? '✅ Activado' : '❌ Desactivado'}
+│ ➤ Welcome: ${chat.welcome ? '✅' : '❌'}
+│ ➤ AutoAceptar: ${chat.autoAceptar ? '✅ Activado' : '❌'}
+│ ➤ AutoRechazar: ${chat.autoRechazar ? '✅' : '❌'}
+│ ➤ AntiBot: ${chat.antiBot ? '✅' : '❌'}
+│ ➤ AntiArabe: ${chat.antiarabe ? '✅' : '❌'}
+│ ➤ AntiBot2: ${chat.antiBot2 ? '✅' : '❌'}
+│ ➤ AntiFake: ${chat.antifake ? '✅' : '❌'}
+│ ➤ AutoResponder: ${chat.autoresponder ? '✅' : '❌'}
+│ ➤ Autolevelup: ${chat.autolevelup ? '✅' : '❌'}
+│ ➤ AntiEliminar: ${chat.delete ? '✅' : '❌'}
+│ ➤ SimSimi: ${chat.simi ? '✅' : '❌'}
+│ ➤ Audios: ${chat.audios ? '✅' : '❌'}
+│ ➤ AntiVer: ${chat.antiver ? '✅' : '❌'}
+│ ➤ Detect: ${chat.detect ? '✅' : '❌'}
+│ ➤ ModoAdmin: ${chat.modoadmin ? '✅' : '❌'}
+│ ➤ NSFW: ${chat.modohorny ? '✅' : '❌'}
+│ ➤ AntiLink: ${chat.antiLink ? '✅' : '❌'}
 ╰───────────────╯
 
 ╭───────────────✦
 │ 🌐 *CONFIGURACIONES GLOBALES:*
 ├───────────────╮
-│ ➤ AntiPrivado: ${bot.antiPrivate ? '✅ Activado' : '❌ Desactivado'}
-│ ➤ AutoRead: ${global.opts['autoread'] ? '✅ Activado' : '❌ Desactivado'}
-│ ➤ Restrict: ${bot.restrict ? '✅ Activado' : '❌ Desactivado'}
-│ ➤ Autobio: ${bot.autobio ? '✅ Activado' : '❌ Desactivado'}
-│ ➤ AntiSpam: ${bot.antiSpam ? '✅ Activado' : '❌ Desactivado'}
-│ ➤ JadiBotMD: ${bot.jadibotmd ? '✅ Activado' : '❌ Desactivado'}
+│ ➤ AntiPrivado: ${bot.antiPrivate ? '✅' : '❌'}
+│ ➤ AutoRead: ${global.opts['autoread'] ? '✅' : '❌'}
+│ ➤ Restrict: ${bot.restrict ? '✅' : '❌'}
+│ ➤ Autobio: ${bot.autobio ? '✅' : '❌'}
+│ ➤ AntiSpam: ${bot.antiSpam ? '✅' : '❌'}
+│ ➤ JadiBotMD: ${bot.jadibotmd ? '✅' : '❌'}
 ╰───────────────╯`, m, rcanal)
       throw false
   }
