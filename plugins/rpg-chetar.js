@@ -33,27 +33,11 @@ let handler = async (m, { conn, text }) => {
             { mentions: [who] }
         );
     }
-
-    if (text.startsWith('deschetar')) {
-        if (!users[who]) throw '🔮 El usuario no tiene datos para deschetar.';
-
-        users[who].Monedas = 0;
-        users[who].XP = 0;
-
-        await m.reply(
-            `🔮 *¡Usuario descheteado con éxito!*\n\n` +
-            `👤 Usuario: @${who.split`@`[0]}\n` +
-            `🪙 Monedas: *0*\n` +
-            `💡 Experiencia (XP): *0*`,
-            null,
-            { mentions: [who] }
-        );
-    }
 };
 
-handler.help = ['chetar *@user*', 'deschetar *@user*'];
+handler.help = ['chetar *@user*'];
 handler.tags = ['owner'];
-handler.command = ['chetar', 'deschetar'];
+handler.command = ['chetar'];
 handler.register = true;
 handler.rowner = true;
 
