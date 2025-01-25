@@ -95,6 +95,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
       second: 'numeric'
     })
     let _muptime
+    let _uptime
     let muptime = clockString(_muptime)
     let uptime = clockString(_uptime)
     let totalreg = Object.keys(global.db.data.users).length
@@ -141,7 +142,9 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
     let text = typeof conn.menu == 'string' ? conn.menu : typeof conn.menu == 'object' ? _text : ''
    let replace = {
  "%": "%",
- p: uptime, muptime,
+ p: 
+ uptime, 
+ muptime,
  me: conn.getName(conn.user.jid),
  npmname: _package.name,
  npmdesc: _package.description,
