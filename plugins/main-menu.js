@@ -51,7 +51,7 @@ const defaultMenu = {
  ▧ *\`INFO BOT\`*
  │ » *Modo:* %mode
  │ » *Prefijo:* [ *%_p* ]
- │ » *Rutina:* %uptime
+ │ » *Rutina:* %muptime
  │ » *Database:*  %totalreg
  └───···
  
