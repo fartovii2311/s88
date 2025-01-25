@@ -25,12 +25,10 @@ const handler = async (m, { text, conn, args }) => {
 
   if (!video) {
     try {
-      // Llamar a la API alternativa para obtener el video
       const apiRes = await axios.get(`https://restapi.apibotwa.biz.id/api/fbdl?url=${args[0]}`);
       const apiData = apiRes.data;
 
       if (apiData.status === 200 && apiData.data.result.length > 0) {
-        // Escoge el video de calidad 720p o 360p
         video = apiData.data.result.find(i => i.quality === '720p (HD)') || apiData.data.result.find(i => i.quality === '360p (SD)');
       } else {
         await m.react('❌');
