@@ -1,4 +1,5 @@
  // *[ ❀ FACEBOOK DL ]*
+https://restapi.apibotwa.biz.id/api/fbdl?url=$
 import { igdl } from 'ruhend-scraper';
 
 const handler = async (m, { text, conn, args }) => {
