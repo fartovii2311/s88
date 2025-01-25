@@ -113,6 +113,15 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
         setTimeout(resolve, 1000)
       }) * 1000
     }
+    let mpt = clockString(_mpt)
+    let usrs = db.data.users[m.sender]
+    let wib = moment.tz('Asia/Jakarta').format('HH:mm:ss')
+    let wibh = moment.tz('Asia/Jakarta').format('HH')
+    let wibm = moment.tz('Asia/Jakarta').format('mm')
+    let wibs = moment.tz('Asia/Jakarta').format('ss')
+    let wit = moment.tz('Asia/Jayapura').format('HH:mm:ss')
+    let wita = moment.tz('Asia/Makassar').format('HH:mm:ss')
+    let wktuwib = `${wibh} H ${wibm} M ${wibs} S`
     let totalreg = Object.keys(global.db.data.users).length
     let rtotalreg = Object.values(global.db.data.users).filter(user => user.registered == true).length
     let help = Object.values(global.plugins).filter(plugin => !plugin.disabled).map(plugin => {
@@ -157,9 +166,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
     let text = typeof conn.menu == 'string' ? conn.menu : typeof conn.menu == 'object' ? _text : ''
    let replace = {
  "%": "%",
- p: _p,
- uptime,
- muptime,
+ p: uptime, muptime,
  me: conn.getName(conn.user.jid),
  npmname: _package.name,
  npmdesc: _package.description,
