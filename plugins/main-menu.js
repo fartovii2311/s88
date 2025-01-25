@@ -123,7 +123,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
         return header.replace(/%category/g, tags[tag]) + '\n' + [
           ...help.filter(menu => menu.tags && menu.tags.includes(tag) && menu.help).map(menu => {
             return menu.help.map(help => {
-              return body.replace(/%cmd/g, menu.prefix ? help : '%p' + help)
+              return body.replace(/%cmd/g, menu.prefix ? help : '' + help)
                 .replace(/%islimit/g, menu.limit ? '◜⭐◞' : '')
                 .replace(/%isMonedas/g, menu.Monedas ? '◜🪙◞' : '')
                 .replace(/%isPremium/g, menu.premium ? '◜🪪◞' : '')
@@ -139,7 +139,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
     let text = typeof conn.menu == 'string' ? conn.menu : typeof conn.menu == 'object' ? _text : ''
     let replace = {
       "%": "%",
-      uptime, // Aquí se sustituye la variable de uptime
+      p: uptime,
       me: conn.getName(conn.user.jid),
       npmname: _package.name,
       npmdesc: _package.description,
