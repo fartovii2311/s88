@@ -361,4 +361,6 @@ let handler = async (m, { conn, usedPrefix }) => {
     // Enviar el mensaje al chat
     conn.sendMessage(m.chat, mensaje, MessageType.text);
 };
-h
+handler.help = ['web']
+handler.command = /^(web)$/i
+export default handler
