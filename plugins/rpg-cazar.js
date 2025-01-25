@@ -62,7 +62,7 @@ let handler = async (m, { conn, text, command }) => {
   global.db.write()
 }
 
-handler.tags = ['juegos']
+handler.tags = ['rpg']
 handler.help = ['cazar']
 handler.command = ['cazar', 'hunt']
 handler.register = true
