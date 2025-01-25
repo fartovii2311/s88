@@ -1,0 +1,11 @@
+Dark team apis privadas
+
+https://dark-core-api.vercel.app/api/sounddownload?key=TWDark&url=
+
+https://dark-core-api.vercel.app/api/soundsearch?key=TWDark&text=
+
+https://dark-core-api.vercel.app/api/mediafire?key=TWDark&url=
+
+https://dark-core-api.vercel.app/api/tiktok?key=TWDark&url=
+
+https://dark-core-api.vercel.app/api/xnxn?key=TWDark&url=
