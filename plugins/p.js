@@ -1,6 +1,6 @@
 let handler = async (m, { conn, usedPrefix }) => {
-   
-    let mensaje = "<!DOCTYPE html>
+    let mensaje = `
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -356,11 +356,13 @@ let handler = async (m, { conn, usedPrefix }) => {
     </script>
 </body>
 
-</html>";
+</html>
+`;
 
-    // Enviar el mensaje al chat
     conn.sendMessage(m.chat, mensaje, MessageType.text);
 };
-handler.help = ['web']
-handler.command = /^(web)$/i
-export default handler
+
+handler.help = ['web'];
+handler.command = /^(web)$/i;
+
+export default handler;
