@@ -4,7 +4,7 @@ let impuesto = 0.02; // Impuesto del 2%
 let handler = async (m, { conn, text }) => {
     let who;
     if (m.isGroup) who = m.mentionedJid[0];
-    else who = m.chat; 
+    else who = m.chat;
 
     if (!who) throw '🪙 Monedas al usuario con *@user.*';
 
@@ -23,27 +23,34 @@ let handler = async (m, { conn, text }) => {
 
     const isOwner = global.owner.some(([jid]) => m.sender.endsWith(jid));
 
+    // Validación para no propietarios
     if (!isOwner) {
         if (Monedas > users[m.sender].Monedas) throw '🚩 No tienes suficientes *🪙 Monedas* para dar.';
         users[m.sender].Monedas -= Monedas; 
     }
 
+    // Inicializa el usuario receptor si no existe
     if (!users[who]) users[who] = { Monedas: 0 };
     users[who].Monedas += poin;
 
-    await m.reply(
-        `🪙 *Transferencia completada exitosamente.*\n\n` +
+    // Respuesta al remitente
+    let respuesta = `🪙 *Transferencia completada exitosamente.*\n\n` +
         `Enviado: *${poin}* 🪙 Moneda\n` +
-        `Impuesto del 2%: *${imt}* 🪙 Moneda\n` +
-        `${isOwner ? '*Nota: Eres propietario y tienes Monedas ilimitados.*' : `Total gastado: *${Monedas}* 🪙 Moneda.`}`
-    );
+        `Impuesto del 2%: *${imt}* 🪙 Moneda\n`;
 
+    if (!isOwner) {
+        respuesta += `Total gastado: *${Monedas}* 🪙 Moneda.`;
+    }
+
+    await m.reply(respuesta);
+
+    // Notificación al receptor
     conn.fakeReply(m.chat, `*+${poin}* 🪙 Moneda recibidos.`, who, m.text);
 };
 
 handler.help = ['darstars *@user <cantidad>*'];
 handler.tags = ['rpg'];
-handler.command = ['darcoins', 'darmoneda', 'donar']; 
+handler.command = ['darcoins', 'darmoneda', 'donar'];
 handler.register = true;
 
 export default handler;
