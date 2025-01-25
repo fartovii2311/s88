@@ -139,7 +139,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
     let text = typeof conn.menu == 'string' ? conn.menu : typeof conn.menu == 'object' ? _text : ''
     let replace = {
       "%": "%",
-      p: uptime, // Aquí se sustituye la variable de uptime
+      uptime, // Aquí se sustituye la variable de uptime
       me: conn.getName(conn.user.jid),
       npmname: _package.name,
       npmdesc: _package.description,
@@ -156,7 +156,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
       level,
       name,
       totalreg,
-      cmd: m.command,  // Mantén el comando que se ejecutó aquí (prefixo)
+      cmd: m.command,
       ucpn, mode, _p, money, age, tag, name, level, Monedas, name, weton, week, date, dateIslamic, time, totalreg, rtotalreg, role,
       readmore: readMore
     };
