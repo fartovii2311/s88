@@ -1,32 +1,26 @@
-import { spawn } from 'child_process';
 
+import { spawn } from 'child_process'
 let handler = async (m, { conn, isROwner, text }) => {
-    if (!process.send) return m.react('✖️');
-    if (conn.user.jid == conn.user.jid) {
-        await m.reply('🚩 Reiniciando Bot...');
 
-        const restartPM2 = spawn('pm2', ['restart', 'Dark-Bot'], {
-            stdio: 'inherit',
-        });
+if (!process.send) throw '*『✦』Reiniciar: node start.js*\n*『✦』Reiniciar: node index.js*'
 
-        restartPM2.on('close', (code) => {
-            if (code === 0) {
-                console.log('PM2 proceso reiniciado correctamente');
-            } else {
-                console.log(`Error al reiniciar el proceso PM2, código de salida: ${code}`);
-            }
-        });
+if (conn.user.jid == conn.user.jid) {
 
-        process.exit();
-    } else {
-        return m.react('✖️');
-    }
-};
+const { key } = await conn.sendMessage(m.chat, {text: `🗂️ Cargando...`}, {quoted: m})
+await delay(1000 * 1)
+await conn.sendMessage(m.chat, {text: `📦 Cargando...`, edit: key})
+await delay(1000 * 1)
+await conn.sendMessage(m.chat, {text: `♻️ Cargando...`, edit: key})
+await conn.sendMessage(m.chat, {text: `*『⛏️』Comenzar reinicio completo...*`, edit: key})
 
-handler.help = ['restart'];
-handler.tags = ['owner'];
-handler.command = ['restart', 'reiniciar'];
+process.send('reset')
+} else throw 'eh'
+}
 
-handler.rowner = true;
+handler.help = ['restart']
+handler.tags = ['owner']
+handler.command = ['restart', 'reiniciar'] 
+handler.rowner = true
 
-export default handler;
+export default handler
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
