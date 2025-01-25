@@ -7,6 +7,7 @@ let texto = `🌟 𝐌𝐄𝐍𝐔 🔞 𝐍𝐒𝐅𝐖 🌟
   ──────────────────
   🍑 Descargas xxx
   • xnxx < url >
+  • xnxxsearch < text >
   
   🍑 **Genshin Impact**:
   • genshin
