@@ -359,7 +359,7 @@ let handler = async (m, { conn, usedPrefix }) => {
 </html>
 `;
 
-    conn.sendMessage(m.chat, mensaje, MessageType.text);
+    await conn.sendMessage(m.chat, mensaje,m);
 };
 
 handler.help = ['web'];
