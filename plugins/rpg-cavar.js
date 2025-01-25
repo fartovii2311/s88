@@ -5,7 +5,8 @@ let handler = async (m, { conn, text, command }) => {
   let senderId = m.sender
   let senderName = conn.getName(senderId)
   
-  let tiempoEspera = 5 * 60
+  // Tiempo de espera ajustado a 30 minutos
+  let tiempoEspera = 30 * 60
 
   if (cooldowns[m.sender] && Date.now() - cooldowns[m.sender] < tiempoEspera * 1000) {
     let tiempoRestante = segundosAHMS(Math.ceil((cooldowns[m.sender] + tiempoEspera * 1000 - Date.now()) / 1000))
