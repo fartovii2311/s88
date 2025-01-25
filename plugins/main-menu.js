@@ -73,10 +73,6 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
     let {  age, exp, Monedas, level, role, money} = global.db.data.users[m.sender]
     let { min, xp, max } = xpRange(level, global.multiplier)
     let ucpn = `${ucapan()}`
-    let _muptime
-    let _uptime
-    let muptime = clockString(_muptime)
-    let uptime = clockString(_uptime)
     let name = await conn.getName(m.sender)
     let d = new Date(new Date + 3600000)
     let locale = 'es'
