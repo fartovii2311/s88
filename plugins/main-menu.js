@@ -168,7 +168,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
  level,
  name,
  totalreg,
- ucpn,  mode, _p, money, age, tag, name, level, Monedas, name, weton, week, date, dateIslamic, time, totalreg, rtotalreg, role,
+ ucpn,  mode, _p, money, age, tag,muptime, name, level, Monedas, name, weton, week, date, dateIslamic, time, totalreg, rtotalreg, role,
  readmore: readMore
    }
     text = text.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), (_, name) => '' + replace[name])
