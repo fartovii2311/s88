@@ -156,6 +156,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
       level,
       name,
       totalreg,
+      cmd: m.command, 
       ucpn, mode, _p, money, age, tag, name, level, Monedas, name, weton, week, date, dateIslamic, time, totalreg, rtotalreg, role,
       readmore: readMore
     };
