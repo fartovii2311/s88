@@ -95,7 +95,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
       second: 'numeric'
     })
 
-    let _muptime = clockString(_muptime)
+    let muptime = clockString(_muptime)
     let uptime = clockString(_uptime)
     let totalreg = Object.keys(global.db.data.users).length
     let rtotalreg = Object.values(global.db.data.users).filter(user => user.registered == true).length
