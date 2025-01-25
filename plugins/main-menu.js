@@ -51,7 +51,7 @@ const defaultMenu = {
  ▧ *\`INFO BOT\`*
  │ » *Modo:* %mode
  │ » *Prefijo:* [ *%_p* ]
- │ » *Rutina:* %muptime 
+ │ » *Rutina:* %uptime
  │ » *Database:*  %totalreg
  └───···
  
@@ -93,7 +93,6 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
       minute: 'numeric',
       second: 'numeric'
     })
-    let muptime
     let uptime
     let totalreg = Object.keys(global.db.data.users).length
     let rtotalreg = Object.values(global.db.data.users).filter(user => user.registered == true).length
@@ -139,9 +138,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
     let text = typeof conn.menu == 'string' ? conn.menu : typeof conn.menu == 'object' ? _text : ''
    let replace = {
  "%": "%",
- p: 
- uptime, 
- muptime,
+ p: uptime,
  me: conn.getName(conn.user.jid),
  npmname: _package.name,
  npmdesc: _package.description,
