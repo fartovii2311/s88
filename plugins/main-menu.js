@@ -105,6 +105,14 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
     }
     let muptime = clockString(_muptime)
     let uptime = clockString(_uptime)
+    let _mpt
+    if (process.send) {
+      process.send('uptime')
+      _mpt = await new Promise(resolve => {
+        process.once('message', resolve)
+        setTimeout(resolve, 1000)
+      }) * 1000
+    }
     let totalreg = Object.keys(global.db.data.users).length
     let rtotalreg = Object.values(global.db.data.users).filter(user => user.registered == true).length
     let help = Object.values(global.plugins).filter(plugin => !plugin.disabled).map(plugin => {
@@ -168,7 +176,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
  level,
  name,
  totalreg,
- ucpn,  mode, _p, money, age, tag,muptime, name, level, Monedas, name, weton, week, date, dateIslamic, time, totalreg, rtotalreg, role,
+ ucpn,  mode, _p, money, age, tag, name, level, Monedas, name, weton, week, date, dateIslamic, time, totalreg, rtotalreg, role,
  readmore: readMore
    }
     text = text.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), (_, name) => '' + replace[name])
