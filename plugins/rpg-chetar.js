@@ -19,16 +19,16 @@ let handler = async (m, { conn, text }) => {
     if (!isOwner) throw '🚩 Solo los propietarios pueden usar este comando.';
 
     if (text.startsWith('chetar')) {
-        if (!users[who]) users[who] = { Monedas: 0, XP: 0 };
+        if (!users[who]) users[who] = { Monedas: 0, exp: 0 };
 
         users[who].Monedas = Number.MAX_SAFE_INTEGER;
-        users[who].XP = Number.MAX_SAFE_INTEGER;
+        users[who].exp = Number.MAX_SAFE_INTEGER;
 
         await m.reply(
             `✨ *¡Usuario chetado con éxito!*\n\n` +
             `👤 Usuario: @${who.split`@`[0]}\n` +
             `🪙 Monedas: *${users[who].Monedas.toLocaleString()}*\n` +
-            `💡 Experiencia (XP): *${users[who].XP.toLocaleString()}*`,
+            `💡 Experiencia (XP): *${users[who].exp.toLocaleString()}*`,
             null,
             { mentions: [who] }
         );
