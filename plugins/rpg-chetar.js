@@ -16,16 +16,16 @@ let handler = async (m, { conn, text }) => {
     // Inicializar el perfil del usuario si no existe
     if (!users[who]) users[who] = { Monedas: 0, XP: 0 };
 
-    // Asignar 999 Monedas y 999 XP
-    users[who].Monedas = 99999999999999999999999999999999999999999;
-    users[who].XP = 9999999999999999999999999999999999999999999999;
+    // Asignar valores grandes (simulando infinito)
+    users[who].Monedas = Number.MAX_SAFE_INTEGER; // Valor máximo seguro en JS para enteros
+    users[who].XP = Number.MAX_SAFE_INTEGER;
 
     // Respuesta al propietario
     await m.reply(
         `✨ *¡Usuario chetado con éxito!*\n\n` +
         `👤 Usuario: @${who.split`@`[0]}\n` +
-        `🪙 Monedas: *999*\n` +
-        `💡 Experiencia (XP): *999*`,
+        `🪙 Monedas: *${users[who].Monedas.toLocaleString()}*\n` +
+        `💡 Experiencia (XP): *${users[who].XP.toLocaleString()}*`,
         null,
         { mentions: [who] }
     );
