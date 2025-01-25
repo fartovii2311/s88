@@ -50,4 +50,5 @@ let handler = async (m, { conn }) => {
 }
 
 handler.command = ['pokemon', 'adivinarpokemon', 'pokemongame']
+handler.tags = ['rpg']
 export default handler
