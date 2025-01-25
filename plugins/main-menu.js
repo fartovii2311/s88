@@ -22,21 +22,21 @@ let Styles = (text, style = 1) => {
   return output.join('');
 };
 let tags = {
-    'main': 'Principal',
-    'start': 'Start',
-    'dl': 'Descargas',
-    'search': 'Busqueda',
-    'rpg': 'rpg juegos',
-    'fun': 'Funny',
-    'sticker': 'ꜱᴛɪᴄᴋᴇʀ',
-    'ai': 'Funciones ai',
-    'tools': 'Herramientas',
-    'group': 'Grupo',
-    'owner': 'Owner',
-    'enable': 'On/Off',
-    'audio': 'Covertidores',
-    'nsfw': 'nsfw Hot',
-  };
+  'main': 'Principal',
+  'start': 'Start',
+  'dl': 'Descargas',
+  'search': 'Busqueda',
+  'rpg': 'rpg juegos',
+  'fun': 'Funny',
+  'sticker': 'ꜱᴛɪᴄᴋᴇʀ',
+  'ai': 'Funciones ai',
+  'tools': 'Herramientas',
+  'group': 'Grupo',
+  'owner': 'Owner',
+  'enable': 'On/Off',
+  'audio': 'Covertidores',
+  'nsfw': 'nsfw Hot',
+};
 const defaultMenu = {
   before: `*\`һ᥆ᥣᥲ\`* *%name* *\`s᥆ᥡ ᥣᥡᥒ᥊ - ᥲі 𝗍ᥙ ᥲsіs𝗍ᥱᥒ𝗍ᥱ ᥎іr𝗍ᥙᥲᥣ ᥴrᥱᥲძ᥆ ⍴᥆r ძᥲrkᥴ᥆rᥱ , ᥱs𝗍ᥱ ᥱs ᥱᥣ mᥱᥒᥙ ᥴ᥆m⍴ᥣᥱ𝗍᥆ ძᥱ ᥣᥲs 𝖿ᥙᥒᥴі᥆ᥒᥱs 𝗊ᥙᥱ ⍴ᥙᥱძ᥆ һᥲᥴᥱr. ˙˚ʚ₍ ᐢ. ̫ .ᐢ ₎ɞ˚\`*
 
@@ -70,7 +70,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
     let mode = global.opts["self"] ? "Privado" : "Publico"
     let _package = JSON.parse(await promises.readFile(join(__dirname, '../package.json')).catch(_ => ({}))) || {}
 
-    let {  age, exp, Monedas, level, role, money} = global.db.data.users[m.sender]
+    let { age, exp, Monedas, level, role, money } = global.db.data.users[m.sender]
     let { min, xp, max } = xpRange(level, global.multiplier)
     let ucpn = `${ucapan()}`
     let name = await conn.getName(m.sender)
@@ -93,6 +93,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
       minute: 'numeric',
       second: 'numeric'
     })
+    let uptime = clockString(process.uptime() * 1000); // Calcula el tiempo de actividad del bot en horas:minutos:segundos
     let totalreg = Object.keys(global.db.data.users).length
     let rtotalreg = Object.values(global.db.data.users).filter(user => user.registered == true).length
     let help = Object.values(global.plugins).filter(plugin => !plugin.disabled).map(plugin => {
@@ -135,38 +136,41 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
       after
     ].join('\n')
     let text = typeof conn.menu == 'string' ? conn.menu : typeof conn.menu == 'object' ? _text : ''
-   let replace = {
- "%": "%",
- me: conn.getName(conn.user.jid),
- npmname: _package.name,
- npmdesc: _package.description,
- version: _package.version,
- exp: exp - min,
- maxexp: xp,
- totalexp: exp,
- xp4levelup: max - exp,
- github: _package.homepage ? _package.homepage.url || _package.homepage : "[unknown github url]",
- mode,
- _p,
- tag,
- name,
- level,
- name,
- totalreg,
- ucpn,  mode, _p, money, age, tag, name, level, Monedas, name, weton, week, date, dateIslamic, time, totalreg, rtotalreg, role,
- readmore: readMore
-   }
+    let replace = {
+      "%": "%",
+      p: uptime,
+      me: conn.getName(conn.user.jid),
+      npmname: _package.name,
+      npmdesc: _package.description,
+      version: _package.version,
+      exp: exp - min,
+      maxexp: xp,
+      totalexp: exp,
+      xp4levelup: max - exp,
+      github: _package.homepage ? _package.homepage.url || _package.homepage : "[unknown github url]",
+      mode,
+      _p,
+      tag,
+      name,
+      level,
+      name,
+      totalreg,
+      ucpn, mode, _p, money, age, tag, name, level, Monedas, name, weton, week, date, dateIslamic, time, totalreg, rtotalreg, role,
+      readmore: readMore,
+      uptime
+    };
+
     text = text.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), (_, name) => '' + replace[name])
 
-   let images = [
-    'https://i.ibb.co/Y7mhFdf/file.jpg',
-   ];
+    let images = [
+      'https://i.ibb.co/Y7mhFdf/file.jpg',
+    ];
 
-   await m.react('🍁');
+    await m.react('🍁');
 
-  for (let i = 0; i < images.length; i++) {
-  await conn.sendFile(m.chat, images[i], `image${i + 1}.jpg`, text.trim(), m, null, rcanal);
-  }
+    for (let i = 0; i < images.length; i++) {
+      await conn.sendFile(m.chat, images[i], `image${i + 1}.jpg`, text.trim(), m, null, rcanal);
+    }
 
   } catch (e) {
     conn.reply(m.chat, '❎ Lo sentimos, el menú tiene un error.', m)
@@ -174,8 +178,8 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
   }
 }
 
-handler.command = ['allmenu','help','Help', 'Menu','menucompleto', 'menúcompleto', 'menú', 'menu'] 
-handler.register = true 
+handler.command = ['allmenu', 'help', 'Help', 'Menu', 'menucompleto', 'menúcompleto', 'menú', 'menu']
+handler.register = true
 export default handler
 
 
@@ -189,9 +193,9 @@ function clockString(ms) {
   return [h, m, s].map(v => v.toString().padStart(2, 0)).join(':')
 }
 
-  var ase = new Date();
-  var hour = ase.getHours();
-switch(hour){
+var ase = new Date();
+var hour = ase.getHours();
+switch (hour) {
   case 0: hour = 'una linda noche 🌙'; break;
   case 1: hour = 'una linda noche 💤'; break;
   case 2: hour = 'una linda noche 🦉'; break;
@@ -217,22 +221,28 @@ switch(hour){
   case 22: hour = 'una linda noche 🌙'; break;
   case 23: hour = 'una linda noche 🌃'; break;
 }
-  var greeting = "espero que tengas " + hour; 
+var greeting = "espero que tengas " + hour;
 
 function ucapan() {
-    const time = moment.tz('America/Lima').format('HH')
-    let res = "Buenas Noches🌙"
-    if (time >= 5) {
-        res = "Buena Madrugada🌄"
-    }
-    if (time > 10) {
-        res = "Buenos días☀️"
-    }
-    if (time >= 12) {
-        res = "Buenas Tardes🌅"
-    }
-    if (time >= 19) {
-        res = "Buenas Noches🌙"
-    }
-    return res
-      }
+  const time = moment.tz('America/Lima').format('HH')
+  let res = "Buenas Noches🌙"
+  if (time >= 5) {
+    res = "Buena Madrugada🌄"
+  }
+  if (time > 10) {
+    res = "Buenos días☀️"
+  }
+  if (time >= 12) {
+    res = "Buenas Tardes🌅"
+  }
+  if (time >= 19) {
+    res = "Buenas Noches🌙"
+  }
+  return res
+}
+function clockString(ms) {
+  let h = isNaN(ms) ? '--' : Math.floor(ms / 3600000);
+  let m = isNaN(ms) ? '--' : Math.floor(ms / 60000) % 60;
+  let s = isNaN(ms) ? '--' : Math.floor(ms / 1000) % 60;
+  return [h, m, s].map(v => v.toString().padStart(2, 0)).join(':');
+}
