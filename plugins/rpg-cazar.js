@@ -5,8 +5,8 @@ let handler = async (m, { conn, text, command }) => {
   let senderId = m.sender
   let senderName = conn.getName(senderId)
 
-  // Tiempo de enfriamiento (en segundos)
-  let tiempoEspera = 5 * 60
+  // Tiempo de enfriamiento (30 minutos en segundos)
+  let tiempoEspera = 30 * 60
 
   // Verificar si el jugador está en tiempo de enfriamiento
   if (cooldowns[m.sender] && Date.now() - cooldowns[m.sender] < tiempoEspera * 1000) {
@@ -74,5 +74,5 @@ function segundosAHMS(segundos) {
   let horas = Math.floor(segundos / 3600)
   let minutos = Math.floor((segundos % 3600) / 60)
   let segundosRestantes = segundos % 60
-  return `${minutos} minutos y ${segundosRestantes} segundos`
+  return `${horas > 0 ? `${horas} horas, ` : ''}${minutos} minutos y ${segundosRestantes} segundos`
 }
