@@ -59,7 +59,7 @@ const defaultMenu = {
 
 `.trimStart(),
   header: '─₍🌩️₎❝┊ *%category* ┊❜❜ ˚ ͙۪۪̥◌',
-  body: `┊꒱ 🍁   %cmd`,
+  body: `┊꒱ 🍁   %cmd %islimit %isPremium`,
   footer: '╰─── –',
   after: `> ʟʏɴx ᴀɪ - ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴅᴀʀᴋᴄᴏʀᴇ`,
 }
@@ -94,32 +94,8 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
       minute: 'numeric',
       second: 'numeric'
     })
-    let _uptime = process.uptime() * 1000
-    let _muptime
-    if (process.send) {
-      process.send('uptime')
-      _muptime = await new Promise(resolve => {
-        process.once('message', resolve)
-        setTimeout(resolve, 1000)
-      }) * 1000
-    }
     let muptime = clockString(_muptime)
     let uptime = clockString(_uptime)
-    let _mpt
-    if (process.send) {
-      process.send('uptime')
-      _mpt = await new Promise(resolve => {
-        process.once('message', resolve)
-        setTimeout(resolve, 1000)
-      }) * 1000
-    }
-    let wib = moment.tz('Asia/Jakarta').format('HH:mm:ss')
-    let wibh = moment.tz('Asia/Jakarta').format('HH')
-    let wibm = moment.tz('Asia/Jakarta').format('mm')
-    let wibs = moment.tz('Asia/Jakarta').format('ss')
-    let wit = moment.tz('Asia/Jayapura').format('HH:mm:ss')
-    let wita = moment.tz('Asia/Makassar').format('HH:mm:ss')
-    let wktuwib = `${wibh} H ${wibm} M ${wibs} S`
     let totalreg = Object.keys(global.db.data.users).length
     let rtotalreg = Object.values(global.db.data.users).filter(user => user.registered == true).length
     let help = Object.values(global.plugins).filter(plugin => !plugin.disabled).map(plugin => {
