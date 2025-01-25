@@ -43,9 +43,8 @@ handler.help = ['apostar *<cantidad>*']
 handler.tags = ['rpg']
 handler.command = /^(apostar|casino)$/i
 handler.register = true
-
+handler.group = true
 handler.fail = null
-
 export default handler
 
 function pickRandom(list) {
