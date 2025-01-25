@@ -43,7 +43,7 @@ let handler = async (m, { conn, text }) => {
 
 handler.help = ['darstars *@user <cantidad>*'];
 handler.tags = ['rpg'];
-handler.command = ['darcoins', 'darstars']; 
+handler.command = ['darcoins', 'darmoneda', 'donar']; 
 handler.register = true;
 
 export default handler;
