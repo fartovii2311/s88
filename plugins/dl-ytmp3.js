@@ -33,7 +33,7 @@ handler.help = ['ytmp3 *<url>*'];
 handler.tags = ['dl'];
 handler.command = ['ytmp3'];
 handler.register = true;
-handler.Monedas = 3
+handler.Monedas = 10
 export default handler;
 
 
