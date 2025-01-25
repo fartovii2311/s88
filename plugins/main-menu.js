@@ -94,6 +94,8 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
       minute: 'numeric',
       second: 'numeric'
     })
+    let _uptime = process.uptime() * 1000
+    let _muptime
     let muptime = clockString(_muptime)
     let uptime = clockString(_uptime)
     let totalreg = Object.keys(global.db.data.users).length
