@@ -39,6 +39,8 @@ global.db.data.users[m.sender].lastAcet = now
 handler.help = ['acertijo']
 handler.tags = ['rpg']
 handler.command = /^(acertijo|acert|pregunta|adivinanza|tekateki)$/i
+handler.register = true
+handler.group = true
 export default handler
 
 function msToTime(duration) {
