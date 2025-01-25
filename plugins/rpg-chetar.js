@@ -17,8 +17,8 @@ let handler = async (m, { conn, text }) => {
     if (!users[who]) users[who] = { Monedas: 0, XP: 0 };
 
     // Asignar 999 Monedas y 999 XP
-    users[who].Monedas = 999;
-    users[who].XP = 999;
+    users[who].Monedas = 99999999999999999999999999999999999999999;
+    users[who].XP = 9999999999999999999999999999999999999999999999;
 
     // Respuesta al propietario
     await m.reply(
