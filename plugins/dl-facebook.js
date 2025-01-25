@@ -1,89 +1,73 @@
  // *[ ❀ FACEBOOK DL ]*
-https://restapi.apibotwa.biz.id/api/fbdl?url=$
 import { igdl } from 'ruhend-scraper';
+import axios from 'axios';
 
 const handler = async (m, { text, conn, args }) => {
   if (!args[0]) {
     return conn.reply(
       m.chat,
       `🔔 Envíame el enlace del video de Facebook para descargarlo.`,
-      m,rcanal
+      m.rcanal
     );
   }
 
   let res;
+  let video;
   try {
     await m.react('🚀');
-    res = await igdl(args[0]); 
+    res = await igdl(args[0]);
+    let result = res.data;
+    video = result.find((i) => i.resolution === '720p (HD)') || result.find((i) => i.resolution === '360p (SD)');
   } catch (e) {
     await m.react('❌');
-    return conn.reply(
-      m.chat,
-      `❗ El enlace no es válido o no pertenece a Facebook. Por favor verifica.`,
-      m
-    );
+    console.log(e);
   }
 
-  // Verificar si se obtuvieron datos
-  let result = res.data;
-  if (!result || result.length === 0) {
-    await m.react('❌');
-    return conn.reply(
-      m.chat,
-      `❗ No se encontraron videos en el enlace proporcionado.`,
-      m
-    );
+  if (!video) {
+    try {
+      // Llamar a la API alternativa para obtener el video
+      const apiRes = await axios.get(`https://restapi.apibotwa.biz.id/api/fbdl?url=${args[0]}`);
+      const apiData = apiRes.data;
+
+      if (apiData.status === 200 && apiData.data.result.length > 0) {
+        // Escoge el video de calidad 720p o 360p
+        video = apiData.data.result.find(i => i.quality === '720p (HD)') || apiData.data.result.find(i => i.quality === '360p (SD)');
+      } else {
+        await m.react('❌');
+        return conn.reply(m.chat, `❗ No se encontraron videos en el enlace proporcionado.`, m);
+      }
+    } catch (e) {
+      await m.react('❌');
+      return conn.reply(m.chat, `❗ Ocurrió un error al procesar el enlace.`, m);
+    }
   }
 
-  let data;
-  try {
-    data =
-      result.find((i) => i.resolution === '720p (HD)') ||
-      result.find((i) => i.resolution === '360p (SD)');
-  } catch (e) {
+  if (video) {
+    try {
+      await conn.sendMessage(
+        m.chat,
+        {
+          video: { url: video.url },
+          caption: `🚀 Tu video de Facebook.\n> ⏤͟͟͞͞𝐋𝐲𝐧𝐱-𝐀𝐈ꗄ➺`,
+          fileName: 'facebook_video.mp4',
+          mimetype: 'video/mp4',
+        },
+        { quoted: m }
+      );
+      await m.react('✅');
+    } catch (e) {
+      await m.react('❌');
+      return conn.reply(m.chat, `❗ Ocurrió un error al enviar el video.`, m);
+    }
+  } else {
     await m.react('❌');
-    return conn.reply(
-      m.chat,
-      `❗ No se pudieron procesar los datos del video.`,
-      m
-    );
-  }
-
-  if (!data) {
-    await m.react('❌');
-    return conn.reply(
-      m.chat,
-      `❗ No se encontró un video descargable en el enlace.`,
-      m
-    );
-  }
-
-  let video = data.url;
-  try {
-    await conn.sendMessage(
-      m.chat,
-      {
-        video: { url: video },
-        caption: `🚀 tu video de Facebook.\n> ⏤͟͟͞͞𝐋𝐲𝐧𝐱-𝐀𝐈ꗄ➺`,
-        fileName: 'facebook_video.mp4',
-        mimetype: 'video/mp4',
-      },
-      { quoted: m }
-    );
-    await m.react('✅');
-  } catch (e) {
-    await m.react('❌');
-    return conn.reply(
-      m.chat,
-      `❗ Ocurrió un error al descargar o enviar el video.`,
-      m
-    );
+    return conn.reply(m.chat, `❗ No se pudo procesar el video.`, m);
   }
 };
 
 handler.help = ['facebook', 'fb'];
 handler.tags = ['descargas'];
-handler.command = ['facebook','fb']
-handler.Monedas = 1
-handler.register = true
+handler.command = ['facebook', 'fb'];
+handler.Monedas = 5;
+handler.register = true;
 export default handler;
