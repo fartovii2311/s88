@@ -20,25 +20,24 @@ let handler = async (m, { conn, text }) => {
     const isOwner = global.owner.some(([jid]) => m.sender.endsWith(jid));
     if (!isOwner) throw '🚩 Solo los propietarios pueden usar este comando.';
 
-    // Si el comando es 'chetar'
-    if (text.startsWith('chetar')) {
-        // Inicializar el perfil del usuario si no existe
-        if (!users[who]) users[who] = { Monedas: 0, exp: 0 };
-
-        // Asignar valores grandes (simulando infinito)
-        users[who].Monedas = Number.MAX_SAFE_INTEGER; // Valor máximo seguro en JS para enteros
-        users[who].exp = Number.MAX_SAFE_INTEGER;     // Valor máximo para XP
-
-        // Responder al propietario, mencionando al usuario
-        await m.reply(
-            `✨ *¡Usuario chetado con éxito!*\n\n` +
-            `👤 Usuario: @${who.split`@`[0]}\n` +
-            `🪙 Monedas: *${users[who].Monedas.toLocaleString()}*\n` +
-            `💡 Experiencia (XP): *${users[who].exp.toLocaleString()}*`,
-            null,
-            { mentions: [who] } // Esto menciona al usuario
-        );
+    // Verificar si el perfil del usuario existe en la base de datos
+    if (!users[who]) {
+        users[who] = { Monedas: 0, exp: 0 }; // Inicializamos el perfil si no existe
     }
+
+    // Asignar valores grandes (simulando infinito)
+    users[who].Monedas = Number.MAX_SAFE_INTEGER;
+    users[who].exp = Number.MAX_SAFE_INTEGER;
+
+    // Responder al propietario, mencionando al usuario
+    await m.reply(
+        `✨ *¡Usuario chetado con éxito!*\n\n` +
+        `👤 Usuario: @${who.split`@`[0]}\n` +
+        `🪙 Monedas: *${users[who].Monedas.toLocaleString()}*\n` +
+        `💡 Experiencia (XP): *${users[who].exp.toLocaleString()}*`,
+        null,
+        { mentions: [who] } // Esto menciona al usuario
+    );
 };
 
 handler.help = ['chetar *@user*'];
