@@ -31,17 +31,11 @@ global.redes = ''
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 global.namebot = 'Lynx - Ai'
 global.wait = '*Aɢᴜᴀʀᴅᴇ ᴜɴ ᴍᴏᴍᴇɴᴛᴏ ฅ^•ﻌ•^ฅ*'
-global.wm = ''
-global.titulowm = ''
 global.titulowm2 = 'U S U A R I O - L Y N X'
-global.igfg = ''
 global.botname = '۟Lynx-Ai'
-global.dev = ''
-global.titu = ''
 global.textbot = 'Lyᥒ᥊ ᥴһᥲᥒᥒᥱᥣ'
 global.listo = '*Aqui tiene ฅ^•ﻌ•^ฅ*'
 global.vs = '2.0.0'
-global.namechannel = ''
 global.dis = ':⁖֟⊱┈֟፝❥'
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
@@ -52,18 +46,14 @@ global.icons = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
-global.group = ''
-global.group2 = ''
+
 global.canal = 'https://whatsapp.com/channel/0029Vaxb5xr7z4koGtOAAc1Q'
-global.github = '' 
-global.instagram = '' 
-global.whatsApp = ''
 
 global.rcanal = {
   contextInfo: {
     isForwarded: true,
     forwardedNewsletterMessageInfo: {
-       newsletterJid: "120363371366801178@newsletter",
+       newsletterJid: "120363374486687514@newsletter",
        serverMessageId: 100,
        newsletterName: textbot,
     },
@@ -74,7 +64,7 @@ global.menu = {
   contextInfo: { 
     isForwarded: true, 
     forwardedNewsletterMessageInfo: { 
-      newsletterJid: "120363371366801178@newsletter", 
+      newsletterJid: "120363374486687514@newsletter", 
       serverMessageId: 100, 
       newsletterName: 'Lyᥒ᥊ ᥴһᥲᥒᥒᥱᥣ', 
     }, 
@@ -97,7 +87,7 @@ global.fake = {
   contextInfo: {
     isForwarded: true,
     forwardedNewsletterMessageInfo: {
-       newsletterJid: "120363371366801178@newsletter",
+       newsletterJid: "120363374486687514@newsletter",
        serverMessageId: 100,
        newsletterName: textbot,
     },
