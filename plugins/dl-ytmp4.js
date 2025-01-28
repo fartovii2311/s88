@@ -48,7 +48,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     }
 };
 
-handler.command = ['ytmp4'];
 handler.tags = ['dl'];
 handler.command = /^ytmp4$/i;
 handler.register = true;
