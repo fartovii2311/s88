@@ -9,11 +9,12 @@ const handler = async (m, { conn }) => {
 
     // Verificamos si la respuesta es exitosa
     if (response.ok) {
-      const videoUrl = await response.text();  // Obtenemos el contenido de la respuesta (el URL del video)
+      // La respuesta es un archivo binario (el video)
+      const videoBuffer = await response.buffer();  // Obtiene el contenido binario del video
 
       // Enviamos el video al chat
       await conn.sendMessage(m.chat, {
-        video: { url: videoUrl },  // Envía el video
+        video: videoBuffer,  // Enviamos el contenido binario como video
         caption: 'Video de TikTok aleatorio'  // Opcional, se puede quitar si no deseas texto
       }, { quoted: m });
 
