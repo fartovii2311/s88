@@ -339,22 +339,7 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
 ╰───────────────╯`, m, rcanal)
       throw false
   }
-await conn.sendMessage(m.chat, { 
-  text: `` +
-        `*▷ 𝗢𝗽𝗰𝗶𝗼𝗻 |* ${type.toUpperCase()}\n` +
-        `*▷ 𝗘𝘀𝘁𝗮𝗱𝗼 |* ${isEnable ? '✅ Activado' : '❌ Desactivado'}\n` +
-        `*▷ 𝗣𝗮𝗿𝗮 |* ${isAll ? '🌍 Todo el Bot' : isUser ? '👤 Este Usuario' : '💬 Este Chat'}`,
-  footer: dev, 
-  buttons: [
-    { 
-      buttonId: isEnable ? `.off ${type}` : `.on ${type}`, 
-      buttonText: { displayText: isEnable ? '❌ Desactivado' : '✅ Activado' } 
-    },
-  ],
-  viewOnce: true,
-  headerType: 1
-}, { quoted: estilo });
-//  conn.reply(m.chat, `🚩 La función *${type}* se *${isEnable ? 'activó' : 'desactivó'}* ${isAll ? 'para este Bot' : isUser ? '' : 'para este chat'}`, m, rcanal)
+ conn.reply(m.chat, `🚩 La función *${type}* se *${isEnable ? 'activó' : 'desactivó'}* ${isAll ? 'para este Bot' : isUser ? '' : 'para este chat'}`, m, rcanal)
 }
 
 handler.help = ['enable *<opción>*', 'disable *<opción>*', 'on *<opción>*', 'off *<opción>*']
