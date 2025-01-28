@@ -101,6 +101,6 @@ const fkontak = {
 await conn.sendFile(m.chat, img, 'img.jpg', texto, fkontak)
 }
 handler.help = ['menuhot (menu +18)']
-handler.tags = ['crow']
+handler.tags = ['main']
 handler.command = ['menu18', 'menuhorny', 'menunsfw', 'menuhot'] 
 export default handler;
