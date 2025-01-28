@@ -29,9 +29,9 @@ let handler = async (m, { conn, text, command }) => {
   const peces = [
     { nombre: '🐟 Pez Dorado', monedas: 50 },
     { nombre: '🐠 Pez Tropical', monedas: 20 },
-    { nombre: '🦈 Tiburón', monedas: 100 },
+    { nombre: '🦈 Tiburón', monedas: 50 },
     { nombre: '🐡 Pez Globo', monedas: 10 },
-    { nombre: '🪙 Cofre de Tesoro', monedas: 200 },
+    { nombre: '🪙 Cofre de Tesoro', monedas: 100 },
     { nombre: '🚫 Bota Vieja', monedas: 0 }
   ]
 
