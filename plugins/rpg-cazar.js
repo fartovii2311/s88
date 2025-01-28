@@ -26,26 +26,26 @@ let handler = async (m, { conn, text, command }) => {
 
   // Generar un evento aleatorio de caza de tesoros
   let eventos = [
-    '¡Has encontrado un cofre con 50 🪙 Monedas!',
+    '¡Has encontrado un cofre con 30 🪙 Monedas!',
     '¡Oh no! El tesoro estaba vacío...',
-    '¡Increíble! Encontraste un cofre con 200 🪙 Monedas.',
-    '¡Sorpresa! Encontraste un tesoro secreto con 100 🪙 Monedas.'
+    '¡Increíble! Encontraste un cofre con 100 🪙 Monedas.',
+    '¡Sorpresa! Encontraste un tesoro secreto con 50 🪙 Monedas.'
   ]
   let eventoAleatorio = eventos[Math.floor(Math.random() * eventos.length)]
 
   let recompensa = 0
   switch (eventoAleatorio) {
     case '¡Has encontrado un cofre con 50 🪙 Monedas!':
-      recompensa = 50
+      recompensa = 30
       break
     case '¡Oh no! El tesoro estaba vacío...':
       recompensa = 0
       break
     case '¡Increíble! Encontraste un cofre con 200 🪙 Monedas.':
-      recompensa = 200
+      recompensa = 100
       break
     case '¡Sorpresa! Encontraste un tesoro secreto con 100 🪙 Monedas.':
-      recompensa = 100
+      recompensa = 50
       break
   }
 
