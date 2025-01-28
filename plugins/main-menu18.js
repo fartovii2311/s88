@@ -8,6 +8,8 @@ let texto = `🌟 𝐌𝐄𝐍𝐔 🔞 𝐍𝐒𝐅𝐖 🌟
   🍑 Descargas xxx
   • xnxx < url >
   • xnxxsearch < text >
+  • xvideo < url >
+  • xvideosearch < text >
   
   🍑 **Genshin Impact**:
   • genshin
