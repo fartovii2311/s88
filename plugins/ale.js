@@ -7,16 +7,16 @@ const handler = async (m, { conn }) => {
     const res = await fetch(apiUrl);
     const json = await res.json();
 
-    if (json.result && json.result.length > 0) {
+    if (json.status === 200 && json.result && json.result.length > 0) {
       const randomVideo = json.result[Math.floor(Math.random() * json.result.length)];
 
       if (randomVideo.type === 'video/mp4') {
-        await conn.sendFile(m.chat, randomVideo.video_1, 'video.mp4',m,listo);
+        await conn.sendFile(m.chat, randomVideo.video_1, 'video.mp4', '¡Aquí tienes un video aleatorio!', null);
       } else {
         await m.reply('El contenido seleccionado no es un video válido.');
       }
     } else {
-      console.log('No se encontraron resultados en la API.');
+      await m.reply('No se encontraron resultados en la API.');
     }
   } catch (e) {
     console.error(e);
@@ -24,6 +24,6 @@ const handler = async (m, { conn }) => {
   }
 };
 
-handler.command = ['videorandom', 'randomvideo'];
+handler.command = ['hotvideo'];
 
 export default handler;
