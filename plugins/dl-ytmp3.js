@@ -1,3 +1,9 @@
+/* 
+- Downloader Ytmp4 By DarkCore
+- https://whatsapp.com/channel/
+- Parchado por DarkCore... vip plus
+*/
+
 import fetch from 'node-fetch';
 
 const handler = async (m, { conn, text, usedPrefix, command }) => {
