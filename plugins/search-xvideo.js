@@ -43,7 +43,6 @@ const handler = async (m, { conn, text }) => {
 };
 
 handler.help = ['xvideosearch'];
-handler.tags = ['search', 'fun'];
 handler.command = ['xvideosearch', 'xvideosearch'];
 handler.register = true;
 
