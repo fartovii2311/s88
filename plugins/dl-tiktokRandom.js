@@ -1,24 +1,20 @@
 import fetch from 'node-fetch';
 
 const handler = async (m, { conn }) => {
-  await m.react('🕓');  // Reacción para indicar que está procesando
+  await m.react('🕓'); 
 
   try {
-    // Realizamos la petición a la API para obtener el video
     const response = await fetch('https://dark-core-api.vercel.app/api/random/tiktok?key=user1');
 
-    // Verificamos si la respuesta es exitosa
     if (response.ok) {
-      // La respuesta es un archivo binario (el video)
-      const videoBuffer = await response.buffer();  // Obtiene el contenido binario del video
+      const videoBuffer = await response.buffer(); 
 
-      // Enviamos el video al chat
       await conn.sendMessage(m.chat, {
-        video: videoBuffer,  // Enviamos el contenido binario como video
-        caption: 'Video de TikTok aleatorio'  // Opcional, se puede quitar si no deseas texto
+        video: videoBuffer, 
+        caption: 'Video de TikTok aleatorio'
       }, { quoted: m });
 
-      await m.react('✅');  // Reacción de éxito
+      await m.react('✅'); 
     } else {
       throw new Error('No se pudo obtener el video');
     }
