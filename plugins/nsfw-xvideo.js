@@ -44,7 +44,7 @@ const handler = async (m, { conn, text }) => {
 };
 
 handler.help = ['xvideo'];
-handler.tags = ['nfsw'];
+handler.tags = ['nsfw'];
 handler.command = ['xvideo', 'xvideodownload'];
 handler.register = true;
 
