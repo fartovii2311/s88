@@ -10,6 +10,7 @@ let texto = `🌟 𝐌𝐄𝐍𝐔 🔞 𝐍𝐒𝐅𝐖 🌟
   • xnxxsearch < text >
   • xvideo < url >
   • xvideosearch < text >
+  • hotvideo
   
   🍑 **Genshin Impact**:
   • genshin
