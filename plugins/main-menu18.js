@@ -83,6 +83,20 @@ let texto = `🌟 𝐌𝐄𝐍𝐔 🔞 𝐍𝐒𝐅𝐖 🌟
   • topless
   • fateseries
   • catgirl
+  
+🌳 **hot videos**:
+  • pack 
+  • pack2 
+  • pack3 
+  • videoxxx 
+  • vídeoxxx
+  • videoxxxlesbi
+  • videolesbixxx
+  • pornolesbivid
+  • pornolesbianavid
+  • pornolesbiv
+  • pornolesbianav
+  • pornolesv
 ──────────────────
 ⚠️ *Nota:* Usa estos comandos bajo tu responsabilidad.`
 const fkontak = {
