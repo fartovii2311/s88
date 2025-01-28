@@ -41,7 +41,6 @@ const handler = async (m, { conn, text }) => {
 };
 
 handler.help = ['xvideo'];
-handler.tags = ['dl'];
 handler.command = ['xvideo', 'xvideodownload'];
 handler.register = true;
 
