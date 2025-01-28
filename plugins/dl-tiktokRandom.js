@@ -4,26 +4,22 @@ const handler = async (m, { conn }) => {
   await m.react('🕓');  // Reacción para indicar que está procesando
 
   try {
+    // Realizamos la petición a la API para obtener el video
     const response = await fetch('https://dark-core-api.vercel.app/api/random/tiktok?key=user1');
 
-    // Verificar si la respuesta es JSON antes de procesarla
-    const contentType = response.headers.get('content-type');
-    if (contentType && contentType.includes('application/json')) {
-      const result = await response.json();
+    // Verificamos si la respuesta es exitosa
+    if (response.ok) {
+      const videoUrl = await response.text();  // Obtenemos el contenido de la respuesta (el URL del video)
 
-      if (result.success && result.result && result.result.url) {
-        const videoUrl = result.result.url;
+      // Enviamos el video al chat
+      await conn.sendMessage(m.chat, {
+        video: { url: videoUrl },  // Envía el video
+        caption: 'Video de TikTok aleatorio'  // Opcional, se puede quitar si no deseas texto
+      }, { quoted: m });
 
-        await conn.sendMessage(m.chat, {
-          video: { url: videoUrl }, 
-        }, { quoted: m });
-
-        await m.react('✅');  
-      } else {
-        throw new Error('No se encontró un video válido');
-      }
+      await m.react('✅');  // Reacción de éxito
     } else {
-      throw new Error('La respuesta no es un JSON válido');
+      throw new Error('No se pudo obtener el video');
     }
   } catch (error) {
     await m.react('❌');  // Reacción de error
