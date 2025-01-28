@@ -44,7 +44,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
           buttons: [
             {
               "name": "cta_copy",
-              "buttonParamsJson": `{"display_text":"🎬 Ver Video","id":"123456789","copy_code":"${video.videoLink}"}`
+              "buttonParamsJson": `{"display_text":"🎬 Ver Video","id":"123456789","copy_code":"/xvideo ${video.videoLink}"}`
             },
           ]
         }),
