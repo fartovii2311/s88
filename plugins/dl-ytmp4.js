@@ -1,6 +1,6 @@
 /* 
 - Downloader Ytmp4 By DarkCore
-- https://whatsapp.com/channel/
+- https://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F
 - Parchado por DarkCore... vip plus
 */
 
