@@ -1,21 +1,24 @@
+/* 
+- Downloader xvideo By DarkCore
+- https://whatsapp.com/channel/0029VaJxgcB0bIdvuOwKTM2Y
+- Parchado por DarkCore... vip plus
+*/
+
 import fetch from 'node-fetch';
 
 const handler = async (m, { conn, text }) => {
   if (!global.db.data.chats[m.chat].nsfw) {
     return conn.reply(m.chat, `🚩 El grupo no admite contenido *Nsfw.*\n\n> Para activarlo un *Administrador* debe usar el comando */on nsfw*`, m, rcanal);
 }
-  await m.react('🕓');  // Reacción para indicar que está procesando
-
+  await m.react('🕓');
+  
   if (!text) throw 'Proporcióname un enlace de video para descargar.';
 
   try {
-    // Creamos la URL de la API con el enlace proporcionado
     const apiUrl = `https://dark-core-api.vercel.app/api/download/xvideo?key=user1&url=${encodeURIComponent(text)}`;
 
-    // Realizamos la solicitud a la API
     const response = await fetch(apiUrl);
 
-    // Verificamos si la respuesta es exitosa
     if (response.ok) {
       const data = await response.json();
 
@@ -27,7 +30,7 @@ const handler = async (m, { conn, text }) => {
           mimetype: 'video/mp4' 
         }, { quoted: m });
 
-        await m.react('✅');  // Reacción de éxito
+        await m.react('✅'); 
       } else {
         throw new Error('No se encontraron resultados');
       }
@@ -41,6 +44,7 @@ const handler = async (m, { conn, text }) => {
 };
 
 handler.help = ['xvideo'];
+handler.tags = ['nfsw'];
 handler.command = ['xvideo', 'xvideodownload'];
 handler.register = true;
 
