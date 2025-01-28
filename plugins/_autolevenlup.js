@@ -1,3 +1,5 @@
+import { canLevelUp } from '../lib/levelling.js';
+
 let handler = (m) => m;
 handler.before = async function (m, { conn }) {
   if (!db.data.chats[m.chat].autolevelup) return;
