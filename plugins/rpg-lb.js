@@ -2,42 +2,39 @@ let handler = async (m, { conn, args, participants }) => {
   let users = Object.entries(global.db.data.users).map(([key, value]) => {
     return { ...value, jid: key };
   });
-  
+
   let sortedExp = users.map(toNumber('exp')).sort(sort('exp'));
   let sortedLim = users.map(toNumber('Monedas')).sort(sort('Monedas'));
   let sortedLevel = users.map(toNumber('level')).sort(sort('level'));
-  
+
   let usersExp = sortedExp.map(enumGetKey);
   let usersLim = sortedLim.map(enumGetKey);
   let usersLevel = sortedLevel.map(enumGetKey);
-  
+
   let len = args[0] && args[0].length > 0 ? Math.min(5, Math.max(parseInt(args[0]), 5)) : Math.min(5, sortedExp.length);
-  
+
   let text = `
-  *🏆 Top ${len} Jugadores:*
+  *💎 𝐑𝐚𝐧𝐤𝐢𝐧𝐠 𝐝𝐞 𝐣𝐮𝐠𝐚𝐝𝐨𝐫𝐞𝐬 🏆*
 
-  *💰 Top ${len} Monedas 🪙*
+  *🥇 𝐓𝐨𝐩 𝐌𝐨𝐧𝐞𝐝𝐚𝐬 🪙*
+  ═════════════════════
+  ${sortedLim.slice(0, len).map(({ jid, Monedas }, i) => {
+    return `🔥 ${i + 1}. ${participants.some(p => jid === p.jid) ? `(${conn.getName(jid)})` : '@'}${jid.split`@`[0]} - *${Monedas} 🪙*`;
+  }).join('\n')}
 
-  ✩ *Tú eres el #${usersLim.indexOf(m.sender) + 1} de ${usersLim.length}*  
-  ✩ ${sortedLim.slice(0, len).map(({ jid, Monedas }, i) => {
-    return `${i + 1}. ${participants.some(p => jid === p.jid) ? `(${conn.getName(jid)}) wa.me/` : '@'}${jid.split`@`[0]} - *${Monedas} 🪙*`;
-  }).join('\n✩ ')}
-  
-  *💫 Top ${len} XP 💫*
+  *🥈 𝐓𝐨𝐩 𝐗𝐏 💫*
+  ═════════════════════
+  ${sortedExp.slice(0, len).map(({ jid, exp }, i) => {
+    return `🌟 ${i + 1}. ${participants.some(p => jid === p.jid) ? `(${conn.getName(jid)})` : '@'}${jid.split`@`[0]} - *${exp} 💫*`;
+  }).join('\n')}
 
-  ✩ *Tú eres el #${usersExp.indexOf(m.sender) + 1} de ${usersExp.length}*  
-  ✩ ${sortedExp.slice(0, len).map(({ jid, exp }, i) => {
-    return `${i + 1}. ${participants.some(p => jid === p.jid) ? `(${conn.getName(jid)}) wa.me/` : '@'}${jid.split`@`[0]} - *${exp} 💫*`;
-  }).join('\n✩ ')}
-  
-  *📈 Top ${len} Niveles 📈*
+  *🥉 𝐓𝐨𝐩 𝐍𝐢𝐯𝐞𝐥𝐞𝐬 📈*
+  ═════════════════════
+  ${sortedLevel.slice(0, len).map(({ jid, level }, i) => {
+    return `🚀 ${i + 1}. ${participants.some(p => jid === p.jid) ? `(${conn.getName(jid)})` : '@'}${jid.split`@`[0]} - *Nivel ${level} 📈*`;
+  }).join('\n')}
 
-  ✩ *Tú eres el #${usersLevel.indexOf(m.sender) + 1} de ${usersLevel.length}*  
-  ✩ ${sortedLevel.slice(0, len).map(({ jid, level }, i) => {
-    return `${i + 1}. ${participants.some(p => jid === p.jid) ? `(${conn.getName(jid)}) wa.me/` : '@'}${jid.split`@`[0]} - *Nivel ${level} 📈*`;
-  }).join('\n✩ ')}
-
-  *✨ ¡Sigue luchando y sube de nivel! ✨*
+  *✨ ¡Sigue subiendo y compite por el primer lugar! ✨*
   `.trim();
 
   m.reply(text, null, { mentions: conn.parseMention(text) });
@@ -45,7 +42,7 @@ let handler = async (m, { conn, args, participants }) => {
 
 handler.help = ['lb'];
 handler.tags = ['rpg'];
-handler.command = ['nivel', 'lb', 'tops']; 
+handler.command = ['leaderboard', 'lb']; 
 handler.register = true; 
 handler.fail = null;
 handler.exp = 0;
