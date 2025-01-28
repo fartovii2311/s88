@@ -1,3 +1,8 @@
+/* 
+- Downloader xvideo By DarkCore
+- https://whatsapp.com/channel/0029VaJxgcB0bIdvuOwKTM2Y
+- Parchado por DarkCore... vip plus
+*/
 import fetch from 'node-fetch';
 const { generateWAMessageContent, generateWAMessageFromContent, proto } = (await import('@whiskeysockets/baileys')).default;
 
