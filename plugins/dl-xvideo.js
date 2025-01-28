@@ -1,6 +1,9 @@
 import fetch from 'node-fetch';
 
 const handler = async (m, { conn, text }) => {
+  if (!global.db.data.chats[m.chat].nsfw) {
+    return conn.reply(m.chat, `🚩 El grupo no admite contenido *Nsfw.*\n\n> Para activarlo un *Administrador* debe usar el comando */on nsfw*`, m, rcanal);
+}
   await m.react('🕓');  // Reacción para indicar que está procesando
 
   if (!text) throw 'Proporcióname un enlace de video para descargar.';
