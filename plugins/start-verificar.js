@@ -1,5 +1,6 @@
 import { createHash } from 'crypto';
 import fetch from 'node-fetch';
+import { determinarIdiomaPorNumero } from './lib/determinadorIdioma';
 
 let Reg = /\|?(.*)([.|] *?)([0-9]*)$/i;
 
@@ -13,8 +14,7 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
     return conn.reply(
       m.chat,
       `🌟 *Registro requerido*\n\nPor favor, utiliza el formato:\n\`${usedPrefix + command} <nombre.edad>\`\n\nEjemplo:\n\`${usedPrefix + command} LynxAI.18\``,
-      m,
-      rcanal
+      m
     );
   }
 
@@ -26,8 +26,7 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
       return conn.reply(
         m.chat,
         `❌ *Registro fallido*\n\nNo se pudo obtener un nombre o edad válidos.\nUsa el formato:\n\`${usedPrefix + command} <nombre.edad>\``,
-        m,
-        rcanal
+        m
       );
     }
   } else {
@@ -39,6 +38,10 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
       return conn.reply(m.chat, '❌ La edad debe ser entre 1 a 100 años.', m);
     }
   }
+
+  // Determinar el idioma automáticamente basado en el número de teléfono
+  let idioma = determinarIdiomaPorNumero(m.sender.replace('@s.whatsapp.net', ''));
+  user.DKLanguage = idioma; // Asignar el idioma detectado
 
   user.name = name;
   user.age = age;
@@ -62,7 +65,7 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
             `🌟 *Bienvenido a la comunidad Dark Team.*`;
 
   try {
-   await conn.sendMessage(m.chat, { image: { url: imgURL }, caption: txt }, { quoted: m });
+    await conn.sendMessage(m.chat, { image: { url: imgURL }, caption: txt }, { quoted: m });
   } catch (err) {
     console.error("Error al enviar el mensaje al usuario:", err);
     return m.reply("❌ Hubo un problema al procesar tu registro. Por favor, intenta nuevamente.");
