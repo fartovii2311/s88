@@ -20,9 +20,15 @@ async function dlapkdirect(pageUrl) {
         const appTitle = $('h1.entry-title').text().trim();
         const appVersion = $('span.appver').text().trim();
 
-        // Verifica si la imagen obtenida es un `data URL`, si lo es, asigna una imagen por defecto
-        if (appImage && appImage.startsWith('data:image')) {
-            appImage = 'https://via.placeholder.com/160';  // Imagen por defecto
+        // Verificar si la imagen contiene una URL válida y no es un `data URL`
+        if (appImage && !appImage.startsWith('data:image')) {
+            // Asegurarse de que la URL sea completa si es relativa
+            if (appImage.startsWith('/')) {
+                appImage = 'https://www.apkdirect.io' + appImage;
+            }
+        } else {
+            // Si no se encuentra una imagen válida, asignamos una imagen de placeholder
+            appImage = 'https://upload.wikimedia.org/wikipedia/commons/5/5f/Placeholder_Icon.svg';
         }
 
         if (downloadLink && appImage && appTitle && appVersion) {
