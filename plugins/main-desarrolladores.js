@@ -5,10 +5,10 @@ const handler = async (m, { conn }) => {
 ╭───────⚔──────╮  
 \t\tDESARROLLADORES  
 ╰───────⚔──────╯  
-  
-🔹 *SOBRE EL BOT:* 
+      
+🔹 *SOBRE EL BOT:*   
 
-- DESARROLLADO PARA ENTRETENER A TODA LA COMUNIDAD TEAM - DARK - OFICIAL
+- DESARROLLADO PARA ENTRETENER A TODA LA COMUNIDAD TEAM - DARK - OFICIAL  
 
 🔹 *CONTACTO DE LOS DESARROLLADORES:*  
 ╭─────────────────────────╮  
@@ -18,22 +18,22 @@ const handler = async (m, { conn }) => {
 │📌 *Lynx*: [ +51917154203 ]   
 │  
 ╰─────────────────────────╯  
-  
+      
 🔹 *AGRADECIMIENTOS:*  
-- DARKCORE
+- DARKCORE  
 
 🔹 *¿DUDAS O SUGERENCIAS?*  
-- +51968382008
+- +51968382008  
 
-🔹 *GRUPOS OFICIALES*
-- https://chat.whatsapp.com/D58CSUpwMH2CQi3iLitIWp
+🔹 *GRUPOS OFICIALES*  
+- https://chat.whatsapp.com/D58CSUpwMH2CQi3iLitIWp  
 `.trim();
-  
-  
-   await conn.sendFile(m.chat,gifUrl,text, m,rcanal,fake);
 
-  
-  handler.command = /^(desarrolladores)$/i; 
-  handler.help = ['desarrolladores']; 
-  handler.tags = ['main']; 
-  export default handler;
+    await conn.sendFile(m.chat, gifUrl, 'image.jpg', text, m);
+};
+
+handler.command = /^(desarrolladores)$/i;  
+handler.help = ['desarrolladores'];  
+handler.tags = ['main'];  
+
+export default handler;
