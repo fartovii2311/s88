@@ -438,19 +438,17 @@ export async function handler(chatUpdate) {
 }
 
 global.dfail = (type, m, conn) => {
-    let msg = {
-        rowner: lenguajeDK['smsRowner'](),
-        owner:  lenguajeDK['smsOwner'](),
-        mods: lenguajeDK['smsMods'](),
-        premium: lenguajeDK['smsPremium'](),
-        group: lenguajeDK['smsGroup'](),
-        private: lenguajeDK['smsPrivate'](),
-        admin: lenguajeDK['smsAdmin'](),
-        botAdmin: lenguajeDK['smsBotAdmin'](),
-        unreg: lenguajeDK['smsUnreg'](),
-        restrict: lenguajeDK['smsRestrict'](),
-    }[type]
-    if (msg) return conn.reply(m.chat, msg, m, rcanal).then(_ => m.react('✖️'))}
+    const lenguajeDK = {
+    smsRowner: "🔹 SOLO EL DUEÑO PUEDE USAR ESTA FUNCIÓN",
+    smsOwner: "🔹 SOLO EL DESARROLLADOR PUEDE USAR ESTA FUNCIÓN",
+    smsMods: "🔹 SOLO LOS MODERADORES PUEDEN USAR ESTA FUNCIÓN",
+    smsPremium: "🔹 SOLO USUARIOS PREMIUM PUEDEN USAR ESTA FUNCIÓN",
+    smsPrivate: "🔹 SOLO PUEDE USARSE EN CHAT PRIVADO",
+    smsBotAdmin: "🔹 NECESITO SER ADMIN PARA USAR ESTA FUNCIÓN",
+    smsUnreg: "🔹 DEBES REGISTRARTE PARA USAR ESTA FUNCIÓN",
+    smsRestrict: "🔹 ESTA FUNCIÓN ESTÁ DESACTIVADA",
+}}[type]
+    if (lenguajeDK) return conn.reply(m.chat, msg, m, rcanal).then(_ => m.react('✖️'))}
 
 let file = global.__filename(import.meta.url, true)
 watchFile(file, async () => {
