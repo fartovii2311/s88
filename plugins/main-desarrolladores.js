@@ -21,10 +21,10 @@ const handler = async (m, { conn }) => {
   
 🔹 *AGRADECIMIENTOS:*  
 - DARKCORE
-- 
--
+
 🔹 *¿DUDAS O SUGERENCIAS?*  
-- 
+- +51968382008
+
 🔹 *GRUPOS OFICIALES*
 - https://chat.whatsapp.com/D58CSUpwMH2CQi3iLitIWp
 `.trim();
