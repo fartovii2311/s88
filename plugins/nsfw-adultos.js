@@ -1,7 +1,8 @@
 import fetch from 'node-fetch';
 const handler = async (m, {conn, command, usedPrefix}) => {
-  if (!db.data.chats[m.chat].modohorny && m.isGroup) throw '🚩 *¡Estos comandos están desactivados!*';
-
+  if (!global.db.data.chats[m.chat].nsfw) {
+    return conn.reply(m.chat, `🚩 El grupo no admite contenido *Nsfw.*\n\n> Para activarlo un *Administrador* debe usar el comando */on nsfw*`, m, rcanal);
+}
    switch (command) {
     case 'pack':
       const url = await pack[Math.floor(Math.random() * pack.length)];
