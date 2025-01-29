@@ -21,7 +21,7 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
   let name, age;
   if (command === 'verificar') {
     name = name2.trim();
-    age = 18; // Predeterminado a 18 si no se proporciona la edad
+    age = 18;
     if (!name || isNaN(age) || age < 1 || age > 100) {
       return conn.reply(
         m.chat,
@@ -39,9 +39,8 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
     }
   }
 
-  // Determinar el idioma automáticamente basado en el número de teléfono
   let idioma = determinarIdiomaPorNumero(m.sender.replace('@s.whatsapp.net', ''));
-  user.DKLanguage = idioma; // Asignar el idioma detectado
+  user.DKLanguage = idioma;
 
   user.name = name;
   user.age = age;
