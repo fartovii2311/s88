@@ -30,17 +30,8 @@ const handler = async (m, { conn }) => {
 `.trim();
   
   
-    await conn.sendMessage(
-      m.chat,
-      {
-        video: { url: gifUrl },
-        gifPlayback: true, 
-        caption: text,
-        mentions: [m.sender], 
-      },
-      { quoted: m }
-    );
-  };
+   await conn.sendFile(m.chat,gifUrl,text, m,rcanal);
+
   
   handler.command = /^(desarrolladores)$/i; 
   handler.help = ['desarrolladores']; 
