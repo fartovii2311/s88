@@ -439,14 +439,16 @@ export async function handler(chatUpdate) {
 
 global.dfail = (type, m, conn) => {
     const lenguajeDK = {
-    smsRowner: "🔹 SOLO EL DUEÑO PUEDE USAR ESTA FUNCIÓN",
-    smsOwner: "🔹 SOLO EL DESARROLLADOR PUEDE USAR ESTA FUNCIÓN",
-    smsMods: "🔹 SOLO LOS MODERADORES PUEDEN USAR ESTA FUNCIÓN",
-    smsPremium: "🔹 SOLO USUARIOS PREMIUM PUEDEN USAR ESTA FUNCIÓN",
-    smsPrivate: "🔹 SOLO PUEDE USARSE EN CHAT PRIVADO",
-    smsBotAdmin: "🔹 NECESITO SER ADMIN PARA USAR ESTA FUNCIÓN",
-    smsUnreg: "🔹 DEBES REGISTRARTE PARA USAR ESTA FUNCIÓN",
-    smsRestrict: "🔹 ESTA FUNCIÓN ESTÁ DESACTIVADA",
+        rowner: "⊱❕⊱ INFORMACIÓN ⊱❕⊱╮\n\n¡ESTA FUNCIÓN SOLO PUEDE SER USADA POR MI CREADOR!", 
+        owner: "⊱❕⊱ INFORMACIÓN ⊱❕⊱╮\n\n¡ESTA FUNCIÓN SOLO PUEDE SER USADA POR MI DESARROLLADOR!", 
+        mods: "⊱❕⊱ INFORMACIÓN ⊱❕⊱╮\n\n¡ESTA FUNCIÓN SOLO PUEDE SER USADA POR MIS DESARROLLADORES!", 
+        premium: "⊱❕⊱ INFORMACIÓN ⊱❕⊱╮\n\n¡ESTA FUNCIÓN SOLO ES PARA USUARIOS PREMIUM!", 
+        group: "⊱❕⊱ INFORMACIÓN ⊱❕⊱╮\n\n¡ESTA FUNCION SOLO PUEDE SER EJECUTADA EN GRUPOS!", 
+        private: "⊱❕⊱ INFORMACIÓN ⊱❕⊱╮\n\n¡ESTA FUNCIÓN SOLO PUEDE SER USADA EN CHAT PRIVADO!", 
+        admin: "⊱❕⊱ INFORMACIÓN ⊱❕⊱╮\n\n¡ESTE COMANDO SOLO PUEDE SER USADO POR ADMINS!", 
+        botAdmin: "⊱❕⊱ INFORMACIÓN ⊱❕⊱╮\n\n¡PARA USAR ESTA FUNCIÓN DEBO SER ADMIN DEL GRUPO!", 
+        unreg: "╰⊱❕⊱ INFORMACIÓN ⊱❕⊱╮\n\nINGRESE SU NOMBRE Y EDAD PARA ESTAR REGISTRADO\n\n*`EJEMPLO`*\n/reg Dark.18\n\n*`EJEMPLO PARA LOS FLOJOS`*\n /verificar",
+        restrict: "¡ESTA CARACTERÍSTICA ESTA DESACTIVADA!"
 }[type]
     if (lenguajeDK) return conn.reply(m.chat, msg, m, rcanal).then(_ => m.react('✖️'))}
 
