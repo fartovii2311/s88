@@ -8,7 +8,7 @@ const handler = async (m, { conn }) => {
       
 🔹 *SOBRE EL BOT:*   
 
-- DESARROLLADO PARA ENTRETENER A TODA LA COMUNIDAD TEAM - DARK - OFICIAL  
+1.DESARROLLADO PARA ENTRETENER A TODA LA COMUNIDAD TEAM - DARK - OFICIAL  
 
 🔹 *CONTACTO DE LOS DESARROLLADORES:*  
 ╭─────────────────────────╮  
