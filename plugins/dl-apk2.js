@@ -16,34 +16,15 @@ async function dlapkdirect(pageUrl) {
         const $ = cheerio.load(response.data);
 
         const downloadLink = $('a.download-btn').attr('href');
-        let appImage = $('img.app-img').attr('src') || $('img.app-img').attr('data-lazy-src');
-        const appTitle = $('h1.entry-title').text().trim();
-        const appVersion = $('span.appver').text().trim();
 
-        // Verificar si la imagen contiene una URL válida y no es un `data URL`
-        if (appImage && !appImage.startsWith('data:image')) {
-            // Asegurarse de que la URL sea completa si es relativa
-            if (appImage.startsWith('/')) {
-                appImage = 'https://www.apkdirect.io' + appImage;
-            }
+        if (downloadLink) {
+            return downloadLink;
         } else {
-            // Si no se encuentra una imagen válida, asignamos una imagen de placeholder
-            appImage = 'https://upload.wikimedia.org/wikipedia/commons/5/5f/Placeholder_Icon.svg';
-        }
-
-        if (downloadLink && appImage && appTitle && appVersion) {
-            return {
-                downloadLink,
-                appImage,
-                appTitle,
-                appVersion
-            };
-        } else {
-            throw new Error('Datos de la aplicación no encontrados');
+            throw new Error('No se encontró el enlace de descarga');
         }
     } catch (error) {
-        console.error('Error al obtener los detalles de la descarga:', error.message);
-        throw new Error('Error al procesar la página de detalles del APK');
+        console.error('Error al obtener el enlace de descarga:', error.message);
+        throw new Error('Error al procesar la página del APK');
     }
 }
 
@@ -55,15 +36,13 @@ const handler = async (m, { conn, args }) => {
     const pageUrl = args[0];
 
     try {
-        const apkData = await dlapkdirect(pageUrl);
+        const downloadLink = await dlapkdirect(pageUrl);
 
         const message = `
-📱 *Título:* ${apkData.appTitle}
-📌 *Versión:* ${apkData.appVersion}
-📥 *Descargar:* [Click aquí](${apkData.downloadLink})
-        `.trim();
+📱 *Enlace de Descarga:* [Click aquí](${downloadLink})
+`.trim();
 
-        await conn.sendMessage(m.chat, { image: { url: apkData.appImage }, caption: message }, { quoted: m });
+        await conn.sendMessage(m.chat, { text: message }, { quoted: m });
     } catch (error) {
         await m.reply(`❌ Error: ${error.message}`);
     }
