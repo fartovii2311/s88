@@ -16,9 +16,14 @@ async function dlapkdirect(pageUrl) {
         const $ = cheerio.load(response.data);
 
         const downloadLink = $('a.download-btn').attr('href');
-        const appImage = $('img.app-img').attr('src') || $('img.app-img').attr('data-lazy-src');
+        let appImage = $('img.app-img').attr('src') || $('img.app-img').attr('data-lazy-src');
         const appTitle = $('h1.entry-title').text().trim();
         const appVersion = $('span.appver').text().trim();
+
+        // Verifica si la imagen obtenida es un `data URL`, si lo es, asigna una imagen por defecto
+        if (appImage && appImage.startsWith('data:image')) {
+            appImage = 'https://via.placeholder.com/160';  // Imagen por defecto
+        }
 
         if (downloadLink && appImage && appTitle && appVersion) {
             return {
@@ -35,6 +40,7 @@ async function dlapkdirect(pageUrl) {
         throw new Error('Error al procesar la página de detalles del APK');
     }
 }
+
 const handler = async (m, { conn, args }) => {
     if (!args[0]) {
         return await m.reply('⚠️ Debes proporcionar la URL de la página del APK.');
