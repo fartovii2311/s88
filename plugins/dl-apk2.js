@@ -16,7 +16,7 @@ async function dlapkdirect(pageUrl) {
         const $ = cheerio.load(response.data);
 
         const downloadLink = $('a.download-btn').attr('href');
-        const appImage = $('div.download-title-block img.app-img').attr('src');
+        const appImage = $('img.app-img').attr('src') || $('img.app-img').attr('data-lazy-src');
         const appTitle = $('h1.entry-title').text().trim();
         const appVersion = $('span.appver').text().trim();
 
@@ -28,14 +28,13 @@ async function dlapkdirect(pageUrl) {
                 appVersion
             };
         } else {
-            throw new Error('No se encontraron todos los datos requeridos en la página.');
+            throw new Error('Datos de la aplicación no encontrados');
         }
     } catch (error) {
         console.error('Error al obtener los detalles de la descarga:', error.message);
         throw new Error('Error al procesar la página de detalles del APK');
     }
 }
-
 const handler = async (m, { conn, args }) => {
     if (!args[0]) {
         return await m.reply('⚠️ Debes proporcionar la URL de la página del APK.');
