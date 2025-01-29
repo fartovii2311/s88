@@ -447,7 +447,7 @@ global.dfail = (type, m, conn) => {
     smsBotAdmin: "🔹 NECESITO SER ADMIN PARA USAR ESTA FUNCIÓN",
     smsUnreg: "🔹 DEBES REGISTRARTE PARA USAR ESTA FUNCIÓN",
     smsRestrict: "🔹 ESTA FUNCIÓN ESTÁ DESACTIVADA",
-}}[type]
+}[type]
     if (lenguajeDK) return conn.reply(m.chat, msg, m, rcanal).then(_ => m.react('✖️'))}
 
 let file = global.__filename(import.meta.url, true)
