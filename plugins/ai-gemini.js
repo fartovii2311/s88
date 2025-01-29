@@ -18,7 +18,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     }
 }
 handler.help = ['gemini *<petición>*']
-handler.tags = ['tools']
+handler.tags = ['ai']
 handler.command = ['gemini']
 handler.register = true
 
