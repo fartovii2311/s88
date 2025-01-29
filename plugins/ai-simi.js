@@ -29,6 +29,7 @@ const handler = async (m, { text, command, args, usedPrefix }) => {
 };
 
 handler.help = ['simi'];
+handler.tags = ['ai'];
 handler.tags = ['fun'];
 handler.command = /^((sim)?simi|alexa|cortana|bot)$/i;
 
