@@ -1,6 +1,6 @@
 import { createHash } from 'crypto';
 import fetch from 'node-fetch';
-import { determinarIdiomaPorNumero } from './lib/determinaidioma.js';
+import { determinarIdiomaPorNumero } from '../lib/determinaidioma.js';
 
 let Reg = /\|?(.*)([.|] *?)([0-9]*)$/i;
 
