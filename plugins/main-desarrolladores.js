@@ -26,7 +26,9 @@ const handler = async (m, { conn }) => {
 - +51968382008  
 
 🔹 *GRUPOS OFICIALES*  
-- https://chat.whatsapp.com/D58CSUpwMH2CQi3iLitIWp  
+1. https://chat.whatsapp.com/D58CSUpwMH2CQi3iLitIWp  
+2. pronto
+3. pronto
 `.trim();
 
     await conn.sendFile(m.chat, gifUrl, 'image.jpg', text, m,rcanal,fake);
