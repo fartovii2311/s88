@@ -41,7 +41,7 @@ const handler = async (m, { conn, args }) => {
   }
 };
 
-handler.help = ['ytmp4doc'];
+handler.help = ['ytmp4doc *<url>*''];
 handler.tags = ['dl'];
 handler.command = /^ytmp4doc$/i;
 handler.register = true;
