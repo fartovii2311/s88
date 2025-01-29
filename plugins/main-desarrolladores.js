@@ -29,7 +29,7 @@ const handler = async (m, { conn }) => {
 - https://chat.whatsapp.com/D58CSUpwMH2CQi3iLitIWp  
 `.trim();
 
-    await conn.sendFile(m.chat, gifUrl, 'image.jpg', text, m);
+    await conn.sendFile(m.chat, gifUrl, 'image.jpg', text, m,rcanal,fake);
 };
 
 handler.command = /^(desarrolladores)$/i;  
