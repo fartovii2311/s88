@@ -450,7 +450,7 @@ global.dfail = (type, m, conn) => {
         unreg: "╰⊱❕⊱ INFORMACIÓN ⊱❕⊱╮\n\nINGRESE SU NOMBRE Y EDAD PARA ESTAR REGISTRADO\n\n*`EJEMPLO`*\n/reg Dark.18\n\n*`EJEMPLO PARA LOS FLOJOS`*\n /verificar",
         restrict: "¡ESTA CARACTERÍSTICA ESTA DESACTIVADA!"
 }[type]
-    if (lenguajeDK) return conn.reply(m.chat, msg, m, rcanal).then(_ => m.react('✖️'))}
+    if (lenguajeDK) return conn.reply(m.chat, lenguajeDK, m, rcanal).then(_ => m.react('✖️'))}
 
 let file = global.__filename(import.meta.url, true)
 watchFile(file, async () => {
