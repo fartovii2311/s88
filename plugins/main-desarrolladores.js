@@ -30,7 +30,7 @@ const handler = async (m, { conn }) => {
 `.trim();
   
   
-   await conn.sendFile(m.chat,gifUrl,text, m,rcanal);
+   await conn.sendFile(m.chat,gifUrl,text, m,rcanal,fake);
 
   
   handler.command = /^(desarrolladores)$/i; 
