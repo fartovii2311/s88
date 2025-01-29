@@ -43,4 +43,6 @@ const handler = async (m, { conn }) => {
   };
   
   handler.command = /^(desarrolladores)$/i; 
+  handler.help = ['desarrolladores']; 
+  handler.tags = ['main']; 
   export default handler;
