@@ -1,5 +1,7 @@
 import axios from 'axios';
 import cheerio from 'cheerio';
+import fs from 'fs';
+import path from 'path';
 
 async function dlapkdirect(pageUrl) {
     try {
@@ -38,11 +40,19 @@ const handler = async (m, { conn, args }) => {
     try {
         const downloadLink = await dlapkdirect(pageUrl);
 
-        const message = `
-📱 *Enlace de Descarga:* [Click aquí](${downloadLink})
-`.trim();
+        // Descargar el archivo APK
+        const response = await axios.get(downloadLink, {
+            responseType: 'arraybuffer',
+        });
 
-        await conn.sendMessage(m.chat, { text: message }, { quoted: m });
+        const apkPath = path.join(__dirname, 'apkfile.xapk');
+        fs.writeFileSync(apkPath, response.data);
+
+        // Enviar el archivo descargado
+        await conn.sendFile(m.chat, apkPath, 'apkfile.xapk', 'Aquí tienes el APK:', m);
+
+        // Eliminar el archivo después de enviarlo
+        fs.unlinkSync(apkPath);
     } catch (error) {
         await m.reply(`❌ Error: ${error.message}`);
     }
