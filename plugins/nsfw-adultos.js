@@ -9,7 +9,7 @@ const handler = async (m, {conn, command, usedPrefix}) => {
       conn.sendMessage(m.chat, { 
         image: { url: url }, 
         caption: `*🥵 Pack 🥵*`, 
-        footer: dev, 
+        footer: textbot , 
         buttons: [
             {
                 buttonId: `.pack`,
@@ -25,7 +25,7 @@ const handler = async (m, {conn, command, usedPrefix}) => {
       conn.sendMessage(m.chat, { 
         image: { url: url2 }, 
         caption: `*🥵 Pack 2 🥵*`, 
-        footer: dev, 
+        footer: textbot , 
         buttons: [
             {
                 buttonId: `.pack2`,
@@ -41,7 +41,7 @@ const handler = async (m, {conn, command, usedPrefix}) => {
       conn.sendMessage(m.chat, { 
         image: { url: url3 }, 
         caption: `*🥵 Pack 3 🥵*`, 
-        footer: dev, 
+        footer: textbot , 
         buttons: [
             {
                 buttonId: `.pack3`,
@@ -57,7 +57,7 @@ const handler = async (m, {conn, command, usedPrefix}) => {
    await conn.sendMessage(m.chat, { 
         video: { url: url4 },
         caption: `*ᴅɪsғʀᴜᴛᴀ ᴅᴇʟ ᴠɪᴅᴇᴏ 🥵*`, 
-        footer: dev, 
+        footer: textbot , 
         buttons: [
             {
                 buttonId: `.videoxxx`,
@@ -73,7 +73,7 @@ const handler = async (m, {conn, command, usedPrefix}) => {
    await conn.sendMessage(m.chat, { 
         video: { url: url5 },
         caption: `*ᴅɪsғʀᴜᴛᴀ ᴅᴇʟ ᴠɪᴅᴇᴏ 🥵*`, 
-        footer: dev, 
+        footer: textbot , 
         buttons: [
             {
                 buttonId: `.videoxxxlesbi`,
