@@ -38,6 +38,7 @@ global.textbot = 'Lyᥒ᥊ ᥴһᥲᥒᥒᥱᥣ'
 global.listo = '*Aqui tiene ฅ^•ﻌ•^ฅ*'
 global.vs = '2.0.0'
 global.dis = ':⁖֟⊱┈֟፝❥'
+global.lenguajeDK = es 
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
