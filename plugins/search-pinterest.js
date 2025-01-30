@@ -1,5 +1,7 @@
+import pkg from '@whiskeysockets/baileys';
+const { generateWAMessageContent, generateWAMessageFromContent, proto } = pkg;
+
 import axios from 'axios';
-import { generateWAMessageContent, generateWAMessageFromContent, proto } from '@whiskeysockets/baileys';
 
 let handler = async (m, { conn, args, usedPrefix, command }) => {
   if (!args[0]) {
