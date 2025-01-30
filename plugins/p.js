@@ -23,7 +23,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     `;
 
     await conn.reply(m.chat, message, m);
-    await conn.sendFile(m.chat, apkDetails.downloadLink, `${apkDetails.title}.apk`, '', m);
+    await conn.sendMessage(m.chat, { document: { url: apkDetails.downloadLink }, mimetype: 'application/vnd.android.package-archive', fileName: `${apkDetails.title}.apk` }, { quoted: m });
   } catch (error) {
     console.error(error);
     await conn.reply(m.chat, 'Hubo un error al obtener los detalles del APK. Intenta nuevamente más tarde.', m);
