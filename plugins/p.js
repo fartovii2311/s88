@@ -16,21 +16,15 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     }
 
     const apkDetails = response.data.data;
-    
-    const extension = path.extname(apkDetails.downloadLink).toLowerCase();
-    let fileType = 'application/vnd.android.package-archive';
-    let fileName = `${apkDetails.title}.apk`;
+    const downloadUrl = apkDetails.downloadLink;
 
-    if (extension === '.zip') {
-      fileType = 'application/zip';
-      fileName = `${apkDetails.title}.zip`;
-    }
-
-    const filePath = path.join('./temp', fileName);
-
+    const extension = path.extname(new URL(downloadUrl).pathname).toLowerCase() || '.apk';
+    const fileName = `${apkDetails.title}${extension}`;
+    const filePath = path.join('./tmp', fileName);
+l
     const writer = fs.createWriteStream(filePath);
     const downloadResponse = await axios({
-      url: apkDetails.downloadLink,
+      url: downloadUrl,
       method: 'GET',
       responseType: 'stream'
     });
@@ -42,7 +36,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       writer.on('error', reject);
     });
 
-    await conn.sendMessage(m.chat, { document: fs.readFileSync(filePath), mimetype: fileType, fileName }, { quoted: m });
+    await conn.sendMessage(m.chat, { document: fs.readFileSync(filePath), mimetype: 'application/octet-stream', fileName }, { quoted: m });
 
     fs.unlinkSync(filePath);
   } catch (error) {
@@ -51,7 +45,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   }
 };
 
-handler.help = ['apk4 <url>'];
-handler.tags = ['dl'];
-handler.command = ['apk4'];
+handler.help = ['apk <url>'];
+handler.tags = ['descarga'];
+handler.command = ['apk', 'apkdescarga'];
 export default handler;
