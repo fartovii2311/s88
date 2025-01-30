@@ -74,7 +74,29 @@ async function getAppDetails(apkPageUrl) {
   }
 }
 
+let handler = async (m, { conn, text }) => {
+  if (!text) {
+    return await conn.reply(m.chat, '❌ Debes proporcionar una URL de APKPure.\nEjemplo: *!apk2 <url>*', m);
+  }
 
+  const appDetails = await getAppDetails(text);
+
+  if (!appDetails || !appDetails.downloadLink) {
+    return await conn.reply(m.chat, '❌ No se pudo obtener la información o el enlace de descarga.', m);
+  }
+
+  const { title, imageUrl, downloadLink } = appDetails;
+
+  try {
+    await conn.sendMessage(m.chat, {
+      image: { url: imageUrl },
+      caption: `✅ *${title}*\n\n🔗 [Descargar APK](${downloadLink})`,
+    }, { quoted: m });
+  } catch (error) {
+    console.error(error);
+    await conn.reply(m.chat, '❌ Hubo un error al enviar la información.', m);
+  }
+};
 
 handler.help = ['apk2 <url>'];
 handler.tags = ['descarga'];
