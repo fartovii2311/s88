@@ -23,8 +23,9 @@ let handler = async (m, { conn, text }) => {
   const videoUrl = urls[0];
 
   try {
-    let downloadUrl;
+    let downloadUrl, title;
 
+    // Intentamos obtener los datos de la primera API
     try {
       const response = await axios.get(`https://api.siputzx.my.id/api/dl/youtube/mp3?url=${videoUrl}`);
       const data = response.data;
@@ -34,10 +35,12 @@ let handler = async (m, { conn, text }) => {
       }
 
       downloadUrl = data.data;
+      title = data.title || "Desconocido";  // Intentamos obtener el título del video
     } catch (error) {
       console.log('Fallo en la primera API:', error.message);
     }
 
+    // Si no obtuvimos la URL, intentamos la segunda API
     if (!downloadUrl) {
       try {
         const response = await axios.get(`https://api.davidcyriltech.my.id/download/ytmp3?url=${videoUrl}`);
@@ -45,6 +48,7 @@ let handler = async (m, { conn, text }) => {
 
         if (data.success === true) {
           downloadUrl = data.result.download_url;
+          title = data.result.title || "Desconocido";  // Intentamos obtener el título del video
         } else {
           throw new Error('No se pudo obtener la URL de la segunda API.');
         }
@@ -60,13 +64,14 @@ let handler = async (m, { conn, text }) => {
         const buffer = await mp3FileResponse.buffer();
         const size = parseInt(mp3FileResponse.headers.get('content-length'), 10) || 0;
 
+        // Si el archivo es mayor que 10MB, lo enviamos como documento
         if (size > 10 * 1024 * 1024) {
           await conn.sendMessage(
             m.chat,
             {
               document: buffer,
               mimetype: 'audio/mpeg',
-              fileName: 'audio.mp3',
+              fileName: `${title}.mp3`,  // Usamos el título como nombre del archivo
             },
             { quoted: m }
           );
