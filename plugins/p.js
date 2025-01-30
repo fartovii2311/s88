@@ -45,7 +45,7 @@ l
   }
 };
 
-handler.help = ['apk <url>'];
+handler.help = ['apk4 <url>'];
 handler.tags = ['descarga'];
-handler.command = ['apk', 'apkdescarga'];
+handler.command = ['apk4', 'apkdescarga4'];
 export default handler;
