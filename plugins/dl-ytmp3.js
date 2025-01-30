@@ -6,21 +6,38 @@
 
 import fetch from 'node-fetch';
 
-const handler = async (m, { conn, text, usedPrefix, command }) => {
+const handler = async (m, { conn, text }) => {
   
   if (!text) throw `❌ Proporcióname el enlace de YouTube para que pueda ayudarte. 🎵`;
 
   await m.react('🕓');
 
   try {
-    const response = await fetch(`https://api.davidcyriltech.my.id/download/ytmp3?url=${encodeURIComponent(text)}`);
-    const result = await response.json();
+    const response1 = await fetch(`https://api.davidcyriltech.my.id/download/ytmp3?url=${encodeURIComponent(text)}`);
+    const result1 = await response1.json();
 
-    if (result.status === 200 && result.success && result.result && result.result.download_url) {
+    if (result1.status === 200 && result1.success && result1.result && result1.result.download_url) {
       await conn.sendMessage(
         m.chat,
         { 
-          audio: { url: result.result.download_url }, 
+          audio: { url: result1.result.download_url }, 
+          mimetype: 'audio/mpeg', 
+          ptt: false 
+        },
+        { quoted: m }
+      );
+      await m.react('✅');
+      return;
+    }
+
+    const response2 = await fetch(`https://dark-core-api.vercel.app/api/download/ytmp3?url=${encodeURIComponent(text)}&type=audio&format=mp3&key=api`);
+    const result2 = await response2.json();
+
+    if (result2.success && result2.downloadLink) {
+      await conn.sendMessage(
+        m.chat,
+        { 
+          audio: { url: result2.downloadLink }, 
           mimetype: 'audio/mpeg', 
           ptt: false 
         },
@@ -28,8 +45,9 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
       );
       await m.react('✅');
     } else {
-      throw new Error('No se pudo obtener el enlace de descarga');
+      throw new Error('No se pudo obtener el enlace de descarga de ninguna API');
     }
+
   } catch (error) {
     await m.react('❌');
     m.reply(`❌ *Error:* ${error.message || 'Ocurrió un error desconocido'}`);
