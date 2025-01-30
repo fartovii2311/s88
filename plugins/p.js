@@ -2,11 +2,16 @@ import axios from 'axios';
 import cheerio from 'cheerio';
 
 const headers = {
-  'User-Agent': 'Mozilla/5.0 (Linux; Android 10; SM-G975F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.104 Mobile Safari/537.36',
+  'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/109.0',
   'Referer': 'https://apkpure.net/',
+  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'Accept-Encoding': 'gzip, deflate, br',
   'Accept-Language': 'es-ES,es;q=0.9',
   'Connection': 'keep-alive',
+  'DNT': '1',
+  'Upgrade-Insecure-Requests': '1',
 };
+
 
 async function getAppInfoAndDownloadLink(apkPageUrl) {
   try {
