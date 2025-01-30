@@ -24,6 +24,7 @@ let handler = async (m, { conn, text }) => {
   await m.react('🕓');
 
   const apiUrls = [
+    `https://dark-core-api.vercel.app/api/download/ytmp4?url=${videoUrl}&type=video&quality=hdHigh&key=api`,
     `https://api.vreden.web.id/api/ytmp4?url=${videoUrl}`,
     `https://delirius-apiofc.vercel.app/download/ytmp4?url=${videoUrl}`,
     `https://api.siputzx.my.id/api/d/ytmp4?url=${videoUrl}`,
@@ -32,18 +33,19 @@ let handler = async (m, { conn, text }) => {
 
   let data = null;
 
+  // Intentar obtener los datos de las APIs en el orden especificado
   for (const apiUrl of apiUrls) {
     try {
       const response = await fetch(apiUrl);
       const result = await response.json();
 
-      if (result.status && result.data?.dl) {
+      if (result.success && result.downloadLink) {
         data = {
-          title: result.data.title || "Desconocido",
-          downloadUrl: result.data.dl,
-          duration: "Desconocida",
+          title: result.downloadLink.split('/').pop(), // O cualquier otro método para extraer el título
+          downloadUrl: result.downloadLink,
+          duration: "Desconocida", // Puedes ajustarlo si la API devuelve la duración
         };
-        break;
+        break; // Si la API responde correctamente, salimos del ciclo
       }
     } catch (error) {
       console.error(`Error al intentar con la API: ${apiUrl}`, error.message);
