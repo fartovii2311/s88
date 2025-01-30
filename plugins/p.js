@@ -1,6 +1,4 @@
 import axios from 'axios';
-import fs from 'fs';
-import path from 'path';
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!text) {
@@ -15,37 +13,34 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       return conn.reply(m.chat, 'No se pudieron obtener los detalles del APK.', m);
     }
 
-    const apkDetails = response.data.data;
-    const downloadUrl = apkDetails.downloadLink;
+    const apkData = response.data.data;
+    const downloadUrl = apkData.downloadLink;
 
-    const extension = path.extname(new URL(downloadUrl).pathname).toLowerCase() || '.apk';
-    const fileName = `${apkDetails.title}${extension}`;
-    const filePath = path.join('./tmp', fileName);
+    const extension = downloadUrl.split('.').pop().split('?')[0] || 'apk';
+    const fileName = `${apkData.title}.${extension}`;
 
-    const writer = fs.createWriteStream(filePath);
-    const downloadResponse = await axios({
-      url: downloadUrl,
-      method: 'GET',
-      responseType: 'stream'
-    });
+    const message = `
+      📦 *Título:* ${apkData.title}
+      🔢 *Versión:* ${apkData.version}
+      🏷️ *Categoría:* ${apkData.category}
+      ⬇️ *Descargando...*
+    `;
+    await conn.reply(m.chat, message, m);
 
-    downloadResponse.data.pipe(writer);
+    await conn.sendMessage(m.chat, {
+      document: { url: downloadUrl },
+      mimetype: 'application/vnd.android.package-archive',
+      fileName: fileName,
+      caption: null
+    }, { quoted: m });
 
-    await new Promise((resolve, reject) => {
-      writer.on('finish', resolve);
-      writer.on('error', reject);
-    });
-
-    await conn.sendMessage(m.chat, { document: fs.readFileSync(filePath), mimetype: 'application/octet-stream', fileName }, { quoted: m });
-
-    fs.unlinkSync(filePath);
   } catch (error) {
     console.error(error);
     await conn.reply(m.chat, 'Hubo un error al obtener o enviar el archivo. Intenta nuevamente más tarde.', m);
   }
 };
 
-handler.help = ['apk4 <url>'];
+handler.help = ['apk <url>'];
 handler.tags = ['descarga'];
-handler.command = ['apk4', 'apkdescarga4'];
+handler.command = ['apk', 'apkdescarga'];
 export default handler;
