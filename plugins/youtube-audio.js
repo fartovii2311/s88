@@ -24,7 +24,7 @@ let handler = async (m, { conn, text }) => {
 
   try {
     let downloadUrl;
-    
+
     try {
       const response = await axios.get(`https://api.siputzx.my.id/api/dl/youtube/mp3?url=${videoUrl}`);
       const data = response.data;
@@ -37,6 +37,7 @@ let handler = async (m, { conn, text }) => {
     } catch (error) {
       console.log('Fallo en la primera API:', error.message);
     }
+
     if (!downloadUrl) {
       try {
         const response = await axios.get(`https://api.davidcyriltech.my.id/download/ytmp3?url=${videoUrl}`);
