@@ -31,7 +31,7 @@ const handler = async (m, { conn, args }) => {
   }
 };
 
-handler.help = ['ytmp3doc *<url>*''];
+handler.help = ['ytmp3doc *<url>*'];
 handler.tags = ['dl'];
 handler.command = /^ytmp3doc|ytadoc$/i;
 handler.register = true;
