@@ -21,7 +21,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     const extension = path.extname(new URL(downloadUrl).pathname).toLowerCase() || '.apk';
     const fileName = `${apkDetails.title}${extension}`;
     const filePath = path.join('./tmp', fileName);
-l
+
     const writer = fs.createWriteStream(filePath);
     const downloadResponse = await axios({
       url: downloadUrl,
