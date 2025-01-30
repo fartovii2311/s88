@@ -2,7 +2,7 @@ const axios = require('axios');
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!text) {
-    return conn.reply(m.chat, 'Por favor, proporciona el nombre de un APK para buscar.', m);
+    return conn.reply(m.chat, 'Por favor, proporciona la URL de la página del APK.', m);
   }
 
   try {
@@ -30,7 +30,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   }
 };
 
-handler.help = ['apk <nombre>'];
-handler.tags = ['descarga'];
-handler.command = ['apk', 'apkdescarga'];
+handler.help = ['apk4 <url>'];
+handler.tags = ['dl'];
+handler.command = ['apk4'];
 export default handler;
