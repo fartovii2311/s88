@@ -40,7 +40,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   }
 };
 
-handler.help = ['apk <url>'];
+handler.help = ['apk2 <url>'];
 handler.tags = ['descarga'];
-handler.command = ['apk', 'apkdescarga'];
+handler.command = ['apk2', 'apkdescarga2'];
 export default handler;
