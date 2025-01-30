@@ -1,4 +1,6 @@
 import axios from 'axios';
+import fs from 'fs';
+import path from 'path';
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!text) {
@@ -14,19 +16,28 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     }
 
     const apkDetails = response.data.data;
+    const filePath = path.join('./tmp', `${apkDetails.title}.apk`);
 
-    const message = `
-      Título: ${apkDetails.title}
-      Versión: ${apkDetails.version}
-      Categoría: ${apkDetails.category}
-      Enlace de descarga: ${apkDetails.downloadLink}
-    `;
+    const writer = fs.createWriteStream(filePath);
+    const downloadResponse = await axios({
+      url: apkDetails.downloadLink,
+      method: 'GET',
+      responseType: 'stream'
+    });
 
-    await conn.reply(m.chat, message, m);
-    await conn.sendFile(m.chat, apkDetails.downloadLink, `${apkDetails.title}.apk`, '', m);
+    downloadResponse.data.pipe(writer);
+
+    await new Promise((resolve, reject) => {
+      writer.on('finish', resolve);
+      writer.on('error', reject);
+    });
+
+    await conn.sendMessage(m.chat, { document: fs.readFileSync(filePath), mimetype: 'application/vnd.android.package-archive', fileName: `${apkDetails.title}.apk` }, { quoted: m });
+
+    fs.unlinkSync(filePath);
   } catch (error) {
     console.error(error);
-    await conn.reply(m.chat, 'Hubo un error al obtener los detalles del APK. Intenta nuevamente más tarde.', m);
+    await conn.reply(m.chat, 'Hubo un error al obtener o enviar la APK. Intenta nuevamente más tarde.', m);
   }
 };
 
