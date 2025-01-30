@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { generateWAMessageContent, generateWAMessageFromContent, proto } from '@whiskeysockets/baileys';
 
 let handler = async (m, { conn, args, usedPrefix, command }) => {
-    if (!args[0]) return conn.reply(m.chat, `🚩 Ingrese un título de película para buscar\n\nEjemplo:\n> *${usedPrefix + command}* diablo`, m, rcanal);
+    if (!args[0]) return conn.reply(m.chat, `🚩 Ingrese un título de película para buscar\n\nEjemplo:\n> *${usedPrefix + command}* diablo`, m);
 
     await m.react('🕓');
     try {
@@ -14,16 +15,64 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
         }
         
         let peliculas = response.data.peliculas;
-        let txt = '乂  P E L I C U L A S  -  B U S Q U E D A\n\n';
+        let cards = [];
 
-        peliculas.forEach(pelicula => {
-            txt += `  ✩   Título : ${pelicula.titulo}\n`;
-            txt += `  ✩   Rating : ${pelicula.rating}\n`;
-            txt += `  ✩   Enlace : ${pelicula.link}\n`;
-            txt += `  ✩   Imagen : ${pelicula.imagen}\n\n`;
-        });
+        for (let i = 0; i < peliculas.length; i++) {
+            const pelicula = peliculas[i];
+            const { titulo, rating, link, imagen } = pelicula;
+            
+            // Crear mensaje de imagen para cada película
+            const { imageMessage } = await generateWAMessageContent({
+                image: { url: imagen }
+            }, { upload: conn.waUploadToServer });
 
-        await conn.reply(m.chat, txt.trim(), m);
+            cards.push({
+                body: proto.Message.InteractiveMessage.Body.fromObject({
+                    text: `🎬 Título: ${titulo}\n⭐ Rating: ${rating}\n🔗 Enlace: ${link}`
+                }),
+                footer: proto.Message.InteractiveMessage.Footer.fromObject({
+                    text: '🔎 Resultados de Películas'
+                }),
+                header: proto.Message.InteractiveMessage.Header.fromObject({
+                    title: '',
+                    hasMediaAttachment: true,
+                    imageMessage
+                }),
+                nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({
+                    buttons: [{
+                        name: "cta_url",
+                        buttonParamsJson: JSON.stringify({
+                            display_text: "Ver más 📍",
+                            Url: link
+                        })
+                    }]
+                })
+            });
+        }
+
+        // Enviar mensaje en formato carrusel
+        const message = generateWAMessageFromContent(m.chat, {
+            viewOnceMessage: {
+                message: {
+                    interactiveMessage: proto.Message.InteractiveMessage.fromObject({
+                        body: proto.Message.InteractiveMessage.Body.create({
+                            text: `🎬 Resultados de búsqueda para: ${args.join(' ')}`
+                        }),
+                        footer: proto.Message.InteractiveMessage.Footer.create({
+                            text: `🔎 Buscando películas...`
+                        }),
+                        header: proto.Message.InteractiveMessage.Header.create({
+                            hasMediaAttachment: false
+                        }),
+                        carouselMessage: proto.Message.InteractiveMessage.CarouselMessage.fromObject({
+                            cards: cards
+                        })
+                    })
+                }
+            }
+        }, { quoted: m });
+
+        await conn.relayMessage(m.chat, message.message, { messageId: message.key.id });
         await m.react('✅');
     } catch (error) {
         console.error(error);
@@ -32,9 +81,10 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     }
 };
 
-handler.help = ['pelisplus <título>'];
+handler.help = ['pelisplus *<título>*'];
 handler.tags = ['search'];
 handler.command = ['pelisplussearch', 'pelisplus'];
 handler.register = true;
-handler.Monedas = 3
+handler.Monedas = 3;
+
 export default handler;
