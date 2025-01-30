@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { generateWAMessageContent, generateWAMessageFromContent, proto } from '@whiskeysockets/baileys';
+import pkg from '@whiskeysockets/baileys';
+const { generateWAMessageContent, generateWAMessageFromContent, proto } = pkg;
 
 let handler = async (m, { conn, args, usedPrefix, command }) => {
     if (!args[0]) return conn.reply(m.chat, `🚩 Ingrese un título de película para buscar\n\nEjemplo:\n> *${usedPrefix + command}* diablo`, m);
@@ -81,7 +82,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     }
 };
 
-handler.help = ['pelisplus *<título>*'];
+handler.help = ['pelisplus <título>'];
 handler.tags = ['search'];
 handler.command = ['pelisplussearch', 'pelisplus'];
 handler.register = true;
