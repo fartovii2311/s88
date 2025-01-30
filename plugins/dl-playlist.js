@@ -9,52 +9,21 @@ let handler = async (m, { conn, usedPrefix, text }) => {
     let result = await yts(text);
     let ytres = result.videos;
 
-    // Validar que haya resultados antes de continuar
     if (!ytres || ytres.length === 0) {
       return conn.reply(m.chat, 'No se encontraron resultados para tu búsqueda.', m);
     }
 
-    // Inicializar listSections como un array vacío
-    let listSections = [];
+    let txt = `Resultados de búsqueda para: *${text}*\n\n`;
 
-    // Iterar sobre los resultados y formar las opciones del carrusel
-    for (let v of ytres) {
-      listSections.push({
-        title: `${v.title}`,
-        rows: [
-          {
-            title: "Audio",
-            description: `Duración: ${v.timestamp}\nSubido por: ${v.author.name}`,
-            rowId: `${usedPrefix}ytmp3 ${v.url}`,
-          },
-          {
-            title: "Video",
-            description: `Duración: ${v.timestamp}\nSubido por: ${v.author.name}`,
-            rowId: `${usedPrefix}ytmp4 ${v.url}`,
-          },
-          {
-            title: "Audio (Documento)",
-            description: `Duración: ${v.timestamp}\nSubido por: ${v.author.name}`,
-            rowId: `${usedPrefix}ytmp3doc ${v.url}`,
-          },
-          {
-            title: "Video (Documento)",
-            description: `Duración: ${v.timestamp}\nSubido por: ${v.author.name}`,
-            rowId: `${usedPrefix}ytmp4doc ${v.url}`,
-          },
-        ],
-      });
-    }
+    ytres.forEach((v, i) => {
+      txt += `*${i + 1}.*\n`;
+      txt += `• Título: ${v.title}\n`;
+      txt += `• Duración: ${v.timestamp}\n`;
+      txt += `• Subido por: ${v.author.name}\n`;
+      txt += `• Enlace: ${v.url}\n\n`;
+    });
 
-    // Enviar el carrusel de opciones
-    await conn.sendList(
-      m.chat,
-      `Resultados de búsqueda`,
-      `Búsqueda de: ${text}`,
-      'Selecciona una opción',
-      listSections,
-      m
-    );
+    await conn.reply(m.chat, txt.trim(), m);
   } catch (e) {
     console.error(e);
     await conn.reply(m.chat, 'Hubo un error al realizar la búsqueda. Intenta nuevamente más tarde.', m);
