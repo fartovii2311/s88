@@ -12,7 +12,6 @@ const headers = {
   'Upgrade-Insecure-Requests': '1',
 };
 
-
 async function getAppInfoAndDownloadLink(apkPageUrl) {
   try {
     console.log(`🔍 Obteniendo información de: ${apkPageUrl}`);
