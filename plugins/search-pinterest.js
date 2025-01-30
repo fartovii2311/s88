@@ -4,12 +4,8 @@ const {
   generateWAMessageFromContent,
   proto
 } = (await import("@whiskeysockets/baileys"))["default"];
-let handler = async (_0x10bd40, {
-  conn: _0x9c7141,
-  text: _0x27db11,
-  usedPrefix: _0x55e61b,
-  command: _0x5ad406
-}) => {
+let handler = async (m, { conn, args, usedPrefix, command }) => {
+  
   if (!_0x27db11) {
     return _0x9c7141.reply(_0x10bd40.chat, "🤍 *¿Que quieres buscar en pinterest?*", _0x10bd40, rcanal);
   }
