@@ -9,14 +9,15 @@ let handler = async (m, { conn, usedPrefix, text }) => {
     let result = await yts(text);
     let ytres = result.videos;
 
-    // Inicializar listSections como un array vacío
-    let listSections = [];
-
-    // Validar que haya resultados antes de iterar
+    // Validar que haya resultados antes de continuar
     if (!ytres || ytres.length === 0) {
       return conn.reply(m.chat, 'No se encontraron resultados para tu búsqueda.', m);
     }
 
+    // Inicializar listSections como un array vacío
+    let listSections = [];
+
+    // Iterar sobre los resultados y formar las opciones del carrusel
     for (let v of ytres) {
       listSections.push({
         title: `${v.title}`,
@@ -45,6 +46,7 @@ let handler = async (m, { conn, usedPrefix, text }) => {
       });
     }
 
+    // Enviar el carrusel de opciones
     await conn.sendList(
       m.chat,
       `Resultados de búsqueda`,
