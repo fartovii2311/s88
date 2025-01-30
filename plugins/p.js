@@ -16,7 +16,17 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     }
 
     const apkDetails = response.data.data;
-    const filePath = path.join('./tmp', `${apkDetails.title}.apk`);
+    
+    const extension = path.extname(apkDetails.downloadLink).toLowerCase();
+    let fileType = 'application/vnd.android.package-archive';
+    let fileName = `${apkDetails.title}.apk`;
+
+    if (extension === '.zip') {
+      fileType = 'application/zip';
+      fileName = `${apkDetails.title}.zip`;
+    }
+
+    const filePath = path.join('./temp', fileName);
 
     const writer = fs.createWriteStream(filePath);
     const downloadResponse = await axios({
@@ -32,12 +42,12 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       writer.on('error', reject);
     });
 
-    await conn.sendMessage(m.chat, { document: fs.readFileSync(filePath), mimetype: 'application/vnd.android.package-archive', fileName: `${apkDetails.title}.apk` }, { quoted: m });
+    await conn.sendMessage(m.chat, { document: fs.readFileSync(filePath), mimetype: fileType, fileName }, { quoted: m });
 
     fs.unlinkSync(filePath);
   } catch (error) {
     console.error(error);
-    await conn.reply(m.chat, 'Hubo un error al obtener o enviar la APK. Intenta nuevamente más tarde.', m);
+    await conn.reply(m.chat, 'Hubo un error al obtener o enviar el archivo. Intenta nuevamente más tarde.', m);
   }
 };
 
