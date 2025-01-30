@@ -1,9 +1,5 @@
 import fetch from 'node-fetch';
-import { exec } from 'child_process';
-import fs from 'fs/promises';
-import { promisify } from 'util';
 
-const execPromise = promisify(exec);
 const videoLimit = 300 * 1024 * 1024; // 300 MB
 const tempDir = './tmp';
 
@@ -24,7 +20,6 @@ let handler = async (m, { conn, text }) => {
   await m.react('🕓');
 
   const apiUrls = [
-    `https://dark-core-api.vercel.app/api/download/ytmp4?url=${videoUrl}&type=video&quality=hdHigh&key=api`,
     `https://api.vreden.web.id/api/ytmp4?url=${videoUrl}`,
     `https://delirius-apiofc.vercel.app/download/ytmp4?url=${videoUrl}`,
     `https://api.siputzx.my.id/api/d/ytmp4?url=${videoUrl}`,
@@ -67,82 +62,23 @@ const handleVideoDownload = async (conn, m, data) => {
   const title = data.title || "Desconocido";
   const downloadUrl = data.downloadUrl;
 
-  const tempPath = `${tempDir}/${Date.now()}.mp4`;
-
   try {
-    await downloadFile(downloadUrl, tempPath);
-
-    const { size: fileSize } = await fs.stat(tempPath);
-
-    if (fileSize > videoLimit) {
-      const compressedPath = `${tempDir}/compressed_${Date.now()}.mp4`;
-      await compressVideo(tempPath, compressedPath);
-
-      const { size: compressedSize } = await fs.stat(compressedPath);
-
-      const isLarge = compressedSize > videoLimit;
-      const messageOptions = {
-        caption: isLarge
-          ? `⚠️ El archivo comprimido aún supera el límite permitido (${(videoLimit / 1024 / 1024).toFixed(2)} MB). Se envía como documento.\n\n🎥 *Título:* ${title}\n⏱️ *Duración:* Desconocida`
-          : `🎥 *Título:* ${title}\n⏱️ *Duración:* Desconocida`,
-        quoted: m,
-      };
-
-      await conn.sendMessage(
-        m.chat,
-        isLarge
-          ? {
-              document: { url: compressedPath },
-              fileName: `${title}.mp4`,
-              mimetype: 'video/mp4',
-            }
-          : {
-              video: { url: compressedPath },
-              fileName: `${title}.mp4`,
-              mimetype: 'video/mp4',
-            },
-        messageOptions
-      );
-
-      await fs.unlink(tempPath);
-      await fs.unlink(compressedPath);
-    } else {
-      await conn.sendMessage(
-        m.chat,
-        {
-          video: { url: tempPath },
-          fileName: `${title}.mp4`,
-          mimetype: 'video/mp4',
-          caption: `🎥 *Título:* ${title}\n⏱️ *Duración:* Desconocida`,
-        },
-        { quoted: m }
-      );
-
-      await fs.unlink(tempPath);
-    }
-
+    await conn.sendMessage(
+      m.chat,
+      {
+        video: { url: downloadUrl },
+        fileName: `${title}.mp4`,
+        mimetype: 'video/mp4',
+        caption: `🎥 *Título:* ${title}\n⏱️ *Duración:* Desconocida`,
+      },
+      { quoted: m }
+    );
     await m.react('✅');
   } catch (error) {
     console.error('Error al manejar el video:', error);
     await conn.reply(m.chat, '❌ Error al descargar o procesar el video.', m);
     await m.react('✖️');
   }
-};
-
-const downloadFile = async (url, dest) => {
-  const response = await fetch(url);
-  const fileStream = await fs.open(dest, 'w');
-  await new Promise((resolve, reject) => {
-    response.body
-      .pipe(fileStream.createWriteStream())
-      .on('finish', resolve)
-      .on('error', reject);
-  });
-};
-
-const compressVideo = async (inputPath, outputPath) => {
-  const ffmpegCommand = `ffmpeg -i "${inputPath}" -vf scale=1280:-2 -c:v libx264 -crf 28 -preset fast "${outputPath}"`;
-  await execPromise(ffmpegCommand);
 };
 
 handler.help = ['video'];
