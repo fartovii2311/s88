@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-const videoLimit = 300 * 1024 * 1024;
+const videoLimit = 300 * 1024 * 1024; // 300 MB
 const tempDir = './tmp';
 
 let handler = async (m, { conn, text }) => {
@@ -19,44 +19,28 @@ let handler = async (m, { conn, text }) => {
   const videoUrl = urls[0];
   await m.react('🕓');
 
-  const apiUrls = [
-    `https://api.vreden.web.id/api/ytmp4?url=${videoUrl}`,
-    `https://delirius-apiofc.vercel.app/download/ytmp4?url=${videoUrl}`,
-    `https://api.siputzx.my.id/api/d/ytmp4?url=${videoUrl}`,
-    `https://api.davidcyriltech.my.id/download/ytmp4?url=${videoUrl}`,
-    `https://api.botcahx.eu.org/api/dowloader/yt?url=${encodeURIComponent(videoUrl)}&apikey=xenzpedo`,
-    `https://www.y2mate.com/youtube-api?url=${videoUrl}`,
-  ];
+  const response = await fetch(`https://api.botcahx.eu.org/api/dowloader/yt?url=${encodeURIComponent(videoUrl)}&apikey=xenzpedo`);
+  const result = await response.json();
 
-  let data = null;
+  if (result.status && result.result && result.result.mp4) {
+    const { title, mp4, thumb } = result.result;
 
-  for (const apiUrl of apiUrls) {
-    try {
-      const response = await fetch(apiUrl);
-      const result = await response.json();
+    // Si obtenemos el enlace de la API, descargamos el video
+    const data = {
+      title: title || "Desconocido",
+      downloadUrl: mp4,
+      duration: "Desconocida", // Si tienes la duración, puedes incluirla
+    };
 
-      if (result.success && result.downloadLink) {
-        data = {
-          title: result.downloadLink.split('/').pop(),
-          downloadUrl: result.downloadLink,
-          duration: "Desconocida",
-        };
-        break;
-      }
-    } catch (error) {
-      console.error(`Error al intentar con la API: ${apiUrl}`, error.message);
-    }
-  }
+    await handleVideoDownload(conn, m, data);
 
-  if (!data) {
+  } else {
     return conn.reply(
       m.chat,
       '❌ No se pudo obtener el enlace de descarga del video. Intenta de nuevo más tarde.',
       m
     );
   }
-
-  await handleVideoDownload(conn, m, data);
 };
 
 const handleVideoDownload = async (conn, m, data) => {
