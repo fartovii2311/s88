@@ -7,7 +7,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
   let query = args.join(' ');
   
   try {
-    let apiUrl = `https://dark-core-api.vercel.app/api/xnxn?url=${encodeURIComponent(query)}`;
+    let apiUrl = `https://dark-core-api.vercel.app/api/download/xnxn?key=api&url=${encodeURIComponent(query)}`;
 
     let response = await fetch(apiUrl);
     let data = await response.json();
