@@ -5,6 +5,8 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     return conn.reply(m.chat, `🚩 El grupo no admite contenido *Nsfw.*\n\n> Para activarlo un *Administrador* debe usar el comando */on nsfw*`, m);
   }
 
+  await m.react('🕓');
+
   let query = args.join(' ');
   
   try {
