@@ -1,11 +1,7 @@
-import axios from 'axios';
-import cheerio from 'cheerio';
-import fs from 'fs';
-import path from 'path';
-import https from 'https';
-import stream from 'stream';
+const axios = require('axios');
+const cheerio = require('cheerio');
 
-// Función para obtener el token y las cookies
+// Función para obtener el token y cookies
 async function getTokenAndCookies() {
     try {
         const response = await axios.get('https://dlpanda.com/es/facebook', {
@@ -33,7 +29,7 @@ async function getTokenAndCookies() {
     }
 }
 
-// Función para obtener el enlace de descarga de Facebook
+// Función para descargar el video de Facebook
 async function dlfacebook(videoUrl) {
     try {
         const tokenData = await getTokenAndCookies();
@@ -74,47 +70,7 @@ async function dlfacebook(videoUrl) {
     }
 }
 
-// Función para descargar y enviar el video
-async function downloadAndSendVideo(m, videoUrl) {
-    try {
-        const result = await dlfacebook(videoUrl);
-
-        if (result.success) {
-            const videoDownloadUrl = result.downloadLink;
-            const fileName = path.basename(videoDownloadUrl);
-
-            console.log("🔍 Iniciando la descarga del video...");
-
-            const fileStream = fs.createWriteStream(fileName);
-
-            https.get(videoDownloadUrl, (response) => {
-                response.pipe(fileStream);
-                fileStream.on('finish', async () => {
-                    console.log("✅ Descarga completada.");
-
-                    fileStream.close();
-
-                    await m.reply({
-                        video: fs.createReadStream(fileName),
-                        caption: 'Aquí tienes tu video de Facebook',
-                    });
-                    fs.unlinkSync(fileName);
-                });
-            }).on('error', (err) => {
-                console.error("❌ Error al descargar el video:", err.message);
-                m.reply('❌ No se pudo descargar el video.');
-            });
-        } else {
-            m.reply(`❌ Error: ${result.error}`);
-        }
-
-    } catch (error) {
-        console.error("❌ Error al procesar la solicitud:", error);
-        m.reply('❌ Algo salió mal al procesar la solicitud.');
-    }
-}
-
-// Handler para procesar comandos de descarga de video
+// Handler para el comando en el bot
 let handler = async (m, { conn, text, usedPrefix, command }) => {
     try {
         // Verificar si se proporcionó una URL
@@ -125,7 +81,14 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
         await m.react('✅');  // Confirmación de que el bot está procesando la solicitud
 
-        await downloadAndSendVideo(m, text);
+        // Llamar a la función para obtener el video y enviarlo
+        const result = await dlfacebook(text);
+
+        if (result.success) {
+            await m.reply(`🔽 Aquí tienes el enlace para descargar el video: ${result.downloadLink}`);
+        } else {
+            await m.reply(`❌ Error: ${result.error}`);
+        }
 
     } catch (error) {
         console.error(error);
