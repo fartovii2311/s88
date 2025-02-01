@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-const videoLimit = 300 * 1024 * 1024; // 300 MB
+const videoLimit = 300 * 1024 * 1024;
 const tempDir = './tmp';
 
 let handler = async (m, { conn, text }) => {
@@ -24,11 +24,12 @@ let handler = async (m, { conn, text }) => {
     `https://delirius-apiofc.vercel.app/download/ytmp4?url=${videoUrl}`,
     `https://api.siputzx.my.id/api/d/ytmp4?url=${videoUrl}`,
     `https://api.davidcyriltech.my.id/download/ytmp4?url=${videoUrl}`,
+    `https://api.botcahx.eu.org/api/dowloader/yt?url=${encodeURIComponent(videoUrl)}&apikey=xenzpedo`,
+    `https://www.y2mate.com/youtube-api?url=${videoUrl}`,
   ];
 
   let data = null;
 
-  // Intentar obtener los datos de las APIs en el orden especificado
   for (const apiUrl of apiUrls) {
     try {
       const response = await fetch(apiUrl);
@@ -36,11 +37,11 @@ let handler = async (m, { conn, text }) => {
 
       if (result.success && result.downloadLink) {
         data = {
-          title: result.downloadLink.split('/').pop(), // O cualquier otro método para extraer el título
+          title: result.downloadLink.split('/').pop(),
           downloadUrl: result.downloadLink,
-          duration: "Desconocida", // Puedes ajustarlo si la API devuelve la duración
+          duration: "Desconocida",
         };
-        break; // Si la API responde correctamente, salimos del ciclo
+        break;
       }
     } catch (error) {
       console.error(`Error al intentar con la API: ${apiUrl}`, error.message);
