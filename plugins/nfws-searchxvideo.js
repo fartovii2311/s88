@@ -19,7 +19,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     }
 
     let push = [];
-    const apiUrl = `https://dark-core-api.vercel.app/api/search/xvideo?key=user1&text=${encodeURIComponent(text)}`;
+    const apiUrl = `https://dark-core-api.vercel.app/api/search/xvideo?key=api&text=${encodeURIComponent(text)}`;
 
     const response = await fetch(apiUrl);
 
