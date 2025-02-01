@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-const videoLimit = 300 * 1024 * 1024; // 300 MB
+const videoLimit = 40 * 1024 * 1024;
 const tempDir = './tmp';
 
 let handler = async (m, { conn, text }) => {
@@ -31,7 +31,14 @@ let handler = async (m, { conn, text }) => {
       duration: "Desconocida",
     };
 
-    await handleVideoDownload(conn, m, data);
+    const videoResponse = await fetch(mp4);
+    const videoBuffer = await videoResponse.buffer();
+    
+    if (videoBuffer.length > videoLimit) {
+      await sendDownloadLinkAsDoc(conn, m, data);
+    } else {
+      await handleVideoDownload(conn, m, data);
+    }
 
   } else {
     return conn.reply(
@@ -61,6 +68,30 @@ const handleVideoDownload = async (conn, m, data) => {
   } catch (error) {
     console.error('Error al manejar el video:', error);
     await conn.reply(m.chat, '❌ Error al descargar o procesar el video.', m);
+    await m.react('✖️');
+  }
+};
+
+const sendDownloadLinkAsDoc = async (conn, m, data) => {
+  const title = data.title || "Desconocido";
+  const downloadUrl = data.downloadUrl;
+  const docContent = `🎥 *Título:* ${title}\n🔗 *Enlace de descarga:* ${downloadUrl}`;
+
+  try {
+    await conn.sendMessage(
+      m.chat,
+      {
+        document: { url: downloadUrl },
+        fileName: `${title}.doc`,
+        mimetype: 'application/msword',
+        caption: docContent,
+      },
+      { quoted: m }
+    );
+    await m.react('✅');
+  } catch (error) {
+    console.error('Error al enviar el archivo .doc:', error);
+    await conn.reply(m.chat, '❌ Error al enviar el enlace de descarga como archivo .doc.', m);
     await m.react('✖️');
   }
 };
