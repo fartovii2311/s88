@@ -1,11 +1,4 @@
-/* 
-- Downloader xvideo By DarkCore
-- https://whatsapp.com/channel/0029VaJxgcB0bIdvuOwKTM2Y
-- Parchado por DarkCore... vip plus
-*/
-
 import fetch from 'node-fetch';
-const { generateWAMessageContent, generateWAMessageFromContent, proto } = (await import('@whiskeysockets/baileys')).default;
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!global.db.data.chats[m.chat].nsfw) {
@@ -17,12 +10,8 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   await m.react('🕓');
   
   try {
-    async function createImage(url) {
-      const { imageMessage } = await generateWAMessageContent({ image: { url } }, { upload: conn.waUploadToServer });
-      return imageMessage;
-    }
+    let messageBody = `*Resultados de búsqueda para:* ${text}\n\n`;
 
-    let push = [];
     const apiUrl = `https://dark-core-api.vercel.app/api/search/xvideo?key=api&text=${encodeURIComponent(text)}`;
 
     const response = await fetch(apiUrl);
@@ -38,51 +27,10 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     }
 
     for (let video of json.results) {
-      let image = await createImage(video.videoImageSrc);
-
-      push.push({
-        body: proto.Message.InteractiveMessage.Body.fromObject({
-          text: `◦ *Título:* ${video.videoTitle}\n◦ *Resolución:* ${video.videoResolution}\n◦ *Duración:* ${video.videoDuration}\n◦ *Enlace:* ${video.videoLink}`,
-        }),
-        footer: proto.Message.InteractiveMessage.Footer.fromObject({
-          text: '' // Puedes agregar texto adicional si lo deseas
-        }),
-        header: proto.Message.InteractiveMessage.Header.fromObject({
-          title: '',
-          hasMediaAttachment: true,
-          imageMessage: image,
-        }),
-        nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({
-          buttons: [
-            {
-              "name": "cta_copy",
-              "buttonParamsJson": `{"display_text":"🎬 Ver Video","id":"123456789","copy_code":"/xvideo ${video.videoLink}"}`
-            },
-          ]
-        }),
-      });
+      messageBody += `🎥 *Título:* ${video.videoTitle}\n⏱️ *Duración:* ${video.videoDuration}\n🔗 *Enlace:* ${video.videoLink}\n\n`;
     }
 
-    const msg = generateWAMessageFromContent(m.chat, {
-      viewOnceMessage: {
-        message: {
-          messageContextInfo: {
-            deviceListMetadata: {},
-            deviceListMetadataVersion: 2,
-          },
-          interactiveMessage: proto.Message.InteractiveMessage.fromObject({
-            body: proto.Message.InteractiveMessage.Body.create({ text: `*Resultados de búsqueda para:* ${text}` }),
-            footer: proto.Message.InteractiveMessage.Footer.create({ text: 'Powered by Dark Team' }),
-            header: proto.Message.InteractiveMessage.Header.create({ hasMediaAttachment: false }),
-            carouselMessage: proto.Message.InteractiveMessage.CarouselMessage.fromObject({ cards: [...push] }),
-          })
-        }
-      }
-    }, {
-      quoted: m
-    });
-
-    await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id });
+    await conn.reply(m.chat, messageBody, m);
     await m.react('✅');
   } catch (error) {
     console.error(error);
