@@ -25,11 +25,10 @@ let handler = async (m, { conn, text }) => {
   if (result.status && result.result && result.result.mp4) {
     const { title, mp4, thumb } = result.result;
 
-    // Si obtenemos el enlace de la API, descargamos el video
     const data = {
       title: title || "Desconocido",
       downloadUrl: mp4,
-      duration: "Desconocida", // Si tienes la duración, puedes incluirla
+      duration: "Desconocida",
     };
 
     await handleVideoDownload(conn, m, data);
