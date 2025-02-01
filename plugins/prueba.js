@@ -8,8 +8,6 @@ import stream from 'stream';
 // Función para obtener el token y las cookies
 async function getTokenAndCookies() {
     try {
-        console.log("🔍 Accediendo a DLPanda para obtener el token...");
-
         const response = await axios.get('https://dlpanda.com/es/facebook', {
             headers: {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
@@ -24,11 +22,9 @@ async function getTokenAndCookies() {
         const cookies = response.headers['set-cookie'];
 
         if (!token) {
-            console.error("❌ No se pudo obtener el token.");
             return null;
         }
 
-        console.log(`✅ Token obtenido: ${token}`);
         return { token, cookies };
 
     } catch (error) {
@@ -45,8 +41,6 @@ async function dlfacebook(videoUrl) {
 
         const { token, cookies } = tokenData;
         const postData = `url=${encodeURIComponent(videoUrl)}&_token=${token}`;
-
-        console.log("🔍 Enviando solicitud de descarga a DLPanda...");
 
         const response = await axios.post(
             'https://dlpanda.com/es/facebook',
@@ -68,10 +62,10 @@ async function dlfacebook(videoUrl) {
 
         if (!downloadLink) {
             console.error("❌ No se encontró el enlace de descarga.");
+            console.error("🔎 HTML recibido:", response.data);
             return { success: false, error: "No se encontró el enlace de descarga." };
         }
 
-        console.log(`✅ Enlace de descarga obtenido: ${downloadLink}`);
         return { success: true, downloadLink };
 
     } catch (error) {
