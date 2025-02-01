@@ -5,6 +5,7 @@ import path from 'path';
 import https from 'https';
 import stream from 'stream';
 
+// Función para obtener el token y las cookies
 async function getTokenAndCookies() {
     try {
         console.log("🔍 Accediendo a DLPanda para obtener el token...");
@@ -23,9 +24,11 @@ async function getTokenAndCookies() {
         const cookies = response.headers['set-cookie'];
 
         if (!token) {
+            console.error("❌ No se pudo obtener el token.");
             return null;
         }
 
+        console.log(`✅ Token obtenido: ${token}`);
         return { token, cookies };
 
     } catch (error) {
@@ -34,6 +37,7 @@ async function getTokenAndCookies() {
     }
 }
 
+// Función para obtener el enlace de descarga de Facebook
 async function dlfacebook(videoUrl) {
     try {
         const tokenData = await getTokenAndCookies();
@@ -41,6 +45,8 @@ async function dlfacebook(videoUrl) {
 
         const { token, cookies } = tokenData;
         const postData = `url=${encodeURIComponent(videoUrl)}&_token=${token}`;
+
+        console.log("🔍 Enviando solicitud de descarga a DLPanda...");
 
         const response = await axios.post(
             'https://dlpanda.com/es/facebook',
@@ -61,9 +67,11 @@ async function dlfacebook(videoUrl) {
         const downloadLink = $('a#download-video-btn').attr('href');
 
         if (!downloadLink) {
+            console.error("❌ No se encontró el enlace de descarga.");
             return { success: false, error: "No se encontró el enlace de descarga." };
         }
 
+        console.log(`✅ Enlace de descarga obtenido: ${downloadLink}`);
         return { success: true, downloadLink };
 
     } catch (error) {
@@ -72,21 +80,26 @@ async function dlfacebook(videoUrl) {
     }
 }
 
+// Función para descargar y enviar el video
 async function downloadAndSendVideo(m, videoUrl) {
     try {
         const result = await dlfacebook(videoUrl);
 
         if (result.success) {
-            const videoUrl = result.downloadLink;
-            const fileName = path.basename(videoUrl);
+            const videoDownloadUrl = result.downloadLink;
+            const fileName = path.basename(videoDownloadUrl);
+
+            console.log("🔍 Iniciando la descarga del video...");
 
             const fileStream = fs.createWriteStream(fileName);
 
-            https.get(videoUrl, (response) => {
+            https.get(videoDownloadUrl, (response) => {
                 response.pipe(fileStream);
                 fileStream.on('finish', async () => {
+                    console.log("✅ Descarga completada.");
+
                     fileStream.close();
-            
+
                     await m.reply({
                         video: fs.createReadStream(fileName),
                         caption: 'Aquí tienes tu video de Facebook',
@@ -102,7 +115,7 @@ async function downloadAndSendVideo(m, videoUrl) {
         }
 
     } catch (error) {
-        console.error(error);
+        console.error("❌ Error al procesar la solicitud:", error);
         m.reply('❌ Algo salió mal al procesar la solicitud.');
     }
 }
@@ -110,22 +123,23 @@ async function downloadAndSendVideo(m, videoUrl) {
 // Handler para procesar comandos de descarga de video
 let handler = async (m, { conn, text, usedPrefix, command }) => {
     try {
+        // Verificar si se proporcionó una URL
         if (!text) {
             await m.reply('⚠️ Por favor, proporciona una URL de Facebook.');
             return;
         }
 
-        await m.react('✅'); 
+        await m.react('✅');  // Confirmación de que el bot está procesando la solicitud
 
         await downloadAndSendVideo(m, text);
 
     } catch (error) {
         console.error(error);
-        await m.react('✖'); 
+        await m.react('✖');  // Reacción de error
         await m.reply('❌ Algo salió mal al procesar la solicitud.');
     }
 };
 
-handler.command = ['fb2'];
+handler.command = ['fb2']; // Comando para activar la función
 
 export default handler;
