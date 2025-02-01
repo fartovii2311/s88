@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-const videoLimit = 40 * 1024 * 1024;
+const videoLimit = 40 * 1024 * 1024; // 40 MB
 const tempDir = './tmp';
 
 let handler = async (m, { conn, text }) => {
@@ -19,34 +19,50 @@ let handler = async (m, { conn, text }) => {
   const videoUrl = urls[0];
   await m.react('🕓');
 
-  const response = await fetch(`https://api.botcahx.eu.org/api/dowloader/yt?url=${encodeURIComponent(videoUrl)}&apikey=xenzpedo`);
-  const result = await response.json();
+  let downloadData = await tryApiFetch(videoUrl);
 
-  if (result.status && result.result && result.result.mp4) {
-    const { title, mp4, thumb } = result.result;
-
-    const data = {
-      title: title || "Desconocido",
-      downloadUrl: mp4,
-      duration: "Desconocida",
-    };
-
-    const videoResponse = await fetch(mp4);
-    const videoBuffer = await videoResponse.buffer();
-    
-    if (videoBuffer.length > videoLimit) {
-      await sendDownloadLinkAsDoc(conn, m, data);
-    } else {
-      await handleVideoDownload(conn, m, data);
-    }
-
-  } else {
+  if (!downloadData) {
     return conn.reply(
       m.chat,
       '❌ No se pudo obtener el enlace de descarga del video. Intenta de nuevo más tarde.',
       m
     );
   }
+
+  const videoResponse = await fetch(downloadData.downloadUrl);
+  const videoBuffer = await videoResponse.buffer();
+
+  if (videoBuffer.length > videoLimit) {
+    await sendDownloadLinkAsDoc(conn, m, downloadData);
+  } else {
+    await handleVideoDownload(conn, m, downloadData);
+  }
+};
+
+const tryApiFetch = async (videoUrl) => {
+  const apiUrls = [
+    `https://api.botcahx.eu.org/api/dowloader/yt?url=${encodeURIComponent(videoUrl)}&apikey=xenzpedo`,
+    `https://delirius-apiofc.vercel.app/download/ytmp4?url=${encodeURIComponent(videoUrl)}`
+  ];
+
+  for (const apiUrl of apiUrls) {
+    try {
+      const response = await fetch(apiUrl);
+      const result = await response.json();
+
+      if (result.status && result.data && result.data.download) {
+        const { title, download } = result.data;
+        return {
+          title: title || "Desconocido",
+          downloadUrl: download.url,
+        };
+      }
+    } catch (error) {
+      console.error(`Error al intentar con la API: ${apiUrl}`, error.message);
+    }
+  }
+
+  return null;
 };
 
 const handleVideoDownload = async (conn, m, data) => {
