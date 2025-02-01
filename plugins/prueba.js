@@ -1,9 +1,9 @@
-const axios = require('axios');
-const cheerio = require('cheerio');
-const fs = require('fs');
-const path = require('path');
-const https = require('https');
-const stream = require('stream');
+import axios from 'axios';
+import cheerio from 'cheerio';
+import fs from 'fs';
+import path from 'path';
+import https from 'https';
+import stream from 'stream';
 
 async function getTokenAndCookies() {
     try {
