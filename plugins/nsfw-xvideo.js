@@ -1,9 +1,3 @@
-/* 
-- Downloader xvideo By DarkCore
-- https://whatsapp.com/channel/0029VaJxgcB0bIdvuOwKTM2Y
-- Parchado por DarkCore... vip plus
-*/
-
 import fetch from 'node-fetch';
 
 const handler = async (m, { conn, text }) => {
@@ -22,13 +16,13 @@ const handler = async (m, { conn, text }) => {
     if (response.ok) {
       const data = await response.json();
 
-      if (data.success && data.results && Array.isArray(data.results) && data.results.length > 0) {
-        const videoData = data.results[0]; // Tomamos el primer video en los resultados
+      if (data.success && data.results) {
+        const videoData = data.results; // Ahora `results` es un objeto, no un arreglo
 
-        const videoUrl = videoData.videoLink;
-        const videoTitle = videoData.videoTitle || 'Desconocido';
-        const videoDuration = videoData.videoDuration || 'Desconocida';
-        const videoImage = videoData.videoImageSrc || '';
+        const videoUrl = videoData.VideoUrlHigh;
+        const videoTitle = 'Desconocido'; // La API no proporciona un título, así que lo dejamos como 'Desconocido'
+        const videoDuration = 'Desconocida'; // Lo mismo para la duración
+        const videoImage = videoData.ThumbUrl || ''; // Usamos la URL de la miniatura
 
         await conn.sendMessage(m.chat, {
           video: { url: videoUrl },
@@ -56,4 +50,3 @@ handler.command = ['xvideo', 'xvideodownload'];
 handler.register = true;
 
 export default handler;
-
