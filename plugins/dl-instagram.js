@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 let handler = async (m, { text, args, command, conn, usedPrefix }) => {  
-  if (!text) return conn.reply(m.chat, '[ ᰔᩚ ] Ingresa una URL válida de *Instagram*.`, m, rcanal);
+  if (!text) return conn.reply(m.chat, '[ ᰔᩚ ] Ingresa una URL válida de *Instagram*.', m, rcanal);
 
   await m.react('🕓');
 
