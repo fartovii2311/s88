@@ -1,18 +1,18 @@
 import axios from 'axios';
 
 const handler = async (m, { conn, args }) => {
-  try {
-    const query = args[0];
-    if (!query) return conn.reply(m.chat, '🔥 *Ejemplo:* .ytmp4 <URL de YouTube>', m);
+   const query = args[0];
+    if (!query) {
+      return conn.reply(m.chat, '🔥 *Ejemplo:* .ytmp4 <URL de YouTube>', m,rcanal);
+    }
 
-    await m.react('🕓');
+    try {
+     await m.react('🕓');
 
-    // Intentamos con la primera API
-    let apiUrl = `https://apidl.asepharyana.cloud/api/downloader/ytmp4?url=${encodeURIComponent(query)}&quality=360`;
-    let response = await axios.get(apiUrl);
+     let apiUrl = `https://apidl.asepharyana.cloud/api/downloader/ytmp4?url=${encodeURIComponent(query)}&quality=360`;
+     let response = await axios.get(apiUrl);
 
     if (!response.data?.result?.download_url) {
-      // Si la primera API falla, intentamos con la segunda
       apiUrl = `https://api.davidcyriltech.my.id/download/ytmp4?url=${encodeURIComponent(query)}`;
       response = await axios.get(apiUrl);
 
