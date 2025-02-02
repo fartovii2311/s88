@@ -55,7 +55,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
             logger: pino({ level: 'silent' }),
             printQRInTerminal: false,
             mobile: MethodMobile,
-            browser: ["Ubuntu", "Chrome", "20.0.04"],
+            browser: ["Lynx-Ai (serbot)", "Chrome", "20.0.04"],
             auth: {
                 creds: state.creds,
                 keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" }))
