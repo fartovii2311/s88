@@ -228,7 +228,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
 
 handler.help = ['code'];
 handler.tags = ['serbot'];
-handler.command = ['code', 'Code', 'serbot', 'Serbot'];
+handler.command = ['code', 'Code', 'serbot', 'Serbot', 'jadibot'];
 
 export default handler;
 
