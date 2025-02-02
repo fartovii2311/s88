@@ -6,23 +6,32 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     try {
         await m.react('🕒');
 
-        const response = await fetch(`https://api.botcahx.eu.org/api/dowloader/yt?url=${encodeURIComponent(text)}&apikey=xenzpedo`);
-        const result = await response.json();
+        const apis = [
+            `https://api.siputzx.my.id/api/d/ytmp4?url=${encodeURIComponent(text)}`,
+            `https://api.botcahx.eu.org/api/dowloader/yt?url=${encodeURIComponent(text)}&apikey=xenzpedo`
+        ];
 
-        if (result.status && result.result && result.result.mp4) {
-            const { title, mp4, thumb } = result.result;
-            await conn.sendMessage(m.chat, { 
-                video: { url: mp4 }, 
-                caption: `🎥 *Título:* ${title}`,
-                thumbnail: { url: thumb }
-            }, { quoted: m });
+        let result;
+        for (const api of apis) {
+            try {
+                const response = await fetch(api);
+                result = await response.json();
+                if (result.status && result.data && result.data.dl) {
+                    const { title, dl } = result.data;
+                    await conn.sendMessage(m.chat, {
+                        video: { url: dl },
+                        caption: `🎥 *Título:* ${title}`
+                    }, { quoted: m });
 
-            await m.react('✅');
-            return;
+                    await m.react('✅');
+                    return;
+                }
+            } catch (err) {
+                console.error(`Error con API: ${api}`, err.message);
+            }
         }
 
-        throw new Error('No se pudo obtener el enlace de descarga.');
-
+        throw new Error('No se pudo obtener el enlace de descarga de ninguna API.');
     } catch (error) {
         console.error(error);
         await m.react('❌');
