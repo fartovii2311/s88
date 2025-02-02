@@ -87,7 +87,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
                    txt += `│  👑  *2* : Toque dispositivos vinculados\n`
                    txt += `│  👑  *3* : Selecciona *Vincular con el número de teléfono*\n`
                    txt += `└  👑  *4* : Escriba el Codigo\n\n`
-                   txt += `> *👑Nota:* Este Código solo funciona en el número en el que se solicito`;
+                   txt += `> *👑Nota:* Este Código solo funciona en el número en el que se solicito\n`;
                    txt += `> *👑Nota:* Si no Conecto porfavor borre la session con el comando .delsession`;
                 await parent.reply(m.chat, txt, m, menu);
                 await parent.reply(m.chat, codeBot, m);
