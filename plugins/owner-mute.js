@@ -1,69 +1,95 @@
-import fetch from 'node-fetch';
-
-// Define la función handler que maneja los comandos de muteo y desmuteo
-const handler = async (message, { conn, command, text, isAdmin }) => {
-  if (command === 'mute') {
-    if (!isAdmin) {
-      throw 'Solo un administrador puede ejecutar este comando';
+import _0x19a3e4 from 'node-fetch';
+const handler = async (_0x5b04ea, {
+  conn: _0x24d45b,
+  command: _0x38ad25,
+  text: _0x29b0ac,
+  isAdmin: _0x9e35ac
+}) => {
+  if (_0x38ad25 === "mute") {
+    if (!_0x9e35ac) {
+      throw "💌 *Solo un administrador puede ejecutar este comando";
     }
-
-    // Obtiene el ID del usuario que se quiere mutar
-    const userId = message.mentionedJid[0] || message.quoted.sender;
-
-    // Verifica si el usuario que se quiere mutar es el creador del bot
-    if (userId === global.owner[0][0] + '@s.whatsapp.net') {
-      throw 'El creador del bot no puede ser mutado';
+    const _0x45f556 = global.owner[0x0][0x0] + "@s.whatsapp.net";
+    if (_0x5b04ea.mentionedJid[0x0] === _0x45f556) {
+      throw "🚩 *El creador del bot no puede ser mutado*";
     }
-
-    // Verifica si el usuario que se quiere mutar ya ha sido mutado
-    const userData = global.db.data.users[userId];
-    if (userData.muto === true) {
-      throw 'Este usuario ya ha sido mutado';
+    let _0x329969 = _0x5b04ea.mentionedJid[0x0] ? _0x5b04ea.mentionedJid[0x0] : _0x5b04ea.quoted ? _0x5b04ea.quoted.sender : _0x29b0ac;
+    if (_0x329969 === _0x24d45b.user.jid) {
+      throw "🚩 *No puedes mutar el bot*";
     }
-
-    // Muta al usuario y envía un mensaje de confirmación
-    userData.muto = true;
-    await conn.reply(message.chat, 'Tus mensajes serán eliminados', {
-      mentions: [userId],
+    const _0xeea06e = await _0x24d45b.groupMetadata(_0x5b04ea.chat);
+    const _0x69b64a = _0xeea06e.owner || _0x5b04ea.chat.split`-`[0x0] + "@s.whatsapp.net";
+    if (_0x5b04ea.mentionedJid[0x0] === _0x69b64a) {
+      throw "🚩 *No puedes mutar el creador del grupo*";
+    }
+    let _0xc6ae1d = global.db.data.users[_0x329969];
+    let _0x3d4fa1 = {
+      'key': {
+        'participants': "0@s.whatsapp.net",
+        'fromMe': false,
+        'id': "Halo"
+      },
+      'message': {
+        'locationMessage': {
+          'name': "𝗨𝘀𝘂𝗮𝗿𝗶𝗼 𝗺𝘂𝘁𝗮𝗱𝗼",
+          'jpegThumbnail': await (await _0x19a3e4('https://telegra.ph/file/f8324d9798fa2ed2317bc.png')).buffer(),
+          'vcard': "BEGIN:VCARD\nVERSION:3.0\nN:;Unlimited;;;\nFN:Unlimited\nORG:Unlimited\nTITLE:\nitem1.TEL;waid=19709001746:+1 (970) 900-1746\nitem1.X-ABLabel:Unlimited\nX-WA-BIZ-DESCRIPTION:ofc\nX-WA-BIZ-NAME:Unlimited\nEND:VCARD"
+        }
+      },
+      'participant': "0@s.whatsapp.net"
+    };
+    if (!_0x5b04ea.mentionedJid[0x0] && !_0x5b04ea.quoted) {
+      return _0x24d45b.reply(_0x5b04ea.chat, "🚩 *Menciona a la persona que deseas mutar*", _0x5b04ea);
+    }
+    if (_0xc6ae1d.muto === true) {
+      throw "🚩 *Este usuario ya ha sido mutado*";
+    }
+    _0x24d45b.reply(_0x5b04ea.chat, "*Tus mensajes serán eliminados*", _0x3d4fa1, null, {
+      'mentions': [_0x329969]
     });
-  } else if (command === 'unmute') {
-    // Verifica si el usuario que envió el comando es administrador
-    if (!isAdmin) {
-      throw 'Solo un administrador puede ejecutar este comando';
-    }
-
-    // Obtiene el ID del usuario que se quiere desmutar
-    const userId = message.mentionedJid[0] || message.quoted.sender;
-
-    // Verifica si el usuario que se quiere desmutar ya ha sido desmutado
-    const userData = global.db.data.users[userId];
-    if (userData.muto === false) {
-      throw 'Este usuario no ha sido mutado';
-    }
-
-    // Desmuta al usuario y envía un mensaje de confirmación
-    userData.muto = false;
-    await conn.reply(message.chat, 'Tus mensajes no serán eliminados', {
-      mentions: [userId],
-    });
-  }
-
-  // Verifica si el mensaje proviene de un usuario muteado
-  if (message.from !== conn.user.jid) { // Si el mensaje no es del bot
-    const userData = global.db.data.users[message.sender];
-    if (userData?.muto) {
-      await conn.deleteMessage(message.chat, message.key);
-      console.log(`Mensaje de ${message.sender} ha sido eliminado porque está muteado.`);
+    global.db.data.users[_0x329969].muto = true;
+  } else {
+    if (_0x38ad25 === "unmute") {
+      if (!_0x9e35ac) {
+        throw _0x5b04ea.reply("🚩 *Solo un administrador puede ejecutar este comando");
+      }
+      let _0x12128f = _0x5b04ea.mentionedJid[0x0] ? _0x5b04ea.mentionedJid[0x0] : _0x5b04ea.quoted ? _0x5b04ea.quoted.sender : _0x29b0ac;
+      let _0x498844 = global.db.data.users[_0x12128f];
+      let _0x2d1dfb = {
+        'key': {
+          'participants': "0@s.whatsapp.net",
+          'fromMe': false,
+          'id': "Halo"
+        },
+        'message': {
+          'locationMessage': {
+            'name': "𝗨𝘀𝘂𝗮𝗿𝗶𝗼 𝗱𝗲𝗺𝘂𝘁𝗮𝗱𝗼",
+            'jpegThumbnail': await (await _0x19a3e4('https://telegra.ph/file/aea704d0b242b8c41bf15.png')).buffer(),
+            'vcard': "BEGIN:VCARD\nVERSION:3.0\nN:;Unlimited;;;\nFN:Unlimited\nORG:Unlimited\nTITLE:\nitem1.TEL;waid=968382008:+51 968 382 008\nitem1.X-ABLabel:Unlimited\nX-WA-BIZ-DESCRIPTION:ofc\nX-WA-BIZ-NAME:Unlimited\nEND:VCARD"
+          }
+        },
+        'participant': "0@s.whatsapp.net"
+      };
+      if (_0x12128f === _0x5b04ea.sender) {
+        throw "🚩 *Sólo otro administrador puede desmutarte*";
+      }
+      if (!_0x5b04ea.mentionedJid[0x0] && !_0x5b04ea.quoted) {
+        return _0x24d45b.reply(_0x5b04ea.chat, "🚩 *Menciona a la persona que deseas demutar*", _0x5b04ea);
+      }
+      if (_0x498844.muto === false) {
+        throw "🚩 *Este usuario no ha sido mutado*";
+      }
+      global.db.data.users[_0x12128f].muto = false;
+      _0x24d45b.reply(_0x5b04ea.chat, "*Tus mensajes no serán eliminados*", _0x2d1dfb, null, {
+        'mentions': [_0x12128f]
+      });
     }
   }
 };
-
-handler.help = ['mute *<@user>*'];
-handler.tags = ['group'];
+handler.help = ['mute *<@user>*']
+handler.tags = ['group']
 handler.command = ['mute', 'unmute'];
 handler.group = true;
 handler.admin = true;
 handler.botAdmin = true;
-
-// Exporta el handler
 export default handler;
