@@ -255,7 +255,7 @@ txt += `📌 *Nombre:* ${name || username}\n`;
 txt += `🎂 *Edad:* ${registered ? `${age} años` : 'No registrado'}\n`;
 txt += `📱 *Número:* ${PhoneNumber(numeroCompleto).getNumber('international')}\n`;
 txt += `🌎 *Nacionalidad:* ${nacionalidad}\n`;
-txt += `🔗 *WhatsApp:* [Clic aquí](https://wa.me/${who.split`@`[0]})\n\n`;
+txt += `🔗 *WhatsApp:* https://wa.me/${who.split`@`[0]}\n\n`;
 
 txt += `💰 *Monedas:* ${Monedas || 0}\n`;
 txt += `📊 *Nivel:* ${level || 0}\n`;
