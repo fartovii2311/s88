@@ -1,14 +1,13 @@
 import fetch from 'node-fetch';
 
 let handler = async (m, { conn, command, text, usedPrefix }) => {
-  if (!text.startsWith('http')) {
+  if (!text || !text.startsWith('http')) {
     return conn.reply(
       m.chat,
       '[ ᰔᩚ ] Ingresa una URL válida de *Spotify*.
 
-' +
-        `Ejemplo:
-> *${usedPrefix + command}* https://open.spotify.com/track/...`,
+Ejemplo:
+> *' + usedPrefix + command + '* https://open.spotify.com/track/...',
       m
     );
   }
