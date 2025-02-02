@@ -247,23 +247,28 @@ let handler = async (m, { conn }) => {
   let sn = createHash('md5').update(who).digest('hex');
   let img = await (await fetch(pp)).buffer();
 
-  let txt = `*╔═══════ ✿ 🌸 ✿ ═══════╗*\n`;
-txt += `🎀 *─ 𝒫𝐸𝑅𝐹𝐼𝐿 𝒟𝐸 𝒰𝒮𝒰𝒜𝑅𝐼𝒪 ─* 🎀\n`;
-txt += `*╚═══════ ✿ 🌸 ✿ ═══════╝*\n\n`;
-txt += `💖 *Nombre*: ${name || username}\n`;
-txt += `🎂 *Edad*: ${registered ? `${age} años` : 'No registrado'}\n`;
-txt += `📱 *Número*: ${PhoneNumber(numeroCompleto).getNumber('international')}\n`;
-txt += `🌷 *Nacionalidad*: ${nacionalidad}\n`;
-txt += `🔗 *Link Directo*: (https://wa.me/${who.split`@`[0]})\n`;
-txt += `🪙 *Monedas*: ${Monedas || 0}\n`;
-txt += `📊 *Nivel*: ${level || 0}\n`;
-txt += `✨ *XP*: ${exp || 0} (Progreso: ${user.exp - min}/${xp || 0})\n`;
-txt += `🌸 *Premium*: ${prem ? '✅ Sí' : '❌ No'}\n`;
-txt += `💬 *Estado*: ${biot}\n`;
-txt += `🌟 *Registrado*: ${registered ? '✅ Sí' : '❌ No'}\n\n`;
-txt += `*╔═══════ ✿ 🌷 ✿ ═══════╗*\n`;
-txt += `     💖 *Gracias por estar aquí* 💖\n`;
-txt += `*╚═══════ ✿ 🌷 ✿ ═══════╝*`;
+let txt = `┏━━━━━━━━━━━━━━━💖\n`;
+txt += `┃ 🎀 *PERFIL DE USUARIO* 🎀\n`;
+txt += `┗━━━━━━━━━━━━━━━💖\n\n`;
+
+txt += `📌 *Nombre:* ${name || username}\n`;
+txt += `🎂 *Edad:* ${registered ? `${age} años` : 'No registrado'}\n`;
+txt += `📱 *Número:* ${PhoneNumber(numeroCompleto).getNumber('international')}\n`;
+txt += `🌎 *Nacionalidad:* ${nacionalidad}\n`;
+txt += `🔗 *WhatsApp:* [Clic aquí](https://wa.me/${who.split`@`[0]})\n\n`;
+
+txt += `💰 *Monedas:* ${Monedas || 0}\n`;
+txt += `📊 *Nivel:* ${level || 0}\n`;
+txt += `✨ *XP:* ${exp || 0} (Progreso: ${user.exp - min}/${xp || 0})\n`;
+txt += `🌟 *Premium:* ${prem ? '✅ Sí' : '❌ No'}\n`;
+txt += `💬 *Estado:* ${biot}\n`;
+txt += `🛡 *Registrado:* ${registered ? '✅ Sí' : '❌ No'}\n\n`;
+
+txt += `┏━━━━━━━━━━━━━━━🌸\n`;
+txt += `┃  💖 *Gracias por estar aquí* 💖\n`;
+txt += `┗━━━━━━━━━━━━━━━🌸`;
+
+console.log(txt);
 
   await conn.sendFile(m.chat, img, 'thumbnail.jpg', txt, m,rcanal,fake);
 };
