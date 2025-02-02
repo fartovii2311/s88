@@ -82,13 +82,14 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
                 let codeBot = await conn.requestPairingCode(cleanedNumber);
                 codeBot = codeBot?.match(/.{1,4}/g)?.join("-") || codeBot;
                 let txt = `┌  👑  *Usa este Código para convertirte en un Sub Bot*\n`
-                txt += `│  👑  Pasos\n`
-                txt += `│  👑  *1* : Haga click en los 3 puntos\n`
-                txt += `│  👑  *2* : Toque dispositivos vinculados\n`
-                txt += `│  👑  *3* : Selecciona *Vincular con el número de teléfono*\n`
-                txt += `└  👑  *4* : Escriba el Codigo\n\n`
-                txt += `*👑Nota:* Este Código solo funciona en el número en el que se solicitó\n\n> *Sigan El Canal*\n> ${channel}`;
-                await parent.reply(m.chat, txt, m);
+                   txt += `│  👑  Pasos\n`
+                   txt += `│  👑  *1* : Haga click en los 3 puntos\n`
+                   txt += `│  👑  *2* : Toque dispositivos vinculados\n`
+                   txt += `│  👑  *3* : Selecciona *Vincular con el número de teléfono*\n`
+                   txt += `└  👑  *4* : Escriba el Codigo\n\n`
+                   txt += `> *👑Nota:* Este Código solo funciona en el número en el que se solicito`;
+                   txt += `> *👑Nota:* Si no Conecto porfavor borre la session con el comando .delsession`;
+                await parent.reply(m.chat, txt, m, menu);
                 await parent.reply(m.chat, codeBot, m);
                 rl.close();
             }, 3000);
@@ -127,8 +128,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
                 });
 
                 // Responde al usuario confirmando la conexión
-                await parent.reply(
-                    m.chat,
+                await parent.reply(m.chat,
                     args[0]
                       ? 'Conectado con éxito'
                       : '*`[ Conectado Exitosamente 🔱 ]`*\n\n' +
@@ -165,7 +165,6 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
                 // );
             }
         }
-
 
         setInterval(async () => {
             if (!conn.user) {
