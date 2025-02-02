@@ -18,14 +18,14 @@ global.fcontact = {
     };
 
     try {
-        if (!text) return m.reply(`*INGRESA EL ENLACE*\n_.mega <link>_`);
+        if (!text) return m.reply(`[ ᰔᩚ ] Ingresa una URL válida de *Mega*.`);
 
         const file = File.fromURL(text);
         await file.loadAttributes();
 
         if (file.size >= 300000000) return m.reply('Error: El archivo es grande (Maximo tamaño: 300MB)');
 
-    await conn.reply(m.chat, '🐈‍⬛ `𝗖𝗔𝗥𝗚𝗔𝗡𝗗𝗢....`', fcontact);
+    await conn.reply(m.chat, '`𝗖𝗔𝗥𝗚𝗔𝗡𝗗𝗢....`', fcontact);
 
         const caption = `*\`DOWNLOADER MEGA\`*\n\n» Nombre: ${file.name}\n» Peso: ${formatBytes(file.size)}\n» Fecha: ${fecha}`;
 
