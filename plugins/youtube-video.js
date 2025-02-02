@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-const videoLimit = 40 * 1024 * 1024; // 40 MB
+const videoLimit = 40 * 1024 * 1024; 
 const tempDir = './tmp';
 
 let handler = async (m, { conn, text }) => {
