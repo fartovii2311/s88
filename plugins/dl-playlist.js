@@ -2,7 +2,7 @@ import yts from 'yt-search';
 
 let handler = async (m, { conn, usedPrefix, text }) => {
   if (!text) {
-    return conn.reply(m.chat, 'Escribe el nombre de un video o canal de YouTube.', m);
+    return conn.reply(m.chat, '[ ᰔᩚ ] Ingresa el Nonbre de autor de *Youtube*.', m, rcanal);
   }
 
   try {
@@ -10,7 +10,7 @@ let handler = async (m, { conn, usedPrefix, text }) => {
     let ytres = result.videos;
 
     if (!ytres || ytres.length === 0) {
-      return conn.reply(m.chat, 'No se encontraron resultados para tu búsqueda.', m);
+      return conn.reply(m.chat, 'No se encontraron resultados para tu búsqueda.', m, rcanal);
     }
 
     let txt = `Resultados de búsqueda para: *${text}*\n\n`;
