@@ -4,11 +4,7 @@ import axios from 'axios';
 
 const handler = async (m, { text, conn, args }) => {
   if (!args[0]) {
-    return conn.reply(
-      m.chat,
-      `🔔 Envíame el enlace del video de Facebook para descargarlo.`,
-      m,rcanal
-    );
+    return conn.reply(m.chat,`[ ᰔᩚ ] Ingresa una URL válida de *Facebook*.`,m,rcanal);
   }
 
   let res;
