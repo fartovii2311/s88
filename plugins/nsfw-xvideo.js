@@ -22,13 +22,25 @@ const handler = async (m, { conn, text }) => {
         const videoTitle = 'Desconocido';
         const videoImage = videoData.ThumbUrl || '';
 
-        await conn.sendMessage(m.chat, {
-          video: { url: videoUrl },
-          caption: `🎥 *Título:* ${videoTitle}\n⏱️ *Duración:* Desconocida`,
-          mimetype: 'video/mp4',
-          fileName: `${videoTitle}.mp4`,
-          thumbnail: { url: videoImage },
-        }, { quoted: m });
+        const videoSizeLimit = 64000000; 
+        const videoResponse = await fetch(videoUrl);
+        const videoBuffer = await videoResponse.arrayBuffer();
+
+        if (videoBuffer.byteLength > videoSizeLimit) {
+          await conn.sendMessage(m.chat, {
+            document: Buffer.from(videoBuffer),
+            mimetype: 'video/mp4',
+            fileName: `${videoTitle}.mp4`,
+          }, { quoted: m });
+        } else {
+          await conn.sendMessage(m.chat, {
+            video: { url: videoUrl },
+            caption: `🎥 *Título:* ${videoTitle}\n⏱️ *Duración:* Desconocida`,
+            mimetype: 'video/mp4',
+            fileName: `${videoTitle}.mp4`,
+            thumbnail: { url: videoImage },
+          }, { quoted: m });
+        }
 
         await m.react('✅');
       } else {
