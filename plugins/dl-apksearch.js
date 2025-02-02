@@ -51,7 +51,7 @@ const handler = async (m, { conn, args }) => {
 
         let message = '📦 *Resultados de búsqueda:*\n\n';
         for (let i = 0; i < Math.min(apkResults.length, 5); i++) {
-            message += `📌 *${apkResults[i].title}*\n🔗 [Descargar](${apkResults[i].link})\n\n`;
+            message += `📌 *${apkResults[i].title}*\n🔗(${apkResults[i].link})\n\n`;
         }
 
         await conn.sendMessage(m.chat, { image: { url: apkResults[0].imageUrl }, caption: message }, { quoted: m });
