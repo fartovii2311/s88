@@ -3,7 +3,7 @@ import cheerio from 'cheerio';
 
 let handler = async (m, { conn, args, usedPrefix, command }) => {
   if (!args[0]) {
-    return conn.reply(m.chat, `Por favor, proporciona un enlace de MediaFire válido.\n\nEjemplo:\n\n> ${usedPrefix}${command} <enlace aquí>`, m,rcanal);
+    return conn.reply(m.chat, `[ ᰔᩚ ] Ingresa una URL válida de *Mediafire*.`, m,rcanal);
   }
   
   await m.react('🕓');
