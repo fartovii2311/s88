@@ -1,31 +1,32 @@
 import axios from 'axios';
 
 const handler = async (m, { conn, args }) => {
-   const query = args[0];
+  try {
+    const query = args[0];
     if (!query) {
-      return conn.reply(m.chat, '🔥 *Ejemplo:* .ytmp4 <URL de YouTube>', m,rcanal);
+      return conn.reply(m.chat, '🔥 *Ejemplo:* .ytmp4doc <URL de YouTube>', m);
     }
 
-    try {
-     await m.react('🕓');
+    await m.react('🕓');
 
-     let apiUrl = `https://apidl.asepharyana.cloud/api/downloader/ytmp4?url=${encodeURIComponent(query)}&quality=360`;
-     let response = await axios.get(apiUrl);
+    const urls = [
+      `https://apidl.asepharyana.cloud/api/downloader/ytmp4?url=${encodeURIComponent(query)}&quality=360`,
+      `https://api.davidcyriltech.my.id/download/ytmp4?url=${encodeURIComponent(query)}`
+    ];
 
-    if (!response.data?.result?.download_url) {
-      apiUrl = `https://api.davidcyriltech.my.id/download/ytmp4?url=${encodeURIComponent(query)}`;
-      response = await axios.get(apiUrl);
+    let response;
+    for (const apiUrl of urls) {
+      response = await axios.get(apiUrl).catch(() => null);
+      if (response?.data?.result?.download_url) break;
+    }
 
-      if (!response.data?.result?.download_url) {
-        return m.reply('🚫 *Error al obtener el video.* Verifica la URL o intenta nuevamente más tarde.');
-      }
+    if (!response?.data?.result?.download_url) {
+      return conn.reply(m.chat, '🚫 *Error al obtener el video.* Verifica la URL o intenta nuevamente más tarde.', m);
     }
 
     const { title, quality, thumbnail, download_url } = response.data.result;
 
-    const caption = `*\`Título:\`* ${title}
-*\`Calidad:\`* ${quality}
-*\`Miniatura:\`* ${thumbnail}`;
+    const caption = `*\`Título:\`* ${title}\n*\`Calidad:\`* ${quality}\n*\`Miniatura:\`* ${thumbnail}`;
 
     await conn.sendMessage(m.chat, {
       document: { url: download_url },
@@ -36,12 +37,12 @@ const handler = async (m, { conn, args }) => {
 
     await m.react('✅');
   } catch (error) {
-    console.error('Error en el comando ytmp3:', error.message);
+    console.error('Error en el comando ytmp4doc:', error.message);
     await m.react('❌');
   }
 };
 
-handler.help = ['ytmp4doc *<url>*''];
+handler.help = ['ytmp4doc <url>'];
 handler.tags = ['dl'];
 handler.command = /^ytmp4doc$/i;
 handler.register = true;
