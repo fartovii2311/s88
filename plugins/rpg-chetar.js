@@ -45,6 +45,4 @@ handler.tags = ['owner'];
 handler.command = ['chetar'];
 handler.register = true;
 handler.rowner = true;
-handler.owner = true;
-
 export default handler;
