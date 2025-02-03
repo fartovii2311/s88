@@ -138,7 +138,7 @@ const {
                               `👑 *Dueño:* Darkcore\n\n` +
                               `⚠️ *Antes de desvincular tu cuenta, por favor asegúrate de borrar tu sesión previamente usando el comando* /delsession *para evitar problemas de conexión.*\n\n` +
                               `📱 *Síguenos en nuestros canales oficiales para más actualizaciones y soporte:* \n` +
-                              `🔗 *Enlace:* [${channel}](#)\n\n` +
+                              `🔗 *Enlace:* ${channel}\n\n` +
                               `*Gracias por confiar en nosotros. ¡Disfruta de tu experiencia con Lynx-AI! 💬*`,
                           m, menu
                       );
