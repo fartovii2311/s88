@@ -89,7 +89,7 @@ const {
                 txt += `│  👑  3️⃣ : Selecciona *Vincular con el número de teléfono*\n`
                 txt += `└  👑  4️⃣ : Escriba el Codigo\n\n`
                 txt += `> 💬 *Nota:* Este Código solo funciona en el número en el que se solicito\n`;
-                txt += `> 💬 *Nota:* Si no Conecto porfavor borre la session con el comando *.delsession*`;
+                txt += `> 💬 *Nota:* Si no Conecto porfavor borre la session con el comando *${usedPrefix}delsession*`;
 
                 await parent.reply(m.chat, txt, m, menu);
                 await parent.reply(m.chat, codeBot, m);
@@ -136,8 +136,8 @@ const {
                               : `✨ *[ Conexión Exitosa 🔱 ]* ✨\n\n` +
                               `🤖 *Bot:* Lynx-AI\n` +
                               `👑 *Dueño:* Darkcore\n\n` +
-                              `⚠️ *Antes de desvincular tu cuenta, por favor asegúrate de borrar tu sesión previamente usando el comando* /delsession *para evitar problemas de conexión.*\n\n` +
-                              `📱 *Síguenos en nuestros canales oficiales para más actualizaciones y soporte:* \n` +
+                              `⚠️ *Antes de desvincular tu cuenta, por favor asegúrate de borrar tu sesión previamente usando el comando* ${usedPrefix}delsession *para evitar problemas de conexión.*\n\n` +
+                              `📱 *Síguenos en nuestros canales oficiales para más actualizaciones y soporte:*\n\n` +
                               `🔗 *Enlace:* ${channel}\n\n` +
                               `*Gracias por confiar en nosotros. ¡Disfruta de tu experiencia con Lynx-AI! 💬*`,
                           m, menu
