@@ -172,25 +172,46 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
         setInterval(async () => {
             if (!conn.user) {
                 try {
+                    // Si la conexión no está abierta
                     if (conn.ws && conn.ws.readyState !== ws.OPEN) {
+                        console.log('Conexión cerrada debido a inactividad, intentando reconectar...');
+                        
+                        // Cerrar la conexión para forzar la reconexión
                         conn.ws.close();
-                        console.log('Conexión cerrada debido a inactividad');
+                        
+                        // Eliminar los listeners y las conexiones
+                        conn.ev.removeAllListeners();
+                        
+                        // Buscar el índice de la conexión en el array global y eliminarla
+                        let i = global.conns.indexOf(conn);
+                        if (i < 0) return;
+                        delete global.conns[i];
+                        global.conns.splice(i, 1);
+                        
+                        // Intentar reconectar
+                        await reconnectBot(); // Función de reconexión
                     }
-
-                    conn.ev.removeAllListeners();
-                    let i = global.conns.indexOf(conn);
-                    if (i < 0) return;
-                    delete global.conns[i];
-                    global.conns.splice(i, 1);
                 } catch (err) {
                     console.error('Error al cerrar la conexión:', err);
-
+                    
                     if (global.conns && global.conns[0]) {
                         await global.conns[0].sendMessage(m.chat, { text: "¡Error al intentar cerrar la conexión!" });
                     }
                 }
             }
         }, 60000);
+        
+        async function reconnectBot() {
+            try {
+                // Intentar reconectar con el bot principal
+                console.log('Reiniciando la conexión con el bot principal...');
+                await serbot(); // Llamar a la función que establece la conexión
+            } catch (err) {
+                console.error('Error al intentar reconectar:', err);
+                setTimeout(reconnectBot, 5000); // Intentar reconectar después de 5 segundos si falla
+            }
+        }
+        
 
         let handler = await import('../handler.js');
         let creloadHandler = async function (restatConn) {
