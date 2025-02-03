@@ -1,6 +1,6 @@
 import MessageType from '@whiskeysockets/baileys';
 
-let handler = async (m, { conn, text,  }) => {
+let handler = async (m, { conn, text, isOwner}) => {
     let who;
 
     // Verificar si es un grupo y si se menciona a un usuario
