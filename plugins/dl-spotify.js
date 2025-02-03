@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 
 let handler = async (m, { conn, command, text, usedPrefix }) => {
   if (!text || !text.startsWith('http')) {
-    return conn.reply(m.chat, '[ ᰔᩚ ] Ingresa una URL válida de *Spotify*.',m,rcanal);
+    return conn.reply(m.chat, '[ ᰔᩚ ] Ingresa una URL válida de *Spotify*.', m);
   }
 
   await m.react('🕓');
@@ -21,7 +21,12 @@ let handler = async (m, { conn, command, text, usedPrefix }) => {
       let caption = `🎶 *Título*: ${title}\n🖊️ *Autor*: ${author}\n⏳ *Duración*: ${durationMinutes}:${durationSeconds.padStart(2, '0')}\n🌐 *Enlace*: ${text}`;
 
       await conn.sendFile(m.chat, image, 'cover.jpg', caption, m);
-      await conn.sendFile(m.chat, musicUrl, `${title}.mp3`, null, m);
+
+      await conn.sendMessage(m.chat, {
+        audio: { url: musicUrl },
+        mimetype: 'audio/mp4'
+      }, { quoted: m });
+
       await m.react('✅');
     } else {
       await m.react('❌');
@@ -33,7 +38,7 @@ let handler = async (m, { conn, command, text, usedPrefix }) => {
 };
 
 handler.command = /^(spotify|sp|Spotify)$/i;
-handler.tags = ["search"];
+handler.tags = ["dl"];
 handler.register = true;
 handler.Monedas = 1;
 export default handler;
