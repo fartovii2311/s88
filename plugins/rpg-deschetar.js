@@ -25,6 +25,11 @@ let handler = async (m, { conn, text }) => {
         }
     }
 
+    // Asegurándonos de que la base de datos de usuarios esté inicializada
+    if (!global.db) global.db = {};
+    if (!global.db.data) global.db.data = {};
+    if (!global.db.data.users) global.db.data.users = {};
+
     let users = global.db.data.users;
 
     // Verificar si el remitente es propietario
@@ -56,6 +61,6 @@ handler.help = ['deschetar *@user*', 'deschetar *numero*'];
 handler.tags = ['owner'];
 handler.command = ['deschetar'];
 handler.register = true;
-handler.rowner = true;
+handler.rowner = true; // Solo propietarios pueden usarlo
 
 export default handler;
