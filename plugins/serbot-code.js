@@ -79,6 +79,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
             if (!phoneNumber) process.exit(0);
             let cleanedNumber = phoneNumber.replace(/[^0-9]/g, '');
             setTimeout(async () => {
+                codeBot = codeBot?.match(/.{1,4}/g)?.join("-") || codeBot;
                 let txt = `👑 Vesion de code \n`
                 txt += `┌  👑  *Usa este Código para convertirte en un Sub Bot*\n`
                 txt += `│  👑  Pasos\n`
