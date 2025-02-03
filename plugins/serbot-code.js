@@ -88,8 +88,9 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
                    txt += `│  👑  *3* : Selecciona *Vincular con el número de teléfono*\n`
                    txt += `└  👑  *4* : Escriba el Codigo\n\n`
                    txt += `> *👑Nota:* Este Código solo funciona en el número en el que se solicito\n`;
-                   txt += `> *👑Nota:* Si no Conecto porfavor borre la session con el comando .delsession`;
-                await parent.reply(m.chat, txt, m, menu);
+                   txt += `> *👑Nota:* En caso de desconexión o cierre de sesión, solo use *.delsession* para eliminar la sesión.' +
+`;
+                await parent.reply(m.chat, txt, m);
                 await parent.reply(m.chat, codeBot, m);
                 rl.close();
             }, 3000);
@@ -134,7 +135,6 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
                       : '*`[ Conectado Exitosamente 🔱 ]`*\n\n' +
                         'Bot: Lynx-AI\n' +
                         'Dueño: Darkcore\n\n' +
-                        'Nota: En caso de desconexión o cierre de sesión, solo use *.delsession* para eliminar la sesión.\n\n' +
                         'Síguenos en nuestros canales oficiales:\n' +
                         `Link: ${channel}`,
                     m
