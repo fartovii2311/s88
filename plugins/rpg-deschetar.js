@@ -57,6 +57,6 @@ handler.help = ['deschetar *@user*', 'deschetar *numero*'];
 handler.tags = ['owner'];
 handler.command = ['deschetar'];
 handler.register = true;
-handler.rowner = true;
+handler.owner = true;
 
 export default handler;
