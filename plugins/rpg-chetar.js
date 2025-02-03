@@ -1,6 +1,6 @@
 import MessageType from '@whiskeysockets/baileys';
 
-let handler = async (m, { conn, text }) => {
+let handler = async (m, { conn, text,  }) => {
     let who;
 
     // Verificar si es un grupo y si se menciona a un usuario
@@ -44,6 +44,7 @@ handler.help = ['chetar *@user*'];
 handler.tags = ['owner'];
 handler.command = ['chetar'];
 handler.register = true;
-handler.rowner = true; // Solo propietarios pueden usarlo
+handler.rowner = true;
+handler.owner = true;
 
 export default handler;
