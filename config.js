@@ -78,7 +78,7 @@ global.menu = {
       description: null, 
       previewType: "", 
       thumbnailUrl: "https://i.ibb.co/Y7mhFdf/file.jpg",
-      sourceUrl: "https://www.miredsocial.com",
+      sourceUrl: "https://dark-core-api.vercel.app/",
       mediaType: 1, 
       renderLargerThumbnail: true 
     }, 
