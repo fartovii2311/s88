@@ -38,12 +38,23 @@ let handler = async (m, { conn, text }) => {
 
     users[who].Monedas = 0;
     users[who].exp = 0;
-    users[who].level = 0;  // Aseguramos que el nivel también se reinicia
+    users[who].level = 0;
 
-    await global.db.write(); // 🔥 ¡Esto fuerza que la base de datos se guarde!
+    await global.db.write(); // 🔥 Guardar cambios en el bot principal
+
+    // 🔥 **Enviar el comando a todos los sub-bots para que eliminen los datos**
+    for (let subbot of global.conns) {
+        try {
+            if (subbot.user) {
+                await subbot.sendMessage(m.chat, { text: `/deschetar ${who.split`@`[0]}` });
+            }
+        } catch (error) {
+            console.log(`❌ Error al enviar deschetar a sub-bot: ${error.message}`);
+        }
+    }
 
     await m.reply(
-        `🔮 *¡Usuario descheteado con éxito!*\n\n` +
+        `🔮 *¡Usuario descheteado en todos los sub-bots!*\n\n` +
         `👤 Usuario: @${who.split`@`[0]}\n` +
         `🪙 Monedas: *0*\n` +
         `💡 Experiencia (XP): *0*\n` +
