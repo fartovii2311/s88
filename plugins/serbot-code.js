@@ -39,22 +39,37 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
         args[0] ? fs.writeFileSync(`${userFolderPath}/creds.json`, JSON.stringify(JSON.parse(Buffer.from(args[0], "base64").toString("utf-8")), null, '\t')) : "";
 
         const { state, saveState, saveCreds } = await useMultiFileAuthState(userFolderPath);
+        const msgRetryCounterMap = (MessageRetryMap) => { };
+        const msgRetryCounterCache = new NodeCache();
         const { version } = await fetchLatestBaileysVersion();
         let phoneNumber = m.sender.split('@')[0];
 
+        const methodCodeQR = process.argv.includes("qr");
         const methodCode = !!phoneNumber || process.argv.includes("code");
+        const MethodMobile = process.argv.includes("mobile");
+
+        const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+        const question = (texto) => new Promise((resolver) => rl.question(texto, resolver));
 
         const connectionOptions = {
             logger: pino({ level: 'silent' }),
             printQRInTerminal: false,
-            mobile: process.argv.includes("mobile"),
-            browser: ["Lynx-AI (serbot)", "Chrome", "20.0.04"],
+            mobile: MethodMobile,
+            browser: ["Ubuntu", "Chrome", "20.0.04"],
             auth: {
                 creds: state.creds,
                 keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" }))
             },
             markOnlineOnConnect: true,
             generateHighQualityLinkPreview: true,
+            getMessage: async (clave) => {
+                let jid = jidNormalizedUser(clave.remoteJid);
+                let msg = await store.loadMessage(jid, clave.id);
+                return msg?.message || "";
+            },
+            msgRetryCounterCache,
+            msgRetryCounterMap,
+            defaultQueryTimeoutMs: undefined,
             version
         };
 
@@ -62,32 +77,23 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
 
         if (methodCode && !conn.authState.creds.registered) {
             if (!phoneNumber) process.exit(0);
-
             let cleanedNumber = phoneNumber.replace(/[^0-9]/g, '');
             setTimeout(async () => {
-                let codeBot = await conn.requestPairingCode(cleanedNumber);
-
-                if (!codeBot) {
-                    console.error("Error: No se obtuvo el código de vinculación.");
-                    return parent.sendMessage(m.chat, { text: "Hubo un problema al obtener el código de vinculación." });
-                }
-
-                codeBot = codeBot?.match(/.{1,4}/g)?.join("-") || codeBot;
                 let txt = `👑 Vesion de code \n`
-                   txt += `┌  👑  *Usa este Código para convertirte en un Sub Bot*\n`
-                   txt += `│  👑  Pasos\n`
-                   txt += `│  👑  1️⃣ : Haga click en los 3 puntos\n`
-                   txt += `│  👑  2️⃣ : Toque dispositivos vinculados\n`
-                   txt += `│  👑  3️⃣ : Selecciona *Vincular con el número de teléfono*\n`
-                   txt += `└  👑  4️⃣ : Escriba el Codigo\n\n`
-                   txt += `> 💬 *Nota:* Este Código solo funciona en el número en el que se solicito\n`;
-                   txt += `> 💬 *Nota:* Si no Conecto porfavor borre la session con el comando *.delsession*`;
+                txt += `┌  👑  *Usa este Código para convertirte en un Sub Bot*\n`
+                txt += `│  👑  Pasos\n`
+                txt += `│  👑  1️⃣ : Haga click en los 3 puntos\n`
+                txt += `│  👑  2️⃣ : Toque dispositivos vinculados\n`
+                txt += `│  👑  3️⃣ : Selecciona *Vincular con el número de teléfono*\n`
+                txt += `└  👑  4️⃣ : Escriba el Codigo\n\n`
+                txt += `> 💬 *Nota:* Este Código solo funciona en el número en el que se solicito\n`;
+                txt += `> 💬 *Nota:* Si no Conecto porfavor borre la session con el comando *.delsession*`;
 
                 await parent.reply(m.chat, txt, m, menu);
                 await parent.reply(m.chat, codeBot, m);
+                rl.close();
             }, 3000);
         }
-
 
         conn.isInit = false;
         let isInit = true;
@@ -121,6 +127,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
                     connectedAt: Date.now(),
                 });
 
+                // Responde al usuario confirmando la conexión
                 await parent.reply(m.chat,
                     args[0]
                         ? '✔️ *Conectado con éxito*'
@@ -131,9 +138,8 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
                         `📱 *Síguenos en nuestros canales oficiales para más actualizaciones y soporte:* \n` +
                         `🔗 *Enlace:* [${channel}](#)\n\n` +
                         `*Gracias por confiar en nosotros. ¡Disfruta de tu experiencia con Lynx-AI! 💬*`,
-                    m,menu
+                    m, menu
                 );
-                
 
 
                 // Pausa antes de continuar
@@ -161,48 +167,30 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
             }
         }
 
+
         setInterval(async () => {
             if (!conn.user) {
                 try {
-                    // Si la conexión no está abierta
                     if (conn.ws && conn.ws.readyState !== ws.OPEN) {
-                        console.log('Conexión cerrada debido a inactividad, intentando reconectar...');
-                        
-                        // Cerrar la conexión para forzar la reconexión
                         conn.ws.close();
-                        
-                        // Eliminar los listeners y las conexiones
-                        conn.ev.removeAllListeners();
-                        
-                        // Buscar el índice de la conexión en el array global y eliminarla
-                        let i = global.conns.indexOf(conn);
-                        if (i < 0) return;
-                        delete global.conns[i];
-                        global.conns.splice(i, 1);
-                        
-                        // Intentar reconectar
-                        await reconnectBot(); // Función de reconexión
+                        console.log('Conexión cerrada debido a inactividad');
                     }
+
+                    conn.ev.removeAllListeners();
+                    let i = global.conns.indexOf(conn);
+                    if (i < 0) return;
+                    delete global.conns[i];
+                    global.conns.splice(i, 1);
                 } catch (err) {
                     console.error('Error al cerrar la conexión:', err);
-                    
+
                     if (global.conns && global.conns[0]) {
                         await global.conns[0].sendMessage(m.chat, { text: "¡Error al intentar cerrar la conexión!" });
                     }
                 }
             }
         }, 60000);
-        
-        async function reconnectBot() {
-            try {
-                console.log('Reiniciando la conexión con el bot principal...');
-                await serbot();
-            } catch (err) {
-                console.error('Error al intentar reconectar:', err);
-                setTimeout(reconnectBot, 5000);
-            }
-        }
-        
+
         let handler = await import('../handler.js');
         let creloadHandler = async function (restatConn) {
             try {
@@ -242,7 +230,8 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command, isOwner }) => 
 
 handler.help = ['code'];
 handler.tags = ['serbot'];
-handler.command = ['code', 'Code', 'serbot', 'Serbot', 'jadibot'];
+handler.command = ['code', 'code'];
+handler.rowner = false
 
 export default handler;
 
