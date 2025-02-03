@@ -23,9 +23,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
     const { fileName, downloadLink, fileSize, meta } = response.data.data;
     
-    let text = '`乂  M E D I A F I R E`
-
-';
+    let text = '`乂  M E D I A F I R E`';
     text += `» *Título:* ${fileName}\n`;
     text += `» *Tamaño:* ${fileSize}\n`;
     text += `» *Enlace:* ${downloadLink}\n`;
