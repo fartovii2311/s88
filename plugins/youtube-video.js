@@ -1,7 +1,6 @@
 import fetch from 'node-fetch';
 
-const videoLimit = 40 * 1024 * 1024; 
-const tempDir = './tmp';
+const videoLimit = 40 * 1024 * 1024; // Límite de 40MB (puedes aumentarlo si el bot lo permite)
 
 let handler = async (m, { conn, text }) => {
   if (!m.quoted) {
@@ -16,27 +15,20 @@ let handler = async (m, { conn, text }) => {
     /(?:https?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed|shorts)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9\_-]+)/gi
   );
 
+  if (!urls || urls.length === 0) {
+    return conn.reply(m.chat, '❌ No se encontró un enlace de YouTube en el mensaje etiquetado.', m);
+  }
+
   const videoUrl = urls[0];
   await m.react('🕓');
 
   let downloadData = await tryApiFetch(videoUrl);
 
   if (!downloadData) {
-    return conn.reply(
-      m.chat,
-      '❌ No se pudo obtener el enlace de descarga del video. Intenta de nuevo más tarde.',
-      m
-    );
+    return conn.reply(m.chat, '❌ No se pudo obtener el enlace de descarga del video. Intenta de nuevo más tarde.', m);
   }
 
-  const videoResponse = await fetch(downloadData.downloadUrl);
-  const videoBuffer = await videoResponse.buffer();
-
-  if (videoBuffer.length > videoLimit) {
-    await sendDownloadLinkAsDoc(conn, m, downloadData);
-  } else {
-    await handleVideoDownload(conn, m, downloadData);
-  }
+  await handleVideoDownload(conn, m, downloadData);
 };
 
 const tryApiFetch = async (videoUrl) => {
@@ -84,30 +76,6 @@ const handleVideoDownload = async (conn, m, data) => {
   } catch (error) {
     console.error('Error al manejar el video:', error);
     await conn.reply(m.chat, '❌ Error al descargar o procesar el video.', m);
-    await m.react('✖️');
-  }
-};
-
-const sendDownloadLinkAsDoc = async (conn, m, data) => {
-  const title = data.title || "Desconocido";
-  const downloadUrl = data.downloadUrl;
-  const docContent = `🎥 *Título:* ${title}\n🔗 *Enlace de descarga:* ${downloadUrl}`;
-
-  try {
-    await conn.sendMessage(
-      m.chat,
-      {
-        document: { url: downloadUrl },
-        fileName: `${title}.doc`,
-        mimetype: 'application/msword',
-        caption: docContent,
-      },
-      { quoted: m }
-    );
-    await m.react('✅');
-  } catch (error) {
-    console.error('Error al enviar el archivo .doc:', error);
-    await conn.reply(m.chat, '❌ Error al enviar el enlace de descarga como archivo .doc.', m);
     await m.react('✖️');
   }
 };
