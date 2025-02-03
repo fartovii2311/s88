@@ -1,6 +1,6 @@
 import MessageType from '@whiskeysockets/baileys';
 
-let handler = async (m, { conn, text, isOwner }) => {
+let handler = async (m, { conn, text }) => {
     let who;
 
     if (m.isGroup) {
@@ -50,5 +50,5 @@ handler.tags = ['owner'];
 handler.command = ['deschetar'];
 handler.register = true;
 handler.rowner = true;
-handler.owner = true;
+
 export default handler;
