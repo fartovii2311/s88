@@ -1,4 +1,6 @@
 let handler = async (m, { conn, args, participants }) => {
+  await global.db.write();
+
   let users = Object.entries(global.db.data.users).map(([key, value]) => {
     return { ...value, jid: key };
   });
