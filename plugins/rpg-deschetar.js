@@ -5,14 +5,14 @@ let handler = async (m, { conn, text }) => {
 
     if (m.isGroup) {
         if (m.mentionedJid.length > 0) {
-            who = m.mentionedJid[0]; // Tomamos la primera mención
+            who = m.mentionedJid[0];
         } else if (text) {
             who = text.trim();
             if (!who.endsWith('@s.whatsapp.net')) {
-                who = `${who}@s.whatsapp.net`; // Añadimos el dominio si es un número
+                who = `${who}@s.whatsapp.net`;
             }
         } else {
-            who = m.sender; // Si no se menciona a nadie, tomamos al remitente
+            who = m.sender;
         }
     } else {
         if (text) {
@@ -21,39 +21,35 @@ let handler = async (m, { conn, text }) => {
                 who = `${who}@s.whatsapp.net`;
             }
         } else {
-            who = m.sender; // Si no es un grupo, tomamos al remitente
+            who = m.sender;
         }
     }
 
-    // Asegurándonos de que la base de datos de usuarios esté inicializada
     if (!global.db) global.db = {};
     if (!global.db.data) global.db.data = {};
     if (!global.db.data.users) global.db.data.users = {};
 
     let users = global.db.data.users;
 
-    // Verificar si el remitente es propietario
     const isOwner = global.owner.some(([jid]) => m.sender.endsWith(jid));
     if (!isOwner) throw '🚩 Solo los propietarios pueden usar este comando.';
 
-    // Verificar si el perfil del usuario existe
     if (!users[who]) throw '🔮 El usuario no tiene datos para deschetar.';
 
-    // Restablecer todo (Monedas y XP) del usuario
-    users[who].Monedas = 0;  // Restauramos las monedas
-    users[who].exp = 0;      // Restauramos la experiencia (XP)
+    users[who].Monedas = 0;
+    users[who].exp = 0;
+    users[who].level = 0;  // Aseguramos que el nivel también se reinicia
 
-    // Guardar los cambios
-    global.db.data.users = users;
+    await global.db.write(); // 🔥 ¡Esto fuerza que la base de datos se guarde!
 
-    // Responder al propietario, mencionando al usuario
     await m.reply(
         `🔮 *¡Usuario descheteado con éxito!*\n\n` +
         `👤 Usuario: @${who.split`@`[0]}\n` +
         `🪙 Monedas: *0*\n` +
-        `💡 Experiencia (XP): *0*`,
+        `💡 Experiencia (XP): *0*\n` +
+        `📈 Nivel: *0*`,
         null,
-        { mentions: [who] } // Esto menciona al usuario
+        { mentions: [who] }
     );
 };
 
@@ -61,6 +57,6 @@ handler.help = ['deschetar *@user*', 'deschetar *numero*'];
 handler.tags = ['owner'];
 handler.command = ['deschetar'];
 handler.register = true;
-handler.rowner = true; // Solo propietarios pueden usarlo
+handler.rowner = true;
 
 export default handler;
