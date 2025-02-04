@@ -21,8 +21,7 @@ let handler = async (m, { conn }) => {
 ---
 
 *🔗 Enlaces a mis grupos:*
-- 🟢 [ *Grupo 1* ](https://chat.whatsapp.com/KVpZsgm9wHG5ooZPsFVCac) 
-- 🔵 [ *Grupo 2* ](https://chat.whatsapp.com/D58CSUpwMH2CQi3iLitIWp)
+- 🟢 [ *Lynx -ai* ](https://chat.whatsapp.com/IJYbkCk5lLsBNi463rjZqg) 
 
 ---
 
@@ -49,6 +48,7 @@ let handler = async (m, { conn }) => {
 
 };
 
-handler.command = /^(GRUPOS|grupos|Grupo|)$/i;
-
+handler.command = ['grupo', 'group', 'Grupos', 'GRUPO'];
+handler.tags = ['group'];
+handler.help = ['group'];
 export default handler;
