@@ -9,6 +9,12 @@
 - Parchado por DarkCore... vip plus
 */
 
+/* 
+- code hecho por By DarkCore
+- https://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F
+- Parchado por DarkCore... vip plus
+*/
+
 const {
     useMultiFileAuthState,
     DisconnectReason,
@@ -26,7 +32,9 @@ import * as ws from 'ws';
 import { Boom } from '@hapi/boom';
 import { makeWASocket } from '../lib/simple.js';
 
-if (!global.conns) global.conns = [];
+global.conns = global.conns || [];
+
+
 if (!global.db) loadDatabase();
 
 async function loadDatabase() {
