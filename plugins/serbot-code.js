@@ -3,6 +3,11 @@
 - https://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F
 - Parchado por DarkCore... vip plus
 */
+/* 
+- code hecho por By DarkCore
+- https://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F
+- Parchado por DarkCore... vip plus
+*/
 
 const {
     useMultiFileAuthState,
@@ -57,8 +62,8 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
             logger: pino({ level: 'silent' }),
             printQRInTerminal: false,
             browser: ["Ubuntu", "Chrome", "20.0.04"],
-            auth: { creds: state.creds, keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" })) },
-            markOnlineOnConnect: true,
+            auth: { creds: state.creds, keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" })) },           
+            markOnlineOnConnect: false,
             generateHighQualityLinkPreview: true,
             msgRetryCounterCache,
             defaultQueryTimeoutMs: undefined,
