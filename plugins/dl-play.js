@@ -1,3 +1,5 @@
+
+
 import fetch from 'node-fetch'
 import yts from 'yt-search'
 
@@ -10,8 +12,7 @@ let handler = async (m, { conn: star, command, args, text, usedPrefix }) => {
 
   try {
     let res = await search(args.join(" "))
-    let img = await (await fetch(`${res[0].image}`)).buffer()
-    
+
     let txt = `🎬 *‌乂 Y O U T U B E  -  P L A Y 乂* 🎬\n\n`
     txt += `－－－－－－－－－－－－－－－－－－\n`
     txt += `ﾒ *TITULO:* ${res[0].title}\n`
@@ -23,11 +24,9 @@ let handler = async (m, { conn: star, command, args, text, usedPrefix }) => {
     txt += `－－－－－－－－－－－－－－－－－－\n\n`
     txt += `> ↻ Responde con *Video* O *Audio* para elegir tu formato.`
 
-    // Obtener la URL de la miniatura y del video de YouTube
-    const thumbnailUrl = res[0].image;  // URL de la miniatura del video
-    const videoUrl = `https://youtu.be/${res[0].videoId}`;  // URL del video
-
-    // Incluir contextInfo con la imagen y URL del video de YouTube
+    const thumbnailUrl = res[0].image; 
+    const videoUrl = `https://youtu.be/${res[0].videoId}`; 
+    
     const contextInfo = { 
       isForwarded: true, 
       forwardedNewsletterMessageInfo: { 
@@ -49,8 +48,12 @@ let handler = async (m, { conn: star, command, args, text, usedPrefix }) => {
       }, 
     };
 
-    // Enviar la miniatura con el texto y contextInfo
-    await star.sendFile(m.chat, img, 'thumbnail.jpg', txt, m, false, { contextInfo });
+    // Enviar solo la miniatura con el texto y el contextInfo
+    await star.sendMessage(m.chat, {
+      text: txt,
+      contextInfo,
+    })
+
     await m.react('✅')
   } catch (err) {
     console.error(err)
