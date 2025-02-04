@@ -311,7 +311,7 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
 │ ➤ AutoRechazar: ${chat.autoRechazar ? '✅' : '❌'}
 │ ➤ AntiBot: ${chat.antiBot ? '✅' : '❌'}
 │ ➤ AntiArabe: ${chat.antiarabe ? '✅' : '❌'}
-│ ➤ AntiBot2: ${chat.antiBot2 ? '✅' : '❌'}
+│ ➤ AntiBot: ${chat.antiBot ? '✅' : '❌'}
 │ ➤ AntiFake: ${chat.antifake ? '✅' : '❌'}
 │ ➤ AutoResponder: ${chat.autoresponder ? '✅' : '❌'}
 │ ➤ Autolevelup: ${chat.autolevelup ? '✅' : '❌'}
