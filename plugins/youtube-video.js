@@ -33,7 +33,8 @@ let handler = async (m, { conn, text }) => {
 
 const tryApiFetch = async (videoUrl) => {
   const apiUrls = [
-    `https://api.siputzx.my.id/api/d/ytmp4?url=${encodeURIComponent(videoUrl)}`,
+    `https://api.siputzx.my.id/api/d/ytmp4?url=${encodeURIComponent(videoUrl)}`, // Primera API
+    `https://mahiru-shiina.vercel.app/download/ytmp4?url=${encodeURIComponent(videoUrl)}`, // Segunda API
   ];
 
   for (const apiUrl of apiUrls) {
@@ -41,12 +42,19 @@ const tryApiFetch = async (videoUrl) => {
       const response = await fetch(apiUrl);
       const result = await response.json();
 
-      if (result.status && result.data && result.data.dl) {
-        const { title, dl } = result.data;
-        return {
-          title: title || "Desconocido",
-          downloadUrl: dl, // Ahora usamos la URL de descarga que da la nueva API
-        };
+      if (result.status) {
+        if (result.data.dl) {
+          return {
+            title: result.data.title || "Desconocido",
+            downloadUrl: result.data.dl,
+          };
+        }
+        if (result.data.download) {
+          return {
+            title: result.data.title || "Desconocido",
+            downloadUrl: result.data.download,
+          };
+        }
       }
     } catch (error) {
       console.error(`Error al intentar con la API: ${apiUrl}`, error.message);
