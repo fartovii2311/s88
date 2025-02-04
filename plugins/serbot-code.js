@@ -1,3 +1,9 @@
+/* 
+- code hecho por By DarkCore
+- https://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F
+- Parchado por DarkCore... vip plus
+*/
+
 const {
     useMultiFileAuthState,
     DisconnectReason,
