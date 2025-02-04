@@ -51,7 +51,7 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
 
 // Configuración del comando
 handler.help = ['movistar <texto>'];
-handler.tags = ['informacion'];
+handler.tags = ['main'];
 handler.command = ['movistar'];
 handler.register = true;
 
