@@ -46,8 +46,7 @@ async function handler(m, { conn: stars, usedPrefix }) {
 
   let responseMessage = `༶•┈┈⛧┈♛ ᥣᥡᥒ᥊ - ᥲі ♛┈⛧┈┈•༶\n🟢 *Subbots Activos: ${totalUsers}*\n\n${message.trim() || '_No hay subbots activos en este momento._'}`;
 
-  await stars.sendFile(
-    m.chat,
+  await conn.sendFile(m.chat,
     img,
     'thumbnail.jpg',
     responseMessage,
