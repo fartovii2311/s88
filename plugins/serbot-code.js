@@ -23,6 +23,7 @@ import { makeWASocket } from '../lib/simple.js';
 
 global.conns = global.conns || [];
 
+
 if (!global.db) loadDatabase();
 
 async function loadDatabase() {
@@ -57,7 +58,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
         const connectionOptions = {
             logger: pino({ level: 'silent' }),
             printQRInTerminal: false,
-            browser: ["Lynx (serbot)", "Chrome", "20.0.04"],
+            browser: ["Ubuntu", "Chrome", "20.0.04"],
             auth: { creds: state.creds, keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" })) },           
             markOnlineOnConnect: false,
             generateHighQualityLinkPreview: true,
