@@ -1,44 +1,30 @@
-import { readdirSync } from "fs";
+import { existsSync } from "fs";
 import { rm } from "fs/promises";
-import { exec } from "child_process";
-import os from "os";
 
-let handler = async (m, { conn: parentw }) => {
-  let sessionFolder = "./LynxJadiBot";
-  let sessions = readdirSync(sessionFolder);
-  let deletedSessions = [];
-
-  for (let session of sessions) {
-    let isActive = await checkSessionActive(session);
-    if (!isActive) {
-      await rm(`${sessionFolder}/${session}`, { recursive: true, force: true });
-      deletedSessions.push(session);
-    }
+let handler = async (m, { conn: parentw, args }) => {
+  if (!args[0]) {
+    return parentw.sendMessage(m.chat, { text: "⚠️ Debes proporcionar un ID de sesión para eliminar." }, { quoted: m });
   }
 
-  let message =
-    deletedSessions.length > 0
-      ? `🗑️ Sesiones inactivas eliminadas:\n\n${deletedSessions.join("\n")}`
-      : "🚫 No se encontraron sesiones inactivas para eliminar.";
+  let sessionId = args[0];
+  let sessionPath = `./LynxJadiBot/${sessionId}`;
 
-  await parentw.sendMessage(m.chat, { text: message }, { quoted: m });
+  if (!existsSync(sessionPath)) {
+    return parentw.sendMessage(m.chat, { text: `❌ No se encontró la sesión con ID: ${sessionId}.` }, { quoted: m });
+  }
+
+  try {
+    await rm(sessionPath, { recursive: true, force: true });
+    await parentw.sendMessage(m.chat, { text: `✅ La sesión con ID ${sessionId} ha sido eliminada correctamente.` }, { quoted: m });
+  } catch (err) {
+    console.error("Error al eliminar la sesión:", err);
+    await parentw.sendMessage(m.chat, { text: `❌ Error al eliminar la sesión: ${err.message}` }, { quoted: m });
+  }
 };
 
 handler.tags = ["serbot"];
-handler.help = ["cleansessions"];
-handler.command = /^cleansessions|cleansess|deletesessions|purgesessions$/i;
+handler.help = ["deletesession <ID>"];
+handler.command = /^deletesession|delonesession|removesession$/i;
 handler.fail = null;
 
 export default handler;
-
-async function checkSessionActive(session) {
-  return new Promise((resolve) => {
-    let command = os.platform() === "win32"
-      ? `tasklist | findstr /I ${session}`
-      : `ps aux | grep '${session}' | grep -v grep`;
-
-    exec(command, (err, stdout) => {
-      resolve(stdout.trim().length > 0);
-    });
-  });
-}
