@@ -27,24 +27,30 @@ async function handler(m, { conn: stars, usedPrefix }) {
 
   let img = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png');
 
-  // Crear mensaje con la información de cada subbot activo
   let message = users.map((v, index) => {
-    const connectedAt = v.connectedAt || Date.now(); // Si no tiene un valor, usa la fecha actual
+    const connectedAt = v.connectedAt || Date.now();
     const elapsedTime = Date.now() - connectedAt;
     const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
     const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
 
-    return ` '`L Y N X - A I`'
+    // Determinar el estado real del subbot
+    const estado = v.ws?.socket?.readyState === ws.OPEN
+      ? 'Activo'
+      : 'Desconectado';
+
+    return `
+༶•┈┈⛧┈♛ ᥣᥡᥒ᥊ - ᥲі ♛┈⛧┈┈•༶ 
 *[ \`${index + 1}\` - ${v.user.name || 'Sin Nombre'} ]*
-🤍 *Link:* https://wa.me/${v.user.jid.replace(/[^0-9]/g, '')}?text=.menu
-🕒 *Tiempo Activo:* ${hours}h ${minutes}m ${seconds}s
-📡 *Estado:* 🟢 Activo
+🤍 *ᥣiᥒ᥊:* https://wa.me/${v.user.jid.replace(/[^0-9]/g, '')}?text=.menu
+🕒 *𝗍іᥱm⍴᥆ ᥲᥴ𝗍і᥎᥆:* ${hours}h ${minutes}m ${seconds}s
+📡 *ᥱs𝗍ᥲძ᥆:* ${estado}
 `;
   }).join('\n');
 
   let responseMessage = `🟢 *Subbots Activos: ${totalUsers}*\n\n${message.trim() || '_No hay subbots activos en este momento._'}`;
 
+  // Enviar mensaje con la imagen
   await stars.sendFile(
     m.chat,
     img,
