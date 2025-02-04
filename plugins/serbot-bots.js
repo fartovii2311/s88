@@ -25,8 +25,6 @@ async function handler(m, { conn: stars, usedPrefix }) {
   let users = [...uniqueUsers.values()];
   let totalUsers = uniqueUsers.size;
 
-  let img = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png');
-
   let message = users.map((v, index) => {
     const connectedAt = v.connectedAt || Date.now();
     const elapsedTime = Date.now() - connectedAt;
@@ -46,16 +44,12 @@ async function handler(m, { conn: stars, usedPrefix }) {
 
   let responseMessage = `༶•┈┈⛧┈♛ ᥣᥡᥒ᥊ - ᥲі ♛┈⛧┈┈•༶\n🟢 *Subbots Activos: ${totalUsers}*\n\n${message.trim() || '_No hay subbots activos en este momento._'}`;
 
-  await conn.sendFile(m.chat,
-    img,
-    'thumbnail.jpg',
+  await conn.reply(m.chat,
     responseMessage,
     m,
+    menu,
     fake,
-    null,
-    false,
-    { mentions: stars.parseMention(responseMessage) }
-  );
+    { mentions: stars.parseMention(responseMessage) });
 }
 
 handler.command = ['listjadibot', 'bots'];
