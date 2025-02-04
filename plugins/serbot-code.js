@@ -15,6 +15,12 @@
 - Parchado por DarkCore... vip plus
 */
 
+/* 
+- code hecho por By DarkCore
+- https://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F
+- Parchado por DarkCore... vip plus
+*/
+
 const {
     useMultiFileAuthState,
     DisconnectReason,
@@ -138,7 +144,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
                         `📱 *Síguenos en nuestros canales oficiales para más actualizaciones y soporte:*\n\n` +
                         `🔗 *Enlace:* ${channel}\n\n` +
                         `*Gracias por confiar en nosotros. ¡Disfruta de tu experiencia con Lynx-AI! 💬*`,
-                    m, menu);
+                    m);
             }
         }
 
