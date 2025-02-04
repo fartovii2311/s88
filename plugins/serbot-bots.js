@@ -40,10 +40,11 @@ async function handler(m, { conn: stars, usedPrefix }) {
 🤍 *ᥣiᥒ᥊:* https://wa.me/${v.user.jid.replace(/[^0-9]/g, '')}?text=.menu
 🕒 *𝗍іᥱm⍴᥆ ᥲᥴ𝗍і᥎᥆:* ${hours}h ${minutes}m ${seconds}s
 📡 *ᥱs𝗍ᥲძ᥆:* ${estado}
+
 `;
   }).join('\n');
 
-  let responseMessage = `༶•┈┈⛧┈♛ ᥣᥡᥒ᥊ - ᥲі ♛┈⛧┈┈•༶\n🟢 *Subbots Activos: ${totalUsers}*\n\n${message.trim() || '_No hay subbots activos en este momento._'}`;
+  let responseMessage = `༶•┈┈⛧┈┈┈♛ ᥣᥡᥒ᥊ - ᥲі ♛┈┈┈⛧┈┈•༶\n🟢 *Subbots Activos: ${totalUsers}*\n\n${message.trim() || '_No hay subbots activos en este momento._'}`;
 
   await conn.reply(m.chat,
     responseMessage,
