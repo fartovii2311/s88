@@ -27,7 +27,7 @@ export default handler;
 
 async function checkSessionActive(session) {
   return new Promise((resolve) => {
-    exec(`tasklist | findstr /I ${session}`, (err, stdout) => {
+    exec(`netstat -ano | findstr :${session}`, (err, stdout) => {
       resolve(stdout.trim().length > 0);
     });
   });
