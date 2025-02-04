@@ -1,6 +1,7 @@
 import fetch from 'node-fetch';
 
-const videoLimit = 40 * 1024 * 1024;
+const videoLimit = 40 * 1024 * 1024; // 40MB
+const docLimit = 10 * 1024 * 1024; // 10MB
 
 let handler = async (m, { conn, text }) => {
   if (!m.quoted) {
@@ -33,8 +34,8 @@ let handler = async (m, { conn, text }) => {
 
 const tryApiFetch = async (videoUrl) => {
   const apiUrls = [
-    `https://api.siputzx.my.id/api/d/ytmp4?url=${encodeURIComponent(videoUrl)}`, // Primera API
-    `https://mahiru-shiina.vercel.app/download/ytmp4?url=${encodeURIComponent(videoUrl)}`, // Segunda API
+    `https://api.siputzx.my.id/api/d/ytmp4?url=${encodeURIComponent(videoUrl)}`, 
+    `https://mahiru-shiina.vercel.app/download/ytmp4?url=${encodeURIComponent(videoUrl)}`,
   ];
 
   for (const apiUrl of apiUrls) {
@@ -43,13 +44,13 @@ const tryApiFetch = async (videoUrl) => {
       const result = await response.json();
 
       if (result.status) {
-        if (result.data.dl) {
+        if (result.data.dl) { 
           return {
             title: result.data.title || "Desconocido",
-            downloadUrl: result.data.dl,
+            downloadUrl: result.data.dl, 
           };
         }
-        if (result.data.download) {
+        if (result.data.download) { 
           return {
             title: result.data.title || "Desconocido",
             downloadUrl: result.data.download,
@@ -69,16 +70,33 @@ const handleVideoDownload = async (conn, m, data) => {
   const downloadUrl = data.downloadUrl;
 
   try {
-    await conn.sendMessage(
-      m.chat,
-      {
-        video: { url: downloadUrl },
-        fileName: `${title}.mp4`,
-        mimetype: 'video/mp4',
-        caption: `🎥 *Título:* ${title}\n⏱️ *Duración:* Desconocida`,
-      },
-      { quoted: m }
-    );
+    const fileResponse = await fetch(downloadUrl);
+    const fileBuffer = await fileResponse.buffer();
+    const fileSize = fileBuffer.length;
+
+    if (fileSize > docLimit) {
+      await conn.sendMessage(
+        m.chat,
+        {
+          document: fileBuffer,
+          mimetype: 'video/mp4',
+          fileName: `${title}.mp4`,
+        },
+        { quoted: m }
+      );
+    } else {
+      await conn.sendMessage(
+        m.chat,
+        {
+          video: { url: downloadUrl },
+          fileName: `${title}.mp4`,
+          mimetype: 'video/mp4',
+          caption: `🎥 *Título:* ${title}\n⏱️ *Duración:* Desconocida`,
+        },
+        { quoted: m }
+      );
+    }
+
     await m.react('✅');
   } catch (error) {
     console.error('Error al manejar el video:', error);
