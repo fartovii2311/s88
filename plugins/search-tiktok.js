@@ -1,5 +1,5 @@
 import axios from 'axios';
-const { generateWAMessageFromContent, proto } = (await import('@whiskeysockets/baileys')).default
+import { generateWAMessage, proto } from '@whiskeysockets/baileys';
 
 let handler = async (message, { conn, text, usedPrefix, command }) => {
   if (!text) {
@@ -28,8 +28,11 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
       return conn.reply(message.chat, "⚠️ No se encontraron resultados en TikTok.", message);
     }
 
+    // Crear los mensajes de video
     const videoMessages = await Promise.all(searchResults.map(async (result) => {
       const videoMessage = await createVideoMessage(result.nowm);
+
+      // Aquí definimos cómo será cada mensaje
       return {
         body: proto.Message.InteractiveMessage.Body.fromObject({ text: null }),
         footer: proto.Message.InteractiveMessage.Footer.fromObject({ text: "DARK CORE" }),
@@ -42,6 +45,7 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
       };
     }));
 
+    // Aquí generamos el mensaje completo
     const messageContent = {
       interactiveMessage: proto.Message.InteractiveMessage.fromObject({
         body: proto.Message.InteractiveMessage.Body.create({
@@ -59,7 +63,8 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
       })
     };
 
-    const response = await conn.relayMessage(message.chat, messageContent, { messageId: message.key.id });
+    // Enviar el mensaje
+    await conn.relayMessage(message.chat, messageContent, { messageId: message.key.id });
     await message.react('✅');
   } catch (error) {
     console.error('Error:', error);
