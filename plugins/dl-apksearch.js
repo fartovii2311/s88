@@ -62,6 +62,6 @@ const handler = async (m, { conn, args }) => {
 
 handler.command = ['apksearch'];
 handler.help = ['apksearch <nombre>'];
-handler.tags = ['apk'];
+handler.tags = ['search'];
 
 export default handler;
