@@ -49,10 +49,8 @@ global.icons = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
 global.apis = [
-  'https://dark-core-api.vercel.app/docs' : 'user1',
-  '' : 'KEY',
-  '' : 'KEY',
-  '' : 'KEY',
+  'https://dark-core-api.vercel.app/docs', 'user1',
+
 ];
 
 global.canal = 'https://whatsapp.com/channel/0029Vaxb5xr7z4koGtOAAc1Q'
