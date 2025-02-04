@@ -35,7 +35,7 @@ async function handler(m, { conn: stars, usedPrefix }) {
     const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
 
-    return `
+    return ` '`L Y N X - A I`'
 *[ \`${index + 1}\` - ${v.user.name || 'Sin Nombre'} ]*
 🤍 *Link:* https://wa.me/${v.user.jid.replace(/[^0-9]/g, '')}?text=.menu
 🕒 *Tiempo Activo:* ${hours}h ${minutes}m ${seconds}s
