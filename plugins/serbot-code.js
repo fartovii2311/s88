@@ -1,7 +1,7 @@
 /* 
-- code hecho por By DarkCore
+- Code hecho por By DarkCore
 - https://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F
-- Parchado por DarkCore... vip plus
+- Parchado por DarkCore... VIP Plus
 */
 
 const {
@@ -11,24 +11,24 @@ const {
     MessageRetryMap,
     makeCacheableSignalKeyStore,
     jidNormalizedUser
-} = await import('@whiskeysockets/baileys')
+} = await import('@whiskeysockets/baileys');
+
 import fs from "fs";
 import pino from 'pino';
 import NodeCache from 'node-cache';
-import readline from 'readline';
 import qrcode from "qrcode";
 import * as ws from 'ws';
 import { Boom } from '@hapi/boom';
 import { makeWASocket } from '../lib/simple.js';
 
 if (!global.conns) global.conns = [];
-global.conns.push({ user: conn.user, ws: conn.ws, connectedAt: Date.now() });
-
 if (!global.db) loadDatabase();
 
 async function loadDatabase() {
-    if (!fs.existsSync('./storage/data/database.json')) fs.writeFileSync('./storage/data/database.json', JSON.stringify({ users: {}, sessions: {}, subBots: [] }, null, 2));
-    global.db = JSON.parse(fs.readFileSync('./database.json', 'utf-8'));
+    if (!fs.existsSync('./storage/data/database.json')) {
+        fs.writeFileSync('./storage/data/database.json', JSON.stringify({ users: {}, sessions: {}, subBots: [] }, null, 2));
+    }
+    global.db = JSON.parse(fs.readFileSync('./storage/data/database.json', 'utf-8'));
 }
 
 async function saveDatabase() {
@@ -36,9 +36,9 @@ async function saveDatabase() {
 }
 
 let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
-    let parent = args[0] && args[0] == 'plz' ? _conn : global.conn;
+    let parent = args[0] && args[0] === 'plz' ? _conn : global.conn;
 
-    if (!((args[0] && args[0] == 'plz') || (await global.conn).user.jid == _conn.user.jid)) {
+    if (!((args[0] && args[0] === 'plz') || (await global.conn).user.jid === _conn.user.jid)) {
         return m.reply(`Este comando solo puede ser usado en el bot principal! wa.me/${global.conn.user.jid.split`@`[0]}?text=${usedPrefix}code`);
     }
 
@@ -75,24 +75,19 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
             setTimeout(async () => {
                 let codeBot = await conn.requestPairingCode(cleanedNumber);
                 codeBot = codeBot?.match(/.{1,4}/g)?.join("-") || codeBot;
-                let txt = `👑 Vesion de code V2\n\n`
-                txt += `┌  👑  *Usa este Código para convertirte en un Sub Bot*\n`
-                txt += `│  👑  Pasos\n`
-                txt += `│  👑  1️⃣ : Haga click en los 3 puntos\n`
-                txt += `│  👑  2️⃣ : Toque dispositivos vinculados\n`
-                txt += `│  👑  3️⃣ : Selecciona *Vincular con el número de teléfono*\n`
-                txt += `└  👑  4️⃣ : Escriba el Codigo\n\n`
-                txt += `> 💬 *Nota:* Este Código solo funciona en el número en el que se solicito\n`;
-                txt += `> 💬 *Nota:* Si no Conecto porfavor borre la session con el comando *${usedPrefix}delsession*`;
+                let txt = `👑 *Versión de Code V2*\n\n`
+                txt += `📌 *Sigue estos pasos para convertirte en un Sub Bot:*\n`
+                txt += `1️⃣ Abre WhatsApp y ve a los *tres puntos* (Menú).\n`
+                txt += `2️⃣ Toca *Dispositivos Vinculados*.\n`
+                txt += `3️⃣ Selecciona *Vincular con el número de teléfono*.\n`
+                txt += `4️⃣ Ingresa el siguiente código:\n\n`
+                txt += `⚠️ *Nota:* Este código solo funciona en el número que lo solicitó.\n`;
+                txt += `⚠️ Si no conecta, borra la sesión con *${usedPrefix}delsession* y vuelve a intentarlo.`;
 
                 await parent.reply(m.chat, txt, m, menu);
                 await parent.reply(m.chat, codeBot, m);
             }, 3000);
         }
-
-        conn.isInit = false;
-        let isInit = true;
-        let channel = 'https://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F';
 
         async function connectionUpdate(update) {
             try {
@@ -113,31 +108,23 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
                     }
                 }
 
-                if (global.db.data == null) loadDatabase();
-
-                if (connection == 'open') {
+                if (connection === 'open') {
                     conn.isInit = true;
-                    global.conns = global.conns || []; 
-                    global.conns.push({
-                        user: conn.user,
-                        ws: conn.ws,
-                        connectedAt: Date.now()
-                    });
+                    global.conns.push({ user: conn.user, ws: conn.ws, connectedAt: Date.now() });
 
                     if (parent && m && m.chat) {
-                        await parent.reply(m.chat, args[0] ? 'Conectado con éxito' : 
-                            '*\`[ Conectado Exitosamente 🔱 ]\`*\n\n> _Se intentará reconectar en caso de desconexión de sesión_\n> _Si quieres eliminar el subbot borra la sesión en dispositivos vinculados_\n> _El número del bot puede cambiar, guarda este enlace :_\n\nhttps://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F', m);
+                        await parent.reply(m.chat, 
+                            `✨ *[ Conectado Exitosamente 🔱 ]*\n\n> _Si se desconecta, se intentará reconectar automáticamente._\n> _Si deseas eliminar el Sub Bot, borra la sesión en dispositivos vinculados._\n\n🔗 *Únete a nuestro canal para más soporte:* https://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F`, 
+                            m
+                        );
                     }
-                
-                    await sleep(5000);
-                    if (args[0]) return;
                 }
-                
+
                 if (connection === 'close') {
                     console.log("⚠️ Se ha desconectado. Enviando mensaje de advertencia...");
 
                     if (parent && m.chat) {
-                        await parent.sendMessage(m.chat, { text: "⚠️ Se desconectó, por favor borre su sesión con */delsession*" }, { quoted: m });
+                        await parent.sendMessage(m.chat, { text: "⚠️ Se desconectó, por favor borra la sesión con */delsession*." }, { quoted: m });
                     }
                 }
 
@@ -146,55 +133,26 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
             }
         }
 
-        setInterval(async () => {
-            if (!conn.user) {
-                try {
-                    if (conn.ws && conn.ws.readyState !== ws.OPEN) conn.ws.close();
-                    conn.ev.removeAllListeners();
-                    let i = global.conns.indexOf(conn);
-                    if (i < 0) return;
-                    delete global.conns[i];
-                    global.conns.splice(i, 1);
-                } catch (err) {
-                    console.error('Error al cerrar la conexión:', err);
-                    if (global.conns && global.conns[0]) {
-                        await global.conns[0].sendMessage(m.chat, { text: "❌ Error al cerrar la conexión." });
-                    }
-                }
-            }
-        }, 5000);
-
         let handler = await import('../handler.js');
-        let creloadHandler = async function (restatConn) {
+        let creloadHandler = async function (restartConn) {
             try {
                 const Handler = await import(`../handler.js?update=${Date.now()}`).catch(console.error);
                 if (Object.keys(Handler || {}).length) handler = Handler;
             } catch (e) {
                 console.error(e);
             }
-            if (restatConn) {
+            if (restartConn) {
                 try { conn.ws.close() } catch { }
                 conn.ev.removeAllListeners();
                 conn = makeWASocket(connectionOptions);
-                isInit = true;
-            }
-
-            if (!isInit) {
-                conn.ev.off('messages.upsert', conn.handler);
-                conn.ev.off('connection.update', conn.connectionUpdate);
-                conn.ev.off('creds.update', conn.credsUpdate);
             }
 
             conn.handler = handler.handler.bind(conn);
             conn.connectionUpdate = connectionUpdate.bind(conn);
-            conn.credsUpdate = saveCreds.bind(conn, true);
-
             conn.ev.on('messages.upsert', conn.handler);
             conn.ev.on('connection.update', conn.connectionUpdate);
-            conn.ev.on('creds.update', conn.credsUpdate);
-            isInit = false;
-            return true;
         };
+
         creloadHandler(false);
     }
 
