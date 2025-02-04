@@ -1,5 +1,5 @@
 import axios from 'axios';
-const { generateWAMessageContent, generateWAMessageFromContent, proto } = (await import('@whiskeysockets/baileys')).default
+const { generateWAMessageFromContent, proto } = (await import('@whiskeysockets/baileys')).default;
 
 let handler = async (message, { conn, text, usedPrefix, command }) => {
   if (!text) {
@@ -9,10 +9,11 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
   await message.react('🕓');
 
   async function createVideoMessage(url) {
-    console.log('URL del video:', url); // Verifica la URL
-    const videoMessage = await generateWAMessage(message.chat, {
-      video: { url },
-      caption: '🎥 Video de TikTok'
+    const videoMessage = await generateWAMessageFromContent(message.chat, {
+      videoMessage: {
+        url: url,
+        caption: '🎥 Video de TikTok',
+      }
     }, { upload: conn.waUploadToServer });
 
     return videoMessage.message;
@@ -21,12 +22,10 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
   try {
     let results = [];
     let { data } = await axios.get(`https://apis-starlights-team.koyeb.app/starlight/tiktoksearch?text=${text}`);
-    console.log('Datos de la API:', data);
 
     let searchResults = data.data.slice(0, 7);
 
     if (searchResults.length === 0) {
-      console.log('No se encontraron resultados');
       return conn.reply(message.chat, "⚠️ No se encontraron resultados en TikTok.", message);
     }
 
@@ -38,13 +37,13 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
         header: proto.Message.InteractiveMessage.Header.fromObject({
           title: result.title,
           hasMediaAttachment: true,
-          videoMessage: videoMessage.video
+          videoMessage: videoMessage.videoMessage
         }),
         nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({ buttons: [] }),
       };
     }));
 
-    const messageContent = generateWAMessage(message.chat, {
+    const messageContent = generateWAMessageFromContent(message.chat, {
       interactiveMessage: proto.Message.InteractiveMessage.fromObject({
         body: proto.Message.InteractiveMessage.Body.create({
           text: "✨️ RESULTADO DE: " + text
