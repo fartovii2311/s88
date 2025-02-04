@@ -26,5 +26,5 @@ handler.tags = ["serbot"];
 handler.help = ["deletesession <ID>"];
 handler.command = /^deletesession|delonesession|removesession$/i;
 handler.fail = null;
-
+handler.owner = true;
 export default handler;
