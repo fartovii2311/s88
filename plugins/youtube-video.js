@@ -47,7 +47,7 @@ const tryApiFetch = async (videoUrl) => {
         const { title, download } = result.data;
         return {
           title: title || "Desconocido",
-          downloadUrl: download.url,
+          downloadUrl: download, // Ahora usamos directamente la URL de descarga que da la API
         };
       }
     } catch (error) {
