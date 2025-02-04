@@ -33,7 +33,7 @@ let handler = async (m, { conn, text }) => {
 
 const tryApiFetch = async (videoUrl) => {
   const apiUrls = [
-    `https://api.botcahx.eu.org/api/dowloader/yt?url=${encodeURIComponent(videoUrl)}&apikey=xenzpedo`,
+    `https://api.siputzx.my.id/api/d/ytmp4?url=${encodeURIComponent(videoUrl)}`,
   ];
 
   for (const apiUrl of apiUrls) {
@@ -41,11 +41,11 @@ const tryApiFetch = async (videoUrl) => {
       const response = await fetch(apiUrl);
       const result = await response.json();
 
-      if (result.status && result.data && result.data.download) {
-        const { title, download } = result.data;
+      if (result.status && result.data && result.data.dl) {
+        const { title, dl } = result.data;
         return {
           title: title || "Desconocido",
-          downloadUrl: download,
+          downloadUrl: dl, // Ahora usamos la URL de descarga que da la nueva API
         };
       }
     } catch (error) {
