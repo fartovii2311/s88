@@ -39,16 +39,13 @@ async function handler(m, { conn: stars, usedPrefix }) {
       ? 'Activo'
       : 'Desconectado';
 
-    return `
-༶•┈┈⛧┈♛ ᥣᥡᥒ᥊ - ᥲі ♛┈⛧┈┈•༶ 
-*[ \`${index + 1}\` - ${v.user.name || 'Sin Nombre'} ]*
+    return `*[ \`${index + 1}\` - ${v.user.name || 'Sin Nombre'} ]*
 🤍 *ᥣiᥒ᥊:* https://wa.me/${v.user.jid.replace(/[^0-9]/g, '')}?text=.menu
 🕒 *𝗍іᥱm⍴᥆ ᥲᥴ𝗍і᥎᥆:* ${hours}h ${minutes}m ${seconds}s
-📡 *ᥱs𝗍ᥲძ᥆:* ${estado}
-`;
+📡 *ᥱs𝗍ᥲძ᥆:* ${estado}`;
   }).join('\n');
 
-  let responseMessage = `🟢 *Subbots Activos: ${totalUsers}*\n\n${message.trim() || '_No hay subbots activos en este momento._'}`;
+  let responseMessage = `༶•┈┈⛧┈♛ ᥣᥡᥒ᥊ - ᥲі ♛┈⛧┈┈•༶ /n 🟢 *Subbots Activos: ${totalUsers}*\n\n${message.trim() || '_No hay subbots activos en este momento._'}`;
 
   // Enviar mensaje con la imagen
   await stars.sendFile(
