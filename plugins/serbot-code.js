@@ -96,14 +96,11 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
 
         async function connectionUpdate(update) {
             try {
-                console.log("📡 Estado de conexión:", update);
-
                 const { connection, lastDisconnect, isNewLogin } = update;
                 if (isNewLogin) conn.isInit = true;
                 const code = lastDisconnect?.error?.output?.statusCode;
 
                 if (code && code !== DisconnectReason.loggedOut && !conn.ws.socket) {
-                    console.log("🔄 Reintentando conexión...");
                     let i = global.conns.indexOf(conn);
                     if (i < 0) return console.log(await creloadHandler(true).catch(console.error));
 
@@ -118,35 +115,24 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
 
                 if (global.db.data == null) loadDatabase();
 
-                if (connection === 'open') {
-                    console.log("✅ Conexión exitosa, enviando mensaje...");
-
+                if (connection == 'open') {
                     conn.isInit = true;
-                    global.conns.push({ user: conn.user, ws: conn.ws, connectedAt: Date.now() });
+                    global.conns = global.conns || []; 
+                    global.conns.push({
+                        user: conn.user,
+                        ws: conn.ws,
+                        connectedAt: Date.now()
+                    });
 
-                    global.db.subBots.push({ jid: conn.user.id, connectedAt: Date.now() });
-                    saveDatabase();
-
-                    await new Promise(res => setTimeout(res, 2000));
-
-                    if (parent && m.chat) {
-                        await parent.reply(m.chat,
-                            args[0]
-                                ? '✔️ *Conectado con éxito*'
-                                : `✨ *[ Conexión Exitosa 🔱 ]* ✨\n\n` +
-                                `🤖 *Bot:* Lynx-AI\n` +
-                                `👑 *Dueño:* Darkcore\n\n` +
-                                `⚠️ *Antes de desvincular tu cuenta, por favor asegúrate de borrar tu sesión previamente usando el comando* ${usedPrefix}delsession *para evitar problemas de conexión.*\n\n` +
-                                `📱 *Síguenos en nuestros canales oficiales para más actualizaciones y soporte:*\n\n` +
-                                `🔗 *Enlace:* ${channel}\n\n` +
-                                `*Gracias por confiar en nosotros. ¡Disfruta de tu experiencia con Lynx-AI! 💬*`,
-                            m
-                        );
-                    } else {
-                        console.log("⚠️ No se pudo enviar el mensaje porque 'parent' o 'm.chat' no están definidos.");
+                    if (parent && m && m.chat) {
+                        await parent.reply(m.chat, args[0] ? 'Conectado con éxito' : 
+                            '*\`[ Conectado Exitosamente 🔱 ]\`*\n\n> _Se intentará reconectar en caso de desconexión de sesión_\n> _Si quieres eliminar el subbot borra la sesión en dispositivos vinculados_\n> _El número del bot puede cambiar, guarda este enlace :_\n\nhttps://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F', m);
                     }
+                
+                    await sleep(5000);
+                    if (args[0]) return;
                 }
-
+                
                 if (connection === 'close') {
                     console.log("⚠️ Se ha desconectado. Enviando mensaje de advertencia...");
 
@@ -176,7 +162,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
                     }
                 }
             }
-        }, 60000);
+        }, 5000);
 
         let handler = await import('../handler.js');
         let creloadHandler = async function (restatConn) {
