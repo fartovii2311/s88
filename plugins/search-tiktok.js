@@ -21,7 +21,7 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
   try {
     let results = [];
     let { data } = await axios.get(`https://apis-starlights-team.koyeb.app/starlight/tiktoksearch?text=${text}`);
-    console.log('Datos de la API:', data); 
+    console.log('Datos de la API:', data);
 
     let searchResults = data.data.slice(0, 7);
 
