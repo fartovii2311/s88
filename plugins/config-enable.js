@@ -340,7 +340,7 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
  conn.reply(m.chat, `🚩 La función *${type}* se *${isEnable ? 'activó' : 'desactivó'}* ${isAll ? 'para este Bot' : isUser ? '' : 'para este chat'}`, m, rcanal)
 }
 
-handler.help = ['enable *<opción>*', 'disable *<opción>*', 'on *<opción>*', 'off *<opción>*']
+handler.help = ['on *<opción>*', 'off *<opción>*']
 handler.tags = ['enable']
 handler.command = ['enable', 'disable', 'on', 'off', '1', '0']
 
