@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-const videoLimit = 40 * 1024 * 1024; // Límite de 40MB (puedes aumentarlo si el bot lo permite)
+const videoLimit = 40 * 1024 * 1024;
 
 let handler = async (m, { conn, text }) => {
   if (!m.quoted) {
@@ -34,7 +34,8 @@ let handler = async (m, { conn, text }) => {
 const tryApiFetch = async (videoUrl) => {
   const apiUrls = [
     `https://api.botcahx.eu.org/api/dowloader/yt?url=${encodeURIComponent(videoUrl)}&apikey=xenzpedo`,
-    `https://delirius-apiofc.vercel.app/download/ytmp4?url=${encodeURIComponent(videoUrl)}`
+    `https://delirius-apiofc.vercel.app/download/ytmp4?url=${encodeURIComponent(videoUrl)}`,
+    `https://api.siputzx.my.id/api/d/ytmp4?url=${encodeURIComponent(videoUrl)}`,
   ];
 
   for (const apiUrl of apiUrls) {
