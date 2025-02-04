@@ -11,7 +11,7 @@ const {
     MessageRetryMap,
     makeCacheableSignalKeyStore,
     jidNormalizedUser
-  } = await import('@whiskeysockets/baileys')
+} = await import('@whiskeysockets/baileys')
 import fs from "fs";
 import pino from 'pino';
 import NodeCache from 'node-cache';
@@ -59,7 +59,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
             logger: pino({ level: 'silent' }),
             printQRInTerminal: false,
             browser: ["Ubuntu", "Chrome", "20.0.04"],
-            auth: { creds: state.creds, keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" })) },           
+            auth: { creds: state.creds, keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" })) },
             markOnlineOnConnect: false,
             generateHighQualityLinkPreview: true,
             msgRetryCounterCache,
@@ -95,39 +95,68 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
         let channel = 'https://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F';
 
         async function connectionUpdate(update) {
-            const { connection, lastDisconnect, isNewLogin } = update;
-            if (isNewLogin) conn.isInit = true;
-            const code = lastDisconnect?.error?.output?.statusCode;
+            try {
+                console.log("📡 Estado de conexión:", update);
 
-            if (code && code !== DisconnectReason.loggedOut && !conn.ws.socket) {
-                let i = global.conns.indexOf(conn);
-                if (i < 0) return console.log(await creloadHandler(true).catch(console.error));
-                delete global.conns[i];
-                global.conns.splice(i, 1);
-                fs.rmdirSync(userFolderPath, { recursive: true });
-                parent.sendMessage(m.chat, { text: "❌ Conexión perdida, reconectando..." }, { quoted: m });
-            }
+                const { connection, lastDisconnect, isNewLogin } = update;
+                if (isNewLogin) conn.isInit = true;
+                const code = lastDisconnect?.error?.output?.statusCode;
 
-            if (global.db.data == null) loadDatabase();
+                if (code && code !== DisconnectReason.loggedOut && !conn.ws.socket) {
+                    console.log("🔄 Reintentando conexión...");
+                    let i = global.conns.indexOf(conn);
+                    if (i < 0) return console.log(await creloadHandler(true).catch(console.error));
 
-            if (connection == 'open') {
-                conn.isInit = true;
-                global.conns.push({ user: conn.user, ws: conn.ws, connectedAt: Date.now() });
+                    delete global.conns[i];
+                    global.conns.splice(i, 1);
+                    fs.rmdirSync(userFolderPath, { recursive: true });
 
-                global.db.subBots.push({ jid: conn.user.id, connectedAt: Date.now() });
-                saveDatabase();
+                    if (parent && m.chat) {
+                        await parent.sendMessage(m.chat, { text: "❌ Conexión perdida, reconectando..." }, { quoted: m });
+                    }
+                }
 
-                await parent.reply(m.chat,
-                    args[0]
-                        ? '✔️ *Conectado con éxito*'
-                        : `✨ *[ Conexión Exitosa 🔱 ]* ✨\n\n` +
-                        `🤖 *Bot:* Lynx-AI\n` +
-                        `👑 *Dueño:* Darkcore\n\n` +
-                        `⚠️ *Antes de desvincular tu cuenta, por favor asegúrate de borrar tu sesión previamente usando el comando* ${usedPrefix}delsession *para evitar problemas de conexión.*\n\n` +
-                        `📱 *Síguenos en nuestros canales oficiales para más actualizaciones y soporte:*\n\n` +
-                        `🔗 *Enlace:* ${channel}\n\n` +
-                        `*Gracias por confiar en nosotros. ¡Disfruta de tu experiencia con Lynx-AI! 💬*`,
-                    m);
+                if (global.db.data == null) loadDatabase();
+
+                if (connection === 'open') {
+                    console.log("✅ Conexión exitosa, enviando mensaje...");
+
+                    conn.isInit = true;
+                    global.conns.push({ user: conn.user, ws: conn.ws, connectedAt: Date.now() });
+
+                    global.db.subBots.push({ jid: conn.user.id, connectedAt: Date.now() });
+                    saveDatabase();
+
+                    await new Promise(res => setTimeout(res, 2000));
+
+                    if (parent && m.chat) {
+                        await parent.reply(m.chat,
+                            args[0]
+                                ? '✔️ *Conectado con éxito*'
+                                : `✨ *[ Conexión Exitosa 🔱 ]* ✨\n\n` +
+                                `🤖 *Bot:* Lynx-AI\n` +
+                                `👑 *Dueño:* Darkcore\n\n` +
+                                `⚠️ *Antes de desvincular tu cuenta, por favor asegúrate de borrar tu sesión previamente usando el comando* ${usedPrefix}delsession *para evitar problemas de conexión.*\n\n` +
+                                `📱 *Síguenos en nuestros canales oficiales para más actualizaciones y soporte:*\n\n` +
+                                `🔗 *Enlace:* ${channel}\n\n` +
+                                `*Gracias por confiar en nosotros. ¡Disfruta de tu experiencia con Lynx-AI! 💬*`,
+                            m
+                        );
+                    } else {
+                        console.log("⚠️ No se pudo enviar el mensaje porque 'parent' o 'm.chat' no están definidos.");
+                    }
+                }
+
+                if (connection === 'close') {
+                    console.log("⚠️ Se ha desconectado. Enviando mensaje de advertencia...");
+
+                    if (parent && m.chat) {
+                        await parent.sendMessage(m.chat, { text: "⚠️ *Se desconectó, por favor borre su sesión con /delsession*" }, { quoted: m });
+                    }
+                }
+
+            } catch (error) {
+                console.error("❌ Error en connectionUpdate:", error);
             }
         }
 
