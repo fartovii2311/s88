@@ -39,7 +39,8 @@ async function handler(m, { conn: stars, usedPrefix }) {
     return `*[ \`${index + 1}\` - ${v.user.name || 'Sin Nombre'} ]*
 🤍 *ᥣiᥒ᥊:* https://wa.me/${v.user.jid.replace(/[^0-9]/g, '')}?text=.menu
 🕒 *𝗍іᥱm⍴᥆ ᥲᥴ𝗍і᥎᥆:* ${hours}h ${minutes}m ${seconds}s
-📡 *ᥱs𝗍ᥲძ᥆:* ${estado}`;
+📡 *ᥱs𝗍ᥲძ᥆:* ${estado}
+`;
   }).join('\n');
 
   let responseMessage = `༶•┈┈⛧┈♛ ᥣᥡᥒ᥊ - ᥲі ♛┈⛧┈┈•༶\n🟢 *Subbots Activos: ${totalUsers}*\n\n${message.trim() || '_No hay subbots activos en este momento._'}`;
