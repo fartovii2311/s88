@@ -75,14 +75,15 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
             setTimeout(async () => {
                 let codeBot = await conn.requestPairingCode(cleanedNumber);
                 codeBot = codeBot?.match(/.{1,4}/g)?.join("-") || codeBot;
-                let txt = `👑 *Versión de Code V2*\n\n`
-                txt += `📌 *Sigue estos pasos para convertirte en un Sub Bot:*\n`
-                txt += `1️⃣ Abre WhatsApp y ve a los *tres puntos* (Menú).\n`
-                txt += `2️⃣ Toca *Dispositivos Vinculados*.\n`
-                txt += `3️⃣ Selecciona *Vincular con el número de teléfono*.\n`
-                txt += `4️⃣ Ingresa el siguiente código:\n\n`
-                txt += `⚠️ *Nota:* Este código solo funciona en el número que lo solicitó.\n`;
-                txt += `⚠️ Si no conecta, borra la sesión con *${usedPrefix}delsession* y vuelve a intentarlo.`;
+                let txt = `┌👑 *Versión de serbot _ Code V2*\n`
+                txt += `│  👑  *Usa este Código para convertirte en un Sub Bot*\n\n`
+                txt += `│  👑  Pasos\n`
+                txt += `│  👑  1️⃣ : Haga click en los 3 puntos\n`
+                txt += `│  👑  2️⃣ : Toque dispositivos vinculados\n`
+                txt += `│  👑  3️⃣ : Selecciona *Vincular con el número de teléfono*\n`
+                txt += `└  👑  4️⃣ : Escriba el Codigo\n\n`
+                txt += `> 💬 *Nota:* Este Código solo funciona en el número en el que se solicito\n`;
+                txt += `> 💬 *Nota:* Si no Conecto porfavor borre la session con el comando *${usedPrefix}delsession*`;
 
                 await parent.reply(m.chat, txt, m, menu);
                 await parent.reply(m.chat, codeBot, m);
@@ -121,8 +122,6 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
                 }
 
                 if (connection === 'close') {
-                    console.log("⚠️ Se ha desconectado. Enviando mensaje de advertencia...");
-
                     if (parent && m.chat) {
                         await parent.sendMessage(m.chat, { text: "⚠️ Se desconectó, por favor borra la sesión con */delsession*." }, { quoted: m });
                     }
@@ -161,6 +160,6 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
 
 handler.help = ['code'];
 handler.tags = ['serbot'];
-handler.command = ['code'];
+handler.command = ['code', 'Code', 'serbot', 'serbot -code'];
 
 export default handler;
