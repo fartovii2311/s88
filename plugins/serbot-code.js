@@ -3,23 +3,6 @@
 - https://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F
 - Parchado por DarkCore... vip plus
 */
-/* 
-- code hecho por By DarkCore
-- https://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F
-- Parchado por DarkCore... vip plus
-*/
-
-/* 
-- code hecho por By DarkCore
-- https://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F
-- Parchado por DarkCore... vip plus
-*/
-
-/* 
-- code hecho por By DarkCore
-- https://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F
-- Parchado por DarkCore... vip plus
-*/
 
 const {
     useMultiFileAuthState,
@@ -39,7 +22,6 @@ import { Boom } from '@hapi/boom';
 import { makeWASocket } from '../lib/simple.js';
 
 global.conns = global.conns || [];
-
 
 if (!global.db) loadDatabase();
 
@@ -75,7 +57,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
         const connectionOptions = {
             logger: pino({ level: 'silent' }),
             printQRInTerminal: false,
-            browser: ["Ubuntu", "Chrome", "20.0.04"],
+            browser: ["Lynx (serbot)", "Chrome", "20.0.04"],
             auth: { creds: state.creds, keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" })) },           
             markOnlineOnConnect: false,
             generateHighQualityLinkPreview: true,
@@ -110,43 +92,64 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
         conn.isInit = false;
         let isInit = true;
         let channel = 'https://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F';
-
+      
         async function connectionUpdate(update) {
-            const { connection, lastDisconnect, isNewLogin } = update;
-            if (isNewLogin) conn.isInit = true;
-            const code = lastDisconnect?.error?.output?.statusCode;
-
-            if (code && code !== DisconnectReason.loggedOut && !conn.ws.socket) {
-                let i = global.conns.indexOf(conn);
-                if (i < 0) return console.log(await creloadHandler(true).catch(console.error));
-                delete global.conns[i];
-                global.conns.splice(i, 1);
-                fs.rmdirSync(userFolderPath, { recursive: true });
-                parent.sendMessage(m.chat, { text: "❌ Conexión perdida, reconectando..." }, { quoted: m });
+            try {
+                console.log("📡 Estado de conexión:", update);
+        
+                const { connection, lastDisconnect, isNewLogin } = update;
+                if (isNewLogin) conn.isInit = true;
+                const code = lastDisconnect?.error?.output?.statusCode;
+        
+                if (code && code !== DisconnectReason.loggedOut && !conn.ws.socket) {
+                    console.log("🔄 Reintentando conexión...");
+                    let i = global.conns.indexOf(conn);
+                    if (i < 0) return console.log(await creloadHandler(true).catch(console.error));
+        
+                    delete global.conns[i];
+                    global.conns.splice(i, 1);
+                    fs.rmdirSync(userFolderPath, { recursive: true });
+        
+                    if (parent && m.chat) {
+                        await parent.sendMessage(m.chat, { text: "❌ Conexión perdida, reconectando..." }, { quoted: m });
+                    }
+                }
+        
+                if (global.db.data == null) loadDatabase();
+        
+                if (connection === 'open') {
+                    console.log("✅ Conexión exitosa, enviando mensaje...");
+        
+                    conn.isInit = true;
+                    global.conns.push({ user: conn.user, ws: conn.ws, connectedAt: Date.now() });
+        
+                    global.db.subBots.push({ jid: conn.user.id, connectedAt: Date.now() });
+                    saveDatabase();
+        
+                    // Esperar antes de enviar el mensaje para asegurar que la conexión esté establecida
+                    await new Promise(res => setTimeout(res, 2000));
+        
+                    if (parent && m.chat) {
+                        await parent.reply(m.chat,
+                            args[0]
+                                ? '✔️ *Conectado con éxito*'
+                                : `✨ *[ Conexión Exitosa 🔱 ]* ✨\n\n` +
+                                `🤖 *Bot:* Lynx-AI\n` +
+                                `👑 *Dueño:* Darkcore\n\n` +
+                                `⚠️ *Antes de desvincular tu cuenta, por favor asegúrate de borrar tu sesión previamente usando el comando* ${usedPrefix}delsession *para evitar problemas de conexión.*\n\n` +
+                                `📱 *Síguenos en nuestros canales oficiales para más actualizaciones y soporte:*\n\n` +
+                                `🔗 *Enlace:* ${channel}\n\n` +
+                                `*Gracias por confiar en nosotros. ¡Disfruta de tu experiencia con Lynx-AI! 💬*`,
+                            m
+                        );
+                    } else {
+                        console.log("⚠️ No se pudo enviar el mensaje porque 'parent' o 'm.chat' no están definidos.");
+                    }
+                }
+            } catch (error) {
+                console.error("❌ Error en connectionUpdate:", error);
             }
-
-            if (global.db.data == null) loadDatabase();
-
-            if (connection == 'open') {
-                conn.isInit = true;
-                global.conns.push({ user: conn.user, ws: conn.ws, connectedAt: Date.now() });
-
-                global.db.subBots.push({ jid: conn.user.id, connectedAt: Date.now() });
-                saveDatabase();
-
-                await parent.reply(m.chat,
-                    args[0]
-                        ? '✔️ *Conectado con éxito*'
-                        : `✨ *[ Conexión Exitosa 🔱 ]* ✨\n\n` +
-                        `🤖 *Bot:* Lynx-AI\n` +
-                        `👑 *Dueño:* Darkcore\n\n` +
-                        `⚠️ *Antes de desvincular tu cuenta, por favor asegúrate de borrar tu sesión previamente usando el comando* ${usedPrefix}delsession *para evitar problemas de conexión.*\n\n` +
-                        `📱 *Síguenos en nuestros canales oficiales para más actualizaciones y soporte:*\n\n` +
-                        `🔗 *Enlace:* ${channel}\n\n` +
-                        `*Gracias por confiar en nosotros. ¡Disfruta de tu experiencia con Lynx-AI! 💬*`,
-                    m);
-            }
-        }
+        }        
 
         setInterval(async () => {
             if (!conn.user) {
