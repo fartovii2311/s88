@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { generateWAMessage, proto } from '@whiskeysockets/baileys';
+import { generateWAMessageFromContent, proto } from '@whiskeysockets/baileys';
 
 let handler = async (message, { conn, text, usedPrefix, command }) => {
   if (!text) {
@@ -10,11 +10,7 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
 
   // Función para crear el mensaje de video
   async function createVideoMessage(url) {
-    const videoMessage = await generateWAMessage(message.chat, {
-      video: { url },
-      caption: '🎥 Video de TikTok',
-    }, { upload: conn.waUploadToServer });
-
+    const videoMessage = await conn.prepareMessageMedia({ video: { url }, caption: '🎥 Video de TikTok' });
     return videoMessage;
   }
 
@@ -39,7 +35,7 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
         header: proto.Message.InteractiveMessage.Header.fromObject({
           title: result.title,
           hasMediaAttachment: true,
-          videoMessage: videoMessage.video
+          videoMessage: videoMessage
         }),
         nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({ buttons: [] }),
       };
