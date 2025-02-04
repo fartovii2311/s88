@@ -1,5 +1,5 @@
 import axios from 'axios';
-const { generateWAMessageFromContent, proto } = (await import('@whiskeysockets/baileys')).default;
+import { generateWAMessage, proto } from '@whiskeysockets/baileys';
 
 let handler = async (message, { conn, text, usedPrefix, command }) => {
   if (!text) {
@@ -8,15 +8,14 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
 
   await message.react('🕓');
 
+  // Función para crear el mensaje de video
   async function createVideoMessage(url) {
-    const videoMessage = await generateWAMessageFromContent(message.chat, {
-      videoMessage: {
-        url: url,
-        caption: '🎥 Video de TikTok',
-      }
+    const videoMessage = await generateWAMessage(message.chat, {
+      video: { url },
+      caption: '🎥 Video de TikTok',
     }, { upload: conn.waUploadToServer });
 
-    return videoMessage.message;
+    return videoMessage;
   }
 
   try {
@@ -37,13 +36,13 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
         header: proto.Message.InteractiveMessage.Header.fromObject({
           title: result.title,
           hasMediaAttachment: true,
-          videoMessage: videoMessage.videoMessage
+          videoMessage: videoMessage.video
         }),
         nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({ buttons: [] }),
       };
     }));
 
-    const messageContent = generateWAMessageFromContent(message.chat, {
+    const messageContent = {
       interactiveMessage: proto.Message.InteractiveMessage.fromObject({
         body: proto.Message.InteractiveMessage.Body.create({
           text: "✨️ RESULTADO DE: " + text
@@ -58,9 +57,9 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
           cards: videoMessages
         })
       })
-    }, { quoted: message });
+    };
 
-    await conn.relayMessage(message.chat, messageContent.message, { messageId: messageContent.key.id });
+    const response = await conn.relayMessage(message.chat, messageContent, { messageId: message.key.id });
     await message.react('✅');
   } catch (error) {
     console.error('Error:', error);
