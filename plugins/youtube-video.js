@@ -34,8 +34,6 @@ let handler = async (m, { conn, text }) => {
 const tryApiFetch = async (videoUrl) => {
   const apiUrls = [
     `https://api.botcahx.eu.org/api/dowloader/yt?url=${encodeURIComponent(videoUrl)}&apikey=xenzpedo`,
-    `https://delirius-apiofc.vercel.app/download/ytmp4?url=${encodeURIComponent(videoUrl)}`,
-    `https://api.siputzx.my.id/api/d/ytmp4?url=${encodeURIComponent(videoUrl)}`,
   ];
 
   for (const apiUrl of apiUrls) {
@@ -47,7 +45,7 @@ const tryApiFetch = async (videoUrl) => {
         const { title, download } = result.data;
         return {
           title: title || "Desconocido",
-          downloadUrl: download, // Ahora usamos directamente la URL de descarga que da la API
+          downloadUrl: download,
         };
       }
     } catch (error) {
