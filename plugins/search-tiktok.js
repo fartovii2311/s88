@@ -1,54 +1,35 @@
 import axios from 'axios';
-const {
-  proto,
-  generateWAMessageFromContent,
-  prepareWAMessageMedia,
-  generateWAMessageContent,
-  getDevice
-} = (await import("@whiskeysockets/baileys")).default;
+const { proto, generateWAMessageFromContent } = (await import("@whiskeysockets/baileys")).default;
 
 let handler = async (message, { conn, text, usedPrefix, command }) => {
   if (!text) {
-    return conn.reply(message.chat, "❕️ *¿QUÉ BÚSQUEDA DESEA REALIZAR EN TIKTOK?*", message, rcanal);
-  }
-  
-  await message.react('🕓');
-  
-  async function createVideoMessage(url) {
-    const { videoMessage } = await generateWAMessageContent({
-      video: { url }
-    }, {
-      upload: conn.waUploadToServer
-    });
-    return videoMessage;
+    return conn.reply(message.chat, "❕️ *¿QUÉ BÚSQUEDA DESEA REALIZAR EN TIKTOK?*", message);
   }
 
-  function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
+  await message.react('🕓');
+
+  async function createVideoMessage(url) {
+    const { videoMessage } = await generateWAMessageContent({ video: { url } }, { upload: conn.waUploadToServer });
+    return videoMessage;
   }
 
   try {
     let results = [];
-    let { data } = await axios.get("https://apis-starlights-team.koyeb.app/starlight/tiktoksearch?text=" + text);
-    let searchResults = data.data;
-    shuffleArray(searchResults);
-    let topResults = searchResults.splice(0, 7);
-
-    for (let result of topResults) {
-      results.push({
+    let { data } = await axios.get(`https://apis-starlights-team.koyeb.app/starlight/tiktoksearch?text=${text}`);
+    let searchResults = data.data.slice(0, 7); 
+    const videoMessages = await Promise.all(searchResults.map(async (result) => {
+      const videoMessage = await createVideoMessage(result.nowm);
+      return {
         body: proto.Message.InteractiveMessage.Body.fromObject({ text: null }),
-        footer: proto.Message.InteractiveMessage.Footer.fromObject({ text: textbot }),
+        footer: proto.Message.InteractiveMessage.Footer.fromObject({ text: "DARK CORE" }),
         header: proto.Message.InteractiveMessage.Header.fromObject({
-          title: '' + result.title,
+          title: result.title,
           hasMediaAttachment: true,
-          videoMessage: await createVideoMessage(result.nowm)
+          videoMessage,
         }),
-        nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({ buttons: [] })
-      });
-    }
+        nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({ buttons: [] }),
+      };
+    }));
 
     const messageContent = generateWAMessageFromContent(message.chat, {
       viewOnceMessage: {
@@ -62,25 +43,21 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
               text: "✨️ RESULTADO DE: " + text
             }),
             footer: proto.Message.InteractiveMessage.Footer.create({
-              text: "DARK CORE"
+              text: ""
             }),
             header: proto.Message.InteractiveMessage.Header.create({
               hasMediaAttachment: false
             }),
             carouselMessage: proto.Message.InteractiveMessage.CarouselMessage.fromObject({
-              cards: [...results]
+              cards: videoMessages
             })
           })
         }
       }
-    }, {
-      quoted: message
-    });
+    }, { quoted: message });
 
-    await conn.relayMessage(message.chat, messageContent.message, {
-      messageId: messageContent.key.id
-    });
-     await message.react('✅');
+    await conn.relayMessage(message.chat, messageContent.message, { messageId: messageContent.key.id });
+    await message.react('✅');
   } catch (error) {
     console.error(error);
     conn.reply(message.chat, `❌️ *OCURRIÓ UN ERROR:* ${error.message}`, message);
@@ -88,9 +65,9 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
 };
 
 handler.help = ["tiktoksearch <txt>"];
-handler.register = true
+handler.register = true;
 handler.tags = ["search"];
 handler.command = ["tiktoksearch", "ttss", "tiktoks"];
-handler.register = true;
-handler.Monedas = 3
+handler.Monedas = 3;
+
 export default handler;
