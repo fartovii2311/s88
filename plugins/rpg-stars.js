@@ -30,7 +30,7 @@ let handler = async (m, { conn, usedPrefix, args }) => {
     txt += `✩ *Bank* : ${toNum(user.bank)}\n`;
     txt += `✩ *XP* : ${toNum(user.exp)}`;
 
-    await conn.sendFile(m.chat, img, 'thumbnail.jpg', txt, m);
+    await conn.sendFile(m.chat, img, 'thumbnail.jpg', txt, m,rcanal);
 };
 
 handler.help = ['monedas'];
