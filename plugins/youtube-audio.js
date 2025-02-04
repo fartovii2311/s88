@@ -41,17 +41,33 @@ let handler = async (m, { conn, text }) => {
 
     if (!downloadUrl) {
       try {
-        const response = await axios.get(`https://api.davidcyriltech.my.id/download/ytmp3?url=${videoUrl}`);
+        const response = await axios.get(`https://mahiru-shiina.vercel.app/download/ytmp3?url=${videoUrl}`);
         const data = response.data;
 
-        if (data.success === true) {
-          downloadUrl = data.result.download_url;
-          title = data.result.title || "Desconocido";  // Intentamos obtener el título del video
+        if (data.status === true) {
+          downloadUrl = data.data.download;
+          title = data.data.title || "Desconocido";
         } else {
           throw new Error('No se pudo obtener la URL de la segunda API.');
         }
       } catch (error) {
         console.log('Fallo en la segunda API:', error.message);
+      }
+    }
+
+    if (!downloadUrl) {
+      try {
+        const response = await axios.get(`https://api.siputzx.my.id/api/d/ytmp3?url=${videoUrl}`);
+        const data = response.data;
+
+        if (data.status === true && data.data.dl) {
+          downloadUrl = data.data.dl;
+          title = data.data.title || "Desconocido"; 
+        } else {
+          throw new Error('No se pudo obtener la URL de la tercera API.');
+        }
+      } catch (error) {
+        console.log('Fallo en la tercera API:', error.message);
       }
     }
 
@@ -62,7 +78,7 @@ let handler = async (m, { conn, text }) => {
         const buffer = await mp3FileResponse.buffer();
         const size = parseInt(mp3FileResponse.headers.get('content-length'), 10) || 0;
 
-        if (size > 10 * 1024 * 1024) {
+        if (size > 10 * 1024 * 1024) { 
           await conn.sendMessage(
             m.chat,
             {
@@ -73,6 +89,7 @@ let handler = async (m, { conn, text }) => {
             { quoted: m }
           );
         } else {
+          // Si el archivo es pequeño, lo enviamos como audio
           await conn.sendMessage(
             m.chat,
             {
