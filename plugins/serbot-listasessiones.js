@@ -1,5 +1,5 @@
 import { readdirSync } from "fs";
-import { spawn } from "child_process";
+import { exec } from "child_process";
 
 let handler = async (m, { conn: parentw }) => {
   let sessionFolder = './LynxJadiBot';
@@ -27,10 +27,8 @@ export default handler;
 
 async function checkSessionActive(session) {
   return new Promise((resolve) => {
-    let processCheck = spawn("pgrep", ["-f", `LynxJadiBot/${session}`]);
-
-    processCheck.on("exit", (code) => {
-      resolve(code === 0);
+    exec(`tasklist | findstr /I ${session}`, (err, stdout) => {
+      resolve(stdout.trim().length > 0);
     });
   });
 }
