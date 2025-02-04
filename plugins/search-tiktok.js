@@ -14,7 +14,7 @@ const j = Math.floor(Math.random() * (i + 1));
 }
 }
 try {
-await message.react('')
+await message.react('🕓')
 conn.reply(message.chat, '*Descargando Su Video...*', message, {
 contextInfo: { externalAdReply :{ mediaUrl: null, mediaType: 1, showAdAttribution: true,
 title: packname,
