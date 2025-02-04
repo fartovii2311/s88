@@ -7,7 +7,7 @@ import { WAMessageStubType } from '@whiskeysockets/baileys'
 import fetch from 'node-fetch'
 
 export async function before(m, { conn, participants, groupMetadata }) {
-  if (!m.messageStubType || !m.bienvenida) return true
+  if (!m.messageStubType || !m.isGrupo) return true
 
   let who = m.messageStubParameters[0]
   let taguser = `@${who.split('@')[0]}`
