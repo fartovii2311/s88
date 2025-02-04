@@ -97,18 +97,16 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
       }
       chat.autoRechazar = isEnable
       break
-
- case 'antisubbots':
-    case 'antisub':
-    case 'antisubot':
-    case 'antibot2':
+      
+    case 'antibot':
+    case 'Antibot':
       if (m.isGroup) {
         if (!(isAdmin || isOwner)) {
           global.dfail('admin', m, conn)
           throw false
         }
       }
-      chat.antiBot2 = isEnable
+      chat.antiBot = isEnable
       break
 
  case 'antifake':
