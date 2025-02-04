@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
     if (!text) {
-        return conn.reply(m.chat, '[ ᰔᩚ ] Ingresa una URL válida de *Youtube*.', m, rcanal);
+        return conn.reply(m.chat, '[ ᰔᩚ ] Ingresa una URL válida de *Youtube*.', m);
     }
 
     try {
@@ -10,7 +10,8 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
         const apis = [
             `https://api.siputzx.my.id/api/d/ytmp4?url=${encodeURIComponent(text)}`,
-            `https://api.botcahx.eu.org/api/dowloader/yt?url=${encodeURIComponent(text)}&apikey=xenzpedo`
+            `https://api.botcahx.eu.org/api/dowloader/yt?url=${encodeURIComponent(text)}&apikey=xenzpedo`,
+            `https://mahiru-shiina.vercel.app/download/ytmp4?url=${encodeURIComponent(text)}`
         ];
 
         let result;
@@ -20,10 +21,33 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
                 result = await response.json();
                 if (result.status && result.data && result.data.dl) {
                     const { title, dl } = result.data;
-                    await conn.sendMessage(m.chat, {
-                        video: { url: dl },
-                        caption: `🎥 *Título:* ${title}`
-                    }, { quoted: m });
+
+                    const videoFileResponse = await fetch(dl);
+                    if (videoFileResponse.ok) {
+                        const buffer = await videoFileResponse.buffer();
+                        const size = parseInt(videoFileResponse.headers.get('content-length'), 10) || 0;
+
+                        if (size > 10 * 1024 * 1024) {
+                            await conn.sendMessage(
+                                m.chat,
+                                {
+                                    document: buffer,
+                                    mimetype: 'video/mp4',
+                                    fileName: `${title}.mp4`,
+                                },
+                                { quoted: m }
+                            );
+                        } else {
+                            await conn.sendMessage(
+                                m.chat,
+                                {
+                                    video: buffer,
+                                    mimetype: 'video/mp4',
+                                },
+                                { quoted: m }
+                            );
+                        }
+                    }
 
                     await m.react('✅');
                     return;
