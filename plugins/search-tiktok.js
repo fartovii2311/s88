@@ -14,8 +14,8 @@ const j = Math.floor(Math.random() * (i + 1));
 }
 }
 try {
-await message.react(rwait)
-conn.reply(message.chat, '☁️ *Descargando Su Video...*', message, {
+await message.react('')
+conn.reply(message.chat, '*Descargando Su Video...*', message, {
 contextInfo: { externalAdReply :{ mediaUrl: null, mediaType: 1, showAdAttribution: true,
 title: packname,
 body: dev,
@@ -49,7 +49,7 @@ footer: proto.Message.InteractiveMessage.Footer.create({ text: '🔎 Tiktok - Bu
 header: proto.Message.InteractiveMessage.Header.create({ hasMediaAttachment: false }),
 carouselMessage: proto.Message.InteractiveMessage.CarouselMessage.fromObject({ cards: [...results] })})}}
 }, { quoted: message })
-await message.react(done)
+await message.react('')
 await conn.relayMessage(message.chat, responseMessage.message, { messageId: responseMessage.key.id })
 } catch (error) {
 await conn.reply(message.chat, error.toString(), message)
