@@ -21,8 +21,8 @@ import * as ws from 'ws';
 import { Boom } from '@hapi/boom';
 import { makeWASocket } from '../lib/simple.js';
 
-global.conns = global.conns || [];
-
+if (!global.conns) global.conns = [];
+global.conns.push({ user: conn.user, ws: conn.ws, connectedAt: Date.now() });
 
 if (!global.db) loadDatabase();
 
@@ -151,7 +151,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
                     console.log("⚠️ Se ha desconectado. Enviando mensaje de advertencia...");
 
                     if (parent && m.chat) {
-                        await parent.sendMessage(m.chat, { text: "⚠️ *Se desconectó, por favor borre su sesión con /delsession*" }, { quoted: m });
+                        await parent.sendMessage(m.chat, { text: "⚠️ Se desconectó, por favor borre su sesión con */delsession*" }, { quoted: m });
                     }
                 }
 
