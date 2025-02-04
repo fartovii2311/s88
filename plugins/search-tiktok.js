@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { generateWAMessage, proto } from '@whiskeysockets/baileys';
+const { generateWAMessageContent, generateWAMessageFromContent, proto } = (await import('@whiskeysockets/baileys')).default
 
 let handler = async (message, { conn, text, usedPrefix, command }) => {
   if (!text) {
