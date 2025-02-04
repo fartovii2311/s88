@@ -1,4 +1,8 @@
-
+/* 
+- play hecho por By DarkCore
+- https://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F
+- Parchado por DarkCore... vip plus
+*/
 
 import fetch from 'node-fetch'
 import yts from 'yt-search'
