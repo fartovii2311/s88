@@ -34,7 +34,6 @@ async function handler(m, { conn: stars, usedPrefix }) {
     const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
 
-    // Determinar el estado real del subbot
     const estado = v.ws?.socket?.readyState === ws.OPEN
       ? 'Activo'
       : 'Desconectado';
@@ -45,17 +44,16 @@ async function handler(m, { conn: stars, usedPrefix }) {
 📡 *ᥱs𝗍ᥲძ᥆:* ${estado}`;
   }).join('\n');
 
-  let responseMessage = `༶•┈┈⛧┈♛ ᥣᥡᥒ᥊ - ᥲі ♛┈⛧┈┈•༶ /n 🟢 *Subbots Activos: ${totalUsers}*\n\n${message.trim() || '_No hay subbots activos en este momento._'}`;
+  let responseMessage = `༶•┈┈⛧┈♛ ᥣᥡᥒ᥊ - ᥲі ♛┈⛧┈┈•༶\n🟢 *Subbots Activos: ${totalUsers}*\n\n${message.trim() || '_No hay subbots activos en este momento._'}`;
 
-  // Enviar mensaje con la imagen
   await stars.sendFile(
     m.chat,
     img,
     'thumbnail.jpg',
     responseMessage,
     m,
-    null,
     fake,
+    null,
     false,
     { mentions: stars.parseMention(responseMessage) }
   );
