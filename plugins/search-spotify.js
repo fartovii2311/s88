@@ -16,12 +16,13 @@ let handler = async (m, { conn, text }) => {
     let api = await fetch(`https://dark-core-api.vercel.app/api/search/spotify?key=user1&query=${encodeURIComponent(text)}`);
     let json = await api.json();
 
-    // Comprobamos si json.data existe y es un array
+    // Verificar si json.data tiene datos
     if (json && Array.isArray(json.data) && json.data.length > 0) {
+      // Procesamos los datos de la API
       for (let track of json.data) {
-        let image = await createImage(track.album_cover); // Obtener la imagen
+        let image = await createImage(track.album_cover); // Cargar la imagen del álbum
 
-        // Crear el mensaje interactivo para el carrusel
+        // Crear el mensaje del carrusel
         push.push({
           body: proto.Message.InteractiveMessage.Body.fromObject({
             text: `◦ *Título:* ${track.title} \n◦ *Artistas:* ${track.artist} \n◦ *Álbum:* ${track.album} \n◦ *Duración:* ${msToTime(track.duration_ms)} \n◦ *Popularidad:* ${track.popularity}`
@@ -30,7 +31,7 @@ let handler = async (m, { conn, text }) => {
             text: `©️ Powered by Galaxay Team`
           }),
           header: proto.Message.InteractiveMessage.Header.fromObject({
-            title: '', // Puedes agregar un título aquí si lo necesitas
+            title: track.album, // Título del álbum
             hasMediaAttachment: true,
             imageMessage: image
           }),
@@ -44,33 +45,34 @@ let handler = async (m, { conn, text }) => {
           })
         });
       }
+
+      // Crear el mensaje final con los resultados en carrusel
+      const msg = generateWAMessageFromContent(m.chat, {
+        viewOnceMessage: {
+          message: {
+            interactiveMessage: proto.Message.InteractiveMessage.fromObject({
+              body: proto.Message.InteractiveMessage.Body.create({ text: `*Resultados para: ${text}*` }),
+              footer: proto.Message.InteractiveMessage.Footer.create({ text: '_Powered by Galaxay Team_' }),
+              carouselMessage: proto.Message.InteractiveMessage.CarouselMessage.fromObject({ cards: push })
+            })
+          }
+        }
+      }, { 'quoted': m });
+
+      // Enviar el mensaje
+      await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id });
+      await m.react('✅');
     } else {
       console.log('No se encontraron resultados:', json);
       return conn.reply(m.chat, 'No se encontraron resultados para la búsqueda', m);
     }
-
-    // Generar el mensaje de carrusel
-    const msg = generateWAMessageFromContent(m.chat, {
-      viewOnceMessage: {
-        message: {
-          interactiveMessage: proto.Message.InteractiveMessage.fromObject({
-            body: proto.Message.InteractiveMessage.Body.create({ text: `*Resultados para: ${text}*` }),
-            footer: proto.Message.InteractiveMessage.Footer.create({ text: '_Powered by Galaxay Team_' }),
-            carouselMessage: proto.Message.InteractiveMessage.CarouselMessage.fromObject({ cards: [...push] })
-          })
-        }
-      }
-    }, { 'quoted': m });
-
-    // Enviar el mensaje
-    await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id });
-    await m.react('✅');
   } catch (error) {
     console.error(error);
     return conn.reply(m.chat, 'Hubo un error al realizar la búsqueda', m);
   }
 }
 
+// Función para convertir la duración en milisegundos a un formato "minutos:segundos"
 function msToTime(ms) {
   let date = new Date(ms);
   return `${date.getUTCMinutes()}:${date.getUTCSeconds()}`;
