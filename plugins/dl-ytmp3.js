@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import axios from 'axios';
+import axios from 'axios';  // Asegúrate de tener axios instalado
 
 const handler = async (m, { conn, text }) => {
   
@@ -43,12 +43,32 @@ const handler = async (m, { conn, text }) => {
     }
 
     const response3 = await axios.get(`https://api.siputzx.my.id/api/d/ytmp3?url=${encodeURIComponent(text)}`);
-    const data = response3.data;
+    const data3 = response3.data;
 
-    if (data.status === true && data.data.dl) {
-      const downloadUrl = data.data.dl;
-      const title = data.data.title || "Desconocido";
+    if (data3.status === true && data3.data.dl) {
+      const downloadUrl = data3.data.dl;
+      const title = data3.data.title || "Desconocido";
       
+      await conn.sendMessage(
+        m.chat,
+        { 
+          audio: { url: downloadUrl }, 
+          mimetype: 'audio/mpeg', 
+          ptt: false 
+        },
+        { quoted: m }
+      );
+      await m.react('✅');
+      return;
+    }
+
+    const response4 = await axios.get(`https://mahiru-shiina.vercel.app/download/ytmp3?url=${encodeURIComponent(text)}`);
+    const data4 = response4.data;
+
+    if (data4.status === true) {
+      const downloadUrl = data4.data.download;
+      const title = data4.data.title || "Desconocido";
+
       await conn.sendMessage(
         m.chat,
         { 
