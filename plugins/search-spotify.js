@@ -5,7 +5,7 @@ let handler = async (m, { conn, text }) => {
   if (!text) return conn.reply(m.chat, 'Ingresa el texto de lo que quieres buscar en Spotify 🤍', m);
 
   await m.react('🕓');
-  
+
   try {
     async function createImage(url) {
       const { imageMessage } = await generateWAMessageContent({ image: { url } }, { upload: conn.waUploadToServer });
@@ -19,8 +19,9 @@ let handler = async (m, { conn, text }) => {
     // Comprobamos si json.data existe y es un array
     if (json && Array.isArray(json.data) && json.data.length > 0) {
       for (let track of json.data) {
-        let image = await createImage(track.album_cover);
+        let image = await createImage(track.album_cover); // Obtener la imagen
 
+        // Crear el mensaje interactivo para el carrusel
         push.push({
           body: proto.Message.InteractiveMessage.Body.fromObject({
             text: `◦ *Título:* ${track.title} \n◦ *Artistas:* ${track.artist} \n◦ *Álbum:* ${track.album} \n◦ *Duración:* ${msToTime(track.duration_ms)} \n◦ *Popularidad:* ${track.popularity}`
@@ -29,7 +30,7 @@ let handler = async (m, { conn, text }) => {
             text: `©️ Powered by Galaxay Team`
           }),
           header: proto.Message.InteractiveMessage.Header.fromObject({
-            title: '',
+            title: '', // Puedes agregar un título aquí si lo necesitas
             hasMediaAttachment: true,
             imageMessage: image
           }),
@@ -48,6 +49,7 @@ let handler = async (m, { conn, text }) => {
       return conn.reply(m.chat, 'No se encontraron resultados para la búsqueda', m);
     }
 
+    // Generar el mensaje de carrusel
     const msg = generateWAMessageFromContent(m.chat, {
       viewOnceMessage: {
         message: {
@@ -60,6 +62,7 @@ let handler = async (m, { conn, text }) => {
       }
     }, { 'quoted': m });
 
+    // Enviar el mensaje
     await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id });
     await m.react('✅');
   } catch (error) {
