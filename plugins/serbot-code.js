@@ -78,12 +78,13 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
                 txt += `│  👑  1️⃣ : Haga click en los 3 puntos\n`
                 txt += `│  👑  2️⃣ : Toque dispositivos vinculados\n`
                 txt += `│  👑  3️⃣ : Selecciona *Vincular con el número de teléfono*\n`
-                txt += `└  👑  4️⃣ : Escriba el Codigo\n\n`
+                txt += `└  👑  4️⃣ : Escriba el Código\n\n`
                 txt += `> 💬 *Nota:* Este Código solo funciona en el número en el que se solicito\n`;
                 txt += `> 💬 *Nota:* Si no Conecto porfavor borre la session con el comando *${usedPrefix}delsession*`;
 
-                await parent.reply(m.chat, txt, m, menu);
-                await parent.reply(m.chat, codeBot, m);
+                // Ahora el mensaje lo envía el sub-bot en lugar del bot principal
+                await conn.reply(m.chat, txt, m);
+                await conn.reply(m.chat, codeBot, m);
             }, 3000);
         }
 
