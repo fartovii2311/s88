@@ -1,21 +1,10 @@
 import fetch from 'node-fetch';
 
-async function tiktokdl(url) {
-  try {
-    let tikwm = `https://www.tikwm.com/api/?url=${encodeURIComponent(url)}&hd=1`;
-    let response = await (await fetch(tikwm)).json();
+let handler = async (m, { conn, args }) => {
+  let url = args[0];
 
-    if (response.code === 0 && response.data) {
-      return {
-        title: response.data.title,
-        cover: response.data.cover,
-        author: response.data.author.nickname,
-        play_url: response.data.play,
-        source: "tikwm"
-      };
-    }
-  } catch (err) {
-    console.log("TikWM falló, probando Dark-Core API...");
+  if (!url) {
+    return conn.reply(m.chat, "[ ᰔᩚ ] Ingresa una URL válida de *TikTok*.", m,rcanal);
   }
 
   try {
@@ -23,33 +12,15 @@ async function tiktokdl(url) {
     let response = await (await fetch(api2)).json();
 
     if (response.success && response.result.mp4) {
-      return {
+      let videoData = {
         title: response.result.titulo,
         cover: response.result.thumbanail,
         author: response.result.author,
         play_url: response.result.mp4,
         source: "dark-core"
       };
-    }
-  } catch (err) {
-    console.log("Dark-Core API también falló.");
-  }
 
-  return null;
-}
-
-let handler = async (m, { conn, args }) => {
-  let url = args[0];
-
-  if (!url) {
-    return conn.reply(m.chat, "[ ᰔᩚ ] Ingresa una URL válida de *TikTok*.", m, fake, rcanal);
-  }
-
-  try {
-    const videoData = await tiktokdl(url);
-
-    if (videoData) {
-      let mensaje = `✅ *Descarga de TikTok completada* \n🎥 *Título:* ${videoData.title || "Desconocido"} \n👤 *Autor:* ${videoData.author} \n📌 *Fuente:* ${videoData.source.toUpperCase()}\n\n> ${dev}`;
+      let mensaje = `✅ *Descarga de TikTok completada* \n🎥 *Título:* ${videoData.title || "Desconocido"} \n👤 *Autor:* ${videoData.author} \n📌 *Fuente:* ${videoData.source.toUpperCase()}\n`;
 
       await conn.sendFile(m.chat, videoData.play_url, 'video.mp4', mensaje, m);
       await m.react('✅');
