@@ -38,10 +38,6 @@ async function saveDatabase() {
 let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
     let parent = args[0] && args[0] === 'plz' ? _conn : global.conn;
 
-    if (!((args[0] && args[0] === 'plz') || (await global.conn).user.jid === _conn.user.jid)) {
-        return m.reply(`Este comando solo puede ser usado en el bot principal! wa.me/${global.conn.user.jid.split`@`[0]}?text=${usedPrefix}code`);
-    }
-
     async function serbot() {
         let authFolderB = m.sender.split('@')[0];
         const userFolderPath = `./LynxJadiBot/${authFolderB}`;
