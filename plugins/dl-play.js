@@ -7,11 +7,6 @@ let handler = async (m, { conn, args }) => {
     try {
         let searchResults = await searchVideos(args.join(" "));
         
-        // Mostrar todos los resultados para depuración
-        console.log(searchResults);
-
-        if (!searchResults.length) throw new Error('No se encontraron resultados.');
-
         let video = searchResults.find(v => v.seconds < 3600) || searchResults[0];
 
         if (!video) throw new Error('No se encontraron videos adecuados.');
@@ -62,17 +57,14 @@ async function searchVideos(query) {
         let search = await yts.search({ query, hl: "es", gl: "ES", pages: 10 });
 
         let filteredVideos = search.videos
-            .filter(v => v.seconds > 0) 
+            .filter(v => v.seconds > 0 && v.title.toLowerCase().includes(query.toLowerCase()))
             .sort((a, b) => b.views - a.views);
-
-        console.log('Videos después del filtrado:', filteredVideos);
 
         return filteredVideos;
     } catch (error) {
         return [];
     }
 }
-
 
 function formatDuration(seconds) {
     const hours = Math.floor(seconds / 3600);
