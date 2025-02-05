@@ -1,4 +1,3 @@
-
 import fetch from 'node-fetch';
 
 async function tiktokdl(url) {
@@ -19,7 +18,6 @@ async function tiktokdl(url) {
     console.log("TikWM falló, probando Dark-Core API...");
   }
 
-  // Si TikWM falla, probamos con Dark-Core API
   try {
     let api2 = `https://dark-core-api.vercel.app/api/download/tiktok?key=api&url=${encodeURIComponent(url)}`;
     let response = await (await fetch(api2)).json();
@@ -44,7 +42,7 @@ let handler = async (m, { conn, args }) => {
   let url = args[0];
 
   if (!url) {
-    return conn.reply(m.chat,"[ ᰔᩚ ] Ingresa una URL válida de *TikTok*."m,fake,rcanal);
+    return conn.reply(m.chat, "[ ᰔᩚ ] Ingresa una URL válida de *TikTok*.", m, fake, rcanal);
   }
 
   try {
@@ -55,11 +53,11 @@ let handler = async (m, { conn, args }) => {
       await conn.sendFile(m.chat, videoData.play_url, 'video.mp4', mensaje, m);
       await m.react('✅');
     } else {
-      m.reply("❌ *No se pudo descargar el video.*");
+      conn.reply(m.chat, "❌ *No se pudo descargar el video.*", m);
     }
   } catch (err) {
     console.error(err);
-    m.reply("❌ *Hubo un error al obtener el video.*");
+    conn.reply(m.chat, "❌ *Hubo un error al obtener el video.*", m);
   }
 };
 
@@ -70,4 +68,3 @@ handler.register = true;
 handler.Monedas = 1;
 
 export default handler;
-
