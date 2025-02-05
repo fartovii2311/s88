@@ -1,9 +1,3 @@
-/* 
-- play hecho por By DarkCore
-- https://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F
-- Parchado por DarkCore... vip plus
-*/
-
 import fetch from 'node-fetch';
 import yts from 'yt-search';
 
@@ -16,28 +10,28 @@ let handler = async (m, { conn, args }) => {
     let video = searchResults[0];
     let thumbnail = await (await fetch(video.image)).buffer();
 
-    let messageText = `> *Reproductor YouTube 🍿*\n\n`;
-    messageText += `${video.title}\n\n`;
-    messageText += `• *Duración:* ${formatDuration(video.duration.seconds)}\n`;
-    messageText += `• *Autor:* ${video.author.name || 'Desconocido'}\n`;
-    messageText += `• *Publicado hace:* ${convertTimeToSpanish(video.ago)}\n`;
-    messageText += `• *Enlace:* _https://youtu.be/${video.videoId}_\n\n`;
+    let messageText = `🌟 *YouTube Reproductor* 🌟\n\n`;
+    messageText += `🎬 *Título:* ${video.title}\n`;
+    messageText += `⏰ *Duración:* ${formatDuration(video.duration.seconds)}\n`;
+    messageText += `👤 *Autor:* ${video.author.name || 'Desconocido'}\n`;
+    messageText += `📅 *Publicado:* ${convertTimeToSpanish(video.ago)}\n`;
+    messageText += `🔗 *Enlace directo:* [Haz clic aquí](https://youtu.be/${video.videoId})\n\n`;
 
     await conn.sendMessage(m.chat, {
       image: thumbnail,
       caption: messageText,
-      footer: 'Haz clic en el botón para elegir el formato de descarga.',
+      footer: 'Selecciona el formato de descarga.',
       buttons: [
         {
           buttonId: `.ytmp3 https://youtu.be/${video.videoId}`,
           buttonText: {
-            displayText: 'Escuchar en MP3',
+            displayText: '🎶 Descargar MP3',
           },
         },
         {
           buttonId: `.ytmp4 https://youtu.be/${video.videoId}`,
           buttonText: {
-            displayText: 'Ver en MP4',
+            displayText: '📺 Descargar MP4',
           },
         },
       ],
