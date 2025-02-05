@@ -4,97 +4,79 @@
 - Parchado por DarkCore... vip plus
 */
 
-import fetch from 'node-fetch'
-import yts from 'yt-search'
+import fetch from 'node-fetch';
+import yts from 'yt-search';
 
-let handler = async (m, { conn, command, args, text, usedPrefix }) => {
-  if (!text) {
-    return conn.reply(m.chat, '[ ᰔᩚ ] Ingresa el título de un video o canción de *YouTube*.\n\n`Ejemplo:`\n' + `> *${usedPrefix + command}* Mc Davo - Debes De Saber`, m)
-  }
+let handler = async (m, { conn, args }) => {
+  if (!args[0]) return conn.reply(m.chat, '*\`Por favor ingresa un término de búsqueda\`*', m);
 
-  await m.react('🕓')
-
+  await m.react('⏳');
   try {
-    let res = await search(args.join(" "))
+    let searchResults = await searchVideos(args.join(" "));
+    let video = searchResults[0];
+    let thumbnail = await (await fetch(video.image)).buffer();
 
-    let video = res[0]
-    let txt = `🎬 *‌乂 Y O U T U B E  -  P L A Y 乂* 🎬\n\n`
-    txt += `－－－－－－－－－－－－－－－－－－\n`
-    txt += `ﾒ *TITULO:* ${video.title}\n`
-    txt += `ﾒ *DURACION:* ${secondString(video.duration.seconds)}\n`
-    txt += `ﾒ *PUBLICACION:* ${eYear(video.ago)}\n`
-    txt += `ﾒ *CANAL:* ${video.author.name || 'Desconocido'}\n`
-    txt += `ﾒ *ID:* ${video.videoId}\n`
-    txt += `ﾒ *URL:* https://youtu.be/${video.videoId}\n`
-    txt += `－－－－－－－－－－－－－－－－－－\n\n`
-    txt += `> 🔽 Elige el formato de descarga:`
+    let messageText = `> *Reproductor YouTube 🍿*\n\n`;
+    messageText += `${video.title}\n\n`;
+    messageText += `• *Duración:* ${formatDuration(video.duration.seconds)}\n`;
+    messageText += `• *Autor:* ${video.author.name || 'Desconocido'}\n`;
+    messageText += `• *Publicado hace:* ${convertTimeToSpanish(video.ago)}\n`;
+    messageText += `• *Enlace:* _https://youtu.be/${video.videoId}_\n\n`;
 
-    await conn.sendMessage(
-      m.chat,
-      {
-        image: { url: video.image },
-        caption: txt,
-        buttons: [
-          {
-            buttonId: `.ytmp3 ${video.url}`,
-            buttonText: { displayText: '🎵 MP3 (Audio)' },
-            type: 1,
+    await conn.sendMessage(m.chat, {
+      image: thumbnail,
+      caption: messageText,
+      footer: 'Haz clic en el botón para elegir el formato de descarga.',
+      buttons: [
+        {
+          buttonId: `.downloadMp3 https://youtu.be/${video.videoId}`,
+          buttonText: {
+            displayText: 'Escuchar en MP3',
           },
-          {
-            buttonId: `.ytmp4 ${video.url}`,
-            buttonText: { displayText: '📹 MP4 (Video)' },
-            type: 1,
+        },
+        {
+          buttonId: `.downloadMp4 https://youtu.be/${video.videoId}`,
+          buttonText: {
+            displayText: 'Ver en MP4',
           },
-        ],
-        headerType: 4,
-      },
-      { quoted: m }
-    );
+        },
+      ],
+      viewOnce: true,
+      headerType: 4,
+    }, { quoted: m });
 
-    await m.react('✅')
-  } catch (err) {
-    console.error(err)
-    await m.react('✖️')
-    return conn.reply(m.chat, '❌ Ocurrió un error al realizar la búsqueda. Intenta nuevamente.', m)
+    await m.react('✅');
+  } catch (error) {
+    console.error(error);
+    await m.react('❌');
+    conn.reply(m.chat, '*\`Hubo un error al buscar el video.\`*', m);
   }
+};
+
+handler.help = ['reproducir *<texto>*'];
+handler.tags = ['descargar'];
+handler.command = ['reproducir'];
+
+export default handler;
+
+async function searchVideos(query, options = {}) {
+  let search = await yts.search({ query, hl: "es", gl: "ES", ...options });
+  return search.videos;
 }
 
-handler.help = ['play *<búsqueda>*']
-handler.tags = ['dl']
-handler.command = ['play', 'Play', 'PLAY', 'pl']
-handler.register = true 
-
-export default handler
-
-async function search(query, options = {}) {
-  let searchResults = await yts.search({ query, hl: "es", gl: "ES", ...options })
-  return searchResults.videos.filter(video => video.seconds > 0).slice(0, 5)
+function formatDuration(seconds) {
+  seconds = Number(seconds);
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const secondsLeft = Math.floor(seconds % 60);
+  return `${hours > 0 ? hours + 'h ' : ''}${minutes}m ${secondsLeft}s`;
 }
 
-function secondString(seconds) {
-  seconds = Number(seconds)
-  const d = Math.floor(seconds / (3600 * 24))
-  const h = Math.floor((seconds % (3600 * 24)) / 3600)
-  const m = Math.floor((seconds % 3600) / 60)
-  const s = Math.floor(seconds % 60)
-  const dDisplay = d > 0 ? d + (d == 1 ? ' Día, ' : ' Días, ') : ''
-  const hDisplay = h > 0 ? h + (h == 1 ? ' Hora, ' : ' Horas, ') : ''
-  const mDisplay = m > 0 ? m + (m == 1 ? ' Minuto, ' : ' Minutos, ') : ''
-  const sDisplay = s > 0 ? s + (s == 1 ? ' Segundo' : ' Segundos') : ''
-  return dDisplay + hDisplay + mDisplay + sDisplay
-}
-
-function eYear(txt) {
-  if (!txt) return '×'
-  if (txt.includes('month ago')) return 'hace ' + txt.replace("month ago", "").trim() + ' mes'
-  if (txt.includes('months ago')) return 'hace ' + txt.replace("months ago", "").trim() + ' meses'
-  if (txt.includes('year ago')) return 'hace ' + txt.replace("year ago", "").trim() + ' año'
-  if (txt.includes('years ago')) return 'hace ' + txt.replace("years ago", "").trim() + ' años'
-  if (txt.includes('hour ago')) return 'hace ' + txt.replace("hour ago", "").trim() + ' hora'
-  if (txt.includes('hours ago')) return 'hace ' + txt.replace("hours ago", "").trim() + ' horas'
-  if (txt.includes('minute ago')) return 'hace ' + txt.replace("minute ago", "").trim() + ' minuto'
-  if (txt.includes('minutes ago')) return 'hace ' + txt.replace("minutes ago", "").trim() + ' minutos'
-  if (txt.includes('day ago')) return 'hace ' + txt.replace("day ago", "").trim() + ' día'
-  if (txt.includes('days ago')) return 'hace ' + txt.replace("days ago", "").trim() + ' días'
-  return txt
+function convertTimeToSpanish(timeText) {
+  if (timeText.includes('year')) return timeText.replace('year', 'año').replace('years', 'años');
+  if (timeText.includes('month')) return timeText.replace('month', 'mes').replace('months', 'meses');
+  if (timeText.includes('day')) return timeText.replace('day', 'día').replace('days', 'días');
+  if (timeText.includes('hour')) return timeText.replace('hour', 'hora').replace('hours', 'horas');
+  if (timeText.includes('minute')) return timeText.replace('minute', 'minuto').replace('minutes', 'minutos');
+  return timeText;
 }
