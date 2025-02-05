@@ -17,27 +17,23 @@ let handler = async (m, { conn, args }) => {
         messageText += `📅 *Publicado:* ${convertTimeToSpanish(video.ago)}\n`;
         messageText += `🔗 *Enlace directo:* https://youtu.be/${video.videoId}\n`;
 
-        await conn.sendMessage(m.chat, {
-            image: thumbnail,
-            caption: messageText,
-            footer: 'Selecciona el formato de descarga.',
-            buttons: [
-                {
-                    buttonId: `.ytmp3 https://youtu.be/${video.videoId}`,
-                    buttonText: {
-                        displayText: '🎶 Descargar MP3',
-                    },
-                },
-                {
-                    buttonId: `.ytmp4 https://youtu.be/${video.videoId}`,
-                    buttonText: {
-                        displayText: '📺 Descargar MP4',
-                    },
-                }
+        await conn.sendButton2(
+            m.chat,
+            messageText,
+            'Bot WhatsApp', 
+            video.image, 
+            [
+                ['🎶 Descargar MP3', `.ytmp3 https://youtu.be/${video.videoId}`],
+                ['📺 Descargar MP4', `.ytmp4 https://youtu.be/${video.videoId}`]
             ],
-            viewOnce: true,
-            headerType: 4,
-        }, { quoted: m });
+            '', 
+            [
+                ['🔍 Buscar otro', '.play'],
+                ['📂 Mis archivos', 'archivos']
+            ], 
+            m,
+            {} 
+        );
 
         await m.react('✅');
     } catch (error) {
