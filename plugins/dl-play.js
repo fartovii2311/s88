@@ -7,9 +7,6 @@ let handler = async (m, { conn, args }) => {
     try {
         let searchResults = await searchVideos(args.join(" "));
         
-        // Mostrar todos los resultados para depuración
-        console.log(searchResults);
-
         if (!searchResults.length) throw new Error('No se encontraron resultados.');
 
         let video = searchResults.find(v => v.seconds < 3600) || searchResults[0];
@@ -24,7 +21,8 @@ let handler = async (m, { conn, args }) => {
         messageText += `👀 *Vistas:* ${video.views.toLocaleString()}\n`;
         messageText += `🔗 *Enlace directo:* ${video.url}\n`;
 
-        let image = video.image || 'default-image-url'; // Usa una imagen por defecto si no hay
+        // Usar una imagen por defecto si no hay una disponible
+        let image = video.image || 'https://via.placeholder.com/150';
 
         await conn.sendButton2(
             m.chat,
@@ -38,14 +36,14 @@ let handler = async (m, { conn, args }) => {
                 ['📺 MP4DOC', `.ytmp4doc ${video.url}`]
             ],
             '',
-            [],
-            m,
+            [], 
+            m, 
             {}
         );
 
         await m.react('✅');
     } catch (error) {
-        console.error(error);
+        console.error('Error al buscar el video:', error);
         await m.react('❌');
         conn.reply(m.chat, '*`Hubo un error al buscar el video.`*', m);
     }
@@ -58,13 +56,18 @@ handler.command = ['play'];
 export default handler;
 
 async function searchVideos(query) {
-    let search = await yts.search({ query, hl: "es", gl: "ES", pages: 5 });
+    try {
+        let search = await yts.search({ query, hl: "es", gl: "ES", pages: 5 });
+        
+        console.log('Detalles de la búsqueda:', search);
 
-    console.log(search.videos);
-
-    return search.videos
-        .filter(v => v.seconds > 0 && v.views)
-        .sort((a, b) => b.views - a.views);
+        return search.videos
+            .filter(v => v.seconds > 0 && v.views) 
+            .sort((a, b) => b.views - a.views); 
+    } catch (error) {
+        console.error('Error al realizar la búsqueda:', error);
+        return [];
+    }
 }
 
 function formatDuration(seconds) {
