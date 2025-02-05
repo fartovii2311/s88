@@ -20,7 +20,7 @@ let handler = async (m, { conn, command, text, usedPrefix }) => {
 
       let caption = `🎶 *Título*: ${title}\n🖊️ *Autor*: ${author}\n⏳ *Duración*: ${durationMinutes}:${durationSeconds.padStart(2, '0')}\n🌐 *Enlace*: ${text}`;
 
-      await conn.sendFile(m.chat, image, 'cover.jpg', caption, m);
+      await conn.sendFile(m.chat, image, 'cover.jpg', caption, m,rcanal,fake);
 
       await conn.sendMessage(m.chat, {
         audio: { url: musicUrl },
