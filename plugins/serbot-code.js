@@ -119,6 +119,7 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
                     if (parent && m.chat) {
                         await parent.sendMessage(m.chat, { text: "❌ Conexión perdida, reconectando..." }, { quoted: m });
                     }
+                    attemptReconnect();
                 }
 
                 if (connection === 'open') {
@@ -150,6 +151,10 @@ let handler = async (m, { conn: _conn, args, usedPrefix, command }) => {
 
             } catch (error) {
                 console.error("❌ Error en connectionUpdate:", error);
+                if (error.code === 'ECONNRESET') {
+                    console.log('❌ Error ECONNRESET detectado, reconectando...');
+                    attemptReconnect();
+                }
             }
         }
 
