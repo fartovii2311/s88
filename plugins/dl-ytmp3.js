@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import axios from 'axios';  // Asegúrate de tener axios instalado
+import axios from 'axios';
 
 const handler = async (m, { conn, text }) => {
   
