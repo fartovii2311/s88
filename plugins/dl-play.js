@@ -20,25 +20,25 @@ let handler = async (m, { conn, args }) => {
         await conn.sendButton2(
             m.chat,
             messageText,
-            'Bot WhatsApp', 
-            video.image, 
+            'Bot WhatsApp',
+            video.image,
             [
                 ['🎶 Descargar MP3', `.ytmp3 https://youtu.be/${video.videoId}`],
                 ['📺 Descargar MP4', `.ytmp4 https://youtu.be/${video.videoId}`]
-            ],
-            '', 
-            [
-                ['🎶 Descargar MP3DOC', '.ytmp3doc https://youtu.be/${video.videoId}'],
-                ['📺 Descargar MP4DOC', '.ytmp4doc https://youtu.be/${video.videoId}']
             ], 
-            m,
-            {} 
+            '',
+            [
+                ['🎶 Descargar MP3DOC', `.ytmp3doc https://youtu.be/${video.videoId}`],
+                ['📺 Descargar MP4DOC', `.ytmp4doc https://youtu.be/${video.videoId}`]
+            ],
+            m, 
+            {}
         );
 
-        await m.react('✅');
+        await m.react('✅'); 
     } catch (error) {
         console.error(error);
-        await m.react('❌');
+        await m.react('❌'); 
         conn.reply(m.chat, '*\`Hubo un error al buscar el video.\`*', m);
     }
 };
@@ -63,10 +63,10 @@ function formatDuration(seconds) {
 }
 
 function convertTimeToSpanish(timeText) {
-    if (timeText.includes('year')) return timeText.replace('year', 'año').replace('years', 'años');
-    if (timeText.includes('month')) return timeText.replace('month', 'mes').replace('months', 'meses');
-    if (timeText.includes('day')) return timeText.replace('day', 'día').replace('days', 'días');
-    if (timeText.includes('hour')) return timeText.replace('hour', 'hora').replace('hours', 'horas');
-    if (timeText.includes('minute')) return timeText.replace('minute', 'minuto').replace('minutes', 'minutos');
-    return timeText;
+    return timeText
+        .replace(/year/g, 'año').replace(/years/g, 'años')
+        .replace(/month/g, 'mes').replace(/months/g, 'meses')
+        .replace(/day/g, 'día').replace(/days/g, 'días')
+        .replace(/hour/g, 'hora').replace(/hours/g, 'horas')
+        .replace(/minute/g, 'minuto').replace(/minutes/g, 'minutos');
 }
