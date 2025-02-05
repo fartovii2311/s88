@@ -12,7 +12,7 @@ let handler = async (m, { conn, __dirname, args }) => {
     }
   })
 
-let bbtSessions = "./serbot"
+let bbtSessions = "./LynxJadiBot"
 readdirSync(bbtSessions, { withFileTypes: true }).forEach((file) => {
   let filePath = `${bbtSessions}/${file.name}`
   if (file.isDirectory()) {
