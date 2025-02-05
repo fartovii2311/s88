@@ -1,3 +1,4 @@
+
 import fetch from 'node-fetch';
 
 async function tiktokdl(url) {
@@ -6,11 +7,11 @@ async function tiktokdl(url) {
     let response = await (await fetch(tikwm)).json();
 
     if (response.code === 0 && response.data) {
-      let videoResponse = await fetch(response.data.play);
-      if (!videoResponse.ok) throw new Error("Error en el video de TikWM");
-
       return {
-        buffer: await videoResponse.buffer(),
+        title: response.data.title,
+        cover: response.data.cover,
+        author: response.data.author.nickname,
+        play_url: response.data.play,
         source: "tikwm"
       };
     }
@@ -18,16 +19,17 @@ async function tiktokdl(url) {
     console.log("TikWM falló, probando Dark-Core API...");
   }
 
+  // Si TikWM falla, probamos con Dark-Core API
   try {
     let api2 = `https://dark-core-api.vercel.app/api/download/tiktok?key=api&url=${encodeURIComponent(url)}`;
     let response = await (await fetch(api2)).json();
 
     if (response.success && response.result.mp4) {
-      let videoResponse = await fetch(response.result.mp4);
-      if (!videoResponse.ok) throw new Error("Error en el video de Dark-Core");
-
       return {
-        buffer: await videoResponse.buffer(),
+        title: response.result.titulo,
+        cover: response.result.thumbanail,
+        author: response.result.author,
+        play_url: response.result.mp4,
         source: "dark-core"
       };
     }
@@ -49,8 +51,8 @@ let handler = async (m, { conn, args }) => {
     const videoData = await tiktokdl(url);
 
     if (videoData) {
-      let mensaje = `✅ *Descarga de TikTok completada* \n📌 *Fuente:* ${videoData.source.toUpperCase()}`;
-      await conn.sendFile(m.chat, videoData.buffer, 'video.mp4', mensaje, m);
+      let mensaje = `✅ *Descarga de TikTok completada* \n🎥 *Título:* ${videoData.title || "Desconocido"} \n👤 *Autor:* ${videoData.author} \n📌 *Fuente:* ${videoData.source.toUpperCase()}`;
+      await conn.sendFile(m.chat, videoData.play_url, 'video.mp4', mensaje, m);
       await m.react('✅');
     } else {
       m.reply("❌ *No se pudo descargar el video.*");
@@ -68,3 +70,4 @@ handler.register = true;
 handler.Monedas = 1;
 
 export default handler;
+
