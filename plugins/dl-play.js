@@ -15,7 +15,7 @@ let handler = async (m, { conn, args }) => {
     messageText += `⏰ *Duración:* ${formatDuration(video.duration.seconds)}\n`;
     messageText += `👤 *Autor:* ${video.author.name || 'Desconocido'}\n`;
     messageText += `📅 *Publicado:* ${convertTimeToSpanish(video.ago)}\n`;
-    messageText += `🔗 *Enlace directo:* [Haz clic aquí](https://youtu.be/${video.videoId})\n\n`;
+    messageText += `🔗 *Enlace directo:* https://youtu.be/${video.videoId}\n\n`;
 
     await conn.sendMessage(m.chat, {
       image: thumbnail,
