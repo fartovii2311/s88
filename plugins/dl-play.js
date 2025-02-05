@@ -29,19 +29,28 @@ let handler = async (m, { conn, command, args, text, usedPrefix }) => {
     txt += `－－－－－－－－－－－－－－－－－－\n\n`
     txt += `> 🔽 Elige el formato de descarga:`
 
-    let buttons = [
-      { buttonId: `.ytmp3 ${video.url}`, buttonText: { displayText: '🎵 MP3 (Audio)' }, type: 1 },
-      { buttonId: `.ytmp4 ${video.url}`, buttonText: { displayText: '📹 MP4 (Video)' }, type: 1 }
-    ]
+    await conn.sendMessage(
+      m.chat,
+      {
+        image: { url: video.image },
+        caption: txt,
+        buttons: [
+          {
+            buttonId: `.ytmp3 ${video.url}`,
+            buttonText: { displayText: '🎵 MP3 (Audio)' },
+            type: 1,
+          },
+          {
+            buttonId: `.ytmp4 ${video.url}`,
+            buttonText: { displayText: '📹 MP4 (Video)' },
+            type: 1,
+          },
+        ],
+        headerType: 4,
+      },
+      { quoted: m }
+    );
 
-    let buttonMessage = {
-      image: { url: video.image },
-      caption: txt,
-      buttons,
-      headerType: 4
-    }
-
-    await conn.sendMessage(m.chat, buttonMessage, { quoted: m })
     await m.react('✅')
   } catch (err) {
     console.error(err)
