@@ -7,43 +7,46 @@
 import fetch from 'node-fetch'
 import yts from 'yt-search'
 
-let handler = async (m, { conn: star, command, args, text, usedPrefix }) => {
+let handler = async (m, { conn, command, args, text, usedPrefix }) => {
   if (!text) {
-    return star.reply(m.chat, '[ ᰔᩚ ] Ingresa el título de un video o canción de *YouTube*.', m)
+    return conn.reply(m.chat, '[ ᰔᩚ ] Ingresa el título de un video o canción de *YouTube*.\n\n`Ejemplo:`\n' + `> *${usedPrefix + command}* Mc Davo - Debes De Saber`, m)
   }
 
   await m.react('🕓')
 
   try {
     let res = await search(args.join(" "))
-    let video = res[0]
-    let videoUrl = `https://youtu.be/${video.videoId}`
 
+    let video = res[0]
     let txt = `🎬 *‌乂 Y O U T U B E  -  P L A Y 乂* 🎬\n\n`
+    txt += `－－－－－－－－－－－－－－－－－－\n`
     txt += `ﾒ *TITULO:* ${video.title}\n`
     txt += `ﾒ *DURACION:* ${secondString(video.duration.seconds)}\n`
     txt += `ﾒ *PUBLICACION:* ${eYear(video.ago)}\n`
     txt += `ﾒ *CANAL:* ${video.author.name || 'Desconocido'}\n`
-    txt += `ﾒ *URL:* ${videoUrl}\n\n`
-    txt += `> Elige una opción:`
+    txt += `ﾒ *ID:* ${video.videoId}\n`
+    txt += `ﾒ *URL:* https://youtu.be/${video.videoId}\n`
+    txt += `－－－－－－－－－－－－－－－－－－\n\n`
+    txt += `> 🔽 Elige el formato de descarga:`
 
-    const buttons = [
-      { buttonId: `.ytmp4 ${videoUrl}`, buttonText: { displayText: '🎥 Descargar MP4' }, type: 1 },
-      { buttonId: `.ytmp3 ${videoUrl}`, buttonText: { displayText: '🎵 Descargar MP3' }, type: 1 }
+    let buttons = [
+      { buttonId: `.ytmp3 ${video.url}`, buttonText: { displayText: '🎵 MP3 (Audio)' }, type: 1 },
+      { buttonId: `.ytmp4 ${video.url}`, buttonText: { displayText: '📹 MP4 (Video)' }, type: 1 }
     ]
 
-    await star.sendMessage(m.chat, {
-      text: txt,
-      footer: 'Lynx Bot',
-      buttons: buttons,
-      headerType: 1
-    }, { quoted: m })
+    let buttonMessage = {
+      image: { url: video.image },
+      caption: txt,
+      buttons,
+      headerType: 4
+    }
 
+    await conn.sendMessage(m.chat, buttonMessage, { quoted: m })
     await m.react('✅')
   } catch (err) {
     console.error(err)
     await m.react('✖️')
-    return star.reply(m.chat, '❌ Ocurrió un error al realizar la búsqueda.', m)
+    return conn.reply(m.chat, '❌ Ocurrió un error al realizar la búsqueda. Intenta nuevamente.', m)
   }
 }
 
@@ -78,5 +81,11 @@ function eYear(txt) {
   if (txt.includes('months ago')) return 'hace ' + txt.replace("months ago", "").trim() + ' meses'
   if (txt.includes('year ago')) return 'hace ' + txt.replace("year ago", "").trim() + ' año'
   if (txt.includes('years ago')) return 'hace ' + txt.replace("years ago", "").trim() + ' años'
+  if (txt.includes('hour ago')) return 'hace ' + txt.replace("hour ago", "").trim() + ' hora'
+  if (txt.includes('hours ago')) return 'hace ' + txt.replace("hours ago", "").trim() + ' horas'
+  if (txt.includes('minute ago')) return 'hace ' + txt.replace("minute ago", "").trim() + ' minuto'
+  if (txt.includes('minutes ago')) return 'hace ' + txt.replace("minutes ago", "").trim() + ' minutos'
+  if (txt.includes('day ago')) return 'hace ' + txt.replace("day ago", "").trim() + ' día'
+  if (txt.includes('days ago')) return 'hace ' + txt.replace("days ago", "").trim() + ' días'
   return txt
 }
