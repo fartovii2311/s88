@@ -16,30 +16,36 @@ let handler = async (m, { conn, text }) => {
     let api = await fetch(`https://dark-core-api.vercel.app/api/search/spotify?key=user1&query=${encodeURIComponent(text)}`);
     let json = await api.json();
 
-    for (let track of json.data) {
-      let image = await createImage(track.album_cover);
+    // Asegúrate de que `json.data` existe y es un array
+    if (json && Array.isArray(json.data)) {
+      for (let track of json.data) {
+        let image = await createImage(track.album_cover);
 
-      push.push({
-        body: proto.Message.InteractiveMessage.Body.fromObject({
-          text: `◦ *Título:* ${track.title} \n◦ *Artistas:* ${track.artist} \n◦ *Álbum:* ${track.album} \n◦ *Duración:* ${msToTime(track.duration_ms)} \n◦ *Popularidad:* ${track.popularity}`
-        }),
-        footer: proto.Message.InteractiveMessage.Footer.fromObject({
-          text: `©️ Powered by Galaxay Team`
-        }),
-        header: proto.Message.InteractiveMessage.Header.fromObject({
-          title: '',
-          hasMediaAttachment: true,
-          imageMessage: image
-        }),
-        nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({
-          buttons: [
-            {
-              "name": "cta_copy",
-              "buttonParamsJson": `{"display_text":"🎧 ¡Escuchar ahora! 🎧","id":"123456789","copy_code":".spotify ${track.link}"}`
-            },
-          ]
-        })
-      });
+        push.push({
+          body: proto.Message.InteractiveMessage.Body.fromObject({
+            text: `◦ *Título:* ${track.title} \n◦ *Artistas:* ${track.artist} \n◦ *Álbum:* ${track.album} \n◦ *Duración:* ${msToTime(track.duration_ms)} \n◦ *Popularidad:* ${track.popularity}`
+          }),
+          footer: proto.Message.InteractiveMessage.Footer.fromObject({
+            text: `©️ Powered by Galaxay Team`
+          }),
+          header: proto.Message.InteractiveMessage.Header.fromObject({
+            title: '',
+            hasMediaAttachment: true,
+            imageMessage: image
+          }),
+          nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({
+            buttons: [
+              {
+                "name": "cta_copy",
+                "buttonParamsJson": `{"display_text":"🎧 ¡Escuchar ahora! 🎧","id":"123456789","copy_code":".spotify ${track.link}"}`
+              },
+            ]
+          })
+        });
+      }
+    } else {
+      console.log('No se encontraron datos:', json);
+      return conn.reply(m.chat, 'No se encontraron resultados para la búsqueda', m);
     }
 
     const msg = generateWAMessageFromContent(m.chat, {
@@ -58,6 +64,7 @@ let handler = async (m, { conn, text }) => {
     await m.react('✅');
   } catch (error) {
     console.error(error);
+    return conn.reply(m.chat, 'Hubo un error al realizar la búsqueda', m);
   }
 }
 
