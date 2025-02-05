@@ -7,6 +7,9 @@ let handler = async (m, { conn, args }) => {
     try {
         let searchResults = await searchVideos(args.join(" "));
         
+        // Mostrar todos los resultados para depuración
+        console.log(searchResults);
+
         if (!searchResults.length) throw new Error('No se encontraron resultados.');
 
         let video = searchResults.find(v => v.seconds < 3600) || searchResults[0];
@@ -21,8 +24,7 @@ let handler = async (m, { conn, args }) => {
         messageText += `👀 *Vistas:* ${video.views.toLocaleString()}\n`;
         messageText += `🔗 *Enlace directo:* ${video.url}\n`;
 
-        // Usar una imagen por defecto si no hay una disponible
-        let image = video.image || 'https://via.placeholder.com/150';
+        let image = video.image || 'default-image-url'; // Usa una imagen por defecto si no hay
 
         await conn.sendButton2(
             m.chat,
@@ -36,14 +38,14 @@ let handler = async (m, { conn, args }) => {
                 ['📺 MP4DOC', `.ytmp4doc ${video.url}`]
             ],
             '',
-            [], 
-            m, 
+            [],
+            m,
             {}
         );
 
         await m.react('✅');
     } catch (error) {
-        console.error('Error al buscar el video:', error);
+        console.error(error);
         await m.react('❌');
         conn.reply(m.chat, '*`Hubo un error al buscar el video.`*', m);
     }
@@ -57,18 +59,20 @@ export default handler;
 
 async function searchVideos(query) {
     try {
-        let search = await yts.search({ query, hl: "es", gl: "ES", pages: 5 });
-        
-        console.log('Detalles de la búsqueda:', search);
+        let search = await yts.search({ query, hl: "es", gl: "ES", pages: 10 });
 
-        return search.videos
-            .filter(v => v.seconds > 0 && v.views) 
-            .sort((a, b) => b.views - a.views); 
+        let filteredVideos = search.videos
+            .filter(v => v.seconds > 0) 
+            .sort((a, b) => b.views - a.views);
+
+        console.log('Videos después del filtrado:', filteredVideos);
+
+        return filteredVideos;
     } catch (error) {
-        console.error('Error al realizar la búsqueda:', error);
         return [];
     }
 }
+
 
 function formatDuration(seconds) {
     const hours = Math.floor(seconds / 3600);
