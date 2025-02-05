@@ -15,7 +15,7 @@ let handler = async (m, { conn, args }) => {
     messageText += `⏰ *Duración:* ${formatDuration(video.duration.seconds)}\n`;
     messageText += `👤 *Autor:* ${video.author.name || 'Desconocido'}\n`;
     messageText += `📅 *Publicado:* ${convertTimeToSpanish(video.ago)}\n`;
-    messageText += `🔗 *Enlace directo:* https://youtu.be/${video.videoId}\n\n`;
+    messageText += `🔗 *Enlace directo:* https://youtu.be/${video.videoId}\n`;
 
     await conn.sendMessage(m.chat, {
       image: thumbnail,
@@ -32,6 +32,18 @@ let handler = async (m, { conn, args }) => {
           buttonId: `.ytmp4 https://youtu.be/${video.videoId}`,
           buttonText: {
             displayText: '📺 Descargar MP4',
+          },
+        },
+        {
+          buttonId: `.ytmp3doc https://youtu.be/${video.videoId}`,
+          buttonText: {
+            displayText: '📄 Descargar MP3 (Doc)',
+          },
+        },
+        {
+          buttonId: `.ytmp4doc https://youtu.be/${video.videoId}`,
+          buttonText: {
+            displayText: '📄 Descargar MP4 (Doc)',
           },
         },
       ],
