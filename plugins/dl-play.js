@@ -22,34 +22,18 @@ let handler = async (m, { conn, args }) => {
             caption: messageText,
             footer: 'Selecciona el formato de descarga.',
             buttons: [
-                [
-                    {
-                        buttonId: `.ytmp3 https://youtu.be/${video.videoId}`,
-                        buttonText: {
-                            displayText: '🎶 MP3',
-                        },
+                {
+                    buttonId: `.ytmp3 https://youtu.be/${video.videoId}`,
+                    buttonText: {
+                        displayText: '🎶 Descargar MP3',
                     },
-                    {
-                        buttonId: `.ytmp4 https://youtu.be/${video.videoId}`,
-                        buttonText: {
-                            displayText: '📺 MP4',
-                        },
-                    }
-                ],
-                [
-                    {
-                        buttonId: `.ytmp3doc https://youtu.be/${video.videoId}`,
-                        buttonText: {
-                            displayText: '📄 MP3 (Doc)',
-                        },
+                },
+                {
+                    buttonId: `.ytmp4 https://youtu.be/${video.videoId}`,
+                    buttonText: {
+                        displayText: '📺 Descargar MP4',
                     },
-                    {
-                        buttonId: `.ytmp4doc https://youtu.be/${video.videoId}`,
-                        buttonText: {
-                            displayText: '📄 MP4 (Doc)',
-                        },
-                    }
-                ]
+                }
             ],
             viewOnce: true,
             headerType: 4,
