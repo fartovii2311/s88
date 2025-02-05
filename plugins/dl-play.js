@@ -17,39 +17,29 @@ let handler = async (m, { conn, args }) => {
     messageText += `📅 *Publicado:* ${convertTimeToSpanish(video.ago)}\n`;
     messageText += `🔗 *Enlace directo:* https://youtu.be/${video.videoId}\n`;
 
-    await conn.sendMessage(m.chat, {
-      image: thumbnail,
-      caption: messageText,
-      footer: 'Selecciona el formato de descarga.',
-      buttons: [
-        {
-          buttonId: `.ytmp3 https://youtu.be/${video.videoId}`,
-          buttonText: {
-            displayText: '🎶 Descargar MP3',
-          },
-        },
-        {
-          buttonId: `.ytmp4 https://youtu.be/${video.videoId}`,
-          buttonText: {
-            displayText: '📺 Descargar MP4',
-          },
-        },
-        {
-          buttonId: `.ytmp3doc https://youtu.be/${video.videoId}`,
-          buttonText: {
-            displayText: '📄 Descargar MP3 (Doc)',
-          },
-        },
-        {
-          buttonId: `.ytmp4doc https://youtu.be/${video.videoId}`,
-          buttonText: {
-            displayText: '📄 Descargar MP4 (Doc)',
-          },
-        },
-      ],
-      viewOnce: true,
-      headerType: 4,
-    }, { quoted: m });
+   await conn.sendMessage(m.chat, {
+  image: thumbnail,
+  caption: messageText,
+  footer: 'Selecciona el formato de descarga.',
+  buttons: [
+    {
+      buttonId: `.ytmp3 https://youtu.be/${video.videoId}`,
+      buttonText: {
+        displayText: '🎶 Descargar MP3',
+      },
+      type: 1 // Indica que es un botón simple
+    },
+    {
+      buttonId: `.ytmp4 https://youtu.be/${video.videoId}`,
+      buttonText: {
+        displayText: '📺 Descargar MP4',
+      },
+      type: 1 // Botón para enlace directo
+    }
+  ],
+  viewOnce: true,
+  headerType: 4,
+}, { quoted: m });
 
     await m.react('✅');
   } catch (error) {
