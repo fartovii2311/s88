@@ -16,8 +16,8 @@ let handler = async (m, { conn, text }) => {
     let api = await fetch(`https://dark-core-api.vercel.app/api/search/spotify?key=user1&query=${encodeURIComponent(text)}`);
     let json = await api.json();
 
-    // Asegúrate de que `json.data` existe y es un array
-    if (json && Array.isArray(json.data)) {
+    // Comprobamos si json.data existe y es un array
+    if (json && Array.isArray(json.data) && json.data.length > 0) {
       for (let track of json.data) {
         let image = await createImage(track.album_cover);
 
@@ -44,7 +44,7 @@ let handler = async (m, { conn, text }) => {
         });
       }
     } else {
-      console.log('No se encontraron datos:', json);
+      console.log('No se encontraron resultados:', json);
       return conn.reply(m.chat, 'No se encontraron resultados para la búsqueda', m);
     }
 
