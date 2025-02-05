@@ -18,7 +18,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
     if (json.data && json.data.length > 0) {
       for (let track of json.data) {
-        let image = await createImage(track.album_cover); // Obtener la imagen del álbum
+        let image = await createImage(track.album_cover); 
 
         push.push({
           body: proto.Message.InteractiveMessage.Body.fromObject({
@@ -68,7 +68,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   }
 };
 
-// Función para convertir la duración en milisegundos a formato "minutos:segundos"
 function msToTime(ms) {
   let date = new Date(ms);
   return `${date.getUTCMinutes()}:${date.getUTCSeconds()}`;
