@@ -2,9 +2,9 @@ import fetch from 'node-fetch';
 import yts from 'yt-search';
 
 let handler = async (m, { conn, args }) => {
-    if (!args[0]) return conn.reply(m.chat, '*\`Por favor ingresa un término de búsqueda\`*', m);
+    if (!args[0]) return conn.reply(m.chat, '*`Por favor ingresa un término de búsqueda`*', m);
 
-    await m.react('⏳');
+    await m.react('⏳'); 
     try {
         let searchResults = await searchVideos(args.join(" "));
         let video = searchResults[0];
@@ -18,27 +18,25 @@ let handler = async (m, { conn, args }) => {
         messageText += `🔗 *Enlace directo:* https://youtu.be/${video.videoId}\n`;
 
         await conn.sendButton2(
-            m.chat,
-            messageText,
-            'Bot WhatsApp',
-            video.image,
+            m.chat, // ID del chat
+            messageText, // Mensaje con la información del video
+            'Bot WhatsApp', // Footer del mensaje
+            video.image, // Miniatura del video
             [
                 ['🎶 Descargar MP3', `.ytmp3 https://youtu.be/${video.videoId}`],
                 ['📺 Descargar MP4', `.ytmp4 https://youtu.be/${video.videoId}`]
-            ], 
-            [
-                ['🎶 Descargar MP3DOC', `.ytmp3doc https://youtu.be/${video.videoId}`],
-                ['📺 Descargar MP4DOC', `.ytmp4doc https://youtu.be/${video.videoId}`]
-            ],
-            m, 
-            {}
+            ], // Botones de descarga
+            '', // Sin botón de copiar
+            [], // Sin botones de URL
+            m, // Mensaje citado
+            {} // Opciones adicionales
         );
 
-        await m.react('✅'); 
+        await m.react('✅');
     } catch (error) {
         console.error(error);
-        await m.react('❌'); 
-        conn.reply(m.chat, '*\`Hubo un error al buscar el video.\`*', m);
+        await m.react('❌');
+        conn.reply(m.chat, '*`Hubo un error al buscar el video.`*', m);
     }
 };
 
