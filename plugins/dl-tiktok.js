@@ -1,69 +1,70 @@
+import fetch from 'node-fetch';
+
 async function tiktokdl(url) {
-    try {
-      let tikwm = `https://www.tikwm.com/api/?url=${encodeURIComponent(url)}&hd=1`;
-      let response = await (await fetch(tikwm)).json();
-  
-      if (response.code === 0 && response.data) {
-        let data = response.data;
-  
-        let filteredData = {
-          title: data.title,
-          cover: data.cover,
-          origin_cover: data.origin_cover,
-          music_title: data.music_info.title,
-          music_author: data.music_info.author,
-          play_count: data.play_count,
-          digg_count: data.digg_count,
-          comment_count: data.comment_count,
-          share_count: data.share_count,
-          download_count: data.download_count,
-          create_time: data.create_time,
-          author_nickname: data.author.nickname,
-          play_url: data.play,
-          wmplay_url: data.wmplay,
-          hdplay_url: data.hdplay,
-        };
-  
-        let videoResponse = await fetch(data.play);
-        if (!videoResponse.ok) {
-          return null;
-        }
-        let buffer = await videoResponse.buffer();
-        return buffer;
-      } else {
-        return null;
-      }
-    } catch (err) {
-      return null;
+  try {
+    let tikwm = `https://www.tikwm.com/api/?url=${encodeURIComponent(url)}&hd=1`;
+    let response = await (await fetch(tikwm)).json();
+
+    if (response.code === 0 && response.data) {
+      let videoResponse = await fetch(response.data.play);
+      if (!videoResponse.ok) throw new Error("Error en el video de TikWM");
+
+      return {
+        buffer: await videoResponse.buffer(),
+        source: "tikwm"
+      };
     }
+  } catch (err) {
+    console.log("TikWM falló, probando Dark-Core API...");
   }
-  
-  let handler = async (m, { conn, args }) => {
-    let url = args[0];
-  
-    if (!url) {
-      m.reply("[ ᰔᩚ ] Ingresa una URL válida de *TikTok*.",m,rcanal,fake);
-      return;
+
+  try {
+    let api2 = `https://dark-core-api.vercel.app/api/download/tiktok?key=api&url=${encodeURIComponent(url)}`;
+    let response = await (await fetch(api2)).json();
+
+    if (response.success && response.result.mp4) {
+      let videoResponse = await fetch(response.result.mp4);
+      if (!videoResponse.ok) throw new Error("Error en el video de Dark-Core");
+
+      return {
+        buffer: await videoResponse.buffer(),
+        source: "dark-core"
+      };
     }
-  
-    try {
-      const videoBuffer = await tiktokdl(url);
-  
-      if (videoBuffer) {
-        conn.sendFile(m.chat, videoBuffer, 'video.mp4',listo, m);
-        await m.react('✅');
-      } else {
-        m.reply("❌ *No se pudo obtener el archivo MP4 del video.*");
-      }
-    } catch (err) {
-      m.reply("❌ *Hubo un error al obtener el video.*");
+  } catch (err) {
+    console.log("Dark-Core API también falló.");
+  }
+
+  return null;
+}
+
+let handler = async (m, { conn, args }) => {
+  let url = args[0];
+
+  if (!url) {
+    return conn.reply(m.chat,"[ ᰔᩚ ] Ingresa una URL válida de *TikTok*."m,fake,rcanal);
+  }
+
+  try {
+    const videoData = await tiktokdl(url);
+
+    if (videoData) {
+      let mensaje = `✅ *Descarga de TikTok completada* \n📌 *Fuente:* ${videoData.source.toUpperCase()}`;
+      await conn.sendFile(m.chat, videoData.buffer, 'video.mp4', mensaje, m);
+      await m.react('✅');
+    } else {
+      m.reply("❌ *No se pudo descargar el video.*");
     }
-  };
-  
-  handler.help = ['tiktok *<url>*'];
-  handler.tags = ['dl'];
-  handler.command = /^(tiktok)$/i;
-  handler.register = true;
-  handler.Monedas = 1
-  export default handler;
-  
+  } catch (err) {
+    console.error(err);
+    m.reply("❌ *Hubo un error al obtener el video.*");
+  }
+};
+
+handler.help = ['tiktok *<url>*'];
+handler.tags = ['dl'];
+handler.command = /^(tiktok)$/i;
+handler.register = true;
+handler.Monedas = 1;
+
+export default handler;
