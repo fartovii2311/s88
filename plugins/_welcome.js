@@ -27,12 +27,12 @@ export async function before(m, { conn, participants, groupMetadata }) {
     }
 
     if (m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_ADD) {
-      let bienvenida = `┌─★ Lynx \n│「 Bienvenido 」\n└┬★ 「 @${m.messageStubParameters[0].split`@`[0]} 」\n   │ ${welcomeMessage}\n   │ ${groupMetadata.subject}\n   └───────────────┈ ⳹\n> ${dev}`;
+      let bienvenida = `┌─★ Lynx \n│「 Bienvenido 」\n└┬★ 「 @${m.messageStubParameters[0].split`@`[0]} 」\n   │ ${welcomeMessage}\n   │ ${groupMetadata.subject}\n   └───────────────┈ ⳹\n\n> ${dev}`;
       await conn.sendMessage(m.chat, { image: img, caption: bienvenida, mentions: [who] }, { quoted: estilo });
     }
     
     else if (m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_REMOVE || m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_LEAVE) {
-      let bye = `┌─★ Lynx \n│「 ADIOS 👋 」\n└┬★ 「 @${m.messageStubParameters[0].split`@`[0]} 」\n   │ ${despMessage}\n   │ Jamás te quisimos aquí\n   └───────────────┈ ⳹\n> ${dev}`;
+      let bye = `┌─★ Lynx \n│「 ADIOS 👋 」\n└┬★ 「 @${m.messageStubParameters[0].split`@`[0]} 」\n   │ ${despMessage}\n   │ Jamás te quisimos aquí\n   └───────────────┈ ⳹\n\n> ${dev}`;
       await conn.sendMessage(m.chat, { image: img, caption: bye, mentions: [who] }, { quoted: estilo });
     }
   }
