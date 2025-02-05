@@ -26,7 +26,6 @@ let handler = async (m, { conn, args }) => {
                 ['🎶 Descargar MP3', `.ytmp3 https://youtu.be/${video.videoId}`],
                 ['📺 Descargar MP4', `.ytmp4 https://youtu.be/${video.videoId}`]
             ], 
-            '',
             [
                 ['🎶 Descargar MP3DOC', `.ytmp3doc https://youtu.be/${video.videoId}`],
                 ['📺 Descargar MP4DOC', `.ytmp4doc https://youtu.be/${video.videoId}`]
