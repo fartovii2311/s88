@@ -1,10 +1,5 @@
-/* 
-- Downloader Ytmp4 By DarkCore
-- https://whatsapp.com/channel/0029Vaxk8vvEFeXdzPKY8f3F
-- Parchado por DarkCore... vip plus
-*/
-
 import fetch from 'node-fetch';
+import axios from 'axios';
 
 const handler = async (m, { conn, text }) => {
   
@@ -44,9 +39,30 @@ const handler = async (m, { conn, text }) => {
         { quoted: m }
       );
       await m.react('✅');
-    } else {
-      throw new Error('No se pudo obtener el enlace de descarga de ninguna API');
+      return;
     }
+
+    const response3 = await axios.get(`https://api.siputzx.my.id/api/d/ytmp3?url=${encodeURIComponent(text)}`);
+    const data = response3.data;
+
+    if (data.status === true && data.data.dl) {
+      const downloadUrl = data.data.dl;
+      const title = data.data.title || "Desconocido";
+      
+      await conn.sendMessage(
+        m.chat,
+        { 
+          audio: { url: downloadUrl }, 
+          mimetype: 'audio/mpeg', 
+          ptt: false 
+        },
+        { quoted: m }
+      );
+      await m.react('✅');
+      return;
+    }
+
+    throw new Error('No se pudo obtener el enlace de descarga de ninguna API');
 
   } catch (error) {
     await m.react('❌');
