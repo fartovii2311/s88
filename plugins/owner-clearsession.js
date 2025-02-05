@@ -1,37 +1,22 @@
-import { tmpdir } from 'os'
-import path, { join } from 'path'
+import { readdirSync, unlinkSync } from 'fs'
 import fs from 'fs'
-import { readdirSync, unlinkSync, rmSync } from 'fs'
+import { tmpdir } from 'os'
+import path from 'path'
 
-let handler = async (m, { conn, __dirname, args }) => {
+let handler = async (m, { conn }) => {
+  let Sessions = path.join(tmpdir(), "./LynxSession")
 
-  let Sessions = "./LynxSession"
-  readdirSync(Sessions).forEach((file) => {
-    if (file !== 'creds.json') {
-      unlinkSync(`${Sessions}/${file}`, { recursive: true, force: true })
-    }
-  })
-
-let bbtSessions = "./LynxJadiBot"
-readdirSync(bbtSessions, { withFileTypes: true }).forEach((file) => {
-  let filePath = `${bbtSessions}/${file.name}`
-  if (file.isDirectory()) {
-    readdirSync(filePath, { withFileTypes: true }).forEach((subFile) => {
-      let subFilePath = `${filePath}/${subFile.name}`
-      if (subFile.isFile() && subFile.name !== "creds.json") {
-        unlinkSync(subFilePath)
+  if (fs.existsSync(Sessions)) {
+    readdirSync(Sessions).forEach((file) => {
+      let filePath = path.join(Sessions, file)
+      if (file !== 'creds.json' && fs.statSync(filePath).isFile()) {
+        unlinkSync(filePath)
       }
     })
-
-    if (readdirSync(filePath).length === 0) {
-      fs.rmdirSync(filePath)
-    }
-  } else if (file.isFile() && file.name !== "creds.json") {
-    unlinkSync(filePath)
-  }
-})
-await m.react('✅')
+    await m.react('✅')
+  } 
 }
+
 handler.help = ['clearsession']
 handler.tags = ['owner']
 handler.command = /^(clearsession)$/i
