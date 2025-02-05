@@ -5,7 +5,7 @@ import { readdirSync, unlinkSync, rmSync } from 'fs'
 
 let handler = async (m, { conn, __dirname, args }) => {
 
-  let Sessions = "./sessions"
+  let Sessions = "./LynxSession"
   readdirSync(Sessions).forEach((file) => {
     if (file !== 'creds.json') {
       unlinkSync(`${Sessions}/${file}`, { recursive: true, force: true })
