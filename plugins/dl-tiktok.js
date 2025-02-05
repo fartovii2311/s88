@@ -49,7 +49,7 @@ let handler = async (m, { conn, args }) => {
     const videoData = await tiktokdl(url);
 
     if (videoData) {
-      let mensaje = `✅ *Descarga de TikTok completada* \n🎥 *Título:* ${videoData.title || "Desconocido"} \n👤 *Autor:* ${videoData.author} \n📌 *Fuente:* ${videoData.source.toUpperCase()}`;
+      let mensaje = `✅ *Descarga de TikTok completada* \n🎥 *Título:* ${videoData.title || "Desconocido"} \n👤 *Autor:* ${videoData.author} \n📌 *Fuente:* ${videoData.source.toUpperCase()}\n\n> ${dev}`;
       await conn.sendFile(m.chat, videoData.play_url, 'video.mp4', mensaje, m);
       await m.react('✅');
     } else {
