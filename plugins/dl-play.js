@@ -29,13 +29,13 @@ let handler = async (m, { conn, args }) => {
       footer: 'Haz clic en el botón para elegir el formato de descarga.',
       buttons: [
         {
-          buttonId: `.downloadMp3 https://youtu.be/${video.videoId}`,
+          buttonId: `.ytmp3 https://youtu.be/${video.videoId}`,
           buttonText: {
             displayText: 'Escuchar en MP3',
           },
         },
         {
-          buttonId: `.downloadMp4 https://youtu.be/${video.videoId}`,
+          buttonId: `.ytmp4 https://youtu.be/${video.videoId}`,
           buttonText: {
             displayText: 'Ver en MP4',
           },
@@ -53,9 +53,9 @@ let handler = async (m, { conn, args }) => {
   }
 };
 
-handler.help = ['reproducir *<texto>*'];
-handler.tags = ['descargar'];
-handler.command = ['reproducir'];
+handler.help = ['play *<texto>*'];
+handler.tags = ['dl'];
+handler.command = ['play'];
 
 export default handler;
 
