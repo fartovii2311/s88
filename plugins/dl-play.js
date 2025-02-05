@@ -17,38 +17,27 @@ let handler = async (m, { conn: star, command, args, text, usedPrefix }) => {
   try {
     let res = await search(args.join(" "))
     let video = res[0]
+    let videoUrl = `https://youtu.be/${video.videoId}`
 
     let txt = `🎬 *‌乂 Y O U T U B E  -  P L A Y 乂* 🎬\n\n`
     txt += `ﾒ *TITULO:* ${video.title}\n`
     txt += `ﾒ *DURACION:* ${secondString(video.duration.seconds)}\n`
     txt += `ﾒ *PUBLICACION:* ${eYear(video.ago)}\n`
     txt += `ﾒ *CANAL:* ${video.author.name || 'Desconocido'}\n`
-    txt += `ﾒ *URL:* https://youtu.be/${video.videoId}\n\n`
-    txt += `> ⬇️ Selecciona el formato de descarga:`
-
-    const thumbnailUrl = video.image
-    const videoUrl = `https://youtu.be/${video.videoId}`
+    txt += `ﾒ *URL:* ${videoUrl}\n\n`
+    txt += `> Elige una opción:`
 
     const buttons = [
-      { buttonId: `.ytmp4 ${videoUrl}`, buttonText: { displayText: '🎥 Video MP4' }, type: 1 },
-      { buttonId: `.ytmp3 ${videoUrl}`, buttonText: { displayText: '🎵 Audio MP3' }, type: 1 }
+      { buttonId: `.ytmp4 ${videoUrl}`, buttonText: { displayText: '🎥 Descargar MP4' }, type: 1 },
+      { buttonId: `.ytmp3 ${videoUrl}`, buttonText: { displayText: '🎵 Descargar MP3' }, type: 1 }
     ]
 
     await star.sendMessage(m.chat, {
       text: txt,
-      contextInfo: {
-        externalAdReply: {
-          title: video.title,
-          body: 'Selecciona un formato de descarga',
-          thumbnailUrl: thumbnailUrl,
-          sourceUrl: videoUrl,
-          mediaType: 1,
-          renderLargerThumbnail: true
-        }
-      },
+      footer: 'Lynx Bot',
       buttons: buttons,
-      headerType: 4
-    })
+      headerType: 1
+    }, { quoted: m })
 
     await m.react('✅')
   } catch (err) {
@@ -72,13 +61,22 @@ async function search(query, options = {}) {
 
 function secondString(seconds) {
   seconds = Number(seconds)
-  const h = Math.floor(seconds / 3600)
+  const d = Math.floor(seconds / (3600 * 24))
+  const h = Math.floor((seconds % (3600 * 24)) / 3600)
   const m = Math.floor((seconds % 3600) / 60)
   const s = Math.floor(seconds % 60)
-  return `${h > 0 ? h + 'h ' : ''}${m > 0 ? m + 'm ' : ''}${s}s`
+  const dDisplay = d > 0 ? d + (d == 1 ? ' Día, ' : ' Días, ') : ''
+  const hDisplay = h > 0 ? h + (h == 1 ? ' Hora, ' : ' Horas, ') : ''
+  const mDisplay = m > 0 ? m + (m == 1 ? ' Minuto, ' : ' Minutos, ') : ''
+  const sDisplay = s > 0 ? s + (s == 1 ? ' Segundo' : ' Segundos') : ''
+  return dDisplay + hDisplay + mDisplay + sDisplay
 }
 
 function eYear(txt) {
   if (!txt) return '×'
-  return txt.replace('ago', 'hace')
+  if (txt.includes('month ago')) return 'hace ' + txt.replace("month ago", "").trim() + ' mes'
+  if (txt.includes('months ago')) return 'hace ' + txt.replace("months ago", "").trim() + ' meses'
+  if (txt.includes('year ago')) return 'hace ' + txt.replace("year ago", "").trim() + ' año'
+  if (txt.includes('years ago')) return 'hace ' + txt.replace("years ago", "").trim() + ' años'
+  return txt
 }
