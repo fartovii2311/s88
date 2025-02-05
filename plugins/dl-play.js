@@ -28,8 +28,8 @@ let handler = async (m, { conn, args }) => {
             ],
             '', 
             [
-                ['🔍 Buscar otro', '.play'],
-                ['📂 Mis archivos', 'archivos']
+                ['🎶 Descargar MP3DOC', '.ytmp3doc https://youtu.be/${video.videoId}'],
+                ['📺 Descargar MP4DOC', '.ytmp4doc https://youtu.be/${video.videoId}']
             ], 
             m,
             {} 
