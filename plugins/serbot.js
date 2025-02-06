@@ -43,7 +43,9 @@ let handler = async (_0x229076, {
   command: _0x509ed3,
   isOwner: _0x49d59e
 }) => {
-  
+  if (!global.db.data.settings[_0x3b0d31.user.jid].jadibotmd) {
+    return _0x3b0d31.reply(_0x229076.chat, "☁️ Este Comando está deshabilitado por mi creador.", _0x229076, rcanal);
+  }
 const _0x4ea9f2 = _0x42414c[0x0] && /code/.test(_0x42414c[0x0].trim()) ? true : !!(_0x42414c[0x1] && /code/.test(_0x42414c[0x1].trim()));
 let _0x125157;
 let _0x214d0e;
@@ -342,9 +344,9 @@ if (_0x4ea9f2) {
     _0x5c4c72();
   });
 };
-handler.help = ['bot2'];
+handler.help = ['serbot', "serbot code"];
 handler.tags = ['serbot'];
-handler.command = ["bot2"];
+handler.command = ["jadibot", "serbot"];
 export default handler;
 function sleep(_0x3adb64) {
   return new Promise(_0x29b84a => setTimeout(_0x29b84a, _0x3adb64));
