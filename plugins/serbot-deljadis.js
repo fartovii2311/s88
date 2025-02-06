@@ -79,7 +79,7 @@ const replyMessage = message.length === 0 ? `No hay Sub-Bots disponible por el m
 const totalUsers = users.length;
 const responseMessage = `*S U B B O T S - L Y N X *\n\n_Total Subbots Activos :_ ${totalUsers || '0'}\n\n${replyMessage.trim()}`.trim();
 await m.react('☁️')
-await _envio.sendFile(m.chat, img, 'thumbnail.jpg', responseMessage, m, null, fake, false, { mentions: _envio.parseMention(responseMessage) })
+await conn.sendFile(m.chat, img, 'thumbnail.jpg', responseMessage, m, null, fake, false, { mentions: _envio.parseMention(responseMessage) })
 break   
 }}
 
