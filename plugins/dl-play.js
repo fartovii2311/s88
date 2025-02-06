@@ -5,7 +5,7 @@ let handler = async (m, { conn, args }) => {
 
     await m.react('⏳');
     try {
-        let searchResults = await searchVideos(args.join(" "));
+        let searchResults = await search(args.join(" "));
 
         if (!searchResults || searchResults.length === 0) {
             throw new Error('No se encontraron videos.');
@@ -54,19 +54,9 @@ handler.command = ['play'];
 
 export default handler;
 
-async function searchVideos(query) {
-    try {
-        let search = await yts.search({ query, hl: "es", gl: "ES", pages: 5 });
-
-        let filteredVideos = search.videos
-            .filter(v => v.seconds > 0) // Se quita el filtro de coincidencia exacta
-            .sort((a, b) => b.views - a.views);
-
-        return filteredVideos;
-    } catch (error) {
-        console.error("Error en la búsqueda de videos:", error);
-        return [];
-    }
+async function search(query, options = {}) {
+    let search = await yts.search({ query, hl: "es", gl: "ES", ...options });
+    return search.videos;
 }
 
 function formatDuration(seconds) {
