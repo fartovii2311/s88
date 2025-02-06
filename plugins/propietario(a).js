@@ -33,22 +33,22 @@ console.log(e)
 
 switch (true) {     
 case isCommand1:
-const databaseFolder = './storage/data/database.json'
-const zipPath = './database_backup.zip'
-  
-if (!fs.existsSync(databaseFolder)) {
-await m.reply('⚠️ La carpeta *.database* no existe.')
-return
+const databasePath = './storage/data/database.json';
+const zipPath = './database_backup.zip';
+
+if (!fs.existsSync(databasePath)) {
+  await m.reply('⚠️ El archivo *database.json* no existe.');
+  return;
 }
 
 if (conn.user.jid != global.conn.user.jid) {
-if (!fs.existsSync(`./LynxSession/${conn.user.jid.split`@`[0]}/creds.json`)) {
-await m.reply('⚠️ El archivo *creds.json* del Sub Bot no existe.')
-return
-}
+  if (!fs.existsSync(`./LynxSession/${conn.user.jid.split`@`[0]}/creds.json`)) {
+    await m.reply('⚠️ El archivo *creds.json* del Sub Bot no existe.');
+    return;
+  }
 } else if (!fs.existsSync('./LynxSession/creds.json')) {
-await m.reply('⚠️ El archivo *creds.json* no existe.')
-return
+  await m.reply('⚠️ El archivo *creds.json* no existe.');
+  return;
 }
 
 await m.reply(`_*🗂️ Preparando envío de base de datos...*_`)
