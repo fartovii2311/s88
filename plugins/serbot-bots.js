@@ -1,4 +1,4 @@
-/*import ws from 'ws'
+import ws from 'ws'
 
 async function handler(m, { conn: stars, usedPrefix }) {
   let uniqueUsers = new Map()
@@ -25,4 +25,3 @@ handler.command = ['listjadibot', 'bots']
 handler.help = ['bots']
 handler.tags = ['serbot']
 export default handler
-*/
