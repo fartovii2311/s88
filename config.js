@@ -72,7 +72,7 @@ global.APIKeys = {
   'https://api.botcahx.biz.id': 'Admin',
   'https://api.ibeng.tech/docs': 'tamvan',
   'https://api.itsrose.site': 'Rs-Zeltoria',
-  'https://api-xcoders.site': 'Frieren'
+  'https://api-xcoders.site': 'Frieren',
   'https://dark-core-api.vercel.app': 'user1',
 }
 
