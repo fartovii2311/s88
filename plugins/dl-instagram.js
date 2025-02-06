@@ -29,7 +29,6 @@ handler.command = ['ig', 'igdl', 'instagram'];
 handler.tags = ['dl'];
 handler.help = ['ig *<link>*'];
 handler.register = true 
-handler.Monedas = 1
 export default handler;
 
 let instagramdl = async (url) => {
