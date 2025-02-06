@@ -34,5 +34,4 @@ handler.help = ['ytmp3doc *<url>*'];
 handler.tags = ['dl'];
 handler.command = /^ytmp3doc|ytadoc$/i;
 handler.register = true;
-handler.Monedas = 10
 export default handler;
