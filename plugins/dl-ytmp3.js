@@ -2,84 +2,60 @@ import fetch from 'node-fetch';
 import axios from 'axios';
 
 const handler = async (m, { conn, text }) => {
-  
   if (!text) throw `❌ Proporcióname el enlace de YouTube para que pueda ayudarte. 🎵`;
 
   await m.react('🕓');
 
   try {
-    const response1 = await fetch(`https://api.davidcyriltech.my.id/download/ytmp3?url=${encodeURIComponent(text)}`);
-    const result1 = await response1.json();
+    const apis = [
+      { url: `https://api.davidcyriltech.my.id/download/ytmp3?url=${encodeURIComponent(text)}`, type: 'fetch', key: 'result.download_url' },
+      { url: `https://dark-core-api.vercel.app/api/download/ytmp3?url=${encodeURIComponent(text)}&type=audio&format=mp3&key=api`, type: 'fetch', key: 'downloadLink' },
+      { url: `https://api.siputzx.my.id/api/d/ytmp3?url=${encodeURIComponent(text)}`, type: 'axios', key: 'data.dl' },
+      { url: `https://mahiru-shiina.vercel.app/download/ytmp3?url=${encodeURIComponent(text)}`, type: 'axios', key: 'data.download' }
+    ];
 
-    if (result1.status === 200 && result1.success && result1.result && result1.result.download_url) {
-      await conn.sendMessage(
-        m.chat,
-        { 
-          audio: { url: result1.result.download_url }, 
-          mimetype: 'audio/mpeg', 
-          ptt: false 
-        },
-        { quoted: m }
-      );
-      await m.react('✅');
-      return;
-    }
+    for (const api of apis) {
+      try {
+        let response;
+        if (api.type === 'fetch') {
+          const res = await fetch(api.url);
+          response = await res.json();
+        } else {
+          const res = await axios.get(api.url);
+          response = res.data;
+        }
 
-    const response2 = await fetch(`https://dark-core-api.vercel.app/api/download/ytmp3?url=${encodeURIComponent(text)}&type=audio&format=mp3&key=api`);
-    const result2 = await response2.json();
+        const downloadUrl = api.key.split('.').reduce((obj, key) => obj?.[key], response);
+        if (downloadUrl) {
+          const title = response.data?.title || "YouTube Audio";
+          const thumbnail = response.data?.thumbnail || "https://i.imgur.com/YyPH9hZ.jpeg";
 
-    if (result2.success && result2.downloadLink) {
-      await conn.sendMessage(
-        m.chat,
-        { 
-          audio: { url: result2.downloadLink }, 
-          mimetype: 'audio/mpeg', 
-          ptt: false 
-        },
-        { quoted: m }
-      );
-      await m.react('✅');
-      return;
-    }
+          let externalAdReply = {
+            showAdAttribution: true,
+            mediaType: 2,
+            mediaUrl: text,
+            title: title,
+            sourceUrl: text,
+            thumbnail: thumbnail
+          };
 
-    const response3 = await axios.get(`https://api.siputzx.my.id/api/d/ytmp3?url=${encodeURIComponent(text)}`);
-    const data3 = response3.data;
+          await conn.sendMessage(
+            m.chat,
+            { 
+              audio: { url: downloadUrl }, 
+              mimetype: 'audio/mpeg', 
+              ptt: false, 
+              contextInfo: { externalAdReply } 
+            },
+            { quoted: m }
+          );
 
-    if (data3.status === true && data3.data.dl) {
-      const downloadUrl = data3.data.dl;
-      const title = data3.data.title || "Desconocido";
-      
-      await conn.sendMessage(
-        m.chat,
-        { 
-          audio: { url: downloadUrl }, 
-          mimetype: 'audio/mpeg', 
-          ptt: false 
-        },
-        { quoted: m }
-      );
-      await m.react('✅');
-      return;
-    }
-
-    const response4 = await axios.get(`https://mahiru-shiina.vercel.app/download/ytmp3?url=${encodeURIComponent(text)}`);
-    const data4 = response4.data;
-
-    if (data4.status === true) {
-      const downloadUrl = data4.data.download;
-      const title = data4.data.title || "Desconocido";
-
-      await conn.sendMessage(
-        m.chat,
-        { 
-          audio: { url: downloadUrl }, 
-          mimetype: 'audio/mpeg', 
-          ptt: false 
-        },
-        { quoted: m }
-      );
-      await m.react('✅');
-      return;
+          await m.react('✅');
+          return;
+        }
+      } catch (err) {
+        console.error(`Error en la API: ${api.url}`, err.message);
+      }
     }
 
     throw new Error('No se pudo obtener el enlace de descarga de ninguna API');
@@ -94,4 +70,5 @@ handler.help = ['ytmp3 *<url>*'];
 handler.tags = ['dl'];
 handler.command = ['ytmp3'];
 handler.register = true;
+
 export default handler;
