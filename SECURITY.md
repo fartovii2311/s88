@@ -38,7 +38,7 @@ Este proyecto admite las siguientes versiones con actualizaciones de seguridad:
 
 Si encuentras alguna vulnerabilidad, por favor repórtala siguiendo los pasos a continuación:
 
-1. Dirígete a nuestra página oficial de [Soporte](https://tusitio.com/soporte) para reportar vulnerabilidades.
+1. Dirígete a nuestra página oficial de [Soporte](https://dark-core-api.vercel.app/docs) para reportar vulnerabilidades.
 2. Las actualizaciones sobre tu reporte llegarán dentro de las 48 horas.
 3. Si la vulnerabilidad es aceptada, se implementará una corrección en las próximas actualizaciones.
 4. Si es rechazada, te proporcionaremos detalles sobre los motivos.
@@ -46,7 +46,6 @@ Si encuentras alguna vulnerabilidad, por favor repórtala siguiendo los pasos a 
 ---
 
 ### 📸 Imagen de Lynx - Ai
-![Lynx - Ai](https://dark-core-api.vercel.app/favicon.ico)
+<img src="https://dark-core-api.vercel.app/favicon.ico" alt="Lynx - Ai" width="200" />
 
 Gracias por elegir **Lynx - Ai**. ¡Disfruta del software!
-
