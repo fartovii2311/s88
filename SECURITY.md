@@ -46,7 +46,7 @@ Si encuentras alguna vulnerabilidad, por favor repórtala siguiendo los pasos a 
 ---
 
 ### 📸 Imagen de Lynx - Ai
-![Lynx - Ai](https://tusitio.com/imagen-licencia.png)
+![Lynx - Ai](https://dark-core-api.vercel.app/favicon.ico)
 
 Gracias por elegir **Lynx - Ai**. ¡Disfruta del software!
 
