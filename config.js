@@ -73,6 +73,7 @@ global.APIKeys = {
   'https://api.ibeng.tech/docs': 'tamvan',
   'https://api.itsrose.site': 'Rs-Zeltoria',
   'https://api-xcoders.site': 'Frieren'
+  'https://dark-core-api.vercel.app': 'user1',
 }
 
 global.packsticker = `【 ✫ 𝚃𝙴𝙰𝙼  乂 𝙳𝙰𝚁𝙺 - 𝙾𝙵𝙸𝙲𝙸𝙰𝙻 ✫ 】` //stiker
@@ -100,10 +101,14 @@ global.icons = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
-global.apis = [
-  'https://dark-core-api.vercel.app/docs', 'user1',
-
-];
+global.ch = {
+ch1: '120363377833048768@newsletter', //Nino Nakano Bot
+ch2: '120363323775906071@newsletter', //Free Codes Titans
+ch3: '120363220939514640@newsletter', //Genesis Bot
+ch4: '120363368073378190@newsletter', //Crow Bot
+ch5: '120363374486687514@newsletter', //Lynx Bot
+ch6: '120363183614708156@newsletter', //Sylphiette's Bot
+}
 
 global.canal = 'https://whatsapp.com/channel/0029Vaxb5xr7z4koGtOAAc1Q'
 
