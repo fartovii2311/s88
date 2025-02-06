@@ -27,6 +27,4 @@ const handler = async (m, { conn }) => {
 handler.help = ['tiktokrandom'];
 handler.tags = ['dl', 'fun'];
 handler.command = ['tiktokrandom', 'tiktokrand'];
-handler.register = true;
-
 export default handler;
