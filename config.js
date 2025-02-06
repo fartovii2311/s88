@@ -36,6 +36,7 @@ global.baileys = '@whiskeysockets/baileys'
 global.apis = 'https://delirius-apiofc.vercel.app'
 
 global.jadi = 'LynxJadiBot'
+global.rutaJadiBot = 'LynxJadiBot'
 global.lenguajeGB = es 
 global.gataJadibts = true
 
@@ -188,7 +189,6 @@ global.cheerio = cheerio
 global.fs = fs
 global.fetch = fetch
 global.axios = axios
-global.mods = [] 
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
