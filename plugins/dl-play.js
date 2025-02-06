@@ -67,6 +67,9 @@ function formatDuration(seconds) {
 }
 
 function convertTimeToSpanish(timeText) {
+    if (!timeText || typeof timeText !== 'string') {
+        return 'Fecha desconocida';
+    }
     return timeText
         .replace(/year/g, 'año').replace(/years/g, 'años')
         .replace(/month/g, 'mes').replace(/months/g, 'meses')
