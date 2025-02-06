@@ -189,7 +189,6 @@ global.fs = fs
 global.fetch = fetch
 global.axios = axios
 global.mods = [] 
-global.moment = moment	
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
