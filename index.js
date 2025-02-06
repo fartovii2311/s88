@@ -513,7 +513,7 @@ console.log(chalk.bold.cyanBright(`\n╭» ⚪ LynxJadiBot ⚪\n│→ ARCHIVOS 
 console.log(chalk.bold.red(`\n╭» 🔴  LynxJadiBot 🔴\n│→ OCURRIÓ UN ERROR\n╰― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― 🗑️♻️\n` + err))
 }}
 function purgeOldFiles() {
-const directories = ['./LynxJadiBot/', './LynxJadiBot/']
+const directories = ['./LynxSession/', './LynxJadiBot/']
 directories.forEach(dir => {
 readdirSync(dir, (err, files) => {
 if (err) throw err
