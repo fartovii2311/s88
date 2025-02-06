@@ -15,12 +15,15 @@ let handler = async (m, { conn, command, text, usedPrefix }) => {
     if (jsonDL && jsonDL.status && jsonDL.data) {
       let { title, image, url: musicUrl } = jsonDL.data;
 
+      let thumbnail = await (await conn.getFile(image)).data;
+
       let externalAdReply = {
-        title: title,
-        thumbnailUrl: image,
-        mediaType: 1,
+        showAdAttribution: true,
+        mediaType: 2,
         mediaUrl: musicUrl,
-        sourceUrl: musicUrl
+        title: title,
+        sourceUrl: musicUrl,
+        thumbnail: thumbnail
       };
 
       await conn.sendMessage(m.chat, {
@@ -41,12 +44,15 @@ let handler = async (m, { conn, command, text, usedPrefix }) => {
       if (result.status === 200 && result.result?.status) {
         const { title, artists, cover, music } = result.result;
 
+        let thumbnail = await (await conn.getFile(cover)).data;
+
         let externalAdReply = {
-          title: title,
-          thumbnailUrl: cover,
-          mediaType: 1,
+          showAdAttribution: true,
+          mediaType: 2,
           mediaUrl: music,
-          sourceUrl: music
+          title: title,
+          sourceUrl: music,
+          thumbnail: thumbnail
         };
 
         await conn.sendMessage(m.chat, {
