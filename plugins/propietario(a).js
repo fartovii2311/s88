@@ -1,9 +1,12 @@
 let handler = async function (m, { conn, text, usedPrefix }) {
-    const isCommand1 = /^(backup|respaldo|copia)$/i.test(command)
+    const command = text.trim().split(' ')[0];  // Extract the command from the text
+    const isCommand1 = /^(backup|respaldo|copia)$/i.test(command);
+
     switch (true) {
         case isCommand1:
             const databasePath = './storage/data/database.json';
             const zipPath = './database_backup.zip';
+            const databaseFolder = './storage/data';  // Ensure this folder path is correct
 
             if (!fs.existsSync(databasePath)) {
                 await m.reply('⚠️ El archivo *database.json* no existe.');
@@ -42,10 +45,10 @@ let handler = async function (m, { conn, text, usedPrefix }) {
                 });
 
                 archive.pipe(output);
-                archive.directory(databaseFolder, false);
+                archive.directory(databaseFolder, false);  // Make sure the folder exists
                 archive.finalize();
             } catch (e) {
-                reportError(e);
+                reportError(e);  // Ensure reportError is defined
             }
             break;
     }
