@@ -1,4 +1,5 @@
 let handler = async function (m, { conn, text, usedPrefix }) {
+    const isCommand1 = /^(backup|respaldo|copia)$/i.test(command)
     switch (true) {
         case isCommand1:
             const databasePath = './storage/data/database.json';
