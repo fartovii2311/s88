@@ -32,9 +32,9 @@ if (!fs.existsSync("./LynxJadiBot/" + authFolderB)) {
 fs.mkdirSync("./LynxJadiBot/" + authFolderB, { recursive: true });
 }
 if (args[0]) {
-fs.writeFileSync(`Lynxbot/creds.json`, Buffer.from(args[0], 'base64').toString('utf-8'))
+fs.writeFileSync(`LynxJadiBot/creds.json`, Buffer.from(args[0], 'base64').toString('utf-8'))
 }
-const { state, saveState, saveCreds } = await useMultiFileAuthState(`./Lynxbot/${authFolderB}`);
+const { state, saveState, saveCreds } = await useMultiFileAuthState(`./LynxJadiBot/${authFolderB}`);
 const msgRetryCounterMap = (MessageRetryMap) => { };
 const msgRetryCounterCache = new NodeCache();
 const { version } = await fetchLatestBaileysVersion();
