@@ -231,8 +231,8 @@ loadChatgptDB();
 /* ------------------------------------------------*/
 
 global.creds = 'creds.json'
-global.authFile = `GataBotSession`
-global.authFileJB  = 'GataJadiBot'
+global.authFile = `LynxSession`
+global.authFileJB  = 'LynxJadiBot'
 global.rutaBot = join(__dirname, authFile)
 global.rutaJadiBot = join(__dirname, authFileJB)
 const respaldoDir = join(__dirname, 'BackupSession');
@@ -344,49 +344,6 @@ defaultQueryTimeoutMs: undefined,
 version: [2, 3000, 1015901307]
 }
 
-/*const supportedLanguages = ['es', 'en', 'pt', 'ar', 'id']
-const configPath = path.join(__dirname, 'config.js')
-let configContent = fs.readFileSync(configPath, 'utf8')
-if (!global.languageLen) {
-promptLoop()
-} else {
-console.log(chalk.bold.greenBright(lenguajeGB.languageSave()))}
-function promptLoop() {
-console.log(`
-╭⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯ 𓃠             
-┆ • ${chalk.bold.magentaBright('Select a language.')}
-┆ • ${chalk.bold.magentaBright('Seleccione un idioma.')}
-╰⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯ 𓃠           
-┆ ${chalk.bold.cyanBright('1')} → ${chalk.bold.greenBright('"es" (Español)')}
-┆ ${chalk.bold.cyanBright('2')} → ${chalk.bold.greenBright('"en" (English)')}
-┆ ${chalk.bold.cyanBright('3')} → ${chalk.bold.greenBright('"pt" (Português)')}
-┆ ${chalk.bold.cyanBright('4')} → ${chalk.bold.greenBright('"ar" (عرب / Arab)')}
-┆ ${chalk.bold.cyanBright('5')} → ${chalk.bold.greenBright('"id" (Indonesia)')}
-┆ ${chalk.bold.cyanBright('6')} → ${chalk.bold.greenBright('(Omitir / Skip)')}
-╰⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯ 𓃠         
-⚠️ ${chalk.bold.yellowBright('If you choose to skip, you will not have the opportunity to change the language later through the console.')}
-⚠️ ${chalk.bold.yellowBright('Si elige omitir, no tendrá oportunidad de cambiar el idioma más tarde a través de la consola.')}\n
-⬇️  ⬇️  ⬇️`.trim())
-const options = ['es', 'en', 'pt', 'ar', 'id', 'Omitir / Skip']
-const formattedOptions = options.map(option => chalk.bold.blueBright(option))
-const selectedOptionIndex = readlineSync.keyInSelect(formattedOptions, `${chalk.bold.magentaBright('Write the number of the option.\nEscriba el número de la opción.\n--->')} `, { cancel: false })
-if (selectedOptionIndex >= 0 && selectedOptionIndex <= 4) {
-const selectedLanguage = supportedLanguages[selectedOptionIndex]
-configContent = configContent.replace('global.languageLen = ""', 'global.languageLen = true')
-configContent = configContent.replace('global.lenguajeGB = es', `global.lenguajeGB = ${selectedLanguage}`)
-fs.writeFileSync(configPath, configContent, 'utf8')
-console.log(chalk.bold.cyanBright(lenguajeGB.languageRegister(selectedLanguage)))
-} else if (selectedOptionIndex === 5) {
-configContent = configContent.replace('global.languageLen = ""', 'global.languageLen = true')
-fs.writeFileSync(configPath, configContent, 'utf8')
-console.log(chalk.bold.cyanBright(`\n🆗 Ignoring language settings.`))
-console.log(chalk.bold.cyanBright(`🆗 Omitiendo la configuración del idioma.\n`))
-} else {
-console.log(chalk.bold.redBright(`\n❌ Invalid option. Remember to write only the number of the option.`))
-console.log(chalk.bold.redBright(`❌ Opción no válida. Recuerde escribir sólo el número de la opción.\n`))
-process.send('reset')
-}}*/
-
 global.conn = makeWASocket(connectionOptions)
 if (!fs.existsSync(`./${authFile}/creds.json`)) {
 if (opcion === '2' || methodCode) {
@@ -417,7 +374,7 @@ conn.well = false
 if (!opts['test']) {
 if (global.db) setInterval(async () => {
 if (global.db.data) await global.db.save()
-if (opts['autocleartmp'] && (global.support || {}).find) (tmp = [os.tmpdir(), 'tmp', "GataJadiBot"], tmp.forEach(filename => cp.spawn('find', [filename, '-amin', '2', '-type', 'f', '-delete'])))}, 30 * 1000)}
+if (opts['autocleartmp'] && (global.support || {}).find) (tmp = [os.tmpdir(), 'tmp', "LynxJadiBot"], tmp.forEach(filename => cp.spawn('find', [filename, '-amin', '2', '-type', 'f', '-delete'])))}, 30 * 1000)}
 
 if (global.obtenerQrWeb === 1) (await import('./server.js')).default(global.conn, PORT)
 
