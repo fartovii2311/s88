@@ -1,4 +1,4 @@
-Licencia de Uso de Lynx - Ai
+## Licencia de Uso de Lynx - Ai
 
 Derechos de autor (c) [Año] [Tu Nombre o Empresa]. Todos los derechos reservados.
 Se otorga permiso, sin cargo, a cualquier persona que obtenga una copia del software y los archivos asociados ("Software"), para usar el Software de acuerdo con los términos de esta licencia:
