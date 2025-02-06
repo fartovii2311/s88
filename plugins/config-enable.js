@@ -339,7 +339,7 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
 │ ➤ AntiSpam: ${chat.antiSpam ? '✅' : '❌'}
 │ ➤ JadiBotMD: ${chat.jadibotmd ? '✅' : '❌'}
 │ ➤ AutoReacionar: ${chat.reaction ? '✅' : '❌'}
-╰───────────────╯`, m, rcanal)
+╰───────────────╯`, m, rcanal,menu)
       throw false
   }
  conn.reply(m.chat, `🚩 La función *${type}* se *${isEnable ? 'activó' : 'desactivó'}* ${isAll ? 'para este Bot' : isUser ? '' : 'para este chat'}`, m, rcanal)
