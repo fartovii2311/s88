@@ -6,42 +6,35 @@ let Reg = /\|?(.*)([.|] *?)([0-9]*)$/i;
 
 let handler = async function (m, { conn, text, usedPrefix, command }) {
   let user = global.db.data.users[m.sender];
-  let name2 = conn.getName(m.sender);
+  let name2 = conn.getName(m.sender) || 'Usuario';
 
   if (user.registered) return m.reply('✨ Ya estás registrado.');
 
-  if (!Reg.test(text) && command !== 'verificar') {
-    return conn.reply(
-      m.chat,
-      `🌟 *Registro requerido*\n\nPor favor, utiliza el formato:\n\`${usedPrefix + command} <nombre.edad>\`\n\nEjemplo:\n\`${usedPrefix + command} LynxAI.18\``,
-      m
-    );
-  }
-
   let name, age;
   if (command === 'verificar') {
-    name = name2.trim();
-    age = 18;
-    if (!name || isNaN(age) || age < 1 || age > 100) {
+    name = name2.trim() || 'Usuario';
+    age = 18; // Edad por defecto si es "verificar"
+  } else {
+    if (!Reg.test(text)) {
       return conn.reply(
         m.chat,
-        `❌ *Registro fallido*\n\nNo se pudo obtener un nombre o edad válidos.\nUsa el formato:\n\`${usedPrefix + command} <nombre.edad>\``,
+        `🌟 *Registro requerido*\n\nPor favor, usa el formato:\n\`${usedPrefix + command} <nombre.edad>\`\nEjemplo:\n\`${usedPrefix + command} LynxAI.18\``,
         m
       );
     }
-  } else {
+
     let [_, n, splitter, a] = text.match(Reg);
     name = n.trim();
     age = parseInt(a);
+    
     if (!name) return conn.reply(m.chat, '❌ El nombre no puede estar vacío.', m);
     if (!age || age < 1 || age > 100) {
-      return conn.reply(m.chat, '❌ La edad debe ser entre 1 a 100 años.', m);
+      return conn.reply(m.chat, '❌ La edad debe estar entre 1 y 100 años.', m);
     }
   }
 
   let idioma = determinarIdiomaPorNumero(m.sender.replace('@s.whatsapp.net', ''));
   user.DKLanguage = idioma;
-
   user.name = name;
   user.age = age;
   user.regTime = +new Date();
@@ -64,9 +57,10 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
             `🌟 *Bienvenido a la comunidad Dark Team.*`;
 
   try {
-    await conn.sendFile(m.chat, imgURL, 'imagen.jpg', m, rcanal,fake);
+    await conn.sendFile(m.chat, imgURL, 'registro.jpg', txt, m, rcanal, fake);
   } catch (err) {
     console.error("Error al enviar el mensaje al usuario:", err);
+    return conn.reply(m.chat, '❌ Hubo un problema al enviarte el registro.', m);
   }
 
   let channelId = '120363372958306577@newsletter';
@@ -87,19 +81,6 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
           `╰─────────── ✦ ✦ ────────────╯\n\n` +
           `🌟 _“Unidos, somos más fuertes.”_`,
         footer: '> ✨ Dark Team Oficial',
-        headerType: 4,
-        contextInfo: {
-          forwardingScore: 999,
-          isForwarded: true,
-          externalAdReply: {
-            title: 'Registros Lynx',
-            body: 'Dark Team Oficial',
-            thumbnailUrl: imgURL,
-            mediaType: 1,
-            mediaUrl: 'https://darkteam.com',
-            sourceUrl: 'https://darkteam.com',
-          },
-        },
       }
     );
   } catch (err) {
