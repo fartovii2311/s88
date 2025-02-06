@@ -73,7 +73,16 @@ process.exit(0);
 setTimeout(async () => {
 let codeBot = await conn.requestPairingCode(cleanedNumber);
 codeBot = codeBot?.match(/.{1,4}/g)?.join("-") || codeBot;
-let txt = '🌸 S E R B O T - S U B B O T 🌸\n\n*Usa este Código para convertirte en un Sub Bot*\n\n🌸 Pasos:\n\n`🌸` : Haga click en los 3 puntos\n\n`🌸` : Toque dispositivos vinculados\n\n`🌸` : Selecciona Vincular con el número de teléfono\n\n`🌸` : Escriba el Codigo\n\n> *Nota:* Este Código solo funciona en el número que lo solicito.';
+// Definir los botones
+const buttons = [
+  ['Vincular Cuenta', 'vincular']  // Button Text and Button Id
+];
+
+// Enviar el mensaje con el botón
+await conn.sendButton(m.chat, txt, '¡Instrucciones!', null, buttons, m);
+
+// Enviar el código de vinculación
+await conn.reply(m.chat, codeBot, m);let txt = '🌸 S E R B O T - S U B B O T 🌸\n\n*Usa este Código para convertirte en un Sub Bot*\n\n🌸 Pasos:\n\n`🌸` : Haga click en los 3 puntos\n\n`🌸` : Toque dispositivos vinculados\n\n`🌸` : Selecciona Vincular con el número de teléfono\n\n`🌸` : Escriba el Codigo\n\n> *Nota:* Este Código solo funciona en el número que lo solicito.';
   
 const buttons = [
   {
