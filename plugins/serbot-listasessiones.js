@@ -1,4 +1,4 @@
-import { readdirSync } from "fs";
+/*import { readdirSync } from "fs";
 import { exec } from "child_process";
 
 let handler = async (m, { conn: parentw }) => {
@@ -32,3 +32,4 @@ async function checkSessionActive(session) {
     });
   });
 }
+*/
