@@ -313,7 +313,6 @@ sock.sIcon = lenguajeGB['smsSicon']()
 sock.sRevoke = lenguajeGB['smsSrevoke']()
 
 sock.handler = handler.handler.bind(sock)
-sock.groupsUpdate = handler.groupsUpdate.bind(sock)
 sock.onDelete = handler.deleteUpdate.bind(sock)
 sock.onCall = handler.callUpdate.bind(sock)
 sock.connectionUpdate = connectionUpdate.bind(sock)
