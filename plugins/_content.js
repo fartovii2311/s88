@@ -2,10 +2,10 @@ import fetch from 'node-fetch'
 import moment from 'moment-timezone'
 import axios from 'axios'
 import fs from 'fs'
-const { generateWAMessageFromContent, prepareWAMessageMedia, proto }  = (await import('@whiskeysockets/baileys'))
+const { generateWAMessageFromContent, prepareWAMessageMedia, proto } = (await import('@whiskeysockets/baileys'))
 
 let handler = m => m
-handler.before = async function (m, { conn } ) {
+handler.before = async function (m, { conn }) {
 
 // redes
 global.tk = 'https://www.tiktok.com/@gata_dios'
@@ -26,7 +26,7 @@ global.canal3 = "https://whatsapp.com/channel/"
 global.canal4 = "https://whatsapp.com/channel/"
 global.canal5 = "https://whatsapp.com/channel/"
 
-// grupos (algunos pueden estar repetidos con otros, es temporal)
+// grupos 
 global.nna = 'https://whatsapp.com/channel/' //CANAL UPDATE
 global.nn2 = 'https://t.me/'
 global.nna2 = 'https://chat.whatsapp.com/' //Help
@@ -41,7 +41,6 @@ global.nnnttt3 = 'https://chat.whatsapp.com/' //Grupo 8 COL
 global.nnnttt4 = 'https://chat.whatsapp.com/' //Grupo 9 COL
 global.nnnttt5 = 'https://chat.whatsapp.com/' //A.T.M.M
 
-// Imágenes locales
 // Imágenes en la nube
 global.img = 'https://i.imgur.com/AwlL9kc.jpeg'
 global.img2 = 'https://i.imgur.com/p18q1Ok.jpeg'
@@ -61,29 +60,87 @@ global.img17 = 'https://i.imgur.com/Y3ZWq7z.jpeg'
 global.img18 = 'https://i.imgur.com/kaUN1Nz.jpeg'
 global.img19 = 'https://i.imgur.com/7yJ22hJ.jpeg'
 global.img20 = 'https://i.imgur.com/qcD353P.jpeg'
-global.img21 = 'https://i.imgur.com/3fJTaX6.jpeg'
 global.img21 = 'https://i.imgur.com/akofqcE.jpeg' 
 
 global.welgata = [ig, yt2, yt2, ig, md, ig, yt, paypal, yt2, yt2, ig, fb, tg]
 global.redesMenu = [nna, nn2, nn, nnn, nnnt, nnntt, nnnttt, nnnttt1, nnnttt2, nnnttt3, nnnttt4, md, ig, paypal, yt, asistencia, fb, tg]
 global.gataMenu = [img, img2, img6, img7, img8, img9, img13, img14, img15, img17, img18, img19, img20, img21]
 global.gataImg = [img, img2, img6, img7, img8, img9, img13, img14, img15, img17, img18, img19, img20, img2]
+
+// Fix getRandom()
 global.accountsgb = [canal1, canal2, canal3, canal4, canal5, tk, ig, yt, paypal, fb, ths, md, asistencia, tg][Math.floor(Math.random() * 15)]
 
 global.canalIdGB = ["120363374486687514@newsletter", "120363323775906071@newsletter"]
 global.canalNombreGB = ["Lynx - AI 💫", "Free Code Titans🐈"]
-global.channelRD = await getRandomChannel()
 
-global.fakeChannel = { contextInfo: { mentionedJid: null, forwardingScore: 1, isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: channelRD.id, serverMessageId: '', newsletterName: channelRD.name }, externalAdReply: { title: wm, body: vs, mediaType: 1, renderLargerThumbnail: false, previewType: `PHOTO`, thumbnailUrl: gataImg.getRandom(), thumbnail: img, sourceUrl: accountsgb }}}, { quoted: m }
-global.fakeChannel2 = { mentionedJid: [m.sender], isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: channelRD.id, newsletterName: channelRD.name, serverMessageId: -1 }, forwardingScore: 200, externalAdReply: { title: packname, body: author, thumbnailUrl: gataMenu.getRandom(), sourceUrl: accountsgb, mediaType: 1, renderLargerThumbnail: false }}
-global.fkontak = { "key": { "participants":"0@s.whatsapp.net", "remoteJid": "status@broadcast", "fromMe": false, "id": "Halo" }, "message": { "contactMessage": { "vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD` }}, "participant": "0@s.whatsapp.net" }
+// Obtener canal aleatorio
+let channelRD = await getRandomChannel()
+
+global.fakeChannel = { 
+  contextInfo: { 
+    mentionedJid: null, 
+    forwardingScore: 1, 
+    isForwarded: true, 
+    forwardedNewsletterMessageInfo: { 
+      newsletterJid: channelRD.id, 
+      serverMessageId: '', 
+      newsletterName: channelRD.nombre 
+    }, 
+    externalAdReply: { 
+      title: "Título personalizado", 
+      body: "Descripción personalizada", 
+      mediaType: 1, 
+      renderLargerThumbnail: false, 
+      previewType: `PHOTO`, 
+      thumbnailUrl: gataImg[Math.floor(Math.random() * gataImg.length)], 
+      thumbnail: img, 
+      sourceUrl: accountsgb 
+    }
+  }, 
+  quoted: m 
+}
+
+global.fakeChannel2 = { 
+  mentionedJid: [m.sender], 
+  isForwarded: true, 
+  forwardedNewsletterMessageInfo: { 
+    newsletterJid: channelRD.id, 
+    newsletterName: channelRD.nombre, 
+    serverMessageId: -1 
+  }, 
+  forwardingScore: 200, 
+  externalAdReply: { 
+    title: "Nombre del paquete", 
+    body: "Autor del paquete", 
+    thumbnailUrl: gataMenu[Math.floor(Math.random() * gataMenu.length)], 
+    sourceUrl: accountsgb, 
+    mediaType: 1, 
+    renderLargerThumbnail: false 
+  }
+}
+
+global.fkontak = { 
+  "key": { 
+    "participant": "0@s.whatsapp.net", 
+    "remoteJid": "status@broadcast", 
+    "fromMe": false, 
+    "id": "Halo" 
+  }, 
+  "message": { 
+    "contactMessage": { 
+      "vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD` 
+    }
+  }, 
+  "participant": "0@s.whatsapp.net" 
+}
 
 }
 export default handler
 
 async function getRandomChannel() {
-let randomIndex = Math.floor(Math.random() * canalIdGB.length)
-let id = canalIdGB[randomIndex]
-let nombre = canalNombreGB[randomIndex]
-return { id, nombre }
-} 	
+  let randomIndex = Math.floor(Math.random() * global.canalIdGB.length)
+  return { 
+    id: global.canalIdGB[randomIndex], 
+    nombre: global.canalNombreGB[randomIndex] 
+  }
+}
