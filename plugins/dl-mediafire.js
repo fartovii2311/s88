@@ -48,5 +48,5 @@ handler.help = ['mediafire *<url>*'];
 handler.tags = ['dl'];
 handler.command = ['mediafire'];
 handler.register = true;
-handler.Monedas = 1;
+handler.Monedas = 5;
 export default handler;
