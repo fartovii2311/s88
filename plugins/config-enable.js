@@ -334,11 +334,11 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
 │ ➤ AntiLink: ${chat.antiLink ? '✅' : '❌'}
 │ ➤ AntiPrivado: ${bot.antiPrivate ? '✅' : '❌'}
 │ ➤ AutoRead: ${global.opts['autoread'] ? '✅' : '❌'}
-│ ➤ Restrict: ${bot.restrict ? '✅' : '❌'}
-│ ➤ Autobio: ${bot.autobio ? '✅' : '❌'}
-│ ➤ AntiSpam: ${bot.antiSpam ? '✅' : '❌'}
-│ ➤ JadiBotMD: ${bot.jadibotmd ? '✅' : '❌'}
-│ ➤ AutoReacionar: ${bot.reaction ? '✅' : '❌'}
+│ ➤ Restrict: ${chat.restrict ? '✅' : '❌'}
+│ ➤ Autobio: ${chat.autobio ? '✅' : '❌'}
+│ ➤ AntiSpam: ${chat.antiSpam ? '✅' : '❌'}
+│ ➤ JadiBotMD: ${chat.jadibotmd ? '✅' : '❌'}
+│ ➤ AutoReacionar: ${chat.reaction ? '✅' : '❌'}
 ╰───────────────╯`, m, rcanal)
       throw false
   }
