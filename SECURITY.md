@@ -1,6 +1,6 @@
 ## Licencia de Uso de Lynx - Ai
 
-Derechos de autor (c) [Año] [Tu Nombre o Empresa]. Todos los derechos reservados.
+Derechos de autor (c) [**2024**] [**DarkCore**]. Todos los derechos reservados.
 Se otorga permiso, sin cargo, a cualquier persona que obtenga una copia del software y los archivos asociados ("Software"), para usar el Software de acuerdo con los términos de esta licencia:
 
 1. **Uso Personal**: El Software solo puede ser usado para fines personales y no comerciales.
