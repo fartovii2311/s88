@@ -42,20 +42,6 @@ global.nnnttt4 = 'https://chat.whatsapp.com/BngbJC3aBVhF5KjoaawiT1' //Grupo 9 CO
 global.nnnttt5 = 'https://chat.whatsapp.com/HOCsvLox0Ui7cwzTCeFhPP' //A.T.M.M
 
 // Imágenes locales
-global.imagen1 = fs.readFileSync('./media/menus/Menu3.jpg')
-global.imagen2 = fs.readFileSync('./media/menus/img1.jpg')
-global.imagen3 = fs.readFileSync('./media/menus/img2.jpg')
-global.imagen4 = fs.readFileSync('./media/menus/img3.jpg')
-global.imagen5 = fs.readFileSync('./media/menus/img4.jpg')
-global.imagen6 = fs.readFileSync('./media/menus/img5.jpg')
-global.imagen7 = fs.readFileSync('./media/menus/img6.jpg')
-global.imagen8 = fs.readFileSync('./media/menus/img7.jpg')
-global.imagen9 = fs.readFileSync('./media/menus/img8.jpg')
-global.imagen10 = fs.readFileSync('./media/menus/img9.jpg')
-global.imagen11 = fs.readFileSync('./media/menus/img10.jpg')
-global.imagen12 = fs.readFileSync('./media/menus/img11.jpg')
-global.imagen13 = fs.readFileSync('./media/menus/img12.jpg')
-
 // Imágenes en la nube
 global.img = 'https://i.imgur.com/AwlL9kc.jpeg'
 global.img2 = 'https://i.imgur.com/p18q1Ok.jpeg'
@@ -81,7 +67,7 @@ global.img21 = 'https://i.imgur.com/akofqcE.jpeg'
 global.welgata = [ig, yt2, yt2, ig, md, ig, yt, paypal, yt2, yt2, ig, fb, tg]
 global.redesMenu = [nna, nn2, nn, nnn, nnnt, nnntt, nnnttt, nnnttt1, nnnttt2, nnnttt3, nnnttt4, md, ig, paypal, yt, asistencia, fb, tg]
 global.gataMenu = [img, img2, img6, img7, img8, img9, img13, img14, img15, img17, img18, img19, img20, img21]
-global.gataImg = [imagen1, imagen2, imagen3, imagen4, imagen5, imagen6, imagen7, imagen8, imagen9, imagen10, imagen11, imagen12, imagen13]
+global.gataImg = [img, img2, img6, img7, img8, img9, img13, img14, img15, img17, img18, img19, img20, img2]
 global.accountsgb = [canal1, canal2, canal3, canal4, canal5, tk, ig, yt, paypal, fb, ths, md, asistencia, tg].getRandom()
 
 global.canalIdGB = ["120363160031023229@newsletter", "120363169294281316@newsletter", "120363203805910750@newsletter", "120363302472386010@newsletter"]
