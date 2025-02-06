@@ -291,6 +291,15 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
   chat.antiLink = isEnable; 
   break;
 
+  case 'autoreacionar':
+    if (m.isGroup) {
+    if (!(isAdmin || isOwner)) {
+      global.dfail('admin', m, conn);
+      throw false;
+     }
+  }
+  chat.reaction = isEnable; 
+  break;
 
       case 'nsfw':
       case 'modohorny':
@@ -323,17 +332,13 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
 │ ➤ ModoAdmin: ${chat.modoadmin ? '✅' : '❌'}
 │ ➤ NSFW: ${chat.modohorny ? '✅' : '❌'}
 │ ➤ AntiLink: ${chat.antiLink ? '✅' : '❌'}
-╰───────────────╯
-
-╭───────────────✦
-│ 🌐 *CONFIGURACIONES GLOBALES:*
-├───────────────╮
 │ ➤ AntiPrivado: ${bot.antiPrivate ? '✅' : '❌'}
 │ ➤ AutoRead: ${global.opts['autoread'] ? '✅' : '❌'}
 │ ➤ Restrict: ${bot.restrict ? '✅' : '❌'}
 │ ➤ Autobio: ${bot.autobio ? '✅' : '❌'}
 │ ➤ AntiSpam: ${bot.antiSpam ? '✅' : '❌'}
 │ ➤ JadiBotMD: ${bot.jadibotmd ? '✅' : '❌'}
+│ ➤ AutoReacionar: ${bot.reaction ? '✅' : '❌'}
 ╰───────────────╯`, m, rcanal)
       throw false
   }
