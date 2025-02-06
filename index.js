@@ -50,7 +50,7 @@ global.opts = new Object(yargs(process.argv.slice(2)).exitProcess(false).parse()
 global.prefix = new RegExp('^[' + (opts['prefix'] || '*/i!#$%+£¢€¥^°=¶∆×÷π√✓©®&.\\-.@').replace(/[|\\{}()[\]^$+*.\-\^]/g, '\\$&') + ']');
 
 //news
-const databasePath = path.join(__dirname, '../storage/data/database.json');
+const databasePath = path.join(__dirname, 'database');
 if (!fs.existsSync(databasePath)) {
 fs.mkdirSync(databasePath)}
 
