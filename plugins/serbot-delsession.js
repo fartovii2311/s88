@@ -14,7 +14,7 @@ await conn.sendMessage(m.chat, { text: '🚩 Sub-Bot eliminado.' })
 if (err.code === 'ENOENT' && err.path === `./LynxJadiBot/${uniqid}`) {
 await conn.sendMessage(m.chat, { text: "No cuentas con ninguna sesión de Sub-Bot." })
 } else {
-await m.react(error)
+await m.react('x')
 }}}
 handler.tags = ['serbot']
 handler.help = ['delsession']
