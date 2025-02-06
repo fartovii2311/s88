@@ -479,6 +479,7 @@ filenames.forEach(file => {
 const filePath = join(tmpDir, file)
 unlinkSync(filePath)})
 }
+
 function purgeSession() {
 let prekey = []
 let directorio = readdirSync("./LynxSession")
@@ -505,6 +506,7 @@ if (fileInDir !== 'creds.json') {
 unlinkSync(`./${authFileJB}/${directorio}/${fileInDir}`)
 }})
 }})
+
 if (SBprekey.length === 0) {
 console.log(chalk.bold.green(`\n╭» 🟡  LynxJadiBot 🟡\n│→ NADA POR ELIMINAR \n╰― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― 🗑️♻️`))
 } else {
@@ -512,8 +514,10 @@ console.log(chalk.bold.cyanBright(`\n╭» ⚪ LynxJadiBot ⚪\n│→ ARCHIVOS 
 }} catch (err) {
 console.log(chalk.bold.red(`\n╭» 🔴  LynxJadiBot 🔴\n│→ OCURRIÓ UN ERROR\n╰― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― 🗑️♻️\n` + err))
 }}
+
+
 function purgeOldFiles() {
-const directories = ['./LynxSession/', './LynxJadiBot/']
+const directories = ['./LynxSession/', './LynxSession/']
 directories.forEach(dir => {
 readdirSync(dir, (err, files) => {
 if (err) throw err
