@@ -37,38 +37,70 @@ let handler = async (m, { conn, command, text, usedPrefix }) => {
       }, { quoted: m });
 
       await m.react('✅');
+      return; 
+    }
+
+    const response = await fetch(`https://api.vreden.web.id/api/spotify?url=${encodeURIComponent(text)}`);
+    const result = await response.json();
+
+    if (result.status === 200 && result.result?.status) {
+      const { title, artists, cover, music } = result.result;
+
+      let thumbnail = await (await conn.getFile(cover)).data;
+
+      let externalAdReply = {
+        showAdAttribution: true,
+        mediaType: 2,
+        mediaUrl: music,
+        title: title,
+        sourceUrl: music,
+        thumbnail: thumbnail
+      };
+
+      await conn.sendMessage(m.chat, {
+        audio: { url: music },
+        mimetype: 'audio/mp4',
+        contextInfo: {
+          forwardingScore: 999,
+          isForwarded: true,
+          externalAdReply
+        }
+      }, { quoted: m });
+
+      await m.react('✅');
+      return;
+    }
+
+    const thirdAPI = await fetch(`https://api.agungny.my.id/api/spotify?url=${encodeURIComponent(text)}`);
+    const thirdResult = await thirdAPI.json();
+
+    if (thirdResult.status === true && thirdResult.result) {
+      const { title, download, image } = thirdResult.result;
+
+      let thumbnail = await (await conn.getFile(image)).data;
+
+      let externalAdReply = {
+        showAdAttribution: true,
+        mediaType: 2,
+        mediaUrl: download,
+        title: title,
+        sourceUrl: download,
+        thumbnail: thumbnail
+      };
+
+      await conn.sendMessage(m.chat, {
+        audio: { url: download },
+        mimetype: 'audio/mp4',
+        contextInfo: {
+          forwardingScore: 999,
+          isForwarded: true,
+          externalAdReply
+        }
+      }, { quoted: m });
+
+      await m.react('✅');
     } else {
-      const response = await fetch(`https://api.vreden.web.id/api/spotify?url=${encodeURIComponent(text)}`);
-      const result = await response.json();
-
-      if (result.status === 200 && result.result?.status) {
-        const { title, artists, cover, music } = result.result;
-
-        let thumbnail = await (await conn.getFile(cover)).data;
-
-        let externalAdReply = {
-          showAdAttribution: true,
-          mediaType: 2,
-          mediaUrl: music,
-          title: title,
-          sourceUrl: music,
-          thumbnail: thumbnail
-        };
-
-        await conn.sendMessage(m.chat, {
-          audio: { url: music },
-          mimetype: 'audio/mp4',
-          contextInfo: {
-            forwardingScore: 999,
-            isForwarded: true,
-            externalAdReply
-          }
-        }, { quoted: m });
-
-        await m.react('✅');
-      } else {
-        await m.react('❌');
-      }
+      await m.react('❌');
     }
   } catch (error) {
     console.error(error);
