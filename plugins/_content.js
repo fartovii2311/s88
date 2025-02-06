@@ -70,7 +70,7 @@ global.gataMenu = [img, img2, img6, img7, img8, img9, img13, img14, img15, img17
 global.gataImg = [img, img2, img6, img7, img8, img9, img13, img14, img15, img17, img18, img19, img20, img2]
 global.accountsgb = [canal1, canal2, canal3, canal4, canal5, tk, ig, yt, paypal, fb, ths, md, asistencia, tg].getRandom()
 
-global.canalIdGB = ["120363160031023229@newsletter", "120363169294281316@newsletter", "120363203805910750@newsletter", "120363302472386010@newsletter"]
+global.canalIdGB = ["120363374486687514@newsletter", ", "", ""]
 global.canalNombreGB = ["INFINITY-WA 💫", "GB - UPDATE 🐈", "Tips sobre Lynx 🤩", "NEW PROJECT: Lynx Bot-MD ✨"]
 global.channelRD = await getRandomChannel()
 
