@@ -36,8 +36,6 @@ const PORT = process.env.PORT || process.env.SERVER_PORT || 3000
 protoType()
 serialize()
 
-cfonts.say('gatabot\nlite\nmd'.trim())
-
 say('DarkCore\nVIP\nMD', {
  font: 'chrome',
  align: 'center',
