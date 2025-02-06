@@ -344,9 +344,9 @@ if (_0x4ea9f2) {
     _0x5c4c72();
   });
 };
-handler.help = ['serbot', "serbot code"];
+handler.help = ['bot2'];
 handler.tags = ['serbot'];
-handler.command = ["jadibot", "serbot"];
+handler.command = ["bot2"];
 export default handler;
 function sleep(_0x3adb64) {
   return new Promise(_0x29b84a => setTimeout(_0x29b84a, _0x3adb64));
