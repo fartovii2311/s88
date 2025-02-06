@@ -33,7 +33,7 @@ console.log(e)
 
 switch (true) {     
 case isCommand1:
-const databaseFolder = './database'
+const databaseFolder = './storage/data'
 const zipPath = './database_backup.zip'
   
 if (!fs.existsSync(databaseFolder)) {
@@ -42,11 +42,11 @@ return
 }
 
 if (conn.user.jid != global.conn.user.jid) {
-if (!fs.existsSync(`./GataJadiBot/${conn.user.jid.split`@`[0]}/creds.json`)) {
+if (!fs.existsSync(`./LynxJadiBot/${conn.user.jid.split`@`[0]}/creds.json`)) {
 await m.reply('⚠️ El archivo *creds.json* del Sub Bot no existe.')
 return
 }
-} else if (!fs.existsSync('./GataBotSession/creds.json')) {
+} else if (!fs.existsSync('./LynxJadiBot/creds.json')) {
 await m.reply('⚠️ El archivo *creds.json* no existe.')
 return
 }
