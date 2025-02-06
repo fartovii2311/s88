@@ -38,7 +38,6 @@ handler.help = ["terabox *<url>*"];
 handler.tags = ["dl"];
 handler.command = ["terabox"];
 handler.register = true;
-handler.Monedas = 1
 export default handler;
 
 async function terabox(url) {
