@@ -1,4 +1,3 @@
-
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '1'
 import './config.js' 
 import { createRequire } from 'module'
@@ -23,6 +22,7 @@ import {Low, JSONFile} from 'lowdb'
 import { mongoDB, mongoDBV2 } from './lib/mongoDB.js'
 import store from './lib/store.js'
 import readline from 'readline'
+import cfonts from 'cfonts';
 import NodeCache from 'node-cache'
 import pkg from 'google-libphonenumber'
 const { PhoneNumberUtil } = pkg
@@ -30,9 +30,26 @@ const phoneUtil = PhoneNumberUtil.getInstance()
 const {DisconnectReason, useMultiFileAuthState, MessageRetryMap, fetchLatestBaileysVersion, makeCacheableSignalKeyStore, jidNormalizedUser, PHONENUMBER_MCC} = await import('@whiskeysockets/baileys')
 const { CONNECTING } = ws
 const { chain } = lodash
+const { say } = cfonts
 const PORT = process.env.PORT || process.env.SERVER_PORT || 3000
 protoType()
 serialize()
+
+
+cfonts.say('gatabot\nlite\nmd'.trim(), options)
+
+say('GataBot\nLite\nMD', {
+ font: 'chrome',
+ align: 'center',
+ gradient: ['red', 'magenta']
+})
+
+say(`Project Author:\nGataNina-Li (@gata_dios)\n\nDeveloper:\nelrebelde21 (Mario)`.trim(), {
+ font: 'console',
+ align: 'center',
+ colors: ['candy']
+})
+
 global.__filename = function filename(pathURL = import.meta.url, rmPrefix = platform !== 'win32') {
   return rmPrefix ? /file:\/\/\//.test(pathURL) ? fileURLToPath(pathURL) : pathURL : pathToFileURL(pathURL).toString();
 }; global.__dirname = function dirname(pathURL) {
