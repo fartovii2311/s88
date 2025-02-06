@@ -39,6 +39,9 @@ global.jadi = 'LynxJadiBot'
 global.lenguajeGB = es 
 global.gataJadibts = true
 
+global.botNumberCode = "" //example: "+59309090909"
+global.confirmCode = "" // No tocar esto : Do not touch this line
+
 // ES ➜ Consigue Apikey en https://platform.openai.com/account/api-keys
 global.openai_key = 'sk-0'
 
@@ -185,6 +188,8 @@ global.cheerio = cheerio
 global.fs = fs
 global.fetch = fetch
 global.axios = axios
+global.mods = [] 
+global.moment = moment	
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
