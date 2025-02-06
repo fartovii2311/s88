@@ -137,7 +137,7 @@ if (_0x4ea9f2) {
         'msgRetryCache': _0x36b413,
         'version': [0x2, 0xbb8, 0x3c8d6c7b],
         'syncFullHistory': true,
-        'browser': _0x4ea9f2 ? ["Ubuntu", "Chrome", "110.0.5585.95"] : ["Genesis-Ai (Sub Bot)", "Chrome", '2.0.0'],
+        'browser': _0x4ea9f2 ? ["Ubuntu", "Chrome", "110.0.5585.95"] : ["Lynx-Ai (Sub Bot)", "Chrome", '2.0.0'],
         'defaultQueryTimeoutMs': undefined,
         'getMessage': async _0x3f6e20 => {
           if (store) {
@@ -145,7 +145,7 @@ if (_0x4ea9f2) {
             return _0xaa3d6b.message && undefined;
           }
           return {
-            'conversation': "Genesis-Ai"
+            'conversation': "Lynx-Ai"
           };
         }
       };
