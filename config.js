@@ -38,7 +38,6 @@ global.apis = 'https://delirius-apiofc.vercel.app'
 global.jadi = 'LynxJadiBot'
 global.rutaJadiBot = 'LynxJadiBot'
 global.lenguajeGB = es 
-global.gataJadibts = true
 
 global.botNumberCode = "" //example: "+59309090909"
 global.confirmCode = "" // No tocar esto : Do not touch this line
