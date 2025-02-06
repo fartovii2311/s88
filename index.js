@@ -1,3 +1,4 @@
+
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '1'
 import './config.js' 
 import { createRequire } from 'module'
@@ -121,13 +122,18 @@ loadChatgptDB();
 global.creds = 'creds.json'
 global.authFile = 'LynxSession'
 global.authFileJB  = 'LynxJadiBot'
-/*global.rutaBot = join(__dirname, authFile)
+global.rutaBot = join(__dirname, authFile)
 global.rutaJadiBot = join(__dirname, authFileJB)
+const respaldoDir = join(__dirname, 'BackupSession');
+const credsFile = join(global.rutaBot, global.creds);
+const backupFile = join(respaldoDir, global.creds);
 
 if (!fs.existsSync(rutaJadiBot)) {
 fs.mkdirSync(rutaJadiBot)
 }
-*/
+
+if (!fs.existsSync(respaldoDir)) fs.mkdirSync(respaldoDir);
+
 const {state, saveState, saveCreds} = await useMultiFileAuthState(global.authFile)
 const msgRetryCounterMap = (MessageRetryMap) => { }
 const msgRetryCounterCache = new NodeCache()
