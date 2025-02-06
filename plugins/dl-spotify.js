@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 
 let handler = async (m, { conn, command, text, usedPrefix }) => {
   if (!text || !text.startsWith('http')) {
-    return conn.reply(m.chat, '[ ᰔᩚ ] Ingresa una URL válida de *Spotify*.', m,rcanal);
+    return conn.reply(m.chat, '[ ᰔᩚ ] Ingresa una URL válida de *Spotify*.', m);
   }
 
   await m.react('🕓');
@@ -13,18 +13,24 @@ let handler = async (m, { conn, command, text, usedPrefix }) => {
     let jsonDL = await apiDL.json();
 
     if (jsonDL && jsonDL.status && jsonDL.data) {
-      let { title, author, image, duration, url: musicUrl } = jsonDL.data;
+      let { title, image, url: musicUrl } = jsonDL.data;
 
-      let durationMinutes = Math.floor(duration / 60000);
-      let durationSeconds = ((duration % 60000) / 1000).toFixed(0);
-
-      let caption = `🎶 *Título*: ${title}\n🖊️ *Autor*: ${author}\n⏳ *Duración*: ${durationMinutes}:${durationSeconds.padStart(2, '0')}\n🌐 *Enlace*: ${text}`;
-
-      await conn.sendFile(m.chat, image, 'cover.jpg', caption, m,rcanal,fake);
+      let externalAdReply = {
+        title: title,
+        thumbnailUrl: image,
+        mediaType: 1,
+        mediaUrl: musicUrl,
+        sourceUrl: musicUrl
+      };
 
       await conn.sendMessage(m.chat, {
         audio: { url: musicUrl },
-        mimetype: 'audio/mp4'
+        mimetype: 'audio/mp4',
+        contextInfo: {
+          forwardingScore: 999,
+          isForwarded: true,
+          externalAdReply
+        }
       }, { quoted: m });
 
       await m.react('✅');
