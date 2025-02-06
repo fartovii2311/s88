@@ -41,5 +41,4 @@ let handler = async (m, { conn, args, usedPrefix: prefix, command }) => {
 handler.command = /^(dlplaystore)$/i;
 handler.tags = ['dl'];
 handler.register = true;
-handler.Monedas = 3
 export default handler;
