@@ -21,6 +21,7 @@ import { makeWASocket, protoType, serialize } from './lib/simple.js'
 import {Low, JSONFile} from 'lowdb'
 import { mongoDB, mongoDBV2 } from './lib/mongoDB.js'
 import store from './lib/store.js'
+import { gataJadiBot } from './plugins/jadibot-serbot.js';
 import readline from 'readline'
 import cfonts from 'cfonts';
 import NodeCache from 'node-cache'
