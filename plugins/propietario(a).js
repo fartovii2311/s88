@@ -33,7 +33,7 @@ console.log(e)
 
 switch (true) {     
 case isCommand1:
-const databaseFolder = './storage/data'
+const databaseFolder = './storage/data/database.json'
 const zipPath = './database_backup.zip'
   
 if (!fs.existsSync(databaseFolder)) {
@@ -42,11 +42,11 @@ return
 }
 
 if (conn.user.jid != global.conn.user.jid) {
-if (!fs.existsSync(`./LynxJadiBot/${conn.user.jid.split`@`[0]}/creds.json`)) {
+if (!fs.existsSync(`./LynxSession/${conn.user.jid.split`@`[0]}/creds.json`)) {
 await m.reply('⚠️ El archivo *creds.json* del Sub Bot no existe.')
 return
 }
-} else if (!fs.existsSync('./LynxJadiBot/creds.json')) {
+} else if (!fs.existsSync('./LynxSession/creds.json')) {
 await m.reply('⚠️ El archivo *creds.json* no existe.')
 return
 }
@@ -82,19 +82,6 @@ archive.finalize()
 } catch (e) {
 reportError(e)
 }
-
-/*await conn.reply(m.sender, lenguajeGB.smsResP1(), fkontak)
-try {
-let d = new Date
-let date = d.toLocaleDateString('fr', { day: 'numeric', month: 'long', year: 'numeric' })
-let database = await fs.readFileSync(`./database.json`)
-let creds = await fs.readFileSync(`./GataBotSession/creds.json`)
-await conn.reply(m.sender, lenguajeGB.smsResP2(date), fkontak)
-await conn.sendMessage(m.sender, {document: database, mimetype: 'application/json', fileName: `database.json`}, { quoted: m })
-await conn.sendMessage(m.sender, {document: creds, mimetype: 'application/json', fileName: `creds.json`}, { quoted: m })
-} catch (e) {
-reportError(e)
-}   */
 break
     
 case isCommand2:
