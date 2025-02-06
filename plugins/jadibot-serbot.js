@@ -7,13 +7,12 @@ El codigo de este archivo esta inspirado en el codigo original de:
 *El archivo original del MysticBot-MD fue liberado en mayo del 2024 aceptando su liberacion*
 El codigo de este archivo fue parchado en su momento por:
 - BrunoSobrino >> https://github.com/BrunoSobrino
-
-Contenido adaptado por:
+Contenido adaptado para GataBot-MD por:
 - GataNina-Li >> https://github.com/GataNina-Li
 - elrebelde21 >> https://github.com/elrebelde21
 */
 
-const { useMultiFileAuthState, DisconnectReason, makeCacheableSignalKeyStore, fetchLatestBaileysVersion} = (await import(global.baileys))
+const { useMultiFileAuthState, DisconnectReason, makeCacheableSignalKeyStore, fetchLatestBaileysVersion} = (await import(global.baileys));
 import qrcode from "qrcode"
 import NodeCache from "node-cache"
 import fs from "fs"
@@ -43,12 +42,12 @@ const gataJBOptions = {}
 if (global.conns instanceof Array) console.log()
 else global.conns = []
 let handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
-//if (!global.db.data.settings[conn.user.jid].jadibotmd) return m.reply(`${lenguajeGB['smsSoloOwnerJB']()}`)
+if (!global.db.data.settings[conn.user.jid].jadibotmd) return m.reply(`${lenguajeGB['smsSoloOwnerJB']()}`)
 if (m.fromMe || conn.user.jid === m.sender) return
 //if (conn.user.jid !== global.conn.user.jid) return conn.reply(m.chat, `${lenguajeGB['smsJBPrincipal']()} wa.me/${global.conn.user.jid.split`@`[0]}&text=${usedPrefix + command}`, m) 
 let who = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.fromMe ? conn.user.jid : m.sender
 let id = `${who.split`@`[0]}`  //conn.getName(who)
-let pathGataJadiBot = path.join("./LynxJadiBot/", id)
+let pathGataJadiBot = path.join("./GataJadiBot/", id)
 if (!fs.existsSync(pathGataJadiBot)){
 fs.mkdirSync(pathGataJadiBot, { recursive: true })
 }
@@ -103,14 +102,14 @@ msgRetry,
 msgRetryCache,
 version: [2, 3000, 1015901307],
 syncFullHistory: true,
-browser: mcode ? ['Ubuntu', 'Chrome', '110.0.5585.95'] : ['GataBotLite-MD (Sub Bot)', 'Chrome','2.0.0'],
+browser: mcode ? ['Ubuntu', 'Chrome', '110.0.5585.95'] : ['GataBot-MD (Sub Bot)', 'Chrome','2.0.0'],
 defaultQueryTimeoutMs: undefined,
 getMessage: async (key) => {
 if (store) {
 //const msg = store.loadMessage(key.remoteJid, key.id)
 //return msg.message && undefined
 } return {
-conversation: 'GataBotLite-MD',
+conversation: 'GataBot-MD',
 }}} 
 
 let sock = makeWASocket(connectionOptions)
@@ -232,7 +231,7 @@ ${user?.registered ? `✅ *Verificación:* ${user?.registered ? user.name : 'No'
 > *¡Conviértete en sub-bot ahora!*
 wa.me/${path.basename(pathGataJadiBot)}?text=${usedPrefix + command}+code
 `.trim()
-let ppch = await sock.profilePictureUrl(userJid, 'image').catch(_ => gataMenu.getRandom())
+let ppch = await sock.profilePictureUrl(userJid, 'image').catch(_ => gataMenu)
 await sleep(3000)
 await global.conn.sendMessage(ch.ch1, { text: chtxt, contextInfo: {
 externalAdReply: {
@@ -265,7 +264,7 @@ m?.chat ? await conn.sendMessage(m.chat, {text : `☄️ *IMPORTANTE*
 > Si se desconecta frecuentemente usa \`${usedPrefix + command}\` si el problema persiste vuelve a ser sub bot.
 
 *Política de uso:*
-github.com/GataNina-Li/GataBot-MD/blob/master/terms.md
+
 `}, { quoted: m }) : ''
 }}
 setInterval(async () => {
@@ -344,3 +343,20 @@ async function joinChannels(conn) {
 for (const channelId of Object.values(global.ch)) {
 await conn.newsletterFollow(channelId).catch(() => {})
 }}
+
+/*async function checkSubBots() {
+  for (let sock of global.conns) {
+    if (!sock.ws || sock.ws.readyState !== ws.OPEN) {
+      console.log(`Sub bot ${sock.user.jid} está desconectado, intentando reiniciar...`);
+      try {
+        await creloadHandler(true).catch(console.error);
+        console.log(`Sub bot ${sock.user.jid} reiniciado exitosamente`);
+      } catch (error) {
+        console.error(`Error al reiniciar el sub bot ${sock.user.jid}:`, error);
+      }
+    }
+  }
+}
+
+setInterval(checkSubBots, 300000) //5 min
+*/
