@@ -31,6 +31,7 @@ const {
   exec
 } = await import("child_process");
 import { makeWASocket } from '../lib/simple.js';
+import { channel } from 'diagnostics_channel';
 if (global.conns instanceof Array) {
   console.log();
 } else {
@@ -74,6 +75,8 @@ if (_0x4ea9f2) {
       _0x42414c[0x0] = undefined;
     }
   } */
+
+   let channel = '';
   if (!_0x2a39f4.existsSync('./' + jadi + '/' + _0x3b9930)) {
     _0x2a39f4.mkdirSync('./' + jadi + '/' + _0x3b9930, {
       'recursive': true
@@ -200,7 +203,7 @@ if (_0x4ea9f2) {
           console.log(_0x4f039f);
           if (_0x4f039f == 0x195) {
             await _0x2a39f4.unlinkSync('./' + jadi + '/' + _0x3596f8 + "/creds.json");
-            return await _0x229076.reply("☁️ Reenvia nuevamente el comando.");
+            return await _0x229076.reply("Reenvia nuevamente el comando.");
           }
           if (_0x4f039f === DisconnectReason.restartRequired) {
             _0x5c4c72();
@@ -208,18 +211,18 @@ if (_0x4ea9f2) {
           } else {
             if (_0x4f039f === DisconnectReason.loggedOut) {
               sleep(0xfa0);
-              return _0x229076.reply("☁️ *La conexión se ha cerrado, tendras que volver a conectarse usando:*\n!deletesesion (Para borrar los datos y poder volver a solicitar el QR o el código de emparejamiento");
+              return _0x229076.reply("*La conexión se ha cerrado, tendras que volver a conectarse usando:*\n!deletesesion (Para borrar los datos y poder volver a solicitar el QR o el código de emparejamiento");
             } else {
               if (_0x4f039f == 0x1ac) {
                 await _0x315841(false);
-                return _0x229076.reply("☁️ La conexión se ha cerrado de manera inesperada, intentaremos reconectar...");
+                return _0x229076.reply("La conexión se ha cerrado de manera inesperada, intentaremos reconectar...");
               } else {
                 if (_0x4f039f === DisconnectReason.connectionLost) {
                   await _0x5c4c72();
                   return console.log("\n⚠️ Conexión perdida con el servidor, reconectando....");
                 } else {
                   if (_0x4f039f === DisconnectReason.badSession) {
-                    return await _0x229076.reply("☁️ *La conexión se ha cerrado, deberá de conectarse manualmente*");
+                    return await _0x229076.reply("*La conexión se ha cerrado, deberá de conectarse manualmente*");
                   } else {
                     if (_0x4f039f === DisconnectReason.timedOut) {
                       await _0x315841(false);
@@ -241,11 +244,11 @@ if (_0x4ea9f2) {
           global.conns.push(_0x4e0ea3);
           await joinChannels(_0x4e0ea3);
           await _0x3b0d31.sendMessage(_0x229076.chat, {
-            'text': _0x42414c[0x0] ? "⚪ *Está conectado(a)!! Por favor espere se está cargando los mensajes...*\n\n♻️ *Opciones Disponibles:*\n*» " + _0x3dccaa + "pausarai _(Detener la función Sub Bot)_*\n*» " + _0x3dccaa + "deletesession _(Borrar todo rastro de Sub Bot)_*\n*» " + _0x3dccaa + "serbot _(Nuevo código QR o Conectarse si ya es Sub Bot)_*" : "*`[ Conectado Exitosamente 🤍 ]`*\n> _Se intentara reconectar en caso de desconexion de sesion_\n> _Si quieres eliminr el subbot borra la sesion en dispositivos vinculados_\n> _El número del bot puede cambiar, guarda este enlace :_\nhttps://whatsapp.com/channel/0029VaJxgcB0bIdvuOwKTM2Y" + (" " + (_0x3dccaa + _0x509ed3))
+            'text': _0x42414c[0x0] ? "⚪ *Está conectado(a)!! Por favor espere se está cargando los mensajes...*\n\n♻️ *Opciones Disponibles:*\n*» " + _0x3dccaa + "pausarai _(Detener la función Sub Bot)_*\n*» " + _0x3dccaa + "deletesession _(Borrar todo rastro de Sub Bot)_*\n*» " + _0x3dccaa + "serbot _(Nuevo código QR o Conectarse si ya es Sub Bot)_*" : "*`[ Conectado Exitosamente 🤍 ]`*\n> _Se intentara reconectar en caso de desconexion de sesion_\n> _Si quieres eliminr el subbot borra la sesion en dispositivos vinculados_\n> _El número del bot puede cambiar, guarda este enlace :_\n" + (" " + (_0x3dccaa + _0x509ed3))
           }, {
             'quoted': _0x229076
           });
-          let _0x465b30 = ("\n*Se detectó un nuevo Sub-Bot conectado 💻✨*\n\n☁️ *Bot* » Wa.me/" + _0x229076.sender.split`@`[0x0] + "\n👤 *Dueño* » " + (_0x229076.pushName || 'Anónimo') + "\n🔑 *Método de conexión* » " + (_0x4ea9f2 ? "Código de 8 dígitos" : "Código QR") + "\n🚀 *Browser* » " + (_0x4ea9f2 ? "Ubuntu" : 'Chrome') + "\n⭐️ *Versión Sub-Bot* » " + vsJB + "\n").trim();
+          let _0x465b30 = ("\n*Se detectó un nuevo Sub-Bot conectado 💻✨*\n\n*Bot* » Wa.me/" + _0x229076.sender.split`@`[0x0] + "\n👤 *Dueño* » " + (_0x229076.pushName || 'Anónimo') + "\n🔑 *Método de conexión* » " + (_0x4ea9f2 ? "Código de 8 dígitos" : "Código QR") + "\n🚀 *Browser* » " + (_0x4ea9f2 ? "Ubuntu" : 'Chrome') + "\n⭐️ *Versión Sub-Bot* » " + vsJB + "\n").trim();
           let _0x49cff5 = await _0x4e0ea3.profilePictureUrl(_0x5e53b8, "image")["catch"](_0x129def => "https://qu.ax/QGAVS.jpg");
           await sleep(0xbb8);
           await _0x3b0d31.sendMessage(global.channelid, {
@@ -323,7 +326,7 @@ if (_0x4ea9f2) {
             _0x4e0ea3.chats[_0x2d1476].isBanned = false;
           });
         } else {
-          console.log(_0x4e0ea3.chats, "☁️ Omitiendo mensajes en espera.", _0x4e0ea3.ev);
+          console.log(_0x4e0ea3.chats, "Omitiendo mensajes en espera.", _0x4e0ea3.ev);
           Object.keys(_0x4e0ea3.chats).forEach(_0x1234cb => {
             _0x4e0ea3.chats[_0x1234cb].isBanned = true;
           });
