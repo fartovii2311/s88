@@ -36,6 +36,7 @@ global.baileys = '@whiskeysockets/baileys'
 global.apis = 'https://delirius-apiofc.vercel.app'
 
 global.jadi = 'LynxJadiBot'
+global.lenguajeGB = es 
 global.gataJadibts = true
 
 // ES ➜ Consigue Apikey en https://platform.openai.com/account/api-keys
