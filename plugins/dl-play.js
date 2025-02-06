@@ -6,10 +6,12 @@ let handler = async (m, { conn, args }) => {
     await m.react('⏳');
     try {
         let searchResults = await searchVideos(args.join(" "));
-        
-        let video = searchResults.find(v => v.seconds < 3600) || searchResults[0];
 
-        if (!video) throw new Error('No se encontraron videos adecuados.');
+        if (!searchResults || searchResults.length === 0) {
+            throw new Error('No se encontraron videos.');
+        }
+
+        let video = searchResults.find(v => v.seconds < 3600) || searchResults[0];
 
         let messageText = `🌟 *YouTube Reproductor* 🌟\n\n`;
         messageText += `🎬 *Título:* ${video.title}\n`;
@@ -19,7 +21,7 @@ let handler = async (m, { conn, args }) => {
         messageText += `👀 *Vistas:* ${video.views.toLocaleString()}\n`;
         messageText += `🔗 *Enlace directo:* ${video.url}\n`;
 
-        let image = video.image || 'default-image-url'; // Usa una imagen por defecto si no hay
+        let image = video.image || 'default-image-url';
 
         await conn.sendButton2(
             m.chat,
@@ -54,14 +56,15 @@ export default handler;
 
 async function searchVideos(query) {
     try {
-        let search = await yts.search({ query, hl: "es", gl: "ES", pages: 10 });
+        let search = await yts.search({ query, hl: "es", gl: "ES", pages: 5 });
 
         let filteredVideos = search.videos
-            .filter(v => v.seconds > 0 && v.title.toLowerCase().includes(query.toLowerCase()))
+            .filter(v => v.seconds > 0) // Se quita el filtro de coincidencia exacta
             .sort((a, b) => b.views - a.views);
 
         return filteredVideos;
     } catch (error) {
+        console.error("Error en la búsqueda de videos:", error);
         return [];
     }
 }
