@@ -1,3 +1,4 @@
+
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '1'
 import './config.js' 
 import { createRequire } from 'module'
@@ -255,6 +256,9 @@ if (connection === 'close') {
 if (reason === DisconnectReason.badSession) {
 console.log(chalk.bold.cyanBright("⚠️ SIN CONEXIÓN, BORRE LA CARPETA ${global.authFile} Y ESCANEA EL CÓDIGO QR ⚠️"))
 } else if (reason === DisconnectReason.connectionClosed) {
+console.log(chalk.bold.magentaBright(lenguajeGB['smsConexioncerrar']()))
+restoreCreds();
+}else if (reason === DisconnectReason.connectionClosed) {
 console.log(chalk.bold.magentaBright("╭┄┄┄┄┄┄┄┄┄┄┄┄┄┄ • • • ┄┄┄┄┄┄┄┄┄┄┄┄┄┄ ☹\n┆ ⚠️ CONEXION CERRADA, RECONECTANDO....\n╰┄┄┄┄┄┄┄┄┄┄┄┄┄┄ • • • ┄┄┄┄┄┄┄┄┄┄┄┄┄┄ ☹"))
 await global.reloadHandler(true).catch(console.error)
 } else if (reason === DisconnectReason.connectionLost) {
@@ -357,6 +361,32 @@ isInit = false
 return true
 }
 
+//respaldo de la sesión "GataBotSession"
+const backupCreds = () => {
+  if (fs.existsSync(credsFile)) {
+  fs.copyFileSync(credsFile, backupFile);
+  console.log(`[✅] Respaldo creado en ${backupFile}`);
+  } else {
+  console.log('[⚠] No se encontró el archivo creds.json para respaldar.');
+  }};
+  
+  const restoreCreds = () => {
+  if (fs.existsSync(credsFile)) {
+  fs.copyFileSync(backupFile, credsFile);
+  console.log(`[✅] creds.json reemplazado desde el respaldo.`);
+  } else if (fs.existsSync(backupFile)) {
+  fs.copyFileSync(backupFile, credsFile);
+  console.log(`[✅] creds.json restaurado desde el respaldo.`);
+  } else {
+  console.log('[⚠] No se encontró ni el archivo creds.json ni el respaldo.');
+  }};
+  
+  setInterval(async () => {
+  await backupCreds();
+  console.log('[♻️] Respaldo periódico realizado.');
+  }, 5 * 60 * 1000);
+  
+
 const pluginFolder = global.__dirname(join(__dirname, './plugins/index'))
 const pluginFilter = (filename) => /\.js$/.test(filename)
 global.plugins = {}
@@ -457,11 +487,11 @@ unlinkSync(`./${authFileJB}/${directorio}/${fileInDir}`)
 }})
 }})
 if (SBprekey.length === 0) {
-console.log(chalk.bold.green(`\n╭» 🟡 CrowJadiBot 🟡\n│→ NADA POR ELIMINAR \n╰― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― 🗑️♻️`))
+console.log(chalk.bold.green(`\n╭» 🟡 LynxJadiBot 🟡\n│→ NADA POR ELIMINAR \n╰― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― 🗑️♻️`))
 } else {
-console.log(chalk.bold.cyanBright(`\n╭» ⚪ CrowJadiBot ⚪\n│→ ARCHIVOS NO ESENCIALES ELIMINADOS\n╰― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― 🗑️♻️`))
+console.log(chalk.bold.cyanBright(`\n╭» ⚪ LynxJadiBot ⚪\n│→ ARCHIVOS NO ESENCIALES ELIMINADOS\n╰― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― 🗑️♻️`))
 }} catch (err) {
-console.log(chalk.bold.red(`\n╭» 🔴 CrowJadiBot 🔴\n│→ OCURRIÓ UN ERROR\n╰― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― 🗑️♻️\n` + err))
+console.log(chalk.bold.red(`\n╭» 🔴 LynxJadiBot 🔴\n│→ OCURRIÓ UN ERROR\n╰― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― ― 🗑️♻️\n` + err))
 }}
 function purgeOldFiles() {
 const directories = ['./LynxSession/', './LynxJadiBot/']
