@@ -20,26 +20,26 @@ global.asistencia = 'https://wa.me/message/MEKOUFBEOG5ED1'
 global.tg = 'https://t.me/globalgb' // canal
 
 // canales
-global.canal1 = "https://whatsapp.com/channel/0029Va4QjH7DeON0ePwzjS1A"
-global.canal2 = "https://whatsapp.com/channel/0029Va4QjH7DeON0ePwzjS1A"
-global.canal3 = "https://whatsapp.com/channel/0029VaKn22pDJ6GwY61Ftn15"
-global.canal4 = "https://whatsapp.com/channel/0029VabS4KD8KMqeVXXmkG1D"
-global.canal5 = "https://whatsapp.com/channel/0029VatPwXw7Noa8n1Vinx3g"
+global.canal1 = "https://whatsapp.com/channel/"
+global.canal2 = "https://whatsapp.com/channel/"
+global.canal3 = "https://whatsapp.com/channel/"
+global.canal4 = "https://whatsapp.com/channel/"
+global.canal5 = "https://whatsapp.com/channel/"
 
 // grupos (algunos pueden estar repetidos con otros, es temporal)
-global.nna = 'https://whatsapp.com/channel/0029Va6yY0iLY6d6XDmqA03g' //CANAL UPDATE
-global.nn2 = 'https://t.me/globalgb'
-global.nna2 = 'https://chat.whatsapp.com/KaTeeaexrGSHBzPm4s945b' //Help
-global.nn = 'https://chat.whatsapp.com/HBIIrHorHbW2LIxlS9MjRI' //Grupo 1
-global.nnn = 'https://chat.whatsapp.com/CtA2nopOZor0bRwV3FCYH3' //Grupo 2
-global.nnnt = 'https://chat.whatsapp.com/HVLk7c3ZlNN0mJjodw4NkV' //Grupo 3
-global.nnntt = 'https://chat.whatsapp.com/BSDrNVhj2lVElUgrNnGoby' //Grupo 4
-global.nnnttt = 'https://chat.whatsapp.com/CciFSHhsYxd9TqW2tZhhZx' //Grupo 5
-global.nnnttt1 = 'https://chat.whatsapp.com/Ej5AUrpmYnJKYtEa6YMwK6' //Grupo 6 COL
-global.nnnttt2 = 'https://chat.whatsapp.com/I9DsG6ABKer27NbW01Nl39' //Grupo 7 COL
-global.nnnttt3 = 'https://chat.whatsapp.com/KQtWZDVfosTKbheIlndLBN' //Grupo 8 COL
-global.nnnttt4 = 'https://chat.whatsapp.com/BngbJC3aBVhF5KjoaawiT1' //Grupo 9 COL
-global.nnnttt5 = 'https://chat.whatsapp.com/HOCsvLox0Ui7cwzTCeFhPP' //A.T.M.M
+global.nna = 'https://whatsapp.com/channel/' //CANAL UPDATE
+global.nn2 = 'https://t.me/'
+global.nna2 = 'https://chat.whatsapp.com/' //Help
+global.nn = 'https://chat.whatsapp.com' //Grupo 1
+global.nnn = 'https://chat.whatsapp.com/' //Grupo 2
+global.nnnt = 'https://chat.whatsapp.com/' //Grupo 3
+global.nnntt = 'https://chat.whatsapp.com/' //Grupo 4
+global.nnnttt = 'https://chat.whatsapp.com/' //Grupo 5
+global.nnnttt1 = 'https://chat.whatsapp.com/' //Grupo 6 COL
+global.nnnttt2 = 'https://chat.whatsapp.com/' //Grupo 7 COL
+global.nnnttt3 = 'https://chat.whatsapp.com/' //Grupo 8 COL
+global.nnnttt4 = 'https://chat.whatsapp.com/' //Grupo 9 COL
+global.nnnttt5 = 'https://chat.whatsapp.com/' //A.T.M.M
 
 // Imágenes locales
 // Imágenes en la nube
@@ -68,7 +68,7 @@ global.welgata = [ig, yt2, yt2, ig, md, ig, yt, paypal, yt2, yt2, ig, fb, tg]
 global.redesMenu = [nna, nn2, nn, nnn, nnnt, nnntt, nnnttt, nnnttt1, nnnttt2, nnnttt3, nnnttt4, md, ig, paypal, yt, asistencia, fb, tg]
 global.gataMenu = [img, img2, img6, img7, img8, img9, img13, img14, img15, img17, img18, img19, img20, img21]
 global.gataImg = [img, img2, img6, img7, img8, img9, img13, img14, img15, img17, img18, img19, img20, img2]
-global.accountsgb = [canal1, canal2, canal3, canal4, canal5, tk, ig, yt, paypal, fb, ths, md, asistencia, tg].getRandom()
+global.accountsgb = [canal1, canal2, canal3, canal4, canal5, tk, ig, yt, paypal, fb, ths, md, asistencia, tg][Math.floor(Math.random() * 15)]
 
 global.canalIdGB = ["120363374486687514@newsletter", "120363323775906071@newsletter"]
 global.canalNombreGB = ["Lynx - AI 💫", "Free Code Titans🐈"]
