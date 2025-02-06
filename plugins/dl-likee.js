@@ -15,7 +15,6 @@ await m.react('✖️')
 }}
 handler.help = ['likeedl *<url>*']
 handler.tags = ['dl']
-handler.Monedas = 1
 handler.command = /^(likeedl)$/i
 handler.register = true
 export default handler
