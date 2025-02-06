@@ -35,7 +35,34 @@ let handler = async (m, { conn, command, text, usedPrefix }) => {
 
       await m.react('✅');
     } else {
-      await m.react('❌');
+      const response = await fetch(`https://api.vreden.web.id/api/spotify?url=${encodeURIComponent(text)}`);
+      const result = await response.json();
+
+      if (result.status === 200 && result.result?.status) {
+        const { title, artists, cover, music } = result.result;
+
+        let externalAdReply = {
+          title: title,
+          thumbnailUrl: cover,
+          mediaType: 1,
+          mediaUrl: music,
+          sourceUrl: music
+        };
+
+        await conn.sendMessage(m.chat, {
+          audio: { url: music },
+          mimetype: 'audio/mp4',
+          contextInfo: {
+            forwardingScore: 999,
+            isForwarded: true,
+            externalAdReply
+          }
+        }, { quoted: m });
+
+        await m.react('✅');
+      } else {
+        await m.react('❌');
+      }
     }
   } catch (error) {
     console.error(error);
