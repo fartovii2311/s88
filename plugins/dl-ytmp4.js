@@ -11,7 +11,8 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         const apis = [
             `https://api.siputzx.my.id/api/d/ytmp4?url=${encodeURIComponent(text)}`,
             `https://api.botcahx.eu.org/api/dowloader/yt?url=${encodeURIComponent(text)}&apikey=xenzpedo`,
-            `https://mahiru-shiina.vercel.app/download/ytmp4?url=${encodeURIComponent(text)}`
+            `https://mahiru-shiina.vercel.app/download/ytmp4?url=${encodeURIComponent(text)}`,
+            `https://api.agungny.my.id/api/youtube-video?url=${encodeURIComponent(text)}`
         ];
 
         let result;
@@ -19,10 +20,10 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
             try {
                 const response = await fetch(api);
                 result = await response.json();
-                if (result.status && result.data && result.data.dl) {
-                    const { title, dl } = result.data;
+                if (result.status && result.result && result.result.downloadUrl) {
+                    const { title, downloadUrl } = result.result;
 
-                    const videoFileResponse = await fetch(dl);
+                    const videoFileResponse = await fetch(downloadUrl);
                     if (videoFileResponse.ok) {
                         const buffer = await videoFileResponse.buffer();
                         const size = parseInt(videoFileResponse.headers.get('content-length'), 10) || 0;
