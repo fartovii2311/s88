@@ -74,8 +74,8 @@ setTimeout(async () => {
 let codeBot = await conn.requestPairingCode(cleanedNumber);
 codeBot = codeBot?.match(/.{1,4}/g)?.join("-") || codeBot;
 let txt = '🌸 S E R B O T - S U B B O T 🌸\n\n*Usa este Código para convertirte en un Sub Bot*\n\n🌸 Pasos:\n\n`🌸` : Haga click en los 3 puntos\n\n`🌸` : Toque dispositivos vinculados\n\n`🌸` : Selecciona Vincular con el número de teléfono\n\n`🌸` : Escriba el Codigo\n\n> *Nota:* Este Código solo funciona en el número que lo solicito.';
-await parent.reply(m.chat, txt, m, rcanal);
-await parent.reply(m.chat, codeBot, m, rcanal);
+await parent.reply(m.chat, txt, m, menu, rcanal);
+await parent.reply(m.chat, codeBot, m);
 rl.close();
 }, 3000);
 }
