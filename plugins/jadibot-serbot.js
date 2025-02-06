@@ -1,4 +1,19 @@
-const { useMultiFileAuthState, DisconnectReason, makeCacheableSignalKeyStore, fetchLatestBaileysVersion} = (await import('@whiskeysockets/baileys'))
+
+/*⚠ PROHIBIDO EDITAR ⚠
+Este codigo fue modificado, adaptado y mejorado por
+- ReyEndymion >> https://github.com/ReyEndymion
+El codigo de este archivo esta inspirado en el codigo original de:
+- Aiden_NotLogic >> https://github.com/ferhacks
+*El archivo original del MysticBot-MD fue liberado en mayo del 2024 aceptando su liberacion*
+El codigo de este archivo fue parchado en su momento por:
+- BrunoSobrino >> https://github.com/BrunoSobrino
+
+Contenido adaptado por:
+- GataNina-Li >> https://github.com/GataNina-Li
+- elrebelde21 >> https://github.com/elrebelde21
+*/
+
+const { useMultiFileAuthState, DisconnectReason, makeCacheableSignalKeyStore, fetchLatestBaileysVersion} = (await import(global.baileys))
 import qrcode from "qrcode"
 import NodeCache from "node-cache"
 import fs from "fs"
@@ -19,31 +34,8 @@ let crm3 = "SBpbmZvLWRvbmFyLmpz"
 let crm4 = "IF9hdXRvcmVzcG9uZGVyLmpzIGluZm8tYm90Lmpz"
 let drm1 = "CkphZGlib3QsIEhlY2hv"
 let drm2 = "IHBvciBAQWlkZW5fTm90TG9naWM"
-let rtx = `⟣⊹⊹⊹✦ *SUB-BOT - QR* ✦⊹⊹⊹⟢
-
-✦ ${global.packname} 𝄢» \`\`\`${global.vs}\`\`\`
-✦ *Versión de JadiBot* 𝄢» \`\`\`${global.vsJB}\`\`\`
-
-1. En el dispositivo que será bot, abre WhatsApp.
-2. Pulsa los tres puntos en la esquina superior derecha.
-3. Selecciona *"Dispositivos vinculados"*.
-4. Escanea este código QR. _¡Expira en 30 segundos!_
-
-> ✨ Tu privacidad es importante para nosotros. *Dedica un momento a revisar nuestra Política de Privacidad.*
-`;
-let rtx2 = `⟣⊹⊹⊹✦ *SUB-BOT - CÓDIGO* ✦⊹⊹⊹⟢
-
-✦ ${global.packname} 𝄢» \`\`\`${global.vs}\`\`\`
-✦ *Versión de JadiBot* 𝄢» \`\`\`${global.vsJB}\`\`\`
-
-1. En el dispositivo que será bot, abre WhatsApp.
-2. Pulsa los tres puntos en la esquina superior derecha.
-3. Selecciona *"Dispositivos vinculados"* luego *"Vincular con el número de teléfono"*.
-4. Copia y pega el siguiente código. _¡Expira en 30 segundos!_
-
-> ✨ Tu privacidad es importante para nosotros. *Dedica un momento a revisar nuestra Política de Privacidad.*
-
-`
+let rtx = `${lenguajeGB['smsIniJadi']()}`
+let rtx2 = `${lenguajeGB['smsIniJadi2']()}`
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -51,12 +43,12 @@ const gataJBOptions = {}
 if (global.conns instanceof Array) console.log()
 else global.conns = []
 let handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
-//if (!global.db.data.settings[conn.user.jid].jadibotmd) return m.reply(`*ESTE COMANDO ESTÁ DESACTIVADO POR MÍ PROPIETARIO(A)*`)
+if (!global.db.data.settings[conn.user.jid].jadibotmd) return m.reply(`${lenguajeGB['smsSoloOwnerJB']()}`)
 if (m.fromMe || conn.user.jid === m.sender) return
 //if (conn.user.jid !== global.conn.user.jid) return conn.reply(m.chat, `${lenguajeGB['smsJBPrincipal']()} wa.me/${global.conn.user.jid.split`@`[0]}&text=${usedPrefix + command}`, m) 
 let who = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.fromMe ? conn.user.jid : m.sender
 let id = `${who.split`@`[0]}`  //conn.getName(who)
-let pathGataJadiBot = path.join("./LynxJadiBot/", id)
+let pathGataJadiBot = path.join("./GataJadiBot/", id)
 if (!fs.existsSync(pathGataJadiBot)){
 fs.mkdirSync(pathGataJadiBot, { recursive: true })
 }
@@ -273,7 +265,7 @@ m?.chat ? await conn.sendMessage(m.chat, {text : `☄️ *IMPORTANTE*
 > Si se desconecta frecuentemente usa \`${usedPrefix + command}\` si el problema persiste vuelve a ser sub bot.
 
 *Política de uso:*
-
+github.com/GataNina-Li/GataBot-MD/blob/master/terms.md
 `}, { quoted: m }) : ''
 }}
 setInterval(async () => {
@@ -313,14 +305,14 @@ sock.ev.off('call', sock.onCall)
 sock.ev.off('connection.update', sock.connectionUpdate)
 sock.ev.off('creds.update', sock.credsUpdate)
 }
-sock.welcome = `*╭┈⊰* @subject *⊰┈ ✦*\n*┊✨ BIENVENIDO(A)!!*\n┊💖 @user\n┊📄 *LEA LA DESCRIPCIÓN DEL GRUPO*\n*╰┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ✦*\n${String.fromCharCode(8206).repeat(850)}\n@desc` 
-sock.bye = `*╭┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈⊰*\n┊ *@user*\n┊ *NO FUE DIGNO(A) DE ESTAR AQUÍ!!* 🌟\n*╰┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈⊰*`
-sock.spromote = '*@user HA SIDO ASCENDIDO COMO ADMIN DEL GRUPO!!*'
-sock.sdemote = '*@user HA SIDO DEGRADADO COMO ADMIN DEL GRUPO!!*' 
-sock.sDesc = `*CONOZCAN LA NUEVA DESCRIPCIÓN DEL GRUPO:*\n\n@desc`
-sock.sSubject = `*SE HA ACTUALIZADO EL NOMBRE DEL GRUPO!!*\n@subject`
-sock.sIcon = `*SE HA ACTUALIZADO LA FOTO DEL GRUPO!!*`
-sock.sRevoke = `*CONOZCAN EL NUEVO ENLACE DEL GRUPO!!*\n*@revoke*`
+sock.welcome = lenguajeGB['smsWelcome']() 
+sock.bye = lenguajeGB['smsBye']() 
+sock.spromote = lenguajeGB['smsSpromote']() 
+sock.sdemote = lenguajeGB['smsSdemote']() 
+sock.sDesc = lenguajeGB['smsSdesc']() 
+sock.sSubject = lenguajeGB['smsSsubject']() 
+sock.sIcon = lenguajeGB['smsSicon']() 
+sock.sRevoke = lenguajeGB['smsSrevoke']()
 
 sock.handler = handler.handler.bind(sock)
 sock.participantsUpdate = handler.participantsUpdate.bind(sock)
