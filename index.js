@@ -35,16 +35,15 @@ const PORT = process.env.PORT || process.env.SERVER_PORT || 3000
 protoType()
 serialize()
 
+cfonts.say('gatabot\nlite\nmd'.trim())
 
-cfonts.say('gatabot\nlite\nmd'.trim(), options)
-
-say('GataBot\nLite\nMD', {
+say('DarkCore\nVIP\nMD', {
  font: 'chrome',
  align: 'center',
  gradient: ['red', 'magenta']
 })
 
-say(`Project Author:\nGataNina-Li (@gata_dios)\n\nDeveloper:\nelrebelde21 (Mario)`.trim(), {
+say(`Project Author:\nnDarkcore (@)\n\nDeveloper:\nDarkCore (dark)`.trim(), {
  font: 'console',
  align: 'center',
  colors: ['candy']
