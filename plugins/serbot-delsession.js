@@ -1,4 +1,4 @@
-import { readdirSync, statSync, unlinkSync, existsSync, readFileSync, watch, rmSync, promises as fs} from "fs"
+/*import { readdirSync, statSync, unlinkSync, existsSync, readFileSync, watch, rmSync, promises as fs} from "fs"
 import path, { join } from 'path'
 
 let handler  = async (m, { conn: parentw, usedPrefix, command}, args) => {
@@ -23,3 +23,4 @@ handler.command = /^(deletesess?ion|eliminarsesion|borrarsesion|delsess?ion|cerr
 handler.fail = null
 
 export default handler
+*/
