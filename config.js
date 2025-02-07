@@ -118,7 +118,7 @@ ch5: '120363220939514640@newsletter',
 ch6: '120363368073378190@newsletter',
 ch7: '120363220939514640@newsletter',
 ch8: '120363368073378190@newsletter'.
-ch9: '120363374486687514@newsletter',
+ch9: '120363374486687514@newsletter'
 }
 
 global.fake = {
