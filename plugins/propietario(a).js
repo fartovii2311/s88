@@ -13,7 +13,7 @@ console.log(e)
 
 switch (true) {     
 case isCommand1:
-const databaseFolder = './database'
+const databaseFolder = './storage'
 const zipPath = './database_backup.zip'
   
 if (!fs.existsSync(databaseFolder)) {
