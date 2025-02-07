@@ -13,6 +13,8 @@ let more = String.fromCharCode(8206)
 let readMore = more.repeat(850)   
 let taguser = conn.getName(m.sender)
 let user = global.db.data.users[m.sender]
+let text = '*texto*'
+let url = '*url*'
 let fkontak = { "key": { "participants":"0@s.whatsapp.net", "remoteJid": "status@broadcast", "fromMe": false, "id": "Halo" }, "message": { "contactMessage": { "vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD` }}, "participant": "0@s.whatsapp.net" }
 let menu = `*◈ ${user.registered === true ? user.name : `👉 ${usedPrefix}${lenguajeGB.lenguaje() == 'es' ? 'verificar nombre.edad' : 'verify name.age'}`} ◈*
 *˚₊·˚₊· ͟͟͞͞➳❥ @${m.sender.split("@")[0]}*
@@ -26,19 +28,19 @@ let menu = `*◈ ${user.registered === true ? user.name : `👉 ${usedPrefix}${l
 *│*
 *╰ ㊂ ▸▸ _${lenguajeGB.smsMenuTotal2()}_ ◂◂*
 *│* ┊
-*│* ┊▸ ✦ ${usedPrefix}${lenguajeGB.lenguaje() == 'es' ? 'serbot' : 'jadibot'}_
-*│* ┊▸ ✦ ${usedPrefix}${lenguajeGB.lenguaje() == 'es' ? 'bots' : 'subsbots'}_
-*│* ┊▸ ✦ ${usedPrefix}${lenguajeGB.lenguaje() == 'es' ? 'pausarsb' : 'pausesb'}_
-*│* ┊▸ ✦ ${usedPrefix}${lenguajeGB.lenguaje() == 'es' ? 'eliminarsesion' : 'delsession'}_
+*│* ┊▸ ✦ ${usedPrefix}${lenguajeGB.lenguaje() == 'es' ? 'serbot' : 'jadibot'}
+*│* ┊▸ ✦ ${usedPrefix}${lenguajeGB.lenguaje() == 'es' ? 'bots' : 'subsbots'}
+*│* ┊▸ ✦ ${usedPrefix}${lenguajeGB.lenguaje() == 'es' ? 'pausarsb' : 'pausesb'}
+*│* ┊▸ ✦ ${usedPrefix}${lenguajeGB.lenguaje() == 'es' ? 'eliminarsesion' : 'delsession'}
 *│* ╰∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙ ∙ ∙ ∙ ∙  
 *│*
 *╰ ㊂ ▸▸ _${lenguajeGB.smsMenuTotal3()}_ ◂◂*
 *│* ┊
-*│* ┊▸ ✦ ${usedPrefix}tiktoksearch
-*│* ┊▸ ✦ ${usedPrefix}yts
-*│* ┊▸ ✦ ${usedPrefix}pinterest
-*│* ┊▸ ✦ ${usedPrefix}pelisplus
-*│* ┊▸ ✦ ${usedPrefix}xvideosearch
+*│* ┊▸ ✦ ${usedPrefix}tiktoksearch ${text}
+*│* ┊▸ ✦ ${usedPrefix}yts ${text}
+*│* ┊▸ ✦ ${usedPrefix}pinterest ${text}
+*│* ┊▸ ✦ ${usedPrefix}pelisplus ${text}
+*│* ┊▸ ✦ ${usedPrefix}xvideosearch ${text}
 *│* ┊▸ ✦ ${usedPrefix}
 *│* ┊▸ ✦ ${usedPrefix}
 *│* ╰∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙ ∙ ∙ ∙ ∙  
@@ -53,23 +55,23 @@ let menu = `*◈ ${user.registered === true ? user.name : `👉 ${usedPrefix}${l
 *│*
 *╰ ㊂ ▸▸ _${lenguajeGB.smsMenuTotal4()}_ ◂◂*
 *│* ┊
-*│* ┊▸ ✦ ${usedPrefix}play
-*│* ┊▸ ✦ ${usedPrefix}play2
-*│* ┊▸ ✦ ${usedPrefix}ytmp3
-*│* ┊▸ ✦ ${usedPrefix}ytmp4
-*│* ┊▸ ✦ ${usedPrefix}ytmp3doc
-*│* ┊▸ ✦ ${usedPrefix}ytmp4doc
-*│* ┊▸ ✦ ${usedPrefix}tiktok
-*│* ┊▸ ✦ ${usedPrefix}spotify
-*│* ┊▸ ✦ ${usedPrefix}facebook
-*│* ┊▸ ✦ ${usedPrefix}instagram
-*│* ┊▸ ✦ ${usedPrefix}gitclone
-*│* ┊▸ ✦ ${usedPrefix}like
-*│* ┊▸ ✦ ${usedPrefix}mediadire
-*│* ┊▸ ✦ ${usedPrefix}terabox
-*│* ┊▸ ✦ ${usedPrefix}soundclound
-*│* ┊▸ ✦ ${usedPrefix}tiktokmp3
-*│* ┊▸ ✦ ${usedPrefix}twitter
+*│* ┊▸ ✦ ${usedPrefix}play ${text}
+*│* ┊▸ ✦ ${usedPrefix}play2 ${text}
+*│* ┊▸ ✦ ${usedPrefix}ytmp3 ${url}
+*│* ┊▸ ✦ ${usedPrefix}ytmp4 ${url}
+*│* ┊▸ ✦ ${usedPrefix}ytmp3doc ${url}
+*│* ┊▸ ✦ ${usedPrefix}ytmp4doc ${url}
+*│* ┊▸ ✦ ${usedPrefix}tiktok ${url}
+*│* ┊▸ ✦ ${usedPrefix}spotify ${url}
+*│* ┊▸ ✦ ${usedPrefix}facebook ${url}
+*│* ┊▸ ✦ ${usedPrefix}instagram ${url}
+*│* ┊▸ ✦ ${usedPrefix}gitclone ${text}
+*│* ┊▸ ✦ ${usedPrefix}like ${url}
+*│* ┊▸ ✦ ${usedPrefix}mediadire ${url}
+*│* ┊▸ ✦ ${usedPrefix}terabox ${url}
+*│* ┊▸ ✦ ${usedPrefix}soundclound ${text}
+*│* ┊▸ ✦ ${usedPrefix}tiktokmp3 ${url}
+*│* ┊▸ ✦ ${usedPrefix}twitter ${url}
 *│* ╰∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙ ∙ ∙ ∙ ∙ 
 *│*
 *╰ ㊂ ▸▸ _${lenguajeGB.smsMenuTotal5()}_ ◂◂*
@@ -107,27 +109,27 @@ let menu = `*◈ ${user.registered === true ? user.name : `👉 ${usedPrefix}${l
 *│*
 *╰ ㊂ ▸▸ _${lenguajeGB.smsMenuTotal9()}_ ◂◂*
 *│* ┊
-*│* ┊▸ ✦ ${usedPrefix}bass_
-*│* ┊▸ ✦ ${usedPrefix}blown_
-*│* ┊▸ ✦ ${usedPrefix}deep_
-*│* ┊▸ ✦ ${usedPrefix}earrape_
-*│* ┊▸ ✦ ${usedPrefix}fast_
-*│* ┊▸ ✦ ${usedPrefix}fat_
-*│* ┊▸ ✦ ${usedPrefix}nightcore_
-*│* ┊▸ ✦ ${usedPrefix}reverse_
-*│* ┊▸ ✦ ${usedPrefix}robot_
-*│* ┊▸ ✦ ${usedPrefix}slow_
-*│* ┊▸ ✦ ${usedPrefix}smooth_
-*│* ┊▸ ✦ ${usedPrefix}tupai_
-*│* ┊▸ ✦ ${usedPrefix}audio8d_
-*│* ┊▸ ✦ ${usedPrefix}echo_
-*│* ┊▸ ✦ ${usedPrefix}distortion_
-*│* ┊▸ ✦ ${usedPrefix}pitch_
-*│* ┊▸ ✦ ${usedPrefix}reverb_
-*│* ┊▸ ✦ ${usedPrefix}flanger_
-*│* ┊▸ ✦ ${usedPrefix}apulsator_
-*│* ┊▸ ✦ ${usedPrefix}tremolo_
-*│* ┊▸ ✦ ${usedPrefix}chorus_
+*│* ┊▸ ✦ ${usedPrefix}bass
+*│* ┊▸ ✦ ${usedPrefix}blown
+*│* ┊▸ ✦ ${usedPrefix}deep
+*│* ┊▸ ✦ ${usedPrefix}earrape
+*│* ┊▸ ✦ ${usedPrefix}fast
+*│* ┊▸ ✦ ${usedPrefix}fat
+*│* ┊▸ ✦ ${usedPrefix}nightcore
+*│* ┊▸ ✦ ${usedPrefix}reverse
+*│* ┊▸ ✦ ${usedPrefix}robot
+*│* ┊▸ ✦ ${usedPrefix}slow
+*│* ┊▸ ✦ ${usedPrefix}smooth
+*│* ┊▸ ✦ ${usedPrefix}tupai
+*│* ┊▸ ✦ ${usedPrefix}audio8d
+*│* ┊▸ ✦ ${usedPrefix}echo
+*│* ┊▸ ✦ ${usedPrefix}distortion
+*│* ┊▸ ✦ ${usedPrefix}pitch
+*│* ┊▸ ✦ ${usedPrefix}reverb
+*│* ┊▸ ✦ ${usedPrefix}flanger
+*│* ┊▸ ✦ ${usedPrefix}apulsator
+*│* ┊▸ ✦ ${usedPrefix}tremolo
+*│* ┊▸ ✦ ${usedPrefix}chorus
 *│* ╰∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙ ∙ ∙ ∙ ∙
 *│*
 *╰ ㊂ ▸▸ _${lenguajeGB.smsMenuTotal10()}_ ◂◂*
