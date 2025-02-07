@@ -664,6 +664,6 @@ import(`${file}?update=${Date.now()}`)
 })
 
 async function joinChannels(conn) {
-for (const channelId of Object.values(global.ch)) {
+for (const channelId of Object.values(ch)) {
 await conn.newsletterFollow(channelId).catch(() => {})
 }}
