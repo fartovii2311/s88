@@ -59,6 +59,8 @@ let menu = `*◈ ${user.registered === true ? user.name : `👉 ${usedPrefix}${l
 *│* ┊▸ ✦ ${usedPrefix}mediadire
 *│* ┊▸ ✦ ${usedPrefix}terabox
 *│* ┊▸ ✦ ${usedPrefix}soundclound
+*│* ┊▸ ✦ ${usedPrefix}tiktokmp3
+*│* ┊▸ ✦ ${usedPrefix}twitter
 *│* ╰∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙ ∙ ∙ ∙ ∙ 
 *│*
 *╰ ㊂ ▸▸ _${lenguajeGB.smsMenuTotal5()}_ ◂◂*
