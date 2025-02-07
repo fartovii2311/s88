@@ -107,27 +107,27 @@ let menu = `*◈ ${user.registered === true ? user.name : `👉 ${usedPrefix}${l
 *│*
 *╰ ㊂ ▸▸ _${lenguajeGB.smsMenuTotal9()}_ ◂◂*
 *│* ┊
-*│* ┊▸ ✦ _${usedPrefix}bass_
-*│* ┊▸ ✦ _${usedPrefix}blown_
-*│* ┊▸ ✦ _${usedPrefix}deep_
-*│* ┊▸ ✦ _${usedPrefix}earrape_
-*│* ┊▸ ✦ _${usedPrefix}fast_
-*│* ┊▸ ✦ _${usedPrefix}fat_
-*│* ┊▸ ✦ _${usedPrefix}nightcore_
-*│* ┊▸ ✦ _${usedPrefix}reverse_
-*│* ┊▸ ✦ _${usedPrefix}robot_
-*│* ┊▸ ✦ _${usedPrefix}slow_
-*│* ┊▸ ✦ _${usedPrefix}smooth_
-*│* ┊▸ ✦ _${usedPrefix}tupai_
-*│* ┊▸ ✦ _${usedPrefix}audio8d_
-*│* ┊▸ ✦ _${usedPrefix}echo_
-*│* ┊▸ ✦ _${usedPrefix}distortion_
-*│* ┊▸ ✦ _${usedPrefix}pitch_
-*│* ┊▸ ✦ _${usedPrefix}reverb_
-*│* ┊▸ ✦ _${usedPrefix}flanger_
-*│* ┊▸ ✦ _${usedPrefix}apulsator_
-*│* ┊▸ ✦ _${usedPrefix}tremolo_
-*│* ┊▸ ✦ _${usedPrefix}chorus_
+*│* ┊▸ ✦ ${usedPrefix}bass_
+*│* ┊▸ ✦ ${usedPrefix}blown_
+*│* ┊▸ ✦ ${usedPrefix}deep_
+*│* ┊▸ ✦ ${usedPrefix}earrape_
+*│* ┊▸ ✦ ${usedPrefix}fast_
+*│* ┊▸ ✦ ${usedPrefix}fat_
+*│* ┊▸ ✦ ${usedPrefix}nightcore_
+*│* ┊▸ ✦ ${usedPrefix}reverse_
+*│* ┊▸ ✦ ${usedPrefix}robot_
+*│* ┊▸ ✦ ${usedPrefix}slow_
+*│* ┊▸ ✦ ${usedPrefix}smooth_
+*│* ┊▸ ✦ ${usedPrefix}tupai_
+*│* ┊▸ ✦ ${usedPrefix}audio8d_
+*│* ┊▸ ✦ ${usedPrefix}echo_
+*│* ┊▸ ✦ ${usedPrefix}distortion_
+*│* ┊▸ ✦ ${usedPrefix}pitch_
+*│* ┊▸ ✦ ${usedPrefix}reverb_
+*│* ┊▸ ✦ ${usedPrefix}flanger_
+*│* ┊▸ ✦ ${usedPrefix}apulsator_
+*│* ┊▸ ✦ ${usedPrefix}tremolo_
+*│* ┊▸ ✦ ${usedPrefix}chorus_
 *│* ╰∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙ ∙ ∙ ∙ ∙
 *│*
 *╰ ㊂ ▸▸ _${lenguajeGB.smsMenuTotal10()}_ ◂◂*
