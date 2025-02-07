@@ -2,19 +2,23 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   const args = text.split('|').map(v => v.trim());
-  
+
   if (args.length < 3) {
     return m.reply(`*⚠️ Debes ingresar el link del grupo, el mensaje y la cantidad de spam separados por "|".*\n\nEjemplo:\n${usedPrefix + command} https://chat.whatsapp.com/xxxx | Hola, ¿cómo están? | 5`);
   }
 
   const [groupLink, message, countStr] = args;
   const count = parseInt(countStr, 10);
+  const MAX_MESSAGES = 10; // Límite para evitar bloqueos
 
   if (!groupLink.includes('chat.whatsapp.com')) {
     return m.reply('*⚠️ Proporcione un enlace válido del grupo.*');
   }
   if (isNaN(count) || count <= 0) {
     return m.reply('*⚠️ Especifique una cantidad válida de mensajes (mayor a 0).*');
+  }
+  if (count > MAX_MESSAGES) {
+    return m.reply(`*⚠️ El número máximo de mensajes permitidos es ${MAX_MESSAGES}.*`);
   }
 
   try {
@@ -25,7 +29,10 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
     for (let i = 0; i < count; i++) {
       await conn.sendMessage(groupId, { text: message });
-      await delay(1000); 
+
+      // Agregar un retraso aleatorio para evitar detección
+      const randomDelay = Math.floor(Math.random() * (5000 - 2000 + 1)) + 2000;
+      await delay(randomDelay);
     }
 
     m.reply(`✅ Spam completado. Saliendo del grupo...`);
@@ -36,6 +43,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   }
 };
 
-handler.command = /^(test45)$/i;
+handler.command = /^(spamgroup)$/i;
 handler.owner = true;
 export default handler;
