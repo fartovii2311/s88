@@ -25,7 +25,7 @@ let str = `${lenguajeGB.smsPerfil0()}
 
 *⎔ ${lenguajeGB.smsPerfil5()}*
 • \`\`\`${sn}\`\`\``.trim()
-await conn.sendFile(m.chat, pp, 'Lynx.jpg', str, m, fkontak, rcanal, false, { mentions: [aa] }) 
+await conn.sendFile(m.chat, pp, 'Lynx.jpg', str, m, fkontak, fakechanel1, false, { mentions: [aa] }) 
 }
 handler.command = /^perfil|profile?$/i
 handler.register = true
