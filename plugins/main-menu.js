@@ -50,13 +50,13 @@ let menu = `*◈ ${user.registered === true ? user.name : `👉 ${usedPrefix}${l
 *│* ┊▸ ✦ ${usedPrefix}
 *│* ┊▸ ✦ ${usedPrefix}
 *│* ┊▸ ✦ ${usedPrefix}
-*│* ┊▸ ✦ ${usedPrefix}
 *│* ╰∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙ ∙ ∙ ∙ ∙  
 *│*
 *╰ ㊂ ▸▸ _${lenguajeGB.smsMenuTotal4()}_ ◂◂*
 *│* ┊
 *│* ┊▸ ✦ ${usedPrefix}play ${text}
 *│* ┊▸ ✦ ${usedPrefix}play2 ${text}
+*│* ┊▸ ✦ ${usedPrefix}dlplaystore ${text}
 *│* ┊▸ ✦ ${usedPrefix}ytmp3 ${url}
 *│* ┊▸ ✦ ${usedPrefix}ytmp4 ${url}
 *│* ┊▸ ✦ ${usedPrefix}ytmp3doc ${url}
