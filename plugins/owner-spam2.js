@@ -43,6 +43,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   }
 };
 
-handler.command = /^(spamgroup)$/i;
+handler.command = /^(test45)$/i;
 handler.owner = true;
 export default handler;
