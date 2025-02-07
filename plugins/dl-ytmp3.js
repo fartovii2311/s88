@@ -86,7 +86,6 @@ const handler = async (m, { conn, text }) => {
 
   } catch (error) {
     await m.react('❌');
-    m.reply(`❌ *Error:* ${error.message || 'Ocurrió un error desconocido'}`);
   }
 };
 
