@@ -149,7 +149,7 @@ global.desc = ''
 global.desc2 = ''
 global.country = ''
 
-global.vs = '1.4.0'
+global.vs = '𝗟𝗬𝗡𝗫 𝗔𝗜  (𝟭.𝟰.𝟬)'
 global.vsJB = '5.0 (beta)'
 global.gt = ''
 
