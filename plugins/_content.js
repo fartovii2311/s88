@@ -43,18 +43,7 @@ global.nnnttt5 = 'https://chat.whatsapp.com/' //A.T.M.M
 
 // Imágenes locales
 global.imagen1 = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png')
-global.imagen2 = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png')
-global.imagen3 = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png')
-global.imagen4 = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png')
-global.imagen5 = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png')
-global.imagen6 = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png')
-global.imagen7 = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png')
-global.imagen8 = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png')
-global.imagen9 = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png')
-global.imagen10 = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png')
-global.imagen11 = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png')
-global.imagen12 = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png')
-global.imagen13 = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png')
+
 
 // Imágenes en la nube
 global.img = 'https://i.ibb.co/Y7mhFdf/file.jpg'
@@ -81,7 +70,7 @@ global.img21 = 'https://i.ibb.co/Y7mhFdf/file.jpg' // imagen paypal
 global.welgata = [ig, yt2, yt2, ig, md, ig, yt, paypal, yt2, yt2, ig, fb, tg]
 global.redesMenu = [nna, nn2, nn, nnn, nnnt, nnntt, nnnttt, nnnttt1, nnnttt2, nnnttt3, nnnttt4, md, ig, paypal, yt, asistencia, fb, tg]
 global.gataMenu = [img, img2, img6, img7, img8, img9, img13, img14, img15, img17, img18, img19, img20, img21]
-global.gataImg = [imagen1, imagen2, imagen3, imagen4, imagen5, imagen6, imagen7, imagen8, imagen9, imagen10, imagen11, imagen12, imagen13]
+global.gataImg = [imagen1]
 global.accountsgb = [canal1, canal2, canal3, canal4, canal5, tk, ig, yt, paypal, fb, ths, md, asistencia, tg].getRandom()
 
 global.canalIdGB = ["120363377833048768@newsletter", "120363220939514640@newsletter", "120363220939514640@newsletter", "120363368073378190@newsletter", "120363374486687514@newsletter", "120363183614708156@newsletter"]
