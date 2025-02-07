@@ -70,24 +70,24 @@ resultado += segundos + " segundos";
 }
 return resultado;
 }
-const message = users.map((v, index) => `┏━━━━━━━━━━━━━⬣  
-┃ *ɪᴅ:* ${index + 1}  
-┃ *ᴜsᴜᴀʀɪᴏ:* *${lenguajeGB.smsBT8()}* : ${v.user.name || '-'}  
-┃ *ᴇɴʟᴀᴄᴇ:* https://wa.me/${v.user.jid.replace(/[^0-9]/g, '')}?text=${usedPrefix}estado) 
-┃ *ᴀᴄᴛɪᴠɪᴅᴀᴅ:* ${ v.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - v.uptime) : "Desconocido"}
-┗━━━━━━━━━━━━━⬣
-`).join('\n\n');
+const message = users.map((v, index) => `╔══❰ *USUARIO ${index + 1}* ❱══➤  
+║ 🆔 *ID:* ${index + 1}  
+║ 👤 *Nombre:* ${v.user.name || '-'}  
+║ 🔗 *Enlace:* [📩 Click aquí](https://wa.me/${v.user.jid.replace(/[^0-9]/g, '')}?text=${usedPrefix}estado)  
+║ ⏳ *Actividad:* ${v.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - v.uptime) : "Desconocido"}  
+╚═══════════════════➤`).join('\n\n');
 
 const replyMessage = message.length === 0 ? `${lenguajeGB.smsJBCom4()}` : message;
 const totalUsers = users.length;
 
-const responseMessage = `┏━━━━━━━━━━━━━⬣  
-┃ 📌 *sᴇʀʙᴏᴛs ᴇɴ ʟɪ́ɴᴇᴀ:* ${totalUsers || '0'}  
-┗━━━━━━━━━━━━━⬣  
+const responseMessage = `╔═══════════════════  
+║ 📌 *Usuarios serbot:* ${totalUsers || '0'}  
+╚═══════════════════  
 
 ${replyMessage.trim()}`.trim();
 
-await _envio.sendMessage(m.chat, {text: responseMessage, mentions: _envio.parseMention(responseMessage)}, {quoted: m})
+
+await _envio.sendMessage(m.chat, {text: responseMessage, mentions: _envio.parseMention(responseMessage)}, {quoted: m},{quoted: m})
 break    
 }}
 
