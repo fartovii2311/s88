@@ -44,11 +44,21 @@ let menu = `*◈ ${user.registered === true ? user.name : `👉 ${usedPrefix}${l
 *│*
 *╰ ㊂ ▸▸ _${lenguajeGB.smsMenuTotal4()}_ ◂◂*
 *│* ┊
-*│* ┊▸ ✦ _${usedPrefix}play
-*│* ┊▸ ✦ _${usedPrefix}ytmp3
-*│* ┊▸ ✦ _${usedPrefix}ytmp4
-*│* ┊▸ ✦ _${usedPrefix}ytmp3doc
-*│* ┊▸ ✦ _${usedPrefix}ytmp4doc
+*│* ┊▸ ✦ ${usedPrefix}play
+*│* ┊▸ ✦ ${usedPrefix}play2
+*│* ┊▸ ✦ ${usedPrefix}ytmp3
+*│* ┊▸ ✦ ${usedPrefix}ytmp4
+*│* ┊▸ ✦ ${usedPrefix}ytmp3doc
+*│* ┊▸ ✦ ${usedPrefix}ytmp4doc
+*│* ┊▸ ✦ ${usedPrefix}tiktok
+*│* ┊▸ ✦ ${usedPrefix}spotify
+*│* ┊▸ ✦ ${usedPrefix}facebook
+*│* ┊▸ ✦ ${usedPrefix}instagram
+*│* ┊▸ ✦ ${usedPrefix}gitclone
+*│* ┊▸ ✦ ${usedPrefix}like
+*│* ┊▸ ✦ ${usedPrefix}mediadire
+*│* ┊▸ ✦ ${usedPrefix}terabox
+*│* ┊▸ ✦ ${usedPrefix}soundclound
 *│* ╰∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙ ∙ ∙ ∙ ∙ 
 *│*
 *╰ ㊂ ▸▸ _${lenguajeGB.smsMenuTotal5()}_ ◂◂*
