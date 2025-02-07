@@ -60,9 +60,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
         throw new Error('No se pudo obtener el enlace de descarga de ninguna API.');
     } catch (error) {
-        console.error(error);
         await m.react('❌');
-        m.reply(`❌ *Error:* ${error.message || 'Ocurrió un error desconocido'}`);
     }
 };
 
