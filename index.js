@@ -16,6 +16,7 @@ import { tmpdir } from 'os'
 import { format } from 'util'
 import P from 'pino'
 import pino from 'pino'
+import * as cheerio from 'cheerio';
 import Pino from 'pino'
 import { Boom } from '@hapi/boom'
 import { makeWASocket, protoType, serialize } from './lib/simple.js'
