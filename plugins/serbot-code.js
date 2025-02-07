@@ -12,7 +12,7 @@ Contenido adaptado por:
 - elrebelde21 >> https://github.com/elrebelde21
 */
 
-const {
+/*const {
   useMultiFileAuthState,
   DisconnectReason,
   makeCacheableSignalKeyStore,
@@ -73,7 +73,7 @@ if (_0x4ea9f2) {
       _0x42414c[0x0] = undefined;
     }
   } */
-  if (!_0x2a39f4.existsSync('./' + jadi + '/' + _0x3b9930)) {
+ /* if (!_0x2a39f4.existsSync('./' + jadi + '/' + _0x3b9930)) {
     _0x2a39f4.mkdirSync('./' + jadi + '/' + _0x3b9930, {
       'recursive': true
     });
