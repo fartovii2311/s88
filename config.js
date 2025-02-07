@@ -110,16 +110,17 @@ global.menu = {
 };
 
 global.ch = {
-ch1: '120363374486687514@newsletter',
-ch2: '20363371366801178@newslette',
-ch3: '120363183614708156@newslette',
-ch4: '120363377833048768@newsletter',
-ch5: '120363220939514640@newsletter',
-ch6: '120363368073378190@newsletter',
-ch7: '120363220939514640@newsletter',
-ch8: '120363368073378190@newsletter'.
-ch9: '120363374486687514@newsletter'
-}
+  ch1: '120363374486687514@newsletter',
+  ch2: '20363371366801178@newsletter',
+  ch3: '120363183614708156@newsletter',
+  ch4: '120363377833048768@newsletter',
+  ch5: '120363220939514640@newsletter',
+  ch6: '120363368073378190@newsletter',
+  ch7: '120363220939514640@newsletter',
+  ch8: '120363368073378190@newsletter',
+  ch9: '120363374486687514@newsletter'
+};
+
 
 global.fake = {
   contextInfo: {
