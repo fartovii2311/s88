@@ -14,7 +14,7 @@ import { en, es, id, ar, pt, de, it } from './lib/idiomas/total-idiomas.js'
 // EN ➜ If you want to receive reports you must use the three parameters (Number, name and true)
 global.owner = [
   ['51968382008', 'DARK CORE', true],
-  ['51917154203', 'Lynx - Ai', true],
+  ['51917154203', 'Lyᥒ᥊ ᥴһᥲᥒᥒᥱᥣ', true],
   [''],
   ['']
 
@@ -145,7 +145,7 @@ global.fetch = fetch
 global.axios = axios
 global.moment = moment	
 
-global.packname = '🌻'
+global.packname = 'Lyᥒ᥊ ᥴһᥲᥒᥒᥱᥣ 🌻'
 global.author = ''
 global.policyGB = ''
 
