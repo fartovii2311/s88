@@ -216,8 +216,8 @@ loadChatgptDB();
 /* ------------------------------------------------*/
 
 global.creds = 'creds.json'
-global.authFile = `GataBotSession`
-global.authFileJB  = 'GataJadiBot'
+global.authFile = `LynxSession`
+global.authFileJB  = 'LynxJadiBot'
 global.rutaBot = join(__dirname, authFile)
 global.rutaJadiBot = join(__dirname, authFileJB)
 const respaldoDir = join(__dirname, 'BackupSession');
