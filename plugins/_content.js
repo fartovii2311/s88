@@ -8,16 +8,16 @@ let handler = m => m
 handler.before = async function (m, { conn } ) {
 
 // redes
-global.tk = 'https://www.tiktok.com/@gata_dios'
-global.ths = 'https://www.threads.net/@gata_dios'
-global.yt = 'https://youtube.com/@gatadios'
-global.yt2 = 'https://youtu.be/Ko019wvu2Tc'
-global.ig = 'https://www.instagram.com/gata_dios'
-global.md = 'https://github.com/GataNina-Li/GataBotLite-MD'
-global.fb = 'https://www.facebook.com/groups/872989990425789'
+global.tk = 'https://www.tiktok.com/'
+global.ths = 'https://www.threads.net/'
+global.yt = 'https://youtube.com/'
+global.yt2 = 'https://youtu.be/'
+global.ig = 'https://www.instagram.com/'
+global.md = 'https://github.com/'
+global.fb = ''
 global.paypal = 'https://paypal.me/OficialGD'
-global.asistencia = 'https://wa.me/message/MEKOUFBEOG5ED1'
-global.tg = 'https://t.me/globalgb' // canal
+global.asistencia = 'https://wa.me/message/'
+global.tg = 'https://t.me/' // canal
 
 // canales
 global.canal1 = "https://whatsapp.com/channel/"
