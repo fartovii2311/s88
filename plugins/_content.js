@@ -20,26 +20,26 @@ global.asistencia = 'https://wa.me/message/MEKOUFBEOG5ED1'
 global.tg = 'https://t.me/globalgb' // canal
 
 // canales
-global.canal1 = "https://whatsapp.com/channel/0029Va4QjH7DeON0ePwzjS1A"
-global.canal2 = "https://whatsapp.com/channel/0029Va4QjH7DeON0ePwzjS1A"
-global.canal3 = "https://whatsapp.com/channel/0029VaKn22pDJ6GwY61Ftn15"
-global.canal4 = "https://whatsapp.com/channel/0029VabS4KD8KMqeVXXmkG1D"
-global.canal5 = "https://whatsapp.com/channel/0029VatPwXw7Noa8n1Vinx3g"
+global.canal1 = "https://whatsapp.com/channel/"
+global.canal2 = "https://whatsapp.com/channel/"
+global.canal3 = "https://whatsapp.com/channel/"
+global.canal4 = "https://whatsapp.com/channel/"
+global.canal5 = "https://whatsapp.com/channel/"
 
 // grupos (algunos pueden estar repetidos con otros, es temporal)
-global.nna = 'https://whatsapp.com/channel/0029Va6yY0iLY6d6XDmqA03g' //CANAL UPDATE
+global.nna = 'https://whatsapp.com/channel/' //CANAL UPDATE
 global.nn2 = 'https://t.me/globalgb'
-global.nna2 = 'https://chat.whatsapp.com/KaTeeaexrGSHBzPm4s945b' //Help
-global.nn = 'https://chat.whatsapp.com/HBIIrHorHbW2LIxlS9MjRI' //Grupo 1
-global.nnn = 'https://chat.whatsapp.com/CtA2nopOZor0bRwV3FCYH3' //Grupo 2
-global.nnnt = 'https://chat.whatsapp.com/HVLk7c3ZlNN0mJjodw4NkV' //Grupo 3
-global.nnntt = 'https://chat.whatsapp.com/BSDrNVhj2lVElUgrNnGoby' //Grupo 4
-global.nnnttt = 'https://chat.whatsapp.com/CciFSHhsYxd9TqW2tZhhZx' //Grupo 5
-global.nnnttt1 = 'https://chat.whatsapp.com/Ej5AUrpmYnJKYtEa6YMwK6' //Grupo 6 COL
-global.nnnttt2 = 'https://chat.whatsapp.com/I9DsG6ABKer27NbW01Nl39' //Grupo 7 COL
-global.nnnttt3 = 'https://chat.whatsapp.com/KQtWZDVfosTKbheIlndLBN' //Grupo 8 COL
-global.nnnttt4 = 'https://chat.whatsapp.com/BngbJC3aBVhF5KjoaawiT1' //Grupo 9 COL
-global.nnnttt5 = 'https://chat.whatsapp.com/HOCsvLox0Ui7cwzTCeFhPP' //A.T.M.M
+global.nna2 = 'https://chat.whatsapp.com/' //Help
+global.nn = 'https://chat.whatsapp.com/' //Grupo 1
+global.nnn = 'https://chat.whatsapp.com/' //Grupo 2
+global.nnnt = 'https://chat.whatsapp.com/' //Grupo 3
+global.nnntt = 'https://chat.whatsapp.com/' //Grupo 4
+global.nnnttt = 'https://chat.whatsapp.com/' //Grupo 5
+global.nnnttt1 = 'https://chat.whatsapp.com/' //Grupo 6 COL
+global.nnnttt2 = 'https://chat.whatsapp.com/' //Grupo 7 COL
+global.nnnttt3 = 'https://chat.whatsapp.com/' //Grupo 8 COL
+global.nnnttt4 = 'https://chat.whatsapp.com/' //Grupo 9 COL
+global.nnnttt5 = 'https://chat.whatsapp.com/' //A.T.M.M
 
 // Imágenes locales
 global.imagen1 = fs.readFileSync('./media/menus/Menu3.jpg')
