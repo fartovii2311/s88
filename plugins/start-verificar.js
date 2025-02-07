@@ -80,7 +80,7 @@ let isVerified = m.quoted ? (m.quoted.id == msg.key.id && !isNaN(numero) && nume
 if (isVerified) {
 user.GBLanguage = codigosIdiomas[numero - 1]
 nombresIdiomas = nombresIdiomas[user.GBLanguage]
-user.name = nombre + 'ͧͧͧͦꙶͣͤ✓ᚲᴳᴮ'.trim()
+user.name = nombre + 'ͧͧͧͦꙶͣͤ✓ᚲᴰᴷ'.trim()
 user.age = edad
 user.regTime = + new Date
 user.registered = true
@@ -97,7 +97,7 @@ let caption = `${lenguajeGB.smsVerify7()}
 *⎔ PAÍS:*
 • ${userNationality}
 *⎔ ${lenguajeGB.smsVerify9()}*
-• 'ͧͧͧͦꙶͣͤ✓ᚲᴳᴮ'
+• 'ͧͧͧͦꙶͣͤ✓ᚲᴰᴷ'
 *⎔ ${lenguajeGB.smsPerfil5()}*
 • \`\`\`${sn}\`\`\`
 
