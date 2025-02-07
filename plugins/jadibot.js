@@ -73,7 +73,7 @@ return resultado;
 const message = users.map((v, index) => `╔══❰ *USUARIO ${index + 1}* ❱══➤  
 ║ 🆔 *ID:* ${index + 1}  
 ║ 👤 *Nombre:* ${v.user.name || '-'}  
-║ 🔗 *Enlace:* [📩 Click aquí](https://wa.me/${v.user.jid.replace(/[^0-9]/g, '')}?text=${usedPrefix}estado)  
+║ 🔗 *Enlace:* https://wa.me/${v.user.jid.replace(/[^0-9]/g, '')}?text=${usedPrefix}estado  
 ║ ⏳ *Actividad:* ${v.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - v.uptime) : "Desconocido"}  
 ╚═══════════════════➤`).join('\n\n');
 
