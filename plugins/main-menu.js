@@ -177,7 +177,17 @@ let menu = `*◈ ${user.registered === true ? user.name : `👉 ${usedPrefix}${l
 *│*
 *╰ ㊂ ▸▸ _${lenguajeGB.smsMenuTotal12()}_ ◂◂*
 *│* ┊ 
-*│* ┊▸ ✦ _${usedPrefix}${lenguajeGB.lenguaje() == 'es' ? 'respaldo' : 'backup'}_
+*│* ┊▸ ✦ ${usedPrefix}${lenguajeGB.lenguaje() == 'es' ? 'respaldo' : 'backup'}
+*│* ┊▸ ✦ ${usedPrefix}nuevonombrecanal
+*│* ┊▸ ✦ ${usedPrefix}reaccionescanal
+*│* ┊▸ ✦ ${usedPrefix}updates
+*│* ┊▸ ✦ ${usedPrefix}eliminarppcanal
+*│* ┊▸ ✦ ${usedPrefix}ppcanal
+*│* ┊▸ ✦ ${usedPrefix}nosilenciarcanal
+*│* ┊▸ ✦ ${usedPrefix}silenciarcanal
+*│* ┊▸ ✦ ${usedPrefix}noseguircanal
+*│* ┊▸ ✦ ${usedPrefix}seguircanal
+*│* ┊▸ ✦ ${usedPrefix}inspect
 *│* ╰∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙ ∙ ∙ ∙ ∙
  `.trim()
     
