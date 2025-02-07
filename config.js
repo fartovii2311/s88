@@ -1,3 +1,4 @@
+
 import { watchFile, unwatchFile } from 'fs' 
 import chalk from 'chalk'
 import { fileURLToPath } from 'url'
@@ -79,7 +80,7 @@ global.rcanal = {
   contextInfo: {
     isForwarded: true,
     forwardedNewsletterMessageInfo: {
-       newsletterJid: "120363374486687514@newsletter",
+       newsletterJid: ch,
        serverMessageId: 100,
        newsletterName: textbot,
     },
@@ -90,7 +91,7 @@ global.menu = {
   contextInfo: { 
     isForwarded: true, 
     forwardedNewsletterMessageInfo: { 
-      newsletterJid: "120363374486687514@newsletter", 
+      newsletterJid: ch, 
       serverMessageId: 100, 
       newsletterName: 'Lyᥒ᥊ ᥴһᥲᥒᥒᥱᥣ', 
     }, 
@@ -126,7 +127,7 @@ global.fake = {
   contextInfo: {
     isForwarded: true,
     forwardedNewsletterMessageInfo: {
-       newsletterJid: "120363374486687514@newsletter",
+       newsletterJid: ch,
        serverMessageId: 100,
        newsletterName: textbot,
     },
