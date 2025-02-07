@@ -23,7 +23,10 @@ let menu = `*◈ ${user.registered === true ? user.name : `👉 ${usedPrefix}${l
 *│* 
 *╰ ㊂ ▸▸ _${lenguajeGB.smsMenuTotal1()}_ ◂◂*
 *│* ┊
-*│* ┊▸ ✦ 
+*│* ┊▸ ✦ ${usedPrefix}verificar DARK.18
+*│* ┊▸ ✦ ${usedPrefix}
+*│* ┊▸ ✦ ${usedPrefix}
+*│* ┊▸ ✦ ${usedPrefix}
 *│* ╰∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙ ∙ ∙ ∙ ∙ 
 *│*
 *╰ ㊂ ▸▸ _${lenguajeGB.smsMenuTotal2()}_ ◂◂*
@@ -72,6 +75,8 @@ let menu = `*◈ ${user.registered === true ? user.name : `👉 ${usedPrefix}${l
 *│* ┊▸ ✦ ${usedPrefix}soundclound ${text}
 *│* ┊▸ ✦ ${usedPrefix}tiktokmp3 ${url}
 *│* ┊▸ ✦ ${usedPrefix}twitter ${url}
+*│* ┊▸ ✦ ${usedPrefix}xnxx ${url}
+*│* ┊▸ ✦ ${usedPrefix}xvideo ${url}
 *│* ╰∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙ ∙ ∙ ∙ ∙ 
 *│*
 *╰ ㊂ ▸▸ _${lenguajeGB.smsMenuTotal5()}_ ◂◂*
