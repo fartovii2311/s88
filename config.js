@@ -109,6 +109,11 @@ global.menu = {
   }, 
 };
 
+global.ch = {
+ch1: '120363374486687514@newsletter',
+ch2: '@newsletter'
+}
+
 global.fake = {
   contextInfo: {
     isForwarded: true,
