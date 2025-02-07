@@ -70,10 +70,22 @@ resultado += segundos + " segundos";
 }
 return resultado;
 }
-const message = users.map((v, index) => `[ ${index + 1} ]\n🐈 wa.me/${v.user.jid.replace(/[^0-9]/g, '')}?text=${usedPrefix}estado\n👤 ${lenguajeGB.smsBT8()} : ${v.user.name || '-'}\n🔰 ${lenguajeGB.smsBT7()} : ${ v.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - v.uptime) : "Desconocido"}`).join('\n\n__________________________\n\n');
+const message = users.map((v, index) => `╭━━━━━━━━━━━━━━━━━━━⬣  
+┃ 🆔 *ID:* ${index + 1}  
+┃ 👤 *${lenguajeGB.smsBT8()}* : ${v.user.name || '-'}  
+┃ 🔗 *Enlace:* [Click aquí](https://wa.me/${v.user.jid.replace(/[^0-9]/g, '')}?text=${usedPrefix}estado)  
+┃ ⏳ *${lenguajeGB.smsBT7()}* : ${ v.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - v.uptime) : "Desconocido"}  
+╰━━━━━━━━━━━━━━━━━━━⬣`).join('\n\n');
+
 const replyMessage = message.length === 0 ? `${lenguajeGB.smsJBCom4()}` : message;
 const totalUsers = users.length;
-const responseMessage = `${lenguajeGB.smsJBCom3()} ${totalUsers || '0'}\n\n${replyMessage.trim()}`.trim();
+
+const responseMessage = `┏━━━━━━━━━━━━━⬣  
+┃ 📌 *Usuarios Registrados:* ${totalUsers || '0'}  
+┗━━━━━━━━━━━━━⬣  
+
+${replyMessage.trim()}`.trim();
+
 await _envio.sendMessage(m.chat, {text: responseMessage, mentions: _envio.parseMention(responseMessage)}, {quoted: m})
 break    
 }}
