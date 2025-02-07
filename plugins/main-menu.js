@@ -20,11 +20,10 @@ let menu = `*☆═━┈◈ ╰ ${vs} ㎇ ╯ ◈┈━═☆*
 *│* *˚₊·˚₊· ͟͟͞͞➳❥* 𝗦𝗨𝗕 𝗕𝗢𝗧 ⇢ *${global.conn.user.jid.split`@`[0]}*
 *│* *˚₊·˚₊· ͟͟͞͞➳❥ @${m.sender.split("@")[0]}*
 *│* *˚₊·˚₊· ͟͟͞͞➳❥ *◈ ${user.registered === true ? user.name : `${usedPrefix}${lenguajeGB.lenguaje() == 'es' ? 'verificar nombre.edad' : 'verify name.age'}`} ◈*
-*│* 
 *╰ ㊂ ▸▸ _${lenguajeGB.smsMenuTotal1()}_ ◂◂*
 *│* ┊
-*│* ┊▸ ✦ ${usedPrefix}verificar DARK.18
-*│* ┊▸ ✦ ${usedPrefix}
+*│* ┊▸ ✦ ${usedPrefix}verificar DarkCore.18
+*│* ┊▸ ✦ ${usedPrefix}Perfil
 *│* ┊▸ ✦ ${usedPrefix}
 *│* ┊▸ ✦ ${usedPrefix}
 *│* ╰∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙ ∙ ∙ ∙ ∙ 
