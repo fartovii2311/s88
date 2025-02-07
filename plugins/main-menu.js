@@ -16,7 +16,7 @@ let user = global.db.data.users[m.sender]
 let text = '*<texto>*'
 let url = '*<url>*'
 let fkontak = { "key": { "participants":"0@s.whatsapp.net", "remoteJid": "status@broadcast", "fromMe": false, "id": "Halo" }, "message": { "contactMessage": { "vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD` }}, "participant": "0@s.whatsapp.net" }
-let menu = `*☆═━┈┈◈  ${vs}  ◈┈┈┈━═☆*
+let menu = `*☆═━┈◈ ╰ ${vs} ╯ ◈┈━═☆*
 *│* *˚₊·˚₊· ͟͟͞͞➳❥* 𝗦𝗨𝗕 𝗕𝗢𝗧 ⇢ *${global.conn.user.jid.split`@`[0]}*
 *│* *˚₊·˚₊· ͟͟͞͞➳❥ *◈ ${user.registered === true ? user.name : `${usedPrefix}${lenguajeGB.lenguaje() == 'es' ? 'verificar nombre.edad' : 'verify name.age'}`} ◈*
 *│* *˚₊·˚₊· ͟͟͞͞➳❥
@@ -45,8 +45,12 @@ let menu = `*☆═━┈┈◈  ${vs}  ◈┈┈┈━═☆*
 *│* ┊▸ ✦ ${usedPrefix}pinterest ${text}
 *│* ┊▸ ✦ ${usedPrefix}pelisplus ${text}
 *│* ┊▸ ✦ ${usedPrefix}xvideosearch ${text}
-*│* ┊▸ ✦ ${usedPrefix}
-*│* ┊▸ ✦ ${usedPrefix}
+*│* ┊▸ ✦ ${usedPrefix}spotifysearch ${text}
+*│* ┊▸ ✦ ${usedPrefix}chromestore ${text}
+*│* ┊▸ ✦ ${usedPrefix}splaystore ${text}
+*│* ┊▸ ✦ ${usedPrefix}tweetposts ${text}
+*│* ┊▸ ✦ ${usedPrefix}playlist ${text}
+*│* ┊▸ ✦ ${usedPrefix}xnxxsearch ${text}
 *│* ╰∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙ ∙ ∙ ∙ ∙  
 *│*
 *╰ ㊂ ▸▸ _HERRAMIENTAS_ ◂◂*
@@ -78,6 +82,7 @@ let menu = `*☆═━┈┈◈  ${vs}  ◈┈┈┈━═☆*
 *│* ┊▸ ✦ ${usedPrefix}twitter ${url}
 *│* ┊▸ ✦ ${usedPrefix}xnxx ${url}
 *│* ┊▸ ✦ ${usedPrefix}xvideo ${url}
+*│* ┊▸ ✦ ${usedPrefix}apk ${text}
 *│* ╰∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙ ∙ ∙ ∙ ∙ 
 *│*
 *╰ ㊂ ▸▸ _${lenguajeGB.smsMenuTotal5()}_ ◂◂*
