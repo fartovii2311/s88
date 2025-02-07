@@ -21,15 +21,15 @@ let menu = `*◈ ${user.registered === true ? user.name : `👉 ${usedPrefix}${l
 *│* 
 *╰ ㊂ ▸▸ _${lenguajeGB.smsMenuTotal1()}_ ◂◂*
 *│* ┊
-*│* ┊▸ ✦ _
+*│* ┊▸ ✦ 
 *│* ╰∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙ ∙ ∙ ∙ ∙ 
 *│*
 *╰ ㊂ ▸▸ _${lenguajeGB.smsMenuTotal2()}_ ◂◂*
 *│* ┊
-*│* ┊▸ ✦ _${usedPrefix}${lenguajeGB.lenguaje() == 'es' ? 'serbot' : 'jadibot'}_
-*│* ┊▸ ✦ _${usedPrefix}${lenguajeGB.lenguaje() == 'es' ? 'bots' : 'subsbots'}_
-*│* ┊▸ ✦ _${usedPrefix}${lenguajeGB.lenguaje() == 'es' ? 'pausarsb' : 'pausesb'}_
-*│* ┊▸ ✦ _${usedPrefix}${lenguajeGB.lenguaje() == 'es' ? 'eliminarsesion' : 'delsession'}_
+*│* ┊▸ ✦ ${usedPrefix}${lenguajeGB.lenguaje() == 'es' ? 'serbot' : 'jadibot'}_
+*│* ┊▸ ✦ ${usedPrefix}${lenguajeGB.lenguaje() == 'es' ? 'bots' : 'subsbots'}_
+*│* ┊▸ ✦ ${usedPrefix}${lenguajeGB.lenguaje() == 'es' ? 'pausarsb' : 'pausesb'}_
+*│* ┊▸ ✦ ${usedPrefix}${lenguajeGB.lenguaje() == 'es' ? 'eliminarsesion' : 'delsession'}_
 *│* ╰∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙ ∙ ∙ ∙ ∙  
 *│*
 *╰ ㊂ ▸▸ _${lenguajeGB.smsMenuTotal3()}_ ◂◂*
@@ -38,11 +38,17 @@ let menu = `*◈ ${user.registered === true ? user.name : `👉 ${usedPrefix}${l
 *│* ┊▸ ✦ ${usedPrefix}yts
 *│* ┊▸ ✦ ${usedPrefix}pinterest
 *│* ┊▸ ✦ ${usedPrefix}pelisplus
+*│* ┊▸ ✦ ${usedPrefix}xvideosearch
+*│* ┊▸ ✦ ${usedPrefix}
 *│* ┊▸ ✦ ${usedPrefix}
 *│* ╰∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙ ∙ ∙ ∙ ∙  
 *│*
 *╰ ㊂ ▸▸ _HERRAMIENTAS_ ◂◂*
 *│* ┊
+*│* ┊▸ ✦ ${usedPrefix}
+*│* ┊▸ ✦ ${usedPrefix}
+*│* ┊▸ ✦ ${usedPrefix}
+*│* ┊▸ ✦ ${usedPrefix}
 *│* ╰∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙ ∙ ∙ ∙ ∙  
 *│*
 *╰ ㊂ ▸▸ _${lenguajeGB.smsMenuTotal4()}_ ◂◂*
@@ -68,42 +74,63 @@ let menu = `*◈ ${user.registered === true ? user.name : `👉 ${usedPrefix}${l
 *│*
 *╰ ㊂ ▸▸ _${lenguajeGB.smsMenuTotal5()}_ ◂◂*
 *│* ┊
-*│* ┊▸ ✦ _
+*│* ┊▸ ✦ ${usedPrefix}
+*│* ┊▸ ✦ ${usedPrefix}
+*│* ┊▸ ✦ ${usedPrefix}
+*│* ┊▸ ✦ ${usedPrefix}
 *│* ╰∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙ ∙ ∙ ∙ ∙ 
 *│*
 *╰ ㊂ ▸▸ _${lenguajeGB.smsMenuTotal6()}_ ◂◂*
 *│* ┊
-*│* ┊▸ ✦ _
+*│* ┊▸ ✦ ${usedPrefix}
+*│* ┊▸ ✦ ${usedPrefix}
+*│* ┊▸ ✦ ${usedPrefix}
+*│* ┊▸ ✦ ${usedPrefix}
+*│* ┊▸ ✦ ${usedPrefix}
+*│* ┊▸ ✦ ${usedPrefix}
 *│* ╰∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙ ∙ ∙ ∙ ∙ 
 *│*
 *╰ ㊂ ▸▸ _${lenguajeGB.smsMenuTotal7()}_ ◂◂*
 *│* ┊
-*│* ┊▸ ✦ _
+*│* ┊▸ ✦ ${usedPrefix}
+*│* ┊▸ ✦ ${usedPrefix}
+*│* ┊▸ ✦ ${usedPrefix}
+*│* ┊▸ ✦ ${usedPrefix}
+*│* ┊▸ ✦ ${usedPrefix}
+*│* ┊▸ ✦ ${usedPrefix}
 *│* ╰∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙ ∙ ∙ ∙ ∙ 
 *│*
 *╰ ㊂ ▸▸ _${lenguajeGB.smsMenuTotal8()}_ ◂◂*
 *│* ┊
-*│* ┊▸ ✦ _
+*│* ┊▸ ✦ ${usedPrefix}
 *│* ╰∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙ ∙ ∙ ∙ ∙ 
 *│*
 *╰ ㊂ ▸▸ _${lenguajeGB.smsMenuTotal9()}_ ◂◂*
 *│* ┊
-*│* ┊▸ ✦ _
+*│* ┊▸ ✦ ${usedPrefix}
+*│* ┊▸ ✦ ${usedPrefix}
+*│* ┊▸ ✦ ${usedPrefix}
 *│* ╰∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙ ∙ ∙ ∙ ∙
 *│*
 *╰ ㊂ ▸▸ _${lenguajeGB.smsMenuTotal10()}_ ◂◂*
 *│* ┊ 
-*│* ┊▸ ✦ _
+*│* ┊▸ ✦ ${usedPrefix}
+*│* ┊▸ ✦ ${usedPrefix}
+*│* ┊▸ ✦ ${usedPrefix}
 *│* ╰∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙ ∙ ∙ ∙ ∙
 *│*
 *╰ ㊂ ▸▸ _${lenguajeGB.smsMenuTotal11()}_ ◂◂*
 *│* ┊ 
-*│* ┊▸ ✦ _
+*│* ┊▸ ✦ ${usedPrefix}
+*│* ┊▸ ✦ ${usedPrefix}
+*│* ┊▸ ✦ ${usedPrefix}
 *│* ╰∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙ ∙ ∙ ∙ ∙
 *│*
 *╰ ㊂ ▸▸ _PARA CANALES_ ◂◂*
 *│* ┊
-*│* ┊▸ ✦ _
+*│* ┊▸ ✦ ${usedPrefix}
+*│* ┊▸ ✦ ${usedPrefix}
+*│* ┊▸ ✦ ${usedPrefix}
 *│* ╰∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙ ∙ ∙ ∙ ∙
 *│*
 *╰ ㊂ ▸▸ _${lenguajeGB.smsMenuTotal12()}_ ◂◂*
