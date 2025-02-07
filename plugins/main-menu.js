@@ -34,12 +34,15 @@ let menu = `*◈ ${user.registered === true ? user.name : `👉 ${usedPrefix}${l
 *│*
 *╰ ㊂ ▸▸ _${lenguajeGB.smsMenuTotal3()}_ ◂◂*
 *│* ┊
-*│* ┊▸ ✦ _
+*│* ┊▸ ✦ ${usedPrefix}tiktoksearch
+*│* ┊▸ ✦ ${usedPrefix}yts
+*│* ┊▸ ✦ ${usedPrefix}pinterest
+*│* ┊▸ ✦ ${usedPrefix}pelisplus
+*│* ┊▸ ✦ ${usedPrefix}
 *│* ╰∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙ ∙ ∙ ∙ ∙  
 *│*
 *╰ ㊂ ▸▸ _HERRAMIENTAS_ ◂◂*
 *│* ┊
-*│* ┊▸ ✦ _${usedPrefix}
 *│* ╰∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙ ∙ ∙ ∙ ∙  
 *│*
 *╰ ㊂ ▸▸ _${lenguajeGB.smsMenuTotal4()}_ ◂◂*
