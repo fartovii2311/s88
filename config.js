@@ -76,64 +76,60 @@ global.APIKeys = {
 global.canal = 'https://whatsapp.com/channel/0029Vaxb5xr7z4koGtOAAc1Q'
 global.icons = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png')
 
-global.rcanal = {
-  contextInfo: {
-    isForwarded: true,
-    forwardedNewsletterMessageInfo: {
-       newsletterJid: global.ch,
-       serverMessageId: 100,
-       newsletterName: textbot,
-    },
-  },
- }
-
-global.menu = { 
-  contextInfo: { 
-    isForwarded: true, 
-    forwardedNewsletterMessageInfo: { 
-      newsletterJid: global.ch, 
-      serverMessageId: 100, 
-      newsletterName: 'Lyᥒ᥊ ᥴһᥲᥒᥒᥱᥣ', 
-    }, 
-    externalAdReply: { 
-      showAdAttribution: true, 
-      title: textbot,
-      body: '( ´͈ ᵕ `͈ )◞♡ Sɪᴍᴘʟᴇ ʙᴏᴛ ᴡʜᴀᴛsᴀᴘᴘ', 
-      mediaUrl: null, 
-      description: null, 
-      previewType: "", 
-      thumbnailUrl: "https://i.ibb.co/Y7mhFdf/file.jpg",
-      sourceUrl: "https://dark-core-api.vercel.app/",
-      mediaType: 1, 
-      renderLargerThumbnail: true 
-    }, 
-  }, 
-};
-
 global.ch = {
-  ch1: '120363374486687514@newsletter',
-  ch2: '20363371366801178@newsletter',
-  ch3: '120363183614708156@newsletter',
-  ch4: '120363377833048768@newsletter',
-  ch5: '120363220939514640@newsletter',
-  ch6: '120363368073378190@newsletter',
-  ch7: '120363220939514640@newsletter',
-  ch8: '120363368073378190@newsletter',
-  ch9: '120363374486687514@newsletter'
-};
-
-
+    ch1: '120363374486687514@newsletter',
+    ch2: '20363371366801178@newsletter',
+    ch3: '120363183614708156@newsletter',
+    ch4: '120363377833048768@newsletter',
+    ch5: '120363220939514640@newsletter',
+    ch6: '120363368073378190@newsletter',
+  };
+  
+  global.rcanal = {
+    contextInfo: {
+      isForwarded: true,
+      forwardedNewsletterMessageInfo: {
+        newsletterJid: global.ch.ch1, // Asegurarse de que usa un canal válido
+        serverMessageId: 100,
+        newsletterName: global.textbot,
+      },
+    },
+  };
+  
+  global.menu = { 
+    contextInfo: { 
+      isForwarded: true, 
+      forwardedNewsletterMessageInfo: { 
+        newsletterJid: global.ch.ch1, 
+        serverMessageId: 100, 
+        newsletterName: global.textbot, 
+      }, 
+      externalAdReply: { 
+        showAdAttribution: true, 
+        title: global.textbot,
+        body: '( ´͈ ᵕ `͈ )◞♡ Sɪᴍᴘʟᴇ ʙᴏᴛ ᴡʜᴀᴛsᴀᴘᴘ', 
+        mediaUrl: null, 
+        description: null, 
+        previewType: "", 
+        thumbnailUrl: "https://i.ibb.co/Y7mhFdf/file.jpg",
+        sourceUrl: "https://dark-core-api.vercel.app/",
+        mediaType: 1, 
+        renderLargerThumbnail: true 
+      }, 
+    }, 
+  };
+  
 global.fake = {
-  contextInfo: {
-    isForwarded: true,
-    forwardedNewsletterMessageInfo: {
-       newsletterJid: global.ch,
+    contextInfo: {
+      isForwarded: true,
+      forwardedNewsletterMessageInfo: {
+       newsletterJid: global.ch.ch1, 
        serverMessageId: 100,
-       newsletterName: textbot,
+       newsletterName: global.textbot,
     },
   },
- }
-
+};
+  
 global.mods = [] 
 global.cheerio = cheerio
 global.fs = fs
