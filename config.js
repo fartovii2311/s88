@@ -33,6 +33,7 @@ global.isBaileysFail = true
 // [EN] > Add the Bot number in "botNumberCode" if you want to receive 8-digit code without registering the number in the console.
 global.botNumberCode = "" //example: "+59309090909"
 global.confirmCode = "" // No tocar esto : Do not touch this line
+global.textbot = 'Lyᥒ᥊ ᥴһᥲᥒᥒᥱᥣ'
 
 // ES ➜ Agregue el código de idioma el cual usará GataBot  
 // EN ➜ Add the language code which GataBot will use
