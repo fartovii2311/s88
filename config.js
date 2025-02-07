@@ -80,7 +80,7 @@ global.rcanal = {
   contextInfo: {
     isForwarded: true,
     forwardedNewsletterMessageInfo: {
-       newsletterJid: ch,
+       newsletterJid: global.ch,
        serverMessageId: 100,
        newsletterName: textbot,
     },
@@ -91,7 +91,7 @@ global.menu = {
   contextInfo: { 
     isForwarded: true, 
     forwardedNewsletterMessageInfo: { 
-      newsletterJid: ch, 
+      newsletterJid: global.ch, 
       serverMessageId: 100, 
       newsletterName: 'Lyᥒ᥊ ᥴһᥲᥒᥒᥱᥣ', 
     }, 
@@ -127,7 +127,7 @@ global.fake = {
   contextInfo: {
     isForwarded: true,
     forwardedNewsletterMessageInfo: {
-       newsletterJid: ch,
+       newsletterJid: global.ch,
        serverMessageId: 100,
        newsletterName: textbot,
     },
