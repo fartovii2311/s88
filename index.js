@@ -191,36 +191,6 @@ await statDb.write();
 }};
 loadDatabase();
 
-/*global.db = new Low(/https?:\/\//.test(opts['db'] || '') ? new cloudDBAdapter(opts['db']) : new JSONFile('database.json'))
-
-global.DATABASE = global.db; 
-global.loadDatabase = async function loadDatabase() {
-if (global.db.READ) {
-return new Promise((resolve) => setInterval(async function() {
-if (!global.db.READ) {
-clearInterval(this);
-resolve(global.db.data == null ? global.loadDatabase() : global.db.data);
-}}, 1 * 1000));
-}
-if (global.db.data !== null) return;
-global.db.READ = true;
-await global.db.read().catch(console.error);
-global.db.READ = null;
-global.db.data = {
-users: {},
-chats: {},
-stats: {},
-msgs: {},
-sticker: {},
-settings: {},
-...(global.db.data || {}),
-};
-global.db.chain = chain(global.db.data);
-};
-loadDatabase();*/
-
-/* ------------------------------------------------*/
-
 global.chatgpt = new Low(new JSONFile(path.join(__dirname, '/db/chatgpt.json')));
 global.loadChatgptDB = async function loadChatgptDB() {
 if (global.chatgpt.READ) {
@@ -340,7 +310,7 @@ const connectionOptions = {
 logger: pino({ level: 'silent' }),
 printQRInTerminal: opcion == '1' ? true : methodCodeQR ? true : false,
 mobile: MethodMobile, 
-browser: opcion == '1' ? ['GataBotLite-MD', 'Edge', '2.0.0'] : methodCodeQR ? ['GataBotLite-MD', 'Edge', '2.0.0'] : ['Ubuntu', 'Chrome', '110.0.1587.56'],
+browser: opcion == '1' ? ['Lynx-Ai', 'Edge', '2.0.0'] : methodCodeQR ? ['Lynx-Ai', 'Edge', '2.0.0'] : ['Ubuntu', 'Chrome', '110.0.1587.56'],
 auth: {
 creds: state.creds,
 keys: makeCacheableSignalKeyStore(state.keys, Pino({ level: "fatal" }).child({ level: "fatal" })),
@@ -357,49 +327,6 @@ msgRetryCounterMap,
 defaultQueryTimeoutMs: undefined,   
 version: [2, 3000, 1015901307]
 }
-
-/*const supportedLanguages = ['es', 'en', 'pt', 'ar', 'id']
-const configPath = path.join(__dirname, 'config.js')
-let configContent = fs.readFileSync(configPath, 'utf8')
-if (!global.languageLen) {
-promptLoop()
-} else {
-console.log(chalk.bold.greenBright(lenguajeGB.languageSave()))}
-function promptLoop() {
-console.log(`
-╭⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯ 𓃠             
-┆ • ${chalk.bold.magentaBright('Select a language.')}
-┆ • ${chalk.bold.magentaBright('Seleccione un idioma.')}
-╰⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯ 𓃠           
-┆ ${chalk.bold.cyanBright('1')} → ${chalk.bold.greenBright('"es" (Español)')}
-┆ ${chalk.bold.cyanBright('2')} → ${chalk.bold.greenBright('"en" (English)')}
-┆ ${chalk.bold.cyanBright('3')} → ${chalk.bold.greenBright('"pt" (Português)')}
-┆ ${chalk.bold.cyanBright('4')} → ${chalk.bold.greenBright('"ar" (عرب / Arab)')}
-┆ ${chalk.bold.cyanBright('5')} → ${chalk.bold.greenBright('"id" (Indonesia)')}
-┆ ${chalk.bold.cyanBright('6')} → ${chalk.bold.greenBright('(Omitir / Skip)')}
-╰⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯ 𓃠         
-⚠️ ${chalk.bold.yellowBright('If you choose to skip, you will not have the opportunity to change the language later through the console.')}
-⚠️ ${chalk.bold.yellowBright('Si elige omitir, no tendrá oportunidad de cambiar el idioma más tarde a través de la consola.')}\n
-⬇️  ⬇️  ⬇️`.trim())
-const options = ['es', 'en', 'pt', 'ar', 'id', 'Omitir / Skip']
-const formattedOptions = options.map(option => chalk.bold.blueBright(option))
-const selectedOptionIndex = readlineSync.keyInSelect(formattedOptions, `${chalk.bold.magentaBright('Write the number of the option.\nEscriba el número de la opción.\n--->')} `, { cancel: false })
-if (selectedOptionIndex >= 0 && selectedOptionIndex <= 4) {
-const selectedLanguage = supportedLanguages[selectedOptionIndex]
-configContent = configContent.replace('global.languageLen = ""', 'global.languageLen = true')
-configContent = configContent.replace('global.lenguajeGB = es', `global.lenguajeGB = ${selectedLanguage}`)
-fs.writeFileSync(configPath, configContent, 'utf8')
-console.log(chalk.bold.cyanBright(lenguajeGB.languageRegister(selectedLanguage)))
-} else if (selectedOptionIndex === 5) {
-configContent = configContent.replace('global.languageLen = ""', 'global.languageLen = true')
-fs.writeFileSync(configPath, configContent, 'utf8')
-console.log(chalk.bold.cyanBright(`\n🆗 Ignoring language settings.`))
-console.log(chalk.bold.cyanBright(`🆗 Omitiendo la configuración del idioma.\n`))
-} else {
-console.log(chalk.bold.redBright(`\n❌ Invalid option. Remember to write only the number of the option.`))
-console.log(chalk.bold.redBright(`❌ Opción no válida. Recuerde escribir sólo el número de la opción.\n`))
-process.send('reset')
-}}*/
 
 global.conn = makeWASocket(connectionOptions)
 if (!fs.existsSync(`./${authFile}/creds.json`)) {
@@ -507,9 +434,6 @@ console.log(chalk.bold.redBright(lenguajeGB['smsConexiondescon'](reason, connect
 }}
 }
 process.on('uncaughtException', console.error)
-//process.on('uncaughtException', (err) => {
-//console.error('Se ha cerrado la conexión:\n', err)
-//process.send('reset') })
 
 let isInit = true;
 let handler = await import('./handler.js');
@@ -584,21 +508,6 @@ gataJadiBot({pathGataJadiBot: botPath, m: null, conn, args: '', usedPrefix: '/',
 }
 }
 }
-
-/*const pluginFolder = global.__dirname(join(__dirname, './plugins/index'));
-const pluginFilter = (filename) => /\.js$/.test(filename);
-global.plugins = {};
-async function filesInit() {
-for (const filename of readdirSync(pluginFolder).filter(pluginFilter)) {
-try {
-const file = global.__filename(join(pluginFolder, filename));
-const module = await import(file);
-global.plugins[filename] = module.default || module;
-} catch (e) {
-conn.logger.error(e);
-delete global.plugins[filename];
-}}}
-filesInit().then((_) => Object.keys(global.plugins)).catch(console.error)*/
 
 const pluginFolder = global.__dirname(join(__dirname, './plugins/index'))
 const pluginFilter = (filename) => /\.js$/.test(filename)
@@ -689,17 +598,17 @@ unlinkSync(`./GataBotSession/${files}`)
 
 function purgeSessionSB() {
 try {
-const listaDirectorios = readdirSync('./GataJadiBot/');
+const listaDirectorios = readdirSync('./LynxJadiBot/');
 let SBprekey = [];
 listaDirectorios.forEach(directorio => {
-if (statSync(`./GataJadiBot/${directorio}`).isDirectory()) {
-const DSBPreKeys = readdirSync(`./GataJadiBot/${directorio}`).filter(fileInDir => {
+if (statSync(`./LynxJadiBot/${directorio}`).isDirectory()) {
+const DSBPreKeys = readdirSync(`./LynxJadiBot/${directorio}`).filter(fileInDir => {
 return fileInDir.startsWith('pre-key-')
 })
 SBprekey = [...SBprekey, ...DSBPreKeys];
 DSBPreKeys.forEach(fileInDir => {
 if (fileInDir !== 'creds.json') {
-unlinkSync(`./GataJadiBot/${directorio}/${fileInDir}`)
+unlinkSync(`./LynxJadiBot/${directorio}/${fileInDir}`)
 }})
 }})
 if (SBprekey.length === 0) {
@@ -711,7 +620,7 @@ console.log(chalk.bold.red(lenguajeGB.smspurgeSessionSB3() + err))
 }}
 
 function purgeOldFiles() {
-const directories = ['./GataBotSession/', './GataJadiBot/']
+const directories = ['./LynxSession/', './LynxJadiBot/']
 directories.forEach(dir => {
 readdirSync(dir, (err, files) => {
 if (err) throw err
