@@ -28,11 +28,25 @@ import { gataJadiBot } from './plugins/jadibot-serbot.js';
 const { PHONENUMBER_MCC, makeInMemoryStore, DisconnectReason, useMultiFileAuthState, MessageRetryMap, fetchLatestBaileysVersion, makeCacheableSignalKeyStore } = await import('@whiskeysockets/baileys')
 const { CONNECTING } = ws
 const { chain } = lodash
+import cfonts from 'cfonts';
+const { say } = cfonts
 const PORT = process.env.PORT || process.env.SERVER_PORT || 3000
 let stopped = 'close'
 
 protoType()
 serialize()
+
+say('DarkCore\nVIP\nMD', {
+ font: 'chrome',
+ align: 'center',
+ gradient: ['red', 'magenta']
+})
+
+say(`Project Author:\nnDarkcore (@)\n\nDeveloper:\nDarkCore (dark)`.trim(), {
+ font: 'console',
+ align: 'center',
+ colors: ['candy']
+})
 
 global.__filename = function filename(pathURL = import.meta.url, rmPrefix = platform !== 'win32') {
   return rmPrefix ? /file:\/\/\//.test(pathURL) ? fileURLToPath(pathURL) : pathURL : pathToFileURL(pathURL).toString();
