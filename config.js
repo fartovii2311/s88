@@ -88,6 +88,53 @@ global.APIKeys = {
   'https://api-xcoders.site': 'Frieren'
 }
 
+global.canal = 'https://whatsapp.com/channel/0029Vaxb5xr7z4koGtOAAc1Q'
+
+global.rcanal = {
+  contextInfo: {
+    isForwarded: true,
+    forwardedNewsletterMessageInfo: {
+       newsletterJid: "120363374486687514@newsletter",
+       serverMessageId: 100,
+       newsletterName: textbot,
+    },
+  },
+ }
+
+global.menu = { 
+  contextInfo: { 
+    isForwarded: true, 
+    forwardedNewsletterMessageInfo: { 
+      newsletterJid: "120363374486687514@newsletter", 
+      serverMessageId: 100, 
+      newsletterName: 'Lyᥒ᥊ ᥴһᥲᥒᥒᥱᥣ', 
+    }, 
+    externalAdReply: { 
+      showAdAttribution: true, 
+      title: textbot,
+      body: '( ´͈ ᵕ `͈ )◞♡ Sɪᴍᴘʟᴇ ʙᴏᴛ ᴡʜᴀᴛsᴀᴘᴘ', 
+      mediaUrl: null, 
+      description: null, 
+      previewType: "", 
+      thumbnailUrl: "https://i.ibb.co/Y7mhFdf/file.jpg",
+      sourceUrl: "https://dark-core-api.vercel.app/",
+      mediaType: 1, 
+      renderLargerThumbnail: true 
+    }, 
+  }, 
+};
+
+global.fake = {
+  contextInfo: {
+    isForwarded: true,
+    forwardedNewsletterMessageInfo: {
+       newsletterJid: "120363374486687514@newsletter",
+       serverMessageId: 100,
+       newsletterName: textbot,
+    },
+  },
+ }
+
 global.mods = [] 
 global.cheerio = cheerio
 global.fs = fs
