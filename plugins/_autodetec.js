@@ -35,7 +35,7 @@ await conn.sendMessage(m.chat, { text: status, mentions: [m.sender] }, { quoted:
 
 } else if (chat.welcome && m.messageStubType == 27 && conn.user.jid != global.conn.user.jid) { 
 let subject = groupMetadata.subject
-let descs = groupMetadata.desc || "😻 𝗦𝘂𝗽𝗲𝗿 𝙂𝙖𝙩𝙖𝘽𝙤𝙩𝙇𝙞𝙩𝙚-𝙈𝘿 😻";
+let descs = groupMetadata.desc || "Lynx-Ai";
 let userName = `${m.messageStubParameters[0].split`@`[0]}`;
 let defaultWelcome = `*╭┈⊰* ${subject}  *⊰┈ ✦*\n*┊✨ BIENVENIDO(A)!!*\n┊💖 @${userName}\n┊📄 *LEA LA DESCRIPCIÓN DEL GRUPO*\n*╰┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ✦*\n${descs}\n`;
 let textWel = chat.sWelcome ? chat.sWelcome
@@ -53,7 +53,7 @@ externalAdReply: {
 showAdAttribution: true,
 renderLargerThumbnail: true,
 thumbnailUrl: pp, 
-title: [wm, '😻 𝗦𝘂𝗽𝗲𝗿 ' + gt + ' 😻', '🌟 centergatabot.gmail.com'].getRandom(),
+title: [wm, '𝗦𝘂𝗽𝗲𝗿 ' + gt + ' 🌟', '🌟'].getRandom(),
 containsAutoReply: true,
 mediaType: 1, 
 sourceUrl: accountsgb }}}, { quoted: fkontak }) 
@@ -74,7 +74,7 @@ externalAdReply: {
 showAdAttribution: true,
 renderLargerThumbnail: true,
 thumbnailUrl: pp, 
-title: [wm, '😻 𝗦𝘂𝗽𝗲𝗿 ' + gt + ' 😻', '🌟 centergatabot.gmail.com'].getRandom(),
+title: [wm, '𝗦𝘂𝗽𝗲𝗿 ' + gt + ' 🌟', '🌟'].getRandom(),
 containsAutoReply: true,
 mediaType: 1, 
 sourceUrl: accountsgb }}}, { quoted: fkontak }) 
