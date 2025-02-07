@@ -42,19 +42,19 @@ global.nnnttt4 = 'https://chat.whatsapp.com/' //Grupo 9 COL
 global.nnnttt5 = 'https://chat.whatsapp.com/' //A.T.M.M
 
 // Imágenes locales
-global.imagen1 = fs.readFileSync('./media/menus/Menu3.jpg')
-global.imagen2 = fs.readFileSync('./media/menus/img1.jpg')
-global.imagen3 = fs.readFileSync('./media/menus/img2.jpg')
-global.imagen4 = fs.readFileSync('./media/menus/img3.jpg')
-global.imagen5 = fs.readFileSync('./media/menus/img4.jpg')
-global.imagen6 = fs.readFileSync('./media/menus/img5.jpg')
-global.imagen7 = fs.readFileSync('./media/menus/img6.jpg')
-global.imagen8 = fs.readFileSync('./media/menus/img7.jpg')
-global.imagen9 = fs.readFileSync('./media/menus/img8.jpg')
-global.imagen10 = fs.readFileSync('./media/menus/img9.jpg')
-global.imagen11 = fs.readFileSync('./media/menus/img10.jpg')
-global.imagen12 = fs.readFileSync('./media/menus/img11.jpg')
-global.imagen13 = fs.readFileSync('./media/menus/img12.jpg')
+global.imagen1 = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png')
+global.imagen2 = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.pngg')
+global.imagen3 = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png')
+global.imagen4 = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png')
+global.imagen5 = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png')
+global.imagen6 = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png')
+global.imagen7 = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png')
+global.imagen8 = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png')
+global.imagen9 = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png')
+global.imagen10 = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png')
+global.imagen11 = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png')
+global.imagen12 = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png')
+global.imagen13 = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png')
 
 // Imágenes en la nube
 global.img = 'https://i.ibb.co/Y7mhFdf/file.jpg'
