@@ -14,7 +14,7 @@ process.once('message', resolve);
 setTimeout(resolve, 2000)}) * 1000;
 }
 let uptime = clockString(_uptime);
-let bio = `${global.packname} ⁝⁝ ✅ ${uptime} ⌛ ⁝⁝ 𓃠 ${lenguajeGB.lenguaje() == 'es' ? '#status #jadibot #owner 💻'} 💻 By: Team Code Titans` 
+let bio = `${global.packname} ⁝⁝ ✅ ${uptime} ⌛ ⁝⁝ ${lenguajeGB.lenguaje() == 'es' ? '#status #jadibot #owner 💻'} 💻 By: Team Code Titans` 
 await this.updateProfileStatus(bio).catch(_ => _);
 setting.status = new Date() * 1;
 };
