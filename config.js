@@ -82,6 +82,7 @@ global.ch = {
     ch4: '120363377833048768@newsletter',
     ch5: '120363220939514640@newsletter',
     ch6: '120363368073378190@newsletter',
+    ch7: '120363350099548761@newsletter',
   };
   
   global.rcanal = {
