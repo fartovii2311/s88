@@ -27,20 +27,20 @@ let handler = async (m, { conn, text, command }) => {
 
   // Generar resultado aleatorio
   const peces = [
-    { nombre: '🐟 Pez Dorado', monedas: 50 },
-    { nombre: '🐠 Pez Tropical', monedas: 20 },
-    { nombre: '🦈 Tiburón', monedas: 50 },
-    { nombre: '🐡 Pez Globo', monedas: 10 },
-    { nombre: '🪙 Cofre de Tesoro', monedas: 100 },
-    { nombre: '🚫 Bota Vieja', monedas: 0 }
+    { nombre: '🐟 Pez Dorado', money: 50 },
+    { nombre: '🐠 Pez Tropical', money: 20 },
+    { nombre: '🦈 Tiburón', money: 50 },
+    { nombre: '🐡 Pez Globo', money: 10 },
+    { nombre: '🪙 Cofre de Tesoro', money: 100 },
+    { nombre: '🚫 Bota Vieja', money: 0 }
   ]
 
   let resultado = peces[Math.floor(Math.random() * peces.length)]
 
   // Actualizar monedas e inventario según el resultado
-  if (resultado.monedas > 0) {
-    users[senderId].Monedas += resultado.monedas
-    m.reply(`🎣 ¡Pescaste un *${resultado.nombre}*! Obtienes *${resultado.monedas} 🪙 Monedas*. Ahora tienes un total de *${users[senderId].Monedas} 🪙 Monedas*.`)
+  if (resultado.money > 0) {
+    users[senderId].Monedas += resultado.money
+    m.reply(`🎣 ¡Pescaste un *${resultado.nombre}*! Obtienes *${resultado.money} 🪙 Monedas*. Ahora tienes un total de *${users[senderId].money} 🪙 Monedas*.`)
   } else {
     m.reply(`🎣 ¡Oh no! Pescaste una *${resultado.nombre}*. Mejor suerte la próxima vez.`)
   }
@@ -58,7 +58,6 @@ handler.help = ['pescar']
 handler.command = ['pescar', 'fish']
 handler.register = true
 handler.group = true
-
 export default handler
 
 function segundosAHMS(segundos) {
