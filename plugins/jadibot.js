@@ -18,7 +18,7 @@ switch (true) {
 case isCommand1:
 let who = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.fromMe ? conn.user.jid : m.sender
 let uniqid = `${who.split`@`[0]}`
-const path = `./GataJadiBot/${uniqid}`
+const path = `./LynxJadiBot/${uniqid}`
 let comd = `${lenguajeGB.lenguaje() == 'es' ? 'serbot' : 'jadibot'}`
 let comd2 = `${lenguajeGB.lenguaje() == 'es' ? 'pausarsb' : 'pausesb'}`
 
@@ -30,7 +30,7 @@ if (global.conn.user.jid !== conn.user.jid) return conn.sendMessage(m.chat, {tex
 else {
 await conn.sendMessage(m.chat, { text: lenguajeGB.smsJBAdios() }, { quoted: m })}
 try {
-fs.rmdir("./GataJadiBot/" + uniqid, { recursive: true, force: true })
+fs.rmdir("./LynxJadiBot/" + uniqid, { recursive: true, force: true })
 await conn.sendMessage(m.chat, { text : lenguajeGB.smsJBCerrarS() } , { quoted: m })
 } catch (e) {
 reportError(e)
@@ -70,18 +70,18 @@ resultado += segundos + " segundos";
 }
 return resultado;
 }
-const message = users.map((v, index) => `╭━━━━━━━━━━━━━━━━━━━⬣  
-┃ 🆔 *ID:* ${index + 1}  
-┃ 👤 *${lenguajeGB.smsBT8()}* : ${v.user.name || '-'}  
-┃ 🔗 *Enlace:* https://wa.me/${v.user.jid.replace(/[^0-9]/g, '')}?text=${usedPrefix}estado)  
-┃ ⏳ *${lenguajeGB.smsBT7()}* : ${ v.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - v.uptime) : "Desconocido"}  
-╰━━━━━━━━━━━━━━━━━━━⬣`).join('\n\n');
+const message = users.map((v, index) => `
+*ɪᴅ:* ${index + 1}  
+*ᴜsᴜᴀʀɪᴏ:* *${lenguajeGB.smsBT8()}* : ${v.user.name || '-'}  
+*ᴇɴʟᴀᴄᴇ:* https://wa.me/${v.user.jid.replace(/[^0-9]/g, '')}?text=${usedPrefix}estado) 
+*ᴀᴄᴛɪᴠɪᴅᴀᴅ:* *${lenguajeGB.smsBT7()}* : ${ v.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - v.uptime) : "Desconocido"} 
+`).join('\n\n');
 
 const replyMessage = message.length === 0 ? `${lenguajeGB.smsJBCom4()}` : message;
 const totalUsers = users.length;
 
 const responseMessage = `┏━━━━━━━━━━━━━⬣  
-┃ 📌 *Usuarios Registrados:* ${totalUsers || '0'}  
+┃ 📌 *sᴇʀʙᴏᴛs ᴇɴ ʟɪ́ɴᴇᴀ:* ${totalUsers || '0'}  
 ┗━━━━━━━━━━━━━⬣  
 
 ${replyMessage.trim()}`.trim();
