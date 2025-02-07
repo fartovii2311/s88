@@ -3,77 +3,41 @@ import uploadFile from '../lib/uploadFile.js'
 import uploadImage from '../lib/uploadImage.js'
 import { webp2png } from '../lib/webp2mp4.js'
 
-let handler = async (m, { conn, args, usedPrefix, command }) => {
-  let stiker = false
-  try {
-    let q = m.quoted ? m.quoted : m
-    let mime = (q.msg || q).mimetype || q.mediaType || ''
-    
-    if (/webp|image|video/g.test(mime)) {
-      if (/video/g.test(mime)) {
-        if ((q.msg || q).seconds > 8) return conn.reply(m.chat`🌷 *¡El video no puede durar más de 8 segundos!*`,m,rcanal);
-      }
-      
-      let img = await q.download?.()
+let handler = async (m, { conn, args, usedPrefix, command, text }) => {
+let stiker = false
+let q = m.quoted ? m.quoted : m
+let mime = (q.msg || q).mimetype || q.mediaType || ''
 
-      if (!img) {
-        return conn.reply(m.chat, `🌸 *_Oops! La conversión no pudo completarse. Por favor, envía primero una imagen, video o gif, y luego utiliza el comando nuevamente._*`, m,rcanal)
-      }
+if (!/webp|image|video/g.test(mime) && !text) return m.reply(lenguajeGB.smsSticker1(usedPrefix, command))
+if (/video/g.test(mime)) if ((q.msg || q).seconds > 10) return m.reply(lenguajeGB.smsSticker2())
 
-      let out
-      try {
-        stiker = await sticker(img, false, global.packsticker, global.author)
-      } catch (e) {
-        console.error(e)
-      } finally {
-        if (!stiker) {
-          if (/webp/g.test(mime)) out = await webp2png(img)
-          else if (/image/g.test(mime)) out = await uploadImage(img)
-          else if (/video/g.test(mime)) out = await uploadFile(img)
-          if (typeof out !== 'string') out = await uploadImage(img)
-          stiker = await sticker(false, out, global.packsticker, global.author)
-        }
-      }
-    } else if (args[0]) {
-      if (isUrl(args[0])) {
-        stiker = await sticker(false, args[0], global.packsticker, global.author)
-      } else {
-        return m.reply(`🥀 El url es incorrecto`)
-      }
-    }
-  } catch (e) {
-    console.error(e)
-    if (!stiker) stiker = e
-  } finally {
-    if (stiker) {
-      conn.sendFile(m.chat, stiker, 'sticker.webp', '', m, true, {
-        contextInfo: {
-          'forwardingScore': 200,
-          'isForwarded': false,
-          externalAdReply: {
-            showAdAttribution: false,
-            title: packname,
-            body: '➼ 𝑳𝒚𝒏𝒙 - 𝑪𝒉𝒂𝒏𝒏𝒆𝒍',
-            mediaType: 2,
-            sourceUrl: redes,
-            thumbnail: icons
-          }
-        }
-      })
-    } else {
-      return conn.reply(m.chat, '🌸 Oops! La conversión no pudo completarse. Por favor, envía primero una imagen, video o gif, y luego utiliza el comando nuevamente.', m,rcanal)
-    }
-  }
-}
+if (/webp|image|video/g.test(mime)) {
+let img = await q.download?.()
+let out
+stiker = await sticker(img, false, global.packname, global.author)
+  
+if (!stiker) {
+if (/webp/g.test(mime)) out = await webp2png(img)
+else if (/image/g.test(mime)) out = await uploadImage(img)
+else if (/video/g.test(mime)) out = await uploadFile(img)
+if (typeof out !== 'string') out = await uploadImage(img)
+stiker = await sticker(false, out, global.packname, global.author)
+  
+if (!stiker) errorMessage = lenguajeGB['smsMensError2']()
+}} else if (args[0]) {
+if (isUrl(args[0])) stiker = await sticker(false, args[0], global.packname, global.author)
+else return m.reply(lenguajeGB.smsSticker3(usedPrefix, command))}
 
-handler.help = ['sticker <img>', 'sticker <url>']
-handler.tags = ['sticker']
-handler.group = false
-handler.register = true
-handler.command = ['s', 'sticker', 'stiker']
+if (stiker) {
+conn.sendFile(m.chat, stiker, 'sticker.webp', '', null, true, { contextInfo: { 'forwardingScore': 200, 'isForwarded': false, externalAdReply:{ showAdAttribution: false, title: packname, body: '• STICKER •', mediaType: 2, sourceUrl: redesMenu.getRandom(), thumbnail: gataImg.getRandom()}}})
+} else {
+await m.reply(lenguajeGB['smsMalError3']() + '\n*' + lenguajeGB.smsMensError1() + '*\n*' + usedPrefix + `${lenguajeGB.lenguaje() == 'es' ? 'reporte' : 'report'}` + '* ' + `${lenguajeGB.smsMensError2()} ` + usedPrefix + command)
+console.log(`❗❗ ${lenguajeGB['smsMensError2']()} ${usedPrefix + command} ❗❗`)
+console.log(stiker)
+}}
 
+handler.command = /^(s(tickers?)?(image|video|gif|img)?)$/i
 export default handler
 
 const isUrl = (text) => {
-  return text.match(new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%.+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%+.~#?&/=]*)(jpe?g|gif|png)/, 'gi'))
-}
+return text.match(new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)(jpe?g|gif|png)/, 'gi'))}
