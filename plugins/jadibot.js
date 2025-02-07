@@ -70,11 +70,12 @@ resultado += segundos + " segundos";
 }
 return resultado;
 }
-const message = users.map((v, index) => `
-*ɪᴅ:* ${index + 1}  
-*ᴜsᴜᴀʀɪᴏ:* *${lenguajeGB.smsBT8()}* : ${v.user.name || '-'}  
-*ᴇɴʟᴀᴄᴇ:* https://wa.me/${v.user.jid.replace(/[^0-9]/g, '')}?text=${usedPrefix}estado) 
-*ᴀᴄᴛɪᴠɪᴅᴀᴅ:* *${lenguajeGB.smsBT7()}* : ${ v.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - v.uptime) : "Desconocido"} 
+const message = users.map((v, index) => `┏━━━━━━━━━━━━━⬣  
+┃ *ɪᴅ:* ${index + 1}  
+┃ *ᴜsᴜᴀʀɪᴏ:* *${lenguajeGB.smsBT8()}* : ${v.user.name || '-'}  
+┃ *ᴇɴʟᴀᴄᴇ:* https://wa.me/${v.user.jid.replace(/[^0-9]/g, '')}?text=${usedPrefix}estado) 
+┃ *ᴀᴄᴛɪᴠɪᴅᴀᴅ:* ${ v.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - v.uptime) : "Desconocido"}
+┗━━━━━━━━━━━━━⬣
 `).join('\n\n');
 
 const replyMessage = message.length === 0 ? `${lenguajeGB.smsJBCom4()}` : message;
