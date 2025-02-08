@@ -42,7 +42,7 @@ global.nnnttt4 = 'https://chat.whatsapp.com/' //Grupo 9 COL
 global.nnnttt5 = 'https://chat.whatsapp.com/' //A.T.M.M
 
 // Imágenes locales
-global.imagen1 = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png')
+global.imagen1 = fs.readFileSync('./storage/img/logo.png');
 
 
 // Imágenes en la nube
