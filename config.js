@@ -30,6 +30,10 @@ global.confirmCode = ""
 global.textbot = 'Lyᥒ᥊ ᥴһᥲᥒᥒᥱᥣ'
 global.openai_key = 'sk-0'
 
+global.catalogo = fs.readFileSync('./storage/img/logo.jpg');
+global.miniurl = fs.readFileSync('./storage/img/logo.jpg');
+global.icons = fs.readFileSync('../storage/img/logo.jpg');
+
 // ES ➜ Consigue tu ID de organizacion en: https://platform.openai.com/account/org-settings
 global.openai_org_id = 'org-3'
 
@@ -89,10 +93,6 @@ global.APIKeys = {
 }
 
 global.canal = 'https://whatsapp.com/channel/0029Vaxb5xr7z4koGtOAAc1Q'
-
-global.catalogo = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png');
-global.miniurl = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png');
-global.icons = fs.readFileSync('./storage/img/Screenshot_20250120-024123-316.png');
 
 global.ch = {
     ch1: '120363374486687514@newsletter',
