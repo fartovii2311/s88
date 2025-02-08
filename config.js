@@ -30,9 +30,9 @@ global.confirmCode = ""
 global.textbot = 'Lyᥒ᥊ ᥴһᥲᥒᥒᥱᥣ'
 global.openai_key = 'sk-0'
 
-global.catalogo = fs.readFileSync('./storage/img/logo.jpg');
-global.miniurl = fs.readFileSync('./storage/img/logo.jpg');
-global.icons = fs.readFileSync('../storage/img/logo.jpg');
+global.catalogo = fs.readFileSync('./storage/img/logo.png');
+global.miniurl = fs.readFileSync('./storage/img/logo.png');
+global.icons = fs.readFileSync('../storage/img/logo.png');
 
 // ES ➜ Consigue tu ID de organizacion en: https://platform.openai.com/account/org-settings
 global.openai_org_id = 'org-3'
