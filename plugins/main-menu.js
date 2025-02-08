@@ -52,6 +52,11 @@ let menu = `*☆═━┈◈ ╰ ${vs} ╯ ◈┈━═☆*
 *│* ┊▸ ✦ ${usedPrefix}tweetposts ${text}
 *│* ┊▸ ✦ ${usedPrefix}playlist ${text}
 *│* ┊▸ ✦ ${usedPrefix}xnxxsearch ${text}
+*│* ┊▸ ✦ ${usedPrefix}chatgpt ${text}
+*│* ┊▸ ✦ ${usedPrefix}bing ${text}
+*│* ┊▸ ✦ ${usedPrefix}dalle ${text}
+*│* ┊▸ ✦ ${usedPrefix}gimini ${text}
+*│* ┊▸ ✦ ${usedPrefix}simi ${text}
 *│* ╰∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙ ∙ ∙ ∙ ∙  
 *│*
 *╰ ㊂ ▸▸ _HERRAMIENTAS_ ◂◂*
