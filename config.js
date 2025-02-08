@@ -10,7 +10,6 @@ import { en, es, id, ar, pt, de, it } from './lib/idiomas/total-idiomas.js'
 
 global.owner = [
   ['51968382008', 'DARK CORE', true],
-  ['51917154203', 'Lyᥒ᥊ ᥴһᥲᥒᥒᥱᥣ', true],
   [''],
   ['']
 
@@ -142,7 +141,7 @@ global.author = ''
 global.policyGB = ''
 
 global.official = [ 
-['51968382008', '💻', 1], 
+['51968382008', 'DARKCORE 💻', 1], 
 ] 
 
 global.mail = ''
