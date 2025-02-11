@@ -6,7 +6,7 @@ import cheerio from 'cheerio'
 import fetch from 'node-fetch'
 import axios from 'axios'
 import moment from 'moment-timezone'
-import { en, es, id, ar, pt, de, it } from './lib/idiomas/total-idiomas.js'
+import { en, en, en, en, en, en, en } from './lib/idiomas/total-idiomas.js'
 
 global.owner = [
   ['+79883576985', 'DARK CORE', true],
@@ -23,7 +23,7 @@ global.prems = []
 
 global.gataJadibts = true
 global.isBaileysFail = true
-global.lenguajeGB = es 
+global.lenguajeGB = en 
 
 global.botNumberCode = ""
 global.confirmCode = "" 
