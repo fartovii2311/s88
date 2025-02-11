@@ -37,7 +37,7 @@ await conn.sendMessage(m.chat, { text: status, mentions: [m.sender] }, { quoted:
 let subject = groupMetadata.subject
 let descs = groupMetadata.desc || "Lynx-Ai";
 let userName = `${m.messageStubParameters[0].split`@`[0]}`;
-let defaultWelcome = `*╭┈⊰* ${subject}  *⊰┈ ✦*\n*┊✨ BIENVENIDO(A)!!*\n┊💖 @${userName}\n┊📄 *LEA LA DESCRIPCIÓN DEL GRUPO*\n*╰┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ✦*\n${descs}\n`;
+let defaultWelcome = `*╭┈⊰* ${subject}  *⊰┈ ✦*\n*┊✨ ДОБРО ПОЖАЛОВАТЬ!!*\n┊💖 @${userName}\n┊📄 *ПРОЧТИТЕ ОПИСАНИЕ ГРУППЫ*\n*╰┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈ ✦*\n${descs}\n`;
 let textWel = chat.sWelcome ? chat.sWelcome
 .replace(/@user/g, `@${userName}`)
 .replace(/@group/g, subject) 
@@ -60,7 +60,7 @@ sourceUrl: accountsgb }}}, { quoted: fkontak })
 } else if (chat.welcome && (m.messageStubType == 28 || m.messageStubType == 32) && conn.user.jid != global.conn.user.jid ) {
 let subject = groupMetadata.subject;
 let userName = `${m.messageStubParameters[0].split`@`[0]}`;
-let defaultBye = `*╭┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈⊰*\n┊ *@${userName}*\n┊ *NO FUE DIGNO(A) DE ESTAR AQUÍ!!* 🌟\n*╰┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈⊰*`;
+let defaultBye = `*╭┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈⊰*\n┊ *@${userName}*\n┊ *ОН НЕ БЫЛ ДОСТОИН НАХОДИТЬСЯ ЗДЕСЬ!!* 🌟\n*╰┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈⊰*`;
 let textBye = chat.sBye ? chat.sBye
 .replace(/@user/g, `@${userName}`)
 .replace(/@group/g, subject)
@@ -89,22 +89,22 @@ const usersConPrefijo = users.startsWith('+') ? users : `+${users}`;
 if (chat.antifake) {
 if (prefijosProhibidos.some(prefijo => usersConPrefijo.startsWith(prefijo))) {
 try {
-await conn.groupRequestParticipantsUpdate(m.chat, [rawUser], 'reject');
-console.log(`Solicitud de ingreso de @${users} rechazada automáticamente por tener un prefijo prohibido.`);
+await conn.groupRequestParticipantsUpdate(m.chat, [rawUser], 'отклонить');
+console.log(`Заявление о приеме в чате @${users} автоматически отклоняется из-за наличия запрещенного префикса.`);
 } catch (error) {
-console.error(`Error al rechazar la solicitud de ${usersConPrefijo}:`, error);
+console.error(`Ошибка при отклонении запроса на ${usersConPrefijo}:`, error);
 }} else {
 try {
-await conn.groupRequestParticipantsUpdate(m.chat, [rawUser], 'approve');
-console.log(`Solicitud de ingreso de @${users} aprobada automáticamente.`);
+await conn.groupRequestParticipantsUpdate(m.chat, [rawUser], 'одобрить');
+console.log(`Заявление о приеме в чате @${users} утверждено автоматически.`);
 } catch (error) {
-console.error(`Error al aprobar la solicitud de ${usersConPrefijo}:`, error);
+console.error(`Ошибка при утверждении запроса на ${usersConPrefijo}:`, error);
 }}} else {
 try {
-await conn.groupRequestParticipantsUpdate(m.chat, [rawUser], 'approve');
-console.log(`Solicitud de ingreso de @${users} aprobada automáticamente ya que #antifake está desactivado.`);
+await conn.groupRequestParticipantsUpdate(m.chat, [rawUser], 'одобрить');
+console.log(`Заявление о приеме в чате @${users} aprobada automáticamente ya que #antifake está desactivado.`);
 } catch (error) {
-console.error(`Error al aprobar la solicitud de ${usersConPrefijo}:`, error);
+console.error(`Ошибка при утверждении запроса на ${usersConPrefijo}:`, error);
 }}
 return;
 } if (chat.detect && m.messageStubType == 30) {

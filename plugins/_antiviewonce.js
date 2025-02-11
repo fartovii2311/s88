@@ -37,7 +37,7 @@ return await conn.sendFile(m.chat, buffer, type === 'imageMessage' ? 'error.jpg'
 await conn.reply(m.chat, description, m, { mentions: [m.sender] })
 await conn.sendMessage(m.chat, { audio: buffer, fileName: 'error.mp3', mimetype: 'audio/mpeg', ptt: true }, { quoted: m })
 }} catch (error) {
-console.error('Error al procesar el mensaje de visualización única: ', error)
+console.error('Ошибка при обработке однократного отображаемого сообщения: ', error)
 }}
 
 export default handler

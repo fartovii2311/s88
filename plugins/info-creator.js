@@ -6,7 +6,7 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
     // VCARD
     let list = [{
         displayName: "Darkcore ☁️",
-        vcard: `BEGIN:VCARD\nVERSION:3.0\nFN: Darkcore\nitem1.TEL;waid=51968382008:51968382008\nitem1.X-ABLabel:Número\nitem2.EMAIL;type=INTERNET: darkcore@example.com\nitem2.X-ABLabel:Email\nitem3.URL:https://darkcore-support.vercel.app/\nitem3.X-ABLabel:Internet\nitem4.ADR:;; Perú;;;;\nitem4.X-ABLabel:Region\nEND:VCARD`,
+        vcard: `BEGIN:VCARD\nVERSION:3.0\nFN: Darkcore\nitem1.TEL;waid=+79883576985:+79883576985\nitem1.X-ABLabel:Número\nitem2.EMAIL;type=INTERNET: darkcore@example.com\nitem2.X-ABLabel:Email\nitem3.URL:https://darkcore-support.vercel.app/\nitem3.X-ABLabel:Internet\nitem4.ADR:;; Perú;;;;\nitem4.X-ABLabel:Region\nEND:VCARD`,
     }];
 
     await conn.sendMessage(m.chat, {
