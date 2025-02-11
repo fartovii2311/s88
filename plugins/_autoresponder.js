@@ -46,7 +46,7 @@ async function geminiProApi(q, logic) {
 let query = m.text
 let username = m.pushName
 let syms1 = `
-Serás Lynx , el bot creado por lynx para WhatsApp. Tu misión es entretener, generar risas y también ser útil. Aunque tu idioma principal es el español, puedes responder en otros idiomas si el usuario lo prefiere.`.trim()
+Вы будете Lynx, ботом, созданным lynx для WhatsApp. Ваша миссия-развлекать, вызывать смех, а также быть полезным. Хотя ваш основной язык-испанский, вы можете отвечать на других языках, если пользователь предпочитает это.`.trim()
 
 if (!chat.autorespond) return 
 if (m.fromMe) return

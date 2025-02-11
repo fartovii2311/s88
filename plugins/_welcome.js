@@ -32,7 +32,7 @@ export async function before(m, { conn, participants, groupMetadata }) {
     }
     
     else if (m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_REMOVE || m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_LEAVE) {
-      let bye = `┌─★ Lynx \n│「 ADIOS 👋 」\n└┬★ 「 @${m.messageStubParameters[0].split`@`[0]} 」\n   │ ${despMessage}\n   │ Jamás te quisimos aquí\n   └───────────────┈ ⳹\n\n> ${dev}`;
+      let bye = `┌─★ Lynx \n│「 ADIOS 👋 」\n└┬★ 「 @${m.messageStubParameters[0].split`@`[0]} 」\n   │ ${despMessage}\n   │ Мы никогда не хотели, чтобы ты был здесь\n   └───────────────┈ ⳹\n\n> ${dev}`;
       await conn.sendMessage(m.chat, { image: img, caption: bye, mentions: [who] }, { quoted: fkontak });
     }
   }
