@@ -74,7 +74,7 @@ global.gataImg = [imagen1]
 global.accountsgb = [canal1, canal2, canal3, canal4, canal5, tk, ig, yt, paypal, fb, ths, md, asistencia, tg].getRandom()
 
 global.canalIdGB = ["120363350099548761@newsletter", "120363371366801178@newsletter", "120363377833048768@newsletter", "120363220939514640@newsletter", "120363220939514640@newsletter", "120363368073378190@newsletter", "120363374486687514@newsletter", "120363183614708156@newsletter"]
-global.canalNombre = ["𑁯🥢ᰰᩧ ְ  𝖲𝗍𝖺𝗋𝗅𝗂𝗀𝗁𝗍  ִ ᡣ𐭩᷼ ֺ 𝖢𝗁𝖺𝗇𝗇𝖾𝗅 ֔  𔖮𔖰 ִ","Team Code Titans 💫", "Nino Nakano Bot 💫", "Free Codes Titans 🐈", "Genesis Bot 🤩", "Crow Bot ✨", "Lynx Bot ☁️", 'Sylphiettes Bot']
+global.canalNombre = ["𑁯🥢ᰰᩧ ְ  Лилит  💫ִ ᡣ𐭩᷼ ֺ Лилит  💫֔  𔖮𔖰 ִ","Лилит  💫 ", "Лилит  💫", "Лилит  💫", "Лилит  💫", "Лилит  💫", "Лилит  💫", 'Лилит  💫']
 global.channelRD = await getRandomChannel()
 
 global.fakeChannel = { contextInfo: { mentionedJid: null, forwardingScore: 1, isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: channelRD.id, serverMessageId: '', newsletterName: channelRD.name }, externalAdReply: { title: wm, body: vs, mediaType: 1, renderLargerThumbnail: false, previewType: `PHOTO`, thumbnailUrl: gataImg.getRandom(), thumbnail: imagen1, sourceUrl: accountsgb }}}, { quoted: m }
