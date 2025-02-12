@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 
 const handler = async (m, { text, command, args, usedPrefix }) => {
   if (!text) {
-    return m.reply(`*• Ingresa un texto*\n\n*Ejemplo:*\n*${usedPrefix + command}* Hola bot`);
+    return m.reply(`*• Введите текст*\n\n*Пример:*\n*${usedPrefix + command}* Привет, бот`);
   }
   
   await m.react('📩');
@@ -20,7 +20,7 @@ const handler = async (m, { text, command, args, usedPrefix }) => {
       if (resChatGPT.status) {
         return m.reply(resChatGPT.data); 
       } else {
-        console.log("Ambas APIs fallaron");
+        console.log("Сбой обоих API");
       }
     }
   } catch (error) {

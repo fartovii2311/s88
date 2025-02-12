@@ -1,7 +1,7 @@
 import fetch from 'node-fetch'
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-    if (!text) return conn.reply(m.chat, `*🚩 Ingrese su petición*\n*🪼 Ejemplo de uso:* ${usedPrefix + command} como hacer estrella de papel`, m, rcanal)
+    if (!text) return conn.reply(m.chat, `*🚩 Введите свой запрос*\n*🪼 Пример использования:* ${usedPrefix + command} как сделать звезду из бумаги`, m, rcanal)
     await m.react('💬')
 
     try {

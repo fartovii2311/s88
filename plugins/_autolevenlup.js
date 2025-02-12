@@ -19,7 +19,7 @@ export function before(m, { conn }) {
 🎯 *Rango Actual:* ${user.role}
 🕰️ *Fecha:* ${new Date().toLocaleString('id-ID')}
         
-✨ ¡Sigue así! ¡Tu esfuerzo te llevará lejos! ✨
+✨ ¡Продолжай в том же духе! Ваши усилия далеко продвинут вас! ✨
         `.trim();
 
         conn.reply(m.chat, message, m);

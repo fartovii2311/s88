@@ -1,7 +1,7 @@
 import fetch from "node-fetch"
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-    if (!text) throw m.reply(`El comando necesita una descripción para empezar a dibujar.\n\n *✧ Ejemplo:*\n${usedPrefix + command} Wooden house on snow mountainh`);
+    if (!text) throw m.reply(`Команде требуется описание, чтобы начать рисовать.\n\n *✧ Ejemplo:*\n${usedPrefix + command} Деревянный дом на снежной горе`);
     await m.reply("")
 
     await conn.relayMessage(m.chat, { reactionMessage: { key: m.key, text: '👌' } }, { messageId: m.key.id })

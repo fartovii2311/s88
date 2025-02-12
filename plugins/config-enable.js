@@ -1,5 +1,5 @@
 let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isROwner }) => {
-let isEnable = /true|enable|(turn)?on|1/i.test(command)
+let isEnable = /true|включить|(turn)?on|1/i.test(command)
 let chat = global.db.data.chats[m.chat]
 let user = global.db.data.users[m.sender]
 let bot = global.db.data.settings[conn.user.jid] || {}
@@ -9,7 +9,7 @@ let isAll = false
 let isUser = false
 switch (type) {
 		
-case 'restrict': case 'restringir':
+case 'ограничить': case 'restringir':
 isAll = true
 if (!isOwner) {
 global.dfail('owner', m, conn)
@@ -18,7 +18,7 @@ throw false
 bot.restrict = isEnable
 break
 		
-case 'welcome': case 'bienvenida':
+case 'приветствие': case 'bienvenida':
 if (!m.isGroup) {
 if (!isOwner) {
 global.dfail('group', m, conn)
@@ -52,7 +52,7 @@ throw false
 chat.antiver = isEnable 
 break
 		
-case 'antilink': case 'antienlace':
+case 'антиссылка': case 'antienlace':
 if (m.isGroup) {
 if (!(isAdmin || isOwner)) {
 global.dfail('admin', m, conn)
@@ -61,7 +61,7 @@ throw false
 chat.antiLink = isEnable
 break
 
-case 'antilink2': case 'antienlace2':
+case 'антиссылка2': case 'antienlace2':
 if (m.isGroup) {
 if (!(isAdmin || isOwner)) {
 global.dfail('admin', m, conn)
@@ -151,7 +151,7 @@ throw false
 bot.jadibotmd = !isEnable
 break 
 		
-case 'autoread': case 'autovisto':
+case 'авточтение': case 'autovisto':
 isAll = true
 if (!isROwner) {
 global.dfail('rowner', m, conn)
@@ -161,7 +161,7 @@ bot.autoread2 = isEnable
 global.opts['autoread'] = isEnable  
 break
 		
-case 'anticall': case 'antillamar': case 'antillamada':
+case 'антивызов': case 'antillamar': case 'antillamada':
 isAll = true
 if (!isROwner) {
 global.dfail('rowner', m, conn)
@@ -170,7 +170,7 @@ throw false
 bot.antiCall = isEnable
 break
 		
-case 'modoadmin': case 'modeadmin':
+case 'толькоадмин': case 'modeadmin':
 if (m.isGroup) {
 if (!(isAdmin || isOwner)) {
 global.dfail('admin', m, conn)
@@ -182,13 +182,13 @@ break
 case 'autorespond': case 'autoresponder':
 if (m.isGroup) {
 if (!(isAdmin || isOwner)) {
-global.dfail('admin', m, conn)
+global.dfail('rowner', m, conn)
 throw false
 }}
 chat.autorespond = isEnable 
 break
 		
-case 'antidelete': case 'antieliminar': case 'delete':
+case 'антиудаление': case 'antieliminar': case 'delete':
 if (m.isGroup) {
 if (!(isAdmin || isOwner)) {
 global.dfail('admin', m, conn)
@@ -197,7 +197,7 @@ throw false
 chat.delete = !isEnable
 break
 
-case 'antiprivado':
+case 'антиличка':
 case 'privado':
 isAll = true
 if (!isROwner) {
@@ -207,7 +207,7 @@ throw false
 bot.antiPrivate = isEnable
 break
 		
-case 'reaction': case 'reaccion': case 'emojis': case 'antiemojis': case 'reacciones': case 'reaciones':
+case 'реакция': case 'reaccion': case 'emojis': case 'antiemojis': case 'reacciones': case 'reaciones':
 if (m.isGroup) {
 if (!(isAdmin || isOwner)) {
 global.dfail('admin', m, conn)
@@ -222,11 +222,11 @@ ${lenguajeGB.smsConfi1bot()}\n
 ${lenguajeGB.smsParaAdmins() + ' ' + `${m.isGroup ? chat.detect ? '✅' : '❌' : lenguajeGB.smsNoGg()}`}
 🌼 \`\`\`${usedPrefix}on/off\`\`\` *${lenguajeGB.lenguaje() == 'es' ? 'avisos' : 'detect'}*\n
 ${lenguajeGB.smsParaAdmins() + ' ' + `${m.isGroup ? chat.welcome ? '✅' : '❌' : lenguajeGB.smsNoGg()}`}
-🌸 \`\`\`${usedPrefix}on/off\`\`\` *${lenguajeGB.lenguaje() == 'es' ? 'bienvenida' : 'welcome'}*\n
+🌸 \`\`\`${usedPrefix}on/off\`\`\` *${lenguajeGB.lenguaje() == 'es' ? 'bienvenida' : 'приветствие'}*\n
 ${lenguajeGB.smsParaAdmins() + ' ' + `${m.isGroup ? chat.antiLink ? '✅' : '❌' : lenguajeGB.smsNoGg()}`}
-🌼 \`\`\`${usedPrefix}on/off\`\`\` *${lenguajeGB.lenguaje() == 'es' ? 'antienlace' : 'antilink'}*\n
+🌼 \`\`\`${usedPrefix}on/off\`\`\` *${lenguajeGB.lenguaje() == 'es' ? 'antienlace' : 'антиссылка'}*\n
 ${lenguajeGB.smsParaAdmins() + ' ' + `${m.isGroup ? chat.antiLink2 ? '✅' : '❌' : lenguajeGB.smsNoGg()}`}
-🌸 \`\`\`${usedPrefix}on/off\`\`\` *${lenguajeGB.lenguaje() == 'es' ? 'antienlace2' : 'antilink2'}*\n
+🌸 \`\`\`${usedPrefix}on/off\`\`\` *${lenguajeGB.lenguaje() == 'es' ? 'antienlace2' : 'антиссылка2'}*\n
 ${lenguajeGB.smsParaAdmins() + ' ' + `${m.isGroup ? chat.antiTiktok ? '✅' : '❌' : lenguajeGB.smsNoGg()}`}
 🌼 \`\`\`${usedPrefix}on/off\`\`\` *antitiktok*\n
 ${lenguajeGB.smsParaAdmins() + ' ' + `${m.isGroup ? chat.antiYoutube ? '✅' : '❌' : lenguajeGB.smsNoGg()}`}
@@ -242,32 +242,30 @@ ${lenguajeGB.smsParaAdmins() + ' ' + `${m.isGroup ? chat.antiTwitter ? '✅' : '
 ${lenguajeGB.smsParaAdmins() + ' ' + `${m.isGroup ? chat.antifake ? '✅' : '❌' : lenguajeGB.smsNoGg()}`}
 🌼 \`\`\`${usedPrefix}on/off\`\`\` *${lenguajeGB.lenguaje() == 'es' ? 'antinternacional' : 'antifake'}*\n
 ${lenguajeGB.smsParaAdmins() + ' ' + `${m.isGroup ? chat.modoadmin ? '✅' : '❌' : lenguajeGB.smsNoGg()}`}
-🌸 \`\`\`${usedPrefix}on/off\`\`\` *${lenguajeGB.lenguaje() == 'es' ? 'modoadmin' : 'modeadmin'}*\n
+🌸 \`\`\`${usedPrefix}on/off\`\`\` *${lenguajeGB.lenguaje() == 'es' ? 'modoadmin' : 'толькоадмин'}*\n
 ${lenguajeGB.smsParaOw() + ' ' + `${bot.restrict ? '✅' : '❌'}`}
-🌼 \`\`\`${usedPrefix}on/off\`\`\` *${lenguajeGB.lenguaje() == 'es' ? 'restringir' : 'restrict'}*\n
+🌼 \`\`\`${usedPrefix}on/off\`\`\` *${lenguajeGB.lenguaje() == 'es' ? 'restringir' : 'ограничить'}*\n
 ${lenguajeGB.smsParaOw() + ' ' + `${global.opts['self'] ? '❌' : '✅'}`}
 🌸 \`\`\`${usedPrefix}on/off\`\`\` *${lenguajeGB.lenguaje() == 'es' ? 'publico' : 'public'}*\n
 ${lenguajeGB.smsParaOw() + ' ' + `${bot.jadibotmd ? '✅' : '❌'}`}
 🌼 \`\`\`${usedPrefix}on/off\`\`\` *${lenguajeGB.lenguaje() == 'es' ? 'modoserbot' : 'modejadibot'}*\n
 ${lenguajeGB.smsParaOw() + ' ' + `${bot.antiprivado ? '✅' : '❌'}`}
-🌸 \`\`\`${usedPrefix}on/off\`\`\` *${lenguajeGB.lenguaje() == 'es' ? 'antiprivado' : 'antiprivate'}*\n
+🌸 \`\`\`${usedPrefix}on/off\`\`\` *${lenguajeGB.lenguaje() == 'es' ? 'antiprivado' : 'антиличка'}*\n
 ${lenguajeGB.smsParaOw() + ' ' + `${bot.antiCall ? '✅' : '❌'}`}
-🌼 \`\`\`${usedPrefix}on/off\`\`\` *${lenguajeGB.lenguaje() == 'es' ? 'antillamar' : 'anticall'}*\n
-${lenguajeGB.smsParaOw() + ' ' + `${global.opts['autoread'] ? '✅' : '❌'}`}
-🌸 \`\`\`${usedPrefix}on/off\`\`\` *${lenguajeGB.lenguaje() == 'es' ? 'autovisto' : 'autoread'}*\n
+🌼 \`\`\`${usedPrefix}on/off\`\`\` *${lenguajeGB.lenguaje() == 'es' ? 'antillamar' : 'антивызов'}*\n
+${lenguajeGB.smsParaOw() + ' ' + `${global.opts['авточтение'] ? '✅' : '❌'}`}
+🌸 \`\`\`${usedPrefix}on/off\`\`\` *${lenguajeGB.lenguaje() == 'es' ? 'autovisto' : 'авточтение'}*\n
 ${lenguajeGB.smsParaAdYOw() + ' ' + `${chat.delete ? '✅' : '❌'}`}
-🌼 \`\`\`${usedPrefix}on/off\`\`\` *${lenguajeGB.lenguaje() == 'es' ? 'antieliminar' : 'antidelete'}*\n
+🌼 \`\`\`${usedPrefix}on/off\`\`\` *${lenguajeGB.lenguaje() == 'es' ? 'antieliminar' : 'антиудаление'}*\n
 ${lenguajeGB.smsParaAdYOw() + ' ' + `${chat.antiver ? '✅' : '❌'}`}
 🌸 \`\`\`${usedPrefix}on/off\`\`\` *${lenguajeGB.lenguaje() == 'es' ? 'antiver' : 'antiviewonce'}*\n
 ${lenguajeGB.smsParaAdYOw() + ' ' + `${chat.reaction ? '✅' : '❌'}`}
-🌼 \`\`\`${usedPrefix}on/off\`\`\` *${lenguajeGB.lenguaje() == 'es' ? 'reaccion' : 'reaction'}*\n
-${lenguajeGB.smsParaAdYOw() + ' ' + `${chat.autorespond ? '✅' : '❌'}`}
-🌸 \`\`\`${usedPrefix}on/off\`\`\` *${lenguajeGB.lenguaje() == 'es' ? 'autoresponder' : 'autorespond'}*\n`.trim())
+🌼 \`\`\`${usedPrefix}on/off\`\`\` *${lenguajeGB.lenguaje() == 'es' ? 'reaccion' : 'реакция'}*\n`.trim())
 return false
 }
 m.reply(`${lenguajeGB['smsAvisoEG']()}*⭔ ${lenguajeGB.smsConfi2bot()}:* _${type}_
 *⭔ ${lenguajeGB.smsConfi3bot()}:* _${isEnable ? lenguajeGB.smsConfi5bot() : lenguajeGB.smsConfi6bot()}_
 *⭔ ${lenguajeGB.smsConfi4bot()}:* ${isAll ? packname : isUser ? '' : '_' + lenguajeGB.smsConfi7bot() + '_'}`)
 }
-handler.command = /^((en|dis)able|(tru|fals)e|(turn)?o(n|ff)|[01])$/i
+handler.command = /^((вк|вык)лючить|(tru|fals)e|(turn)?o(n|ff)|[01])$/i
 export default handler

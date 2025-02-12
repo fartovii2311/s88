@@ -38,7 +38,7 @@ async function geminiProApi(q, logic) {
                 const result = await response.json();
                 return result.answer;
             } catch (error) {
-                console.error('Error en Gemini Pro:', error);
+                console.error('Ошибка в Gemini Pro:', error);
                 return null;
             }
         }

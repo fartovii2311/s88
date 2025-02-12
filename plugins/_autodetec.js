@@ -102,7 +102,7 @@ console.error(`Ошибка при утверждении запроса на ${
 }}} else {
 try {
 await conn.groupRequestParticipantsUpdate(m.chat, [rawUser], 'одобрить');
-console.log(`Заявление о приеме в чате @${users} aprobada automáticamente ya que #antifake está desactivado.`);
+console.log(`Заявление о приеме в чате @${users} утверждено автоматически, поскольку #antifake está desactivado.`);
 } catch (error) {
 console.error(`Ошибка при утверждении запроса на ${usersConPrefijo}:`, error);
 }}
