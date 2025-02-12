@@ -35,7 +35,7 @@ await conn.reply(m.chat, lenguajeGB.smsPropdesban5(usedPrefix, command, number),
 console.log(e)
 }}
 
-handler.command = /^(desprohibir|unprohibit|desprivar|undeprive)$/i
+handler.command = /^(ор|unprohibit|desprivar|undeprive)$/i
 handler.group = true
 handler.botAdmin = true 
 
