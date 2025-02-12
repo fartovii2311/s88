@@ -3,7 +3,7 @@ if (!text) return conn.reply(m.chat, `🚩 Введите номер, на ко�
 if (text.includes('+')) return conn.reply(`🚩 Ingrese el número todo junto sin el *+*`, m, rcanal)
 if (isNaN(text)) return conn.reply(m.chat, `*Ingrese sólo números más su código de país sin espacios*`, m, rcanal)
 let group = m.chat
-let link = 'https://chat.whatsapp.com/' + await conn.groupInviteCode(group)
+let link = 'https' + await conn.groupInviteCode(group)
  
       await conn.reply(text+'@s.whatsapp.net', `🚩 *INVITACIÓN A GRUPO*\n\nUn usuario te invitó a unirte a este grupo \n\n${link}`, m, {mentions: [m.sender]})
         m.reply(`Se envió un enlace de invitación al usuario.`) 

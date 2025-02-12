@@ -17,7 +17,7 @@ const grupo = `https://chat.whatsapp.com`
 if (isAdmin && chat.antiLink && m.text.includes(grupo)) return m.reply(`${lenguajeGB['smsAdwa']()}`)
 if (chat.antiLink && isGroupLink && !isAdmin) {
 if (isBotAdmin) {
-const linkThisGroup = `https://chat.whatsapp.com/${await this.groupInviteCode(m.chat)}`
+const linkThisGroup = `https${await this.groupInviteCode(m.chat)}`
 if (m.text.includes(linkThisGroup)) return m.reply(lenguajeGB['smsWaMismoEnlace']())  
 }    
 if (!isBotAdmin) return conn.sendMessage(m.chat, { text: `${lenguajeGB['smsAvisoFG']()} ${lenguajeGB['smsAllAdmin']()}`, mentions: [...groupAdmins.map(v => v.id)] }, { quoted: m });

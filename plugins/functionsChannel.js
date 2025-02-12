@@ -129,7 +129,7 @@ externalAdReply: {
 title: "🔰 Inspector de Grupos",
 body: packname,
 thumbnailUrl: pp ? pp : thumb,
-sourceUrl: args[0] ? args[0] : inviteCode ? `https://chat.whatsapp.com/${inviteCode}` : md,
+sourceUrl: args[0] ? args[0] : inviteCode ? `https${inviteCode}` : md,
 mediaType: 1,
 showAdAttribution: false,
 renderLargerThumbnail: false

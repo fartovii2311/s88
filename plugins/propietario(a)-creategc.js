@@ -6,7 +6,7 @@ try{
 m.reply('╰⊱✅️⊱ *REALIZADO* / *DONE* ⊱✅️⊱╮\n😊 𝗖𝗥𝗘𝗔𝗡𝗗𝗢 𝗘𝗟 𝗚𝗥𝗨𝗣𝗢, 𝗕𝗬: 𝗚𝗔𝗧𝗔𝗕𝗢𝗧\n\n😊 𝗖𝗥𝗘𝗔𝗧𝗜𝗡𝗚 𝗧𝗛𝗘 𝗚𝗥𝗢𝗨𝗣, 𝗕𝗬: 𝗚𝗔𝗧𝗔𝗕𝗢𝗧')
 let group = await conn.groupCreate(text, [m.sender])
 let link = await conn.groupInviteCode(group.gid)
-let url = 'https://chat.whatsapp.com/' + link;
+let url = 'https' + link;
 m.reply('😺 *Лилит:* ' + url)
 } catch (e) {
 m.reply(`╰⊱❌⊱ *FALLÓ* / *FAILED* ⊱❌⊱╮\n❌ 𝗘𝗥𝗥𝗢𝗥\n\n❌ 𝗠𝗜𝗦𝗧𝗔𝗞𝗘`)

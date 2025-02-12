@@ -109,7 +109,7 @@ break
 case isCommand8:
 pp = await conn.profilePictureUrl(m.chat, 'image').catch(_ => null) || './src/grupos.jpg' 
 let res = await conn.groupRevokeInvite(m.chat)
-await conn.sendFile(m.chat, pp, 'error.jpg', lenguajeGB.smsRestGp() + '\n\n*https://chat.whatsapp.com/' + res + '*', m, fkontak)
+await conn.sendFile(m.chat, pp, 'error.jpg', lenguajeGB.smsRestGp() + '\n\n*https' + res + '*', m, fkontak)
 break
   
 case isCommand9:
@@ -234,7 +234,7 @@ return conn.reply(m.chat, `${lenguajeGB['smsAvisoMG']()}${lenguajeGB.smsInvite2(
 }  
 let NumeroUser = text.replace(/\D/g, '')
 user = m.sender.split`@`[0]
-let link = 'https://chat.whatsapp.com/' + await conn.groupInviteCode(m.chat)
+let link = 'https' + await conn.groupInviteCode(m.chat)
 pp = await conn.profilePictureUrl(m.chat, 'image').catch(_ => null) || gataMenu.getRandom()//'./media/menus/Menu2.jpg' 
 await conn.reply(NumeroUser + '@s.whatsapp.net', `✨ *¡Hola! @${NumeroUser}, @${user} ¡¡Te ha invitado!!*`, null, {mentions: [NumeroUser + '@s.whatsapp.net', m.sender]})    
 await conn.sendMessage(NumeroUser + '@s.whatsapp.net', { text: `*Soy ${packname}, un Bot para WhatsApp.*\n\n:¨·.·¨:\n\`·. ${groupMetadata.subject}`, contextInfo: { externalAdReply: { title: '❤️ ¡Te esperamos con ansias en el grupo!', body: '9999999999', thumbnailUrl: pp, sourceUrl: link, mediaType: 1, showAdAttribution: false, renderLargerThumbnail: true }}})

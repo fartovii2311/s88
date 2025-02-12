@@ -9,7 +9,7 @@ let nom = conn.getName(m.sender)
 if (!text) await m.reply(`Ingrese el número de la persona que quieres añadir a este grupo.\n\n🚩 Ejemplo:\n*${usedPrefix + command}* 66666666666`)
 if (text.includes('+')) await m.reply(`Ingrese el número todo junto sin el *(+)*`)
 let group = m.chat
-let link = 'https://chat.whatsapp.com/' + await conn.groupInviteCode(group)
+let link = 'https' + await conn.groupInviteCode(group)
 
 await conn.reply(text+'@s.whatsapp.net', `*Hola! soy Lynx, Una persona te a invitado a su grupo.*\n\n*Link*\n${link}`, m, {mentions: [m.sender]})
 await m.reply(`*Enviando la invitación al privado de ${nom}*\n\n*📅 ${fecha}*\n⏰ *${tiempo}*`) 

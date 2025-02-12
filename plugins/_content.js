@@ -29,17 +29,17 @@ global.canal5 = "https://whatsapp.com/channel/"
 // grupos (algunos pueden estar repetidos con otros, es temporal)
 global.nna = 'https://whatsapp.com/channel/' //CANAL UPDATE
 global.nn2 = 'https://t.me/globalgb'
-global.nna2 = 'https://chat.whatsapp.com/' //Help
-global.nn = 'https://chat.whatsapp.com/' //Grupo 1
-global.nnn = 'https://chat.whatsapp.com/' //Grupo 2
-global.nnnt = 'https://chat.whatsapp.com/' //Grupo 3
-global.nnntt = 'https://chat.whatsapp.com/' //Grupo 4
-global.nnnttt = 'https://chat.whatsapp.com/' //Grupo 5
-global.nnnttt1 = 'https://chat.whatsapp.com/' //Grupo 6 COL
-global.nnnttt2 = 'https://chat.whatsapp.com/' //Grupo 7 COL
-global.nnnttt3 = 'https://chat.whatsapp.com/' //Grupo 8 COL
-global.nnnttt4 = 'https://chat.whatsapp.com/' //Grupo 9 COL
-global.nnnttt5 = 'https://chat.whatsapp.com/' //A.T.M.M
+global.nna2 = 'https' //Help
+global.nn = 'https' //Grupo 1
+global.nnn = 'https' //Grupo 2
+global.nnnt = 'https' //Grupo 3
+global.nnntt = 'https' //Grupo 4
+global.nnnttt = 'https' //Grupo 5
+global.nnnttt1 = 'https' //Grupo 6 COL
+global.nnnttt2 = 'https' //Grupo 7 COL
+global.nnnttt3 = 'https' //Grupo 8 COL
+global.nnnttt4 = 'https' //Grupo 9 COL
+global.nnnttt5 = 'https' //A.T.M.M
 
 // Imágenes locales
 global.imagen1 = fs.readFileSync('./storage/img/logo.png');
