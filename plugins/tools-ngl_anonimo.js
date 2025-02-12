@@ -52,7 +52,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 handler.tags = ['tools'];
 handler.help = ['ngl'].map(v => v + ' <número mensaje>');
 handler.command = /^(ngl|nglanonimo)$/i;
-handler.register = true;
 handler.private = true;
 
 export default handler;

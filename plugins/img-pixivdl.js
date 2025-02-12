@@ -20,7 +20,7 @@ await m.react('✖️')
 handler.help = ['pixiv *<búsqueda>*']
 handler.tags = ['img']
 handler.command = /^(pixiv|pixivdl)$/i
-handler.register = true 
+ 
 handler.Monedas = 1
 export default handler
 

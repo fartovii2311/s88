@@ -41,6 +41,5 @@ handler.help = ['waifu'];
 handler.tags = ['img'];
 handler.command = ['waifu'];
 //handler.limit = 1
-handler.register = true;
 
 export default handler;

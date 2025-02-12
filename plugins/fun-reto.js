@@ -1,5 +1,5 @@
 let handler  = async (m, { conn }) => {
-conn.reply(m.chat,`*┌────「 RETO 」─*\n*“${pickRandom(global.bucin)}”*\n*└────「 DARK 」─*`, m)
+conn.reply(m.chat,`*┌────「 ВЫЗОВ 」─*\n*“${pickRandom(global.bucin)}”*\n*└────「 ТЕМНЫЙ 」─*`, m)
 }
 handler.help = ['reto']
 handler.tags = ['fun']
@@ -11,7 +11,7 @@ function pickRandom(list) {
 }
 
 global.bucin = [
-"Pasa el pack de una hormiga",
+"Передайте пакет муравью",
 "Dile a tus amigos que te vas a vivir a EU y mándame una captura de lo que te haya dicho",
 "Grita desde la ventana que quieres mamar y mándame el vídeo",
 "Escribe el nombre de tu crush",

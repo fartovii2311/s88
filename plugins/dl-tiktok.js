@@ -78,7 +78,6 @@ await conn.sendMessage(m.chat, {
 handler.help = ["tiktok *<url>*"];
 handler.tags = ["dl"];
 handler.command = ["tiktok"];
-handler.register = true;
 export default handler;
 
 const headers = {

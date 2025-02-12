@@ -26,6 +26,5 @@ throw `*🚨 Lo sentimos, ha ocurrido un error 😔*`;
 handler.tags = ['tools'];
 handler.help = ['genearimg'];
 handler.command = ['genearimg', 'imgg'];
-handler.register = true;
 
 export default handler;

@@ -5,7 +5,7 @@ let handler = async (m, { conn, args, usedPrefix: prefix, command }) => {
     m.react('🔥');
 
     if (!args[0]) {
-        return conn.reply(m.chat, `[ ᰔᩚ ] Ingresa una URL válida de *PlayStore*.`, m, rcanal);
+        return conn.reply(m.chat, `[ ᰔᩚ ] Введите действительный URL-адрес *PlayStore*.`, m, rcanal);
     }
 
     const url = args[0];
@@ -15,7 +15,7 @@ let handler = async (m, { conn, args, usedPrefix: prefix, command }) => {
         packageName = new URL(url).searchParams.get("id");
         if (!packageName) throw new Error();
     } catch {
-        return conn.reply(m.chat, `*❌ La URL proporcionada no es válida o no contiene un ID de aplicación.*`, m);
+        return conn.reply(m.chat, `*❌ Указанный URL-адрес недействителен или не содержит идентификатора приложения.*`, m);
     }
 
     console.log(`ID de paquete: ${packageName}`);
@@ -25,11 +25,11 @@ let handler = async (m, { conn, args, usedPrefix: prefix, command }) => {
         info = await gplay.app({ appId: packageName });
     } catch (error) {
         console.error(error);
-        return conn.reply(m.chat, `*❌ No se pudo encontrar la aplicación. Asegúrate de que el enlace sea correcto.*`, m);
+        return conn.reply(m.chat, `*❌ Не удалось найти приложение. Убедитесь, что ссылка указана правильно.*`, m);
     }
 
     const h = info.title;
-    console.log(`Título de la aplicación: ${h}\nID de la aplicación: ${info.appId}`);
+    console.log(`Название приложения: ${h}\nИдентификатор приложения: ${info.appId}`);
 
     let link = `https://d.apkpure.com/b/APK/${info.appId}?version=latest`;
 
@@ -40,5 +40,4 @@ let handler = async (m, { conn, args, usedPrefix: prefix, command }) => {
 
 handler.command = /^(dlplaystore)$/i;
 handler.tags = ['dl'];
-handler.register = true;
 export default handler;

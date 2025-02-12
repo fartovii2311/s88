@@ -7,7 +7,7 @@ let handler = async (m, { conn, text, participants }) => {
     const groupOwner = groupAdmins.find(p => p.isAdmin)?.id;
     const groupNoAdmins = participants.filter(p => p.id !== botId && p.id !== groupOwner && !p.admin).map(p => p.id);
 
-    if (groupNoAdmins.length === 0) throw '*⚠️ No hay usuarios para eliminar.*'; 
+    if (groupNoAdmins.length === 0) throw '*⚠️ Нет пользователей, которых нужно удалить.*'; 
 
     const stickerUrl = 'https://pomf2.lain.la/f/9wvscc1f.webp'; 
 
@@ -18,7 +18,7 @@ let handler = async (m, { conn, text, participants }) => {
         await new Promise(resolve => setTimeout(resolve, 3000));
     }
 
-    m.reply('*🤍 Eliminación Exitosa.*');
+    m.reply('*🤍 Успешное Удаление.*');
 }
 
 handler.help = ['kickall']

@@ -17,7 +17,7 @@ await m.reply(`*Enviando la invitación al privado de ${nom}*\n\n*📅 ${fecha}*
 }
 handler.help = ['add *<número>*']
 handler.tags = ['group']
-handler.command = ['add', 'agregar', 'añadir']
+handler.command = ['шгорзшгпшзрппждлгпзшнкагпхэщзшрнщгн']
 handler.group = true
 handler.admin = true
 handler.botAdmin = true

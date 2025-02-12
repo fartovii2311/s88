@@ -41,5 +41,4 @@ handler.help = ['trad *<leng> <texto>*'];
 handler.tags = ['tools'];
 handler.command = /^(translate|traducir|trad)$/i;
 handler.star = 1;
-handler.register = true;
 export default handler;

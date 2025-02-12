@@ -49,6 +49,5 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 handler.help = ['minestalk <nombrejugador>'];
 handler.tags = ['tools'];
 handler.command = ['minestalk', 'minecraftstalk'];
-handler.register = true;
 
 export default handler;

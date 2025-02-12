@@ -6,7 +6,7 @@ import ws from 'ws';
 let handler = async (m, { conn: _envio, command, usedPrefix, args, text, isOwner}) => {
 const isCommand1 = /^(deletesesion|eliminarsesion|borrarsesion|delsesion|delsession|cerrarsesion)$/i.test(command)  
 const isCommand2 = /^(berhenti|pausesb|detenersb|pausarsb)$/i.test(command)  
-const isCommand3 = /^(listjadibot|bots|subsbots|subbots)$/i.test(command)  
+const isCommand3 = /^(зщшнапщшгнапшзгрхщгпешщнпзшщлглрев)$/i.test(command)  
 
 async function reportError(e) {
 await m.reply(lenguajeGB['smsMalError3']() + '\n*' + lenguajeGB.smsMensError1() + '*\n*' + usedPrefix + `${lenguajeGB.lenguaje() == 'es' ? 'reporte' : 'report'}` + '* ' + `${lenguajeGB.smsMensError2()} ` + usedPrefix + command)
@@ -91,5 +91,5 @@ await _envio.sendMessage(m.chat, {text: responseMessage, mentions: _envio.parseM
 break    
 }}
 
-handler.command = /^(deletesesion|eliminarsesion|borrarsesion|delsesion|delsession|cerrarsesion|berhenti|pausesb|detenersb|pausarsb|listjadibot|bots|subsbots|subbots)$/i
+handler.command = /^(зшрпзщрпмщгнпщгнпзшп)$/i
 export default handler

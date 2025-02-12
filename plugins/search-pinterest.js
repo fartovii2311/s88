@@ -99,7 +99,6 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 handler.help = ['pinterest *<text>*'];
 handler.tags = ['search'];
 handler.command = ['pinterest'];
-handler.register = true;
 handler.Monedas = 3;
 
 export default handler;

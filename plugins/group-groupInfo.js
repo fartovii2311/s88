@@ -15,9 +15,9 @@ let handler = async (m, { conn, participants, groupMetadata }) => {
 ║❥ *Admins:* 
 ${listAdmin}
 ║❥ *Configuración de grupo:*
-║❥ • ${isBanned ? '✅' : '❎'} Baneado
-║❥ • ${welcome ? '✅' : '❎'} Bienvenida
-║❥ • ${detect ? '✅' : '❎'} Detector
+║❥ • ${isBanned ? '✅' : '❎'} Забаненный
+║❥ • ${welcome ? '✅' : '❎'} Желанная
+║❥ • ${detect ? '✅' : '❎'} Детектор
 ║❥ • ${del ? '❎' : '✅'} Anti Delete
 ║❥ • ${antiLink ? '✅' : '❎'} Anti Link WhatsApp
 ╰────

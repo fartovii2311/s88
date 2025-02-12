@@ -38,6 +38,6 @@ console.log(e)
 handler.command = /^(desprohibir|unprohibit|desprivar|undeprive)$/i
 handler.group = true
 handler.botAdmin = true 
-handler.register = true
+
 handler.admin = true
 export default handler

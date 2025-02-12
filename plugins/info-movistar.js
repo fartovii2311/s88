@@ -53,6 +53,5 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
 handler.help = ['movistar <texto>'];
 handler.tags = ['main'];
 handler.command = ['movistar'];
-handler.register = true;
 
 export default handler;

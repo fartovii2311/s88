@@ -22,6 +22,6 @@ handler.tags = ['ai']
 handler.command = /^(dalle)$/i
 
 handler.premium = false
-handler.register = true
+
 
 export default handler

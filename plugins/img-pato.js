@@ -35,7 +35,7 @@ const handler = async (m, { conn }) => {
 
 handler.help = ['pato'];
 handler.tags = ['img'];
-handler.register = true;
+;
 handler.command = /^(pato|duck|patorandom)$/i;
 
 export default handler;

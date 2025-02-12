@@ -29,6 +29,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 handler.help = ['bing *<texto>*'];
 handler.tags = ['ai'];
 handler.command = /^(bing|Bing|BING)$/i;
-handler.register = true;
+
 
 export default handler;

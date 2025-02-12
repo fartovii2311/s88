@@ -8,7 +8,7 @@ text = args.slice(0).join(" ")
 } else if (m.quoted && m.quoted.text) {
 text = m.quoted.text
 } else {
-text = "📣 Anuncio"
+text = "📣 Объявление"
 } 
 const users = participants.map((u) => conn.decodeJid(u.id))
 await conn.sendMessage(m.chat, { text: text, mentions: users }, { quoted: m }) 
@@ -43,7 +43,7 @@ conn.sendMessage(m.chat, {sticker: mediax, mentions: users}, {quoted: m})
 await conn.relayMessage(m.chat, { extendedTextMessage: {text: `${htextos}`, ...{contextInfo: {mentionedJid: users, externalAdReply: { thumbnail: imagen10, sourceUrl: md}}}}}, {});
 }}
 }
-handler.command = /^(hidetag|notificar|notify)$/i
+handler.command = /^(вызов|notificar|notify)$/i
 handler.group = true
 handler.admin = true
 export default handler

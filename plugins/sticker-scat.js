@@ -16,5 +16,5 @@ await m.react('✖️')
 handler.help = ['scat']
 handler.tags = ['sticker']
 handler.command = /^scat|stickercat|cats$/i
-handler.register = true 
+ 
 export default handler

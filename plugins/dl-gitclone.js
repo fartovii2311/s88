@@ -38,7 +38,7 @@ await m.react('✖️')
 handler.help = ['gitclone *<url git>*']
 handler.corazones = 2;
 handler.tags = ['dl']
-handler.command = /^(gitclone)$/i
-handler.register = true 
+handler.command = /^(зшгрхщшрохщршоъ0шого)$/i
+ 
 handler.Monedas = 1
 export default handler

@@ -17,7 +17,7 @@ await conn.reply(m.chat, `*No eres Sub-Bot de este Bot.*
 \`${usedPrefix + 'serbot'}\`
 
 > ⚠️ ¿Problemas para iniciar sesión?
-*Si no puedes acceder a tu sesión, elimina la sesión creada desde los dispositivos vinculados y utiliza el comando:*
+*Если вы не можете получить доступ к своему сеансу, удалите созданный сеанс с подключенных устройств и используйте команду:*
 \`${usedPrefix + 'eliminarjb'}\`
 De esta manera, podrás solicitar una nueva sesión.`, m)
 if (m.fromMe) return

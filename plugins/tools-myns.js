@@ -7,5 +7,5 @@ await conn.reply(m.chat, `${sn}`, m, rcanal)
 handler.help = ['sn']
 handler.tags = ['tools']
 handler.command = ['nserie', 'sn', 'mysn'] 
-handler.register = true
+
 export default handler

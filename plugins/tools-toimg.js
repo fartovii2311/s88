@@ -17,6 +17,6 @@ await m.react('✖️')
 handler.help = ['toimg *<sticker>*']
 handler.tags = ['sticker', 'tools']
 handler.command = ['toimg', 'jpg', 'aimg'] 
-handler.register = true
+
 
 export default handler

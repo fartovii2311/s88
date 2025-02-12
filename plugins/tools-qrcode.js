@@ -9,6 +9,6 @@ handler.help = ['qrcode *<texto>*']
 handler.tags = ['tools']
 handler.command = ['qrcode'] 
 //handler.limit = 1
-handler.register = true 
+ 
 
 export default handler

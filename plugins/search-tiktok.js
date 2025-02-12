@@ -57,7 +57,7 @@ await conn.reply(message.chat, error.toString(), message)
 
 handler.help = ['tiktoksearch <txt>']
 handler.corazones = 1
-handler.register = true
+
 handler.tags = ['search']
 handler.command = ['tiktoksearch', 'tiktoks']
 export default handler

@@ -12,6 +12,6 @@ handler.help = ['getbio', 'getbio *@tag*']
 handler.tags = ['group']
 handler.command = /^(getbio|getdesc)$/i
 //handler.limit = 1
-handler.register = true 
+ 
 
 export default handler

@@ -85,7 +85,6 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 handler.help = ['pelisplus <título>'];
 handler.tags = ['search'];
 handler.command = ['pelisplussearch', 'pelisplus'];
-handler.register = true;
 handler.Monedas = 3;
 
 export default handler;

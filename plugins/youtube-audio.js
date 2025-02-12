@@ -119,7 +119,7 @@ let handler = async (m, { conn, text }) => {
 handler.help = ['Audio'];
 handler.tags = ['dl'];
 handler.customPrefix = /^(AUDIO|audio|Audio)$/i;
-handler.register = true;
+;
 handler.Monedas = 5;
 handler.command = new RegExp;
 

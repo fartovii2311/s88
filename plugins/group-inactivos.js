@@ -29,14 +29,14 @@ let handler = async (m, { conn, text, args, groupMetadata }) => {
     }
 
         if (!args[0]) {
-        return conn.reply(m.chat, `🤍 Utilice el comando con opciones:\n1. \`.inactivos list\` para etiquetar los miembros off\n2. \`.inactivos kick\` para expulsar a miembros off`, m)
+        return conn.reply(m.chat, `🤍 Используйте команду с параметрами:\n1. \`.неактивные list\` чтобы пометить участников как выключенных\n2. \`.неактивный удар\` чтобы исключить участников из списка`, m)
     }
 
     if (args[0] === 'list') {
-        if (total === 0) return conn.reply(m.chat, `🤍 *No hay bandos en este grupo.*`, m)
+        if (total === 0) return conn.reply(m.chat, `🤍 *В этой группе нет сторон.*`, m)
         
         const groupName = await conn.getName(m.chat)
-        const message = `*${total}/${member.length}* grupo *${groupName}* Lista de inactivos\n${sider.map(v => '  ○ @' + v.replace(/@.+/, '')).join('\n')}`
+        const message = `*${total}/${member.length}* группа *${groupName}* Список неактивных\n${sider.map(v => '  ○ @' + v.replace(/@.+/, '')).join('\n')}`
 
         return conn.reply(m.chat, message, m, {
             contextInfo: {
@@ -46,7 +46,7 @@ let handler = async (m, { conn, text, args, groupMetadata }) => {
     }
 
     if (args[0] === 'kick') {
-        if (total === 0) return conn.reply(m.chat, `🤍 *No hay bandos para patear en este grupo.*`, m)
+        if (total === 0) return conn.reply(m.chat, `🤍 *В этой группе нет сторон, по которым можно было бы ударить.*`, m)
 
         for (const user of sider) {
             try {
@@ -56,10 +56,10 @@ let handler = async (m, { conn, text, args, groupMetadata }) => {
             }
         }
 
-        return conn.reply(m.chat, `🤍 Eliminado con éxito *${total}* miembros inactivos del grupo.`, m)
+        return conn.reply(m.chat, `🤍 Успешно удален *${total}* неактивные участники группы.`, m)
     }
 
-    return conn.reply(m.chat, `🤍 Opción no válida. Utilice \`list\` para ver miembros inactivos o \`kick\` para eliminarlos.`, m)
+    return conn.reply(m.chat, `🤍Недопустимый вариант. Использует \`list\` чтобы просмотреть неактивных участников или \`удалить\` чтобы удалить их.`, m)
 }
 
 handler.help = ['inactivos']

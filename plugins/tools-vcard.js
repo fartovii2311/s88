@@ -14,5 +14,5 @@ handler.tags = ['tools']
 handler.command = ['vcard'] 
 handler.group = true
 //handler.limit = 1
-handler.register = true 
+ 
 export default handler

@@ -63,6 +63,5 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 handler.help = ['chromestore <término>'];
 handler.tags = ['search'];
 handler.command = ['chromestore', 'chrome'];
-handler.register = true;
 handler.Monedas = 5
 export default handler;

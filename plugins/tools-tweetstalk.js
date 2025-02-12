@@ -27,6 +27,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 handler.help = ['tweestalk *<usuario>*']
 handler.tags = ['tools']
 handler.command = ['tweestalk', 'tweeter-stalk', 'twitter-stalk']
-handler.register = true
+
 
 export default handler

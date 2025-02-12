@@ -43,5 +43,5 @@ await m.react('✖️')
 handler.help = ['quotly *<texto>*']
 handler.tags = ['sticker']
 handler.command = ['quotly', 'qc']
-handler.register = true 
+ 
 export default handler

@@ -8,12 +8,12 @@ import { prepareWAMessageMedia, generateWAMessageFromContent } from '@whiskeysoc
 
 const handler = async (m, { conn, args, usedPrefix }) => {
 
-    if (!args[0]) return conn.reply(m.chat, '*\`Ingresa el nombre de lo que quieres buscar\`*', m);
+    if (!args[0]) return conn.reply(m.chat, '*\`Введите название того, что вы хотите найти\`*', m);
 
     await m.react('🕓');
     try {
         let res = await search(args.join(" "));
-        if (!res.length) return conn.reply(m.chat, '*\`No se encontraron resultados\`*', m);
+        if (!res.length) return conn.reply(m.chat, '*\`Результатов не найдено\`*', m);
 
         let video = res[0];
         let img = await (await fetch(video.image)).buffer();
@@ -46,7 +46,7 @@ const handler = async (m, { conn, args, usedPrefix }) => {
         await conn.sendMessage(m.chat, {
             image: img,
             caption: txt,
-            footer: 'Presiona el botón para el tipo de descarga.',
+            footer: 'Нажмите кнопку для типа загрузки.',
             contextInfo: {
                 mentionedJid: [m.sender],
                 forwardingScore: 999,
@@ -82,7 +82,7 @@ const handler = async (m, { conn, args, usedPrefix }) => {
     } catch (e) {
         console.error(e);
         await m.react('✖️');
-        conn.reply(m.chat, '*\`Error al buscar el video.\`*', m);
+        conn.reply(m.chat, '*\`Ошибка при поиске видео.\`*', m);
     }
 };
 

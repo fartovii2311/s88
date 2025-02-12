@@ -57,6 +57,5 @@ const handler = async (m, { conn, text }) => {
 
 handler.help = ['xvideo'];
 handler.command = ['xvideo', 'xvideodownload'];
-handler.register = true;
 
 export default handler;

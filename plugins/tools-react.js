@@ -8,6 +8,6 @@ let handler = async (m, { conn, args, usedPrefix, command, text }) => {
 handler.help = ['react *<emoji>*']
 handler.tags = ['tools']
 handler.command = ['react', 'reaccionar', 'reaccion'] 
-handler.register = true 
+ 
 
 export default handler

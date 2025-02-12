@@ -108,7 +108,7 @@ const handleVideoDownload = async (conn, m, data) => {
 handler.help = ['video'];
 handler.tags = ['dl'];
 handler.customPrefix = /^(VIDEO|Video|video|vídeo|Vídeo)/;
-handler.register = true;
+;
 handler.Monedas = 5;
 handler.command = new RegExp;
 

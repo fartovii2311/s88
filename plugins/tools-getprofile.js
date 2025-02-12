@@ -9,6 +9,6 @@ handler.help = ['getpp']
 handler.tags = ['tools']
 handler.command = /^(get(pp|profile))$/i
 //handler.limit = 1
-handler.register = true 
+ 
 
 export default handler

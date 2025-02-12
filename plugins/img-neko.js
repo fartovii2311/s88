@@ -36,6 +36,6 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 handler.help = ['neko'];
 handler.tags = ['img'];
 handler.command = ['neko'];
-handler.register = true 
+ 
 handler.Monedas = 1
 export default handler;

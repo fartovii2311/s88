@@ -35,6 +35,5 @@ let handler = async (m, { conn }) => {
 handler.command = ['neko2'];
 handler.tags = ['img'];
 handler.help = ['neko2'];
-handler.register = true; 
 handler.Monedas = 1
 export default handler;

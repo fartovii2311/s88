@@ -5,9 +5,9 @@ let handler = async (m, { conn }) => {
   const mensaje = `
 🌟 *¡Hola a todos!* 🌟
 
-📢 Este es un mensaje enviado desde *mi bot de WhatsApp*.
+📢 Это сообщение, отправленное с *моего бота WhatsApp*.
 
-🎨 *Diseño Bonito* para todos:
+🎨 *Красивый дизайн* для всех:
 
 ---
 
@@ -50,5 +50,5 @@ let handler = async (m, { conn }) => {
 
 handler.command = ['grupo', 'group', 'Grupos', 'GRUPO'];
 handler.tags = ['group'];
-handler.help = ['group'];
+handler.help = ['групп'];
 export default handler;

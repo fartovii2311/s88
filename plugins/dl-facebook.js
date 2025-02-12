@@ -63,5 +63,4 @@ handler.help = ['facebook'];
 handler.tags = ['dl'];
 handler.command = ['facebook', 'fb'];
 handler.Monedas = 5;
-handler.register = true;
 export default handler;

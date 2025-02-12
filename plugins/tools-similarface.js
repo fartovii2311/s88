@@ -46,6 +46,6 @@ await m.react('✖️');
 handler.help = ['similarface'];
 handler.tags = ['tools'];
 handler.command = /^(similitud-face|face-similar|similarface)$/i;
-handler.register = true
+
 
 export default handler;

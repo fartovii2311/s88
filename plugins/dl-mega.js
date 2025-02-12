@@ -27,7 +27,7 @@ global.fcontact = {
 
     await conn.reply(m.chat, '`𝗖𝗔𝗥𝗚𝗔𝗡𝗗𝗢....`', fcontact);
 
-        const caption = `*\`DOWNLOADER MEGA\`*\n\n» Nombre: ${file.name}\n» Peso: ${formatBytes(file.size)}\n» Fecha: ${fecha}`;
+        const caption = `*\`ЗАГРУЗЧИК MEGA\`*\n\n» Nombre: ${file.name}\n» Peso: ${formatBytes(file.size)}\n» Fecha: ${fecha}`;
 
         const data = await file.downloadBuffer();
 
@@ -55,7 +55,7 @@ global.fcontact = {
 handler.help = ["mega *<url>*"]
 handler.tags = ["dl"]
 handler.command = /^(mega)$/i
-handler.register = true 
+ 
 handler.Monedas = 1
 export default handler
 

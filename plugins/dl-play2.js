@@ -22,7 +22,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         });
         return results;
       } catch (error) {
-        console.error("Error en búsqueda de Apple Music:", error.message);
+        console.error("Ошибка в поиске Apple Music:", error.message);
         return { success: false, message: error.message };
       }
     },
@@ -36,7 +36,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         const description = $('div[data-testid="description"]').text().trim();
         return { albumTitle, artistName, releaseInfo, description };
       } catch (error) {
-        console.error("Error en detalles de Apple Music:", error.message);
+        console.error("Ошибка в деталях Apple Music:", error.message);
         return { success: false, message: error.message };
       }
     }
@@ -56,7 +56,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         });
         return response.data;
       } catch (error) {
-        console.error("Error obteniendo datos de Apple Music Downloader:", error.message);
+        console.error("Ошибка при получении данных из Apple Music Downloader:", error.message);
         return { success: false, message: error.message };
       }
     },
@@ -79,14 +79,14 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         const response = await axios.post(url, qs.stringify(data), { headers });
         return response.data.dlink;
       } catch (error) {
-        console.error("Error obteniendo audio de Apple Music:", error.message);
+        console.error("Ошибка получения звука из Apple Music:", error.message);
         return { success: false, message: error.message };
       }
     },
     download: async (urls) => {
       const musicData = await appledown.getData(urls);
       if (!musicData || !musicData.name) {
-        return { success: false, message: "No se encontraron datos de música." };
+        return { success: false, message: "Музыкальные данные не найдены." };
       }
 
       const encodedData = encodeURIComponent(JSON.stringify([
@@ -128,7 +128,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
           download: downloadLink
         };
       } catch (error) {
-        console.error("Error descargando música de Apple Music:", error.message);
+        console.error("Ошибка загрузки музыки из Apple Music:", error.message);
         return { success: false, message: error.message };
       }
     }
@@ -138,7 +138,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
   const searchResults = await appleMusic.search(text);
   if (!searchResults.length) {
-    return m.reply("No se encontraron resultados para tu búsqueda.");
+    return m.reply("Результаты вашего поиска не найдены.");
   }
 
   const musicData = await appledown.download(searchResults[0].link);

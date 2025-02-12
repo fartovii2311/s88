@@ -66,5 +66,4 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
 handler.tags = ['dl'];
 handler.command = /^ytmp4$/i;
-handler.register = true;
 export default handler;

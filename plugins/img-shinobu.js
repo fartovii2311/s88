@@ -41,6 +41,5 @@ handler.help = ['shinobu'];
 handler.tags = ['img'];
 handler.command = ['shinobu'];
 //handler.limit = 1
-handler.register = true;
 
 export default handler;

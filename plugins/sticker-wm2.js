@@ -20,6 +20,6 @@ let handler = async (m, { conn, text }) => {
 handler.help = ['wm2']
 handler.tags = ['sticker']
 handler.command = /^(take2|robar2|wm2)$/i
-handler.register = true
+
 
 export default handler

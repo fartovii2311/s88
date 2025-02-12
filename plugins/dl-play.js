@@ -1,14 +1,14 @@
 import yts from 'yt-search';
 
 let handler = async (m, { conn, args }) => {
-    if (!args[0]) return conn.reply(m.chat, `*Por favor ingresa un término de búsqueda*`, m);
+    if (!args[0]) return conn.reply(m.chat, `*Пожалуйста, введите поисковый запрос*`, m);
 
     await m.react('⏳');
     try {
         let searchResults = await search(args.join(" "));
 
         if (!searchResults || searchResults.length === 0) {
-            throw new Error('No se encontraron videos.');
+            throw new Error('Видео не найдено.');
         }
 
         let video = searchResults.find(v => v.seconds < 3600) || searchResults[0];
@@ -44,7 +44,7 @@ let handler = async (m, { conn, args }) => {
     } catch (error) {
         console.error(error);
         await m.react('❌');
-        conn.reply(m.chat, '*`Hubo un error al buscar el video.`*', m);
+        conn.reply(m.chat, '*`Произошла ошибка при поиске видео.`*', m);
     }
 };
 

@@ -1,6 +1,6 @@
 let handler = async (m, { conn, command, text }) => {
 	
-    if (!text) return m.reply(`🚩 Ingresa un nombre justo al comando.`)
+    if (!text) return m.reply(`🚩 Введите правильное имя в команду.`)
 	
   let personalidad = `
 ┏━━°❀❬ *PERSONALIDAD}* ❭❀°━━┓

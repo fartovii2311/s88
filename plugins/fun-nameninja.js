@@ -1,11 +1,11 @@
 function handler(m, { text }) {
-if (!text) return m.reply(`🚩 Ingresa tu nombre junto al comando.`)
+if (!text) return m.reply(`🚩 Введите свое имя рядом с командой.`)
     let teks = text ? text : m.quoted && m.quoted.text ? m.quoted.text : m.text
     m.reply(teks.replace(/[a-z]/gi, v => {
         return {
-            'a': 'ka',
-            'b': 'tsu',
-            'c': 'mi',
+            'a': 'ка',
+            'b': 'цу',
+            'c': 'мой',
             'd': 'te',
             'e': 'ku',
             'f': 'hi',
@@ -35,6 +35,5 @@ if (!text) return m.reply(`🚩 Ingresa tu nombre junto al comando.`)
 handler.help = ['nombreninja *<texto>*']
 handler.tags = ['fun']
 handler.command = ['nombreninja']
-handler.register = true
 
 export default handler

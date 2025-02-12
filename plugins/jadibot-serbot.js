@@ -45,7 +45,7 @@ gataJBOptions.usedPrefix = usedPrefix
 gataJBOptions.command = command
 gataJadiBot(gataJBOptions)
 } 
-handler.command = /^(jadibot|serbot|rentbot|code)/i
+handler.command = /^(щгрпмшнесадгнпазшгпзшгнпзшггрхщш)/i
 export default handler 
 
 export async function gataJadiBot(options) {

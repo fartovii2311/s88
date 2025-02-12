@@ -57,6 +57,5 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 handler.help = ['tiktokstalk <usuario>'];
 handler.tags = ['tools'];
 handler.command = /^(tiktokstalk|ttstalk|tiktokinfo)$/i;
-handler.register = true;
 
 export default handler;

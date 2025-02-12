@@ -34,10 +34,10 @@ let pp, ch, q, mime, buffer, media, inviteUrlch, imageBuffer
 switch (true) {     
 case isCommand1:
 let inviteCode
-if (!text) return await conn.reply(m.chat, `*Ingrese un enlace de un grupo/comunidad/canal de WhatsApp para obtener información.*`, m)
+if (!text) return await conn.reply(m.chat, `*Введите ссылку из группы/сообщества / канала WhatsApp, чтобы получить информацию.*`, m)
 const MetadataGroupInfo = async (res, isInviteInfo = false) => {
-let nameCommunity = "no pertenece a ninguna Comunidad"
-let groupPicture = "No se pudo obtener"
+let nameCommunity = "он не принадлежит ни к какому сообществу"
+let groupPicture = "Не удалось получить"
 
 if (res.linkedParent) {
 let linkedGroupMeta = await conn.groupMetadata(res.linkedParent).catch(e => { return null })
@@ -50,9 +50,9 @@ participants && participants.length > 0
 ? participants.map((user, i) => `${i + 1}. @${user.id?.split("@")[0]}${user.admin === "superadmin" ? " (superadmin)" : user.admin === "admin" ? " (admin)" : ""}`).join("\n")
 : "No encontrado"
 let caption = `🆔 *Identificador del grupo:*\n${res.id || "No encontrado"}\n\n` +
-`👑 *Creado por:*\n${res.owner ? `@${res.owner?.split("@")[0]}` : "No encontrado"} ${res.creation ? `el ${formatDate(res.creation)}` : "(Fecha no encontrada)"}\n\n` +
+`👑 *Creado por:*\n${res.owner ? `@${res.owner?.split("@")[0]}` : "No encontrado"} ${res.creation ? `el ${formatDate(res.creation)}` : "(Дата не найдена)"}\n\n` +
 `🏷️ *Nombre:*\n${res.subject || "No encontrado"}\n\n` +
-`✏️ *Nombre cambiado por:*\n${res.subjectOwner ? `@${res.subjectOwner?.split("@")[0]}` : "No encontrado"} ${res.subjectTime ? `el ${formatDate(res.subjectTime)}` : "(Fecha no encontrada)"}\n\n` +
+`✏️ *Nombre cambiado por:*\n${res.subjectOwner ? `@${res.subjectOwner?.split("@")[0]}` : "No encontrado"} ${res.subjectTime ? `el ${formatDate(res.subjectTime)}` : "(Дата не найдена)"}\n\n` +
 `📄 *Descripción:*\n${res.desc || "No encontrado"}\n\n` +
 `📝 *Descripción cambiado por:*\n${res.descOwner ? `@${res.descOwner?.split("@")[0]}` : "No encontrado"}\n\n` +
 `🗃️ *Id de la descripción:*\n${res.descId || "No encontrado"}\n\n` +
@@ -456,7 +456,7 @@ break
         
 }}
 handler.command = /^(superinspect|inspect|revisar|inspeccionar|seguircanal|seguirch|followchannel|followch|noseguircanal|noseguirch|unfollowchannel|unfollowch|silenciarcanal|silenciarch|mutechannel|mutech|nosilenciarcanal|nosilenciarch|unmutechannel|unmutech|ppcanal|ppchannel|cambiarppcanal|cambiarppch|setppchannel|ppch|setppch|eliminarppcanal|eliminarppch|deleteppchannel|deleteppch|avisos?canal|updates?channel|updates?ch|reaccionescanal|reaccionesch|reactions?channel|reactionch|nuevonombrecanal|nuevonombrech|nuevonombrech|newnamechannel|newnamech|nuevadescc?anal|nuevadescripcioncanal|nuevadescripcionch|newdescc?hannel|newdescriptionchannel|newdescc?h)\b$/i
-handler.register = true
+
 export default handler 
 
 function formatDate(n, locale = "es", includeTime = true) {

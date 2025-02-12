@@ -28,5 +28,5 @@ let str = `${lenguajeGB.smsPerfil0()}
 await conn.sendFile(m.chat, pp, 'Lynx.jpg', str, m, fkontak, rcanal, false, { mentions: [aa] }) 
 }
 handler.command = /^perfil|profile?$/i
-handler.register = true
+
 export default handler

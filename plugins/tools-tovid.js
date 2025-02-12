@@ -27,6 +27,6 @@ await m.react('✖️')
 handler.help = ['tovid *<sticker>*']
 handler.tags = ['sticker', 'tools']
 handler.command = ['tovideo', 'tovid']
-handler.register = true 
+ 
 
 export default handler

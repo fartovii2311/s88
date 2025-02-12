@@ -9,7 +9,7 @@ const handler = async (m, { conn }) => {
             m.chat, 
             { 
                 image: { url: imageUrl },
-                caption: "🐱 *G A T O* 🐱\nAquí tienes una imagen aleatoria de un gato. ¡Espero que te guste!",
+                caption: "🐱 *G A T O* 🐱\nВот случайное изображение кошки. Надеюсь, тебе понравится!",
                 buttons: [
                     { 
                         buttonId: '.gato',
@@ -34,6 +34,6 @@ const handler = async (m, { conn }) => {
 handler.help = ['gato'];
 handler.tags = ['img'];
 handler.command = /^(gato|cat|gatarandom)$/i;
-handler.register = true 
+ 
 handler.Monedas = 1
 export default handler;

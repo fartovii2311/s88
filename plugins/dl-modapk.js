@@ -2,7 +2,7 @@
 
 const handler = async (m, { conn, text }) => {
   if (!text) {
-    await conn.reply(m.chat, '*\`Ingrese el nombre de la APK que quiera buscar. 🤍\`*', m,rcanal);
+    await conn.reply(m.chat, '*\`Введите название APK-файла, который вы хотите найти. 🤍\`*', m,rcanal);
   }
     await m.react('🕓');
   try {
@@ -24,7 +24,7 @@ const handler = async (m, { conn, text }) => {
     await conn.sendFile(m.chat, apkData.image, 'thumbnail.jpg', message, m,rcanal,fake);
 
     if (apkData.size.includes('GB') || parseFloat(apkData.size.replace(' MB', '')) > 999) {
-      return await conn.sendMessage(m.chat, { text: '*[ ⛔ ] El archivo es demasiado pesado por lo que no se enviará.*' }, { quoted: m });
+      return await conn.sendMessage(m.chat, { text: '*[ ⛔ ] Файл слишком тяжелый, поэтому он не будет отправлен.*' }, { quoted: m });
     }
 
     await conn.sendMessage(m.chat, {
@@ -43,6 +43,6 @@ const handler = async (m, { conn, text }) => {
 handler.help = ['apk *<nombre>*'];
 handler.tags = ['dl'];
 handler.command = /^(apk|modapk|dapk2|aptoide|aptoidedl)$/i;
-handler.register = true 
+ 
 handler.Monedas = 1
 export default handler;

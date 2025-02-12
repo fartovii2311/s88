@@ -58,6 +58,5 @@ const handler = async (m, { conn, text }) => {
 
 handler.help = ['xnxx', 'xn'];
 handler.command = ['xnxx', 'xn'];
-handler.register = true;
 
 export default handler;

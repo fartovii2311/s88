@@ -12,7 +12,7 @@ handler.tags = ['fun']
 handler.command = handler.help = ['piropo']
 
 //handler.limit = 1
-handler.register = true 
+ 
 handler.fail = null
 handler.exp = 0
 

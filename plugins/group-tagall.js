@@ -10,8 +10,8 @@ const handler = async (m, { isOwner, isAdmin, conn, text, participants, args, co
   }
 
   const pesan = args.join` `;
-  const oi = `*» INFO :* ${pesan}`;
-  let teks = `*!  MENCION GENERAL  !*\n  *PARA ${participants.length} MIEMBROS* 🗣️\n\n ${oi}\n\n╭  ┄ 𝅄  ۪꒰ \`DARK - CORE - TEAM\` ꒱  ۟  𝅄 ┄\n`;
+  const oi = `*» ИНФОРМАЦИЯ :* ${pesan}`;
+  let teks = `*!  ОБЩЕЕ УПОМИНАНИЕ  !*\n  *PARA ${participants.length} УЧАСНИКИ* 🗣️\n\n ${oi}\n\n╭  ┄ 𝅄  ۪꒰ \`ТЕМНОЕ ЯДРО - КОМАНДА\` ꒱  ۟  𝅄 ┄\n`;
   for (const mem of participants) {
     teks += `┊${customEmoji} @${mem.id.split('@')[0]}\n`;
   }
@@ -22,7 +22,7 @@ const handler = async (m, { isOwner, isAdmin, conn, text, participants, args, co
 
 handler.help = ['todos <mensaje>'];
 handler.tags = ['group'];
-handler.command = /^(tagall|invocar|marcar|todos|invocación)$/i;
+handler.command = /^(внимание|invocar|marcar|todos|invocación)$/i;
 handler.admin = true;
 handler.group = true;
 

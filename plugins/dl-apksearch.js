@@ -30,14 +30,14 @@ async function apkdirect(query) {
 
         return results;
     } catch (error) {
-        console.error('Error en apkdirect:', error);
-        throw new Error('Error al obtener los datos de APK');
+        console.error('Ошибка в apkdirect:', error);
+        throw new Error('Ошибка при получении данных из APK');
     }
 }
 
 const handler = async (m, { conn, args }) => {
     if (!args[0]) {
-        return await m.reply('⚠️ Debes proporcionar el nombre de una aplicación para buscar.');
+        return await m.reply('⚠️ Вы должны указать название приложения для поиска.');
     }
 
     const query = args.join(' ');
@@ -46,17 +46,17 @@ const handler = async (m, { conn, args }) => {
         const apkResults = await apkdirect(query);
 
         if (apkResults.length === 0) {
-            return await m.reply('❌ No se encontraron resultados para tu búsqueda.');
+            return await m.reply('❌ Результаты вашего поиска не найдены.');
         }
 
-        let message = '📦 *Resultados de búsqueda:*\n\n';
+        let message = '📦 *Результаты поиска:*\n\n';
         for (let i = 0; i < Math.min(apkResults.length, 5); i++) {
             message += `📌 *${apkResults[i].title}*\n🔗(${apkResults[i].link})\n\n`;
         }
 
         await conn.sendMessage(m.chat, { image: { url: apkResults[0].imageUrl }, caption: message }, { quoted: m });
     } catch (error) {
-        await m.reply(`❌ Error: ${error.message}`);
+        await m.reply(`❌ Ошибка: ${error.message}`);
     }
 };
 

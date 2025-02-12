@@ -4,7 +4,7 @@ let handler  = async (m, { conn }) => {
 handler.help = ['iqtest']
 handler.tags = ['rpg']
 handler.command = /^(iqtest)$/i
-handler.register = true
+
 
 
 handler.fail = null

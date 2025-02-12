@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 let handler = async (m, { text, args, command, conn, usedPrefix }) => {  
-  if (!text) return conn.reply(m.chat, '[ ᰔᩚ ] Ingresa una URL válida de *Instagram*.', m, rcanal);
+  if (!text) return conn.reply(m.chat, '[ ᰔᩚ ] Введите действительный URL-адрес *Instagram*.', m, rcanal);
 
   await m.react('🕓');
 
@@ -16,7 +16,7 @@ let handler = async (m, { text, args, command, conn, usedPrefix }) => {
       let img = await axios.get(mediaInfo.imageUrl, { responseType: 'arraybuffer' });
       await conn.sendMessage(m.chat, { image: Buffer.from(img.data), caption: '✅ Imagen descargada correctamente.' }, { quoted: m });
     } else {
-      return m.reply('❀ Sin resultados encontrados.');
+      return m.reply('❀ Результатов не найдено.');
     }
 
     await m.react('✅');
@@ -28,7 +28,7 @@ let handler = async (m, { text, args, command, conn, usedPrefix }) => {
 handler.command = ['ig', 'igdl', 'instagram'];
 handler.tags = ['dl'];
 handler.help = ['ig *<link>*'];
-handler.register = true 
+ 
 export default handler;
 
 let instagramdl = async (url) => {

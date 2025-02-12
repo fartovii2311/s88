@@ -25,7 +25,7 @@ Signo zodical : ${zodiac}
 handler.help = ['zodiac *2002 02 25*']
 handler.tags = ['tools']
 //handler.limit = 1
-handler.register = true 
+ 
 handler.command = /^zodia[kc]$/i
 
 export default handler

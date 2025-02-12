@@ -57,7 +57,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 handler.tags = ['tools'];
 handler.help = ['respuesta'].map(v => v + ' <id mensaje>');
 handler.command = /^(respuesta|reply)$/i;
-handler.register = true;
 handler.private = true;
 
 export default handler;

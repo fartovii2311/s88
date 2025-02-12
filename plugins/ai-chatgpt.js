@@ -29,6 +29,5 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 handler.help = ['chatgpt *<texto>*'];
 handler.tags = ['ai'];
 handler.command = /^(chatgpt|Chatgpt|CHATGPT)$/i;
-handler.register = true; 
 
 export default handler;

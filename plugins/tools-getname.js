@@ -12,6 +12,6 @@ handler.help = ['getname', 'getname *@tag*']
 handler.tags = ['group']
 handler.command = /^(getname|nombre)$/i
 //handler.limit = 1
-handler.register = true 
+ 
 
 export default handler
