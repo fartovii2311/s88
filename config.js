@@ -75,7 +75,7 @@ global.APIKeys = {
   'https://api-xcoders.site': 'Frieren'
 }
 
-global.canal = 'https://whatsapp.com/channel/0029Vaxb5xr7z4koGtOAAc1Q'
+global.canal = 'https://whatsapp.com'
 
 global.ch = {
     ch1: '120363374486687514@newsletter',
