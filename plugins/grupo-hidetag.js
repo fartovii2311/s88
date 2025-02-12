@@ -8,7 +8,7 @@ text = args.slice(0).join(" ")
 } else if (m.quoted && m.quoted.text) {
 text = m.quoted.text
 } else {
-text = "📣 Объявление"
+text = "📣 Anuncio"
 } 
 const users = participants.map((u) => conn.decodeJid(u.id))
 await conn.sendMessage(m.chat, { text: text, mentions: users }, { quoted: m }) 
