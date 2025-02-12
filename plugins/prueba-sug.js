@@ -23,10 +23,10 @@ let pp = await conn.profilePictureUrl(who, 'image').catch(_ => "https://telegra.
 
 let time = global.db.data.users[m.sender].suggetimme + 86400000; //24hs
 if (new Date() - global.db.data.users[m.sender].suggetimme < 86400000) {
-return m.reply(`⚠️ Ya has enviado una publicación. Por favor, espera ${msToTime(time - new Date())} antes de enviar otra.`);
+return m.reply(`⚠️ Вы уже отправили сообщение. Пожалуйста, espera ${msToTime(time - new Date())} antes de enviar otra.`);
 }
      
-if (!text && !m.quoted) return m.reply(`*⚠️ Por favor, escribe tu sugerencia, pregunta o propuesta o envía un archivo multimedia.* 📝\n\n> *Elige una categoría:*\n\n1. Sugerencia 💡\n2. Propuesta 📝\n3. Publicidad 📢\n4. Opinión 💬\n5. Feedback 🤔\n6. Pregunta ❓\n7. Error 🚨\n8. Queja 😐\n9. Música 🎵\n10. Eventos 🎉\n11. Películas 🍿\n12. Juegos 🎮\n13. Tecnología 🤖\n14. Diseño 🎨\n15. Desarrollo de software 💻\n16. Humor 😂\n17. Soporte técnico 🤝\n18. Frases ✨\n19. Contenido creativo 📸\n\nEjemplo: ${usedPrefix + command} 1 Texto`);
+if (!text && !m.quoted) return m.reply(`*⚠️ Пожалуйста, напишите свое предложение, вопрос или предложение или отправьте мультимедийный файл.* 📝\n\n> *Elige una categoría:*\n\n1. Sugerencia 💡\n2. Propuesta 📝\n3. Publicidad 📢\n4. Opinión 💬\n5. Feedback 🤔\n6. Pregunta ❓\n7. Error 🚨\n8. Queja 😐\n9. Música 🎵\n10. Eventos 🎉\n11. Películas 🍿\n12. Juegos 🎮\n13. Tecnología 🤖\n14. Diseño 🎨\n15. Desarrollo de software 💻\n16. Humor 😂\n17. Soporte técnico 🤝\n18. Frases ✨\n19. Contenido creativo 📸\n\nEjemplo: ${usedPrefix + command} 1 Texto`);
 
     let media = false;
     let q = m.quoted ? m.quoted : m;
@@ -100,7 +100,7 @@ return
     suggestionQueue[suggestionId] = { suggestionText, category, sender: m.sender, senderName: m.pushName, pp, suggestionId, url, mime };
  global.db.data.users[m.sender].suggetimme = new Date * 1
 
-let confirmMessage = `El usuario @${m.sender.split('@')[0]} ha enviado una publicación. ¿La aprueban?\n\n*📝 ${category.charAt(0).toUpperCase() + category.slice(1)}:* ${suggestionText || 'Sin texto'}\n\n> Escriba "si ${suggestionId}" para aceptar\n> Escriba "no ${suggestionId}" para rechazar.\n\n> *ID de la publicación:* ${suggestionId}`;
+let confirmMessage = `El usuario @${m.sender.split('@')[0]} вы отправили сообщение. Одобряют ли они ее?\n\n*📝 ${category.charAt(0).toUpperCase() + category.slice(1)}:* ${suggestionText || 'Sin texto'}\n\n> Escriba "si ${suggestionId}" para aceptar\n> Escriba "no ${suggestionId}" para rechazar.\n\n> *ID de la publicación:* ${suggestionId}`;
 //let options = { mentions: [m.sender], quoted: m };
 
     if (url) {
@@ -169,7 +169,7 @@ title = `【 ✍️ Nueva frase compartida! 】`;
 body = `Un usuario compartió una frase que te hará reflexionar. ¡Lee y disfruta!`;
 break;
 case 'tecnología': case 'diseño': case 'desarrollo de software':
-title = `【 💻 ¡Nueva sugerencia en tecnología o diseño! 💻 】`;
+title = `【 💻 ¡Новое предложение по технологии или дизайну! 💻 】`;
 body = `💡 ¡Nueva sugerencia de tecnología o diseño de un usuario! 💡`;
 break;
 default:
@@ -196,7 +196,7 @@ fs.unlinkSync(url);
 await conn.sendMessage(CANAL_ID, { text: approvedText, contextInfo: options.contextInfo }, { quoted: null });
 }
 
-await conn.reply(sender, `✅ *¡Tu publicación fue aprobada por los administradores!* Puedes ver la publicación en el siguiente canal:\nhttps://whatsapp.com/channel/0029Va4QjH7DeON0ePwzjS1A`);
+await conn.reply(sender, `✅ *¡Ваш пост был одобрен администраторами!* Вы можете посмотреть публикацию на следующем канале:\nhttps://whatsapp.com`);
 delete suggestionQueue[suggestionId];
 }};
 handler.command = /^(suggestion|propuesta|feedback|idea|contenido|sug|suggest)$/i;

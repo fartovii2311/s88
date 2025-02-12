@@ -8,9 +8,9 @@ try {
 const stdout = execSync('git pull' + (m.fromMe && text ? ' ' + text : ''));
 let messager = stdout.toString()
 
-if (messager.includes('☘️ Ya estoy actualizada.')) messager = '☘️ Ya estoy actualizada a la última versión.'
+if (messager.includes('☘️ Ya estoy actualizada.')) messager = '☘️ Я уже обновлен до последней версии.'
 
-if (messager.includes('💫 Actualizando.')) messager = '✨️ Procesando, espere un momento mientras me actualizo.\n\n' + stdout.toString()
+if (messager.includes('💫 Actualizando.')) messager = '✨️ Обработка, подождите немного, пока я обновлюсь.\n\n' + stdout.toString()
 conn.reply(m.chat, messager, m, rcanal)
 
 } catch { 
@@ -25,7 +25,7 @@ return null
 }
 return '*→ ' + line.slice(3) + '*'}).filter(Boolean)
 if (conflictedFiles.length > 0) {
-const errorMessage = `💭 Se han hecho cambios locales qué entran en conflicto con las Actualizaciones del Repositorio, Para actualizar, reinstala el Bot o realiza las actualizaciones manualmente.\n\n✰ *ARCHIVOS EN CONFLICTO*\n\n${conflictedFiles.join('\n')}`
+const errorMessage = `💭 Были внесены локальные изменения, которые конфликтуют с обновлениями Репозитория, Для обновления переустановите бота или выполните обновления вручную.\n\n✰ *ARCHIVOS EN CONFLICTO*\n\n${conflictedFiles.join('\n')}`
 await conn.reply(m.chat, errorMessage, m, rcanal,)
 }
 }

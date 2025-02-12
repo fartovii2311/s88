@@ -17,7 +17,7 @@ detectProhibitedWords(text)
 if (response) {
 console.log(response)
 } else {
-m.reply('El texto no contiene palabras prohibidas.')
+m.reply('В тексте нет запрещенных слов.')
 }})
 }
 

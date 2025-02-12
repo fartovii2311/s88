@@ -55,7 +55,7 @@ console.log(lenguajeGB.smsPlugin5(matchingFile, err))
 return m.reply(lenguajeGB.smsPlugin5(matchingFile))
 }}}
 
-handler.command = /^(getplugin|gp|obtenercodigo|obtenercode|getpg)$/i
+handler.command = /^(впронбьверларобьарнодпаолю)$/i
 handler.owner = true
 
 export default handler

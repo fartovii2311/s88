@@ -14,7 +14,7 @@ m.reply(`╰⊱❌⊱ *FALLÓ* / *FAILED* ⊱❌⊱╮\n❌ 𝗘𝗥𝗥𝗢𝗥
 }
 handler.help = ['newgc *<nombre>*']
 handler.tags = ['owner']
-handler.command = ['newgc', 'gcnew', 'creargc', 'creargrupo']
+handler.command = ['создатьгруппу', 'gcnew', 'creargc', 'creargrupo']
 handler.owner = true
 //handler.premium = false
 export default handler

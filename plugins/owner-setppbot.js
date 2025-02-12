@@ -69,7 +69,7 @@ let handler = async (_0x55976e, {
         return m.reply('🚩 Responde a una *Imagen.*')
     }
 };
-handler.command = ['setppbot']
+handler.command = ['sфварвуыкеноцкфепрцук46ег']
 handler.owner = true 
 export default handler;
 
