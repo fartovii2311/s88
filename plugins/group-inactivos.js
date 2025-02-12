@@ -64,7 +64,7 @@ let handler = async (m, { conn, text, args, groupMetadata }) => {
 
 handler.help = ['inactivos']
 handler.tags = ['group']
-handler.command = /^(молчуны|gcinactivos)$/i
+handler.command = /^(актив|gcinactivos)$/i
 handler.group = true
 handler.admin = true
 handler.botAdmin = true
