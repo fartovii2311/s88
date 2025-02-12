@@ -4,7 +4,7 @@ import { tmpdir } from 'os'
 import path from 'path'
 
 let handler = async (m, { conn }) => {
-  let Sessions = path.join(tmpdir(), "./Сеанс рыси")
+  let Sessions = path.join(tmpdir(), "./LynxSession")
 
   if (fs.existsSync(Sessions)) {
     readdirSync(Sessions).forEach((file) => {
