@@ -25,7 +25,7 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
             }
         }
     }, {
-        quoted: m `привет как дела`,
+        quoted: m 
     });
 };
 
