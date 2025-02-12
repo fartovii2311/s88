@@ -78,7 +78,7 @@ await conn.sendFile(m.chat, img, 'thumbnail.jpg', txt, m, null, fake)
 }
 handler.help = ['info']
 handler.tags = ['main']
-handler.command = ['создатель', 'владелиц', 'аренда', 'купить']
+handler.command = ['создатель', 'владелиц', 'купить']
 
 export default handler
 
