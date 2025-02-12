@@ -19,7 +19,7 @@ let handler = async (m, { conn }) => {
 
 handler.help = ['clearsession']
 handler.tags = ['owner']
-handler.command = /^(сс)$/i
+handler.command = /^(се)$/i
 handler.rowner = true
 
 export default handler
