@@ -6,9 +6,9 @@ let handler = async (m, { conn, args }) => {
     if (!groupMetadata) return m.react('✖️')
     if (!('participants' in groupMetadata)) return m.react('✖️')
     let me = groupMetadata.participants.find(user => areJidsSameUser(user.id, conn.user.id))
-    if (!me) return m.reply('*Я не в этой группе :(*')
-    if (!me.admin) return m.reply('*Я не администратор*')
-    m.reply('https' + await conn.groupInviteCode(group))
+    if (!me) return m.reply('*No estoy en ese grupo :(*')
+    if (!me.admin) return m.reply('*No soy administrador*')
+    m.reply('https://chat.whatsapp.com/' + await conn.groupInviteCode(group))
 }
 handler.help = ['link']
 handler.tags = ['group']

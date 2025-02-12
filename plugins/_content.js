@@ -15,31 +15,31 @@ global.yt2 = 'https://youtu.be/'
 global.ig = 'https://www.instagram.com/'
 global.md = 'https://github.com/'
 global.fb = ''
-global.paypal = 'https://paypal.me/OficialGD'
-global.asistencia = 'https://wa.me/message/'
+global.paypal = 'https://paypal.me'
+global.asistencia = 'https://wa.me'
 global.tg = 'https://t.me/' // canal
 
 // canales
-global.canal1 = "https://whatsapp.com/channel/"
-global.canal2 = "https://whatsapp.com/channel/"
-global.canal3 = "https://whatsapp.com/channel/"
-global.canal4 = "https://whatsapp.com/channel/"
-global.canal5 = "https://whatsapp.com/channel/"
+global.canal1 = "https://whatsapp.com"
+global.canal2 = "https://whatsapp.com"
+global.canal3 = "https://whatsapp.com"
+global.canal4 = "https://whatsapp.com"
+global.canal5 = "https://whatsapp.com"
 
 // grupos (algunos pueden estar repetidos con otros, es temporal)
-global.nna = 'https://whatsapp.com/channel/' //CANAL UPDATE
-global.nn2 = 'https://t.me/globalgb'
-global.nna2 = 'https' //Help
-global.nn = 'https' //Grupo 1
-global.nnn = 'https' //Grupo 2
-global.nnnt = 'https' //Grupo 3
-global.nnntt = 'https' //Grupo 4
-global.nnnttt = 'https' //Grupo 5
-global.nnnttt1 = 'https' //Grupo 6 COL
-global.nnnttt2 = 'https' //Grupo 7 COL
-global.nnnttt3 = 'https' //Grupo 8 COL
-global.nnnttt4 = 'https' //Grupo 9 COL
-global.nnnttt5 = 'https' //A.T.M.M
+global.nna = 'https://whatsapp.com' //CANAL UPDATE
+global.nn2 = 'http:'
+global.nna2 = 'http' //Help
+global.nn = 'http' //Grupo 1
+global.nnn = 'http' //Grupo 2
+global.nnnt = 'http' //Grupo 3
+global.nnntt = 'http' //Grupo 4
+global.nnnttt = 'http' //Grupo 5
+global.nnnttt1 = 'http' //Grupo 6 COL
+global.nnnttt2 = 'http' //Grupo 7 COL
+global.nnnttt3 = 'http' //Grupo 8 COL
+global.nnnttt4 = 'http' //Grupo 9 COL
+global.nnnttt5 = 'http' //A.T.M.M
 
 // Imágenes locales
 global.imagen1 = fs.readFileSync('./storage/img/logo.png');
