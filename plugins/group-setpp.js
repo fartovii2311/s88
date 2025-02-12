@@ -72,7 +72,7 @@ let handler = async (_0x394eb8, {
                 }
                 , 'content': _0x4fe079
             }]
-        }), _0x394eb8[_0x1a6abe(0x1d6)]('🚩 Imagen actualizada con éxito.');
+        }), _0x394eb8[_0x1a6abe(0x1d6)]('🚩 Изображение успешно обновлено.');
     } catch {
         return m.react('✖️')
     }

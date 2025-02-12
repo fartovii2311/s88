@@ -33,7 +33,7 @@ let handler = async (m, { conn, text, args, groupMetadata }) => {
     }
 
     if (args[0] === 'лист') {
-        if (total === 0) return conn.reply(m.chat, `🤍 *В этой группе нет сторон.*`, m)
+        if (total === 0) return conn.reply(m.chat, `🤍 *В этой группе нет неактивных.*`, m)
         
         const groupName = await conn.getName(m.chat)
         const message = `*${total}/${member.length}* группа *${groupName}* Список неактивных\n${sider.map(v => '  ○ @' + v.replace(/@.+/, '')).join('\n')}`
@@ -64,7 +64,7 @@ let handler = async (m, { conn, text, args, groupMetadata }) => {
 
 handler.help = ['inactivos']
 handler.tags = ['group']
-handler.command = /^(актив|gcinactivos)$/i
+handler.command = /^(неактивные|gcinactivos)$/i
 handler.group = true
 handler.admin = true
 handler.botAdmin = true
