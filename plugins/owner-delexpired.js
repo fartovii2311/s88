@@ -6,12 +6,12 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     if (new Date() * 1 < global.db.data.chats[who].expired) global.db.data.chats[who].expired = false
     else global.db.data.chats[who].expired = false
     
-    m.reply(`🚩 Se eliminaron los días de vencimiento para este grupo.`) 
+    m.reply(`🚩 Дни истечения срока действия для этой группы удалены.`) 
         
 }
 handler.help = ['delexpired']
 handler.tags = ['owner']
-handler.command = /^(delexpired)$/i
+handler.command = /^(удалитьаренду)$/i
 handler.rowner = true
 handler.group = true
 
