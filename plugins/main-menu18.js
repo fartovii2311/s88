@@ -1,6 +1,6 @@
 let handler = async (m, { isPrems, conn }) => {
 
-let img = 'https://imgs.search.brave.com/Y3137Ak8ctIYjrNFn1yE2UPDs7R8TY_wbbAjgpRysg4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTM1/MDg4NTUyOC92ZWN0/b3IvdW5kZXItMTgt/c2lnbi13YXJuaW5n/LXN5bWJvbC1vdmVy/LTE4LW9ubHktY2Vu/c29yZWQtZWlnaHRl/ZW4tYWdlLW9sZGVy/LWZvcmJpZGRlbi1h/ZHVsdC5qcGc_cz02/MTJ4NjEyJnc9MCZr/PTIwJmM9YXN0MlhD/eHIwd2ZIbTFYQkRX/TC11MnNmc25ma1p2/VW9QakVfaDUtWXNQ/RT0' 
+let img = 'https://yt3.googleusercontent.com/ytc/AIdro_kB66I1YRcn08ooGEQbmdwteh5w8MNbWcBuh2czxf0kDw=s900-c-k-c0x00ffffff-no-rj' 
 let texto = `🌟 𝐌𝐄𝐍𝐔 🌟
 *˚₊·˚₊· ͟͟͞͞➳❥ @${m.sender.split("@")[0]}*
 *│* ┊▸ ✦ 
@@ -41,7 +41,7 @@ let texto = `🌟 𝐌𝐄𝐍𝐔 🌟
 *│* ┊▸ ✦
 *│* ╰∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙ ∙ ∙ ∙ ∙
 ──────────────────
-⚠️ *Ознакомтесь с правильностью команд.`
+⚠️ *Ознакомтесь с правильностью команд*.`
 const fkontak = {
         "key": {
     "participants":"0@s.whatsapp.net",
