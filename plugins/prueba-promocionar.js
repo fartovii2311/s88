@@ -20,16 +20,16 @@ _⚠️😿 Ingresa enlaces de los grupos y el mensaje a promocionar_
 *Opciones:*
 
 - Puede usar \"\", \'\', o () para los enlaces de WhatsApp que desea promocionar, pero que no ingresará el Bot en dichos grupos. (Cabe recalcar que al momento de promocionar, los enlaces que no contenga \"\", \'\', o () no se verá dichos enlaces en la promoción, pero si ingresará al grupo).
-*Ejemplo:* ${usedPrefix + command} https://chat.whatsapp.com/ABCDE485493 https://chat.whatsapp.com/ABCDE398394fj43o Mensaje de promoción "https://chat.whatsapp.com/ABCDE"
+*Ejemplo:* ${usedPrefix + command} https://chat.whatsapp.com/ https://chat.whatsapp.com/ Mensaje de promoción "https://chat.whatsapp.com/"
 *Resultado:* Mensaje de promoción https://chat.whatsapp.com/ABCDE
 
 - Sí desea agregar una imagen al mensaje, puede agregar la url (jpg, jpeg, png o gif) al final del mensaje o responder a una imagen. (En el caso de que sea url (texto), dicho enlace de imagen no se mostrará en la promoción).
-*Ejemplo:* ${usedPrefix + command} https://chat.whatsapp.com/ABCDE485493 https://chat.whatsapp.com/ABCDE398394fj43o Mensaje de promoción "https://chat.whatsapp.com/ABCDE" https://images.ecestaticos.com/FVdcvD11qPRi-JWDH3USTiXDmeQ=/0x0.jpg
-*Resultado:* Mensaje de promoción https://chat.whatsapp.com/ABCDE 
+*Ejemplo:* ${usedPrefix + command} https://chat.whatsapp.com/ https://chat.whatsapp.com/ Mensaje de promoción "https://chat.whatsapp.com/" https://images.ecestaticos.com/FVdcvD11qPRi-JWDH3USTiXDmeQ=/0x0.jpg
+*Resultado:* Mensaje de promoción https://chat.whatsapp.com/
 
 - En el caso que desee agregar una url de imagen y que se muestre en la promoción debe de usar [ ] para que se muestre la url en la promoción. (Es necesario recalcar que los [ ] no se mostrarán, y en caso que la url contenga \"\", \'\', o () se mostrará en la promoción).
-*Ejemplo:* ${usedPrefix + command} https://chat.whatsapp.com/ABCDE485493 https://chat.whatsapp.com/ABCDE398394fj43o Mensaje de promoción "https://chat.whatsapp.com/ABCDE" [https://images.ecestaticos.com/FVdcvD11(qPRi-JWDH3USTiXDmeQ=/0x0.jpg]
-*Resultado:* Mensaje de promoción https://chat.whatsapp.com/ABCDE https://images.ecestaticos.com/FVdcvD11(qPRi-JWDH3USTiXDmeQ=/0x0.jpg
+*Ejemplo:* ${usedPrefix + command} https://chat.whatsapp.com/ https://chat.whatsapp.com/ Mensaje de promoción "https://chat.whatsapp.com/" [https://images.ecestaticos.com/FVdcvD11(qPRi-JWDH3USTiXDmeQ=/0x0.jpg]
+*Resultado:* Mensaje de promoción https://chat.whatsapp.com/ https://images.ecestaticos.com/FVdcvD11(qPRi-JWDH3USTiXDmeQ=/0x0.jpg
 
 - Puede agregar número ilimitado de texto, enlaces y url. (En el caso de la url, si no ha respodido a una imagen se usará la primera url para el mensaje de promoción)
 
