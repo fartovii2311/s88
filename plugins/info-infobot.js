@@ -73,7 +73,7 @@ let handler = async (m, { conn, usedPrefix }) => {
        txt += `╰─────────\n\n`
        txt += `> 🚩 ${textbot}`
 
-let img = `https://i.ibb.co/Y7mhFdf/file.jpg`
+let img = `https://masterpiecer-images.s3.yandex.net/8b141c383f5611eeb12e6a2aaa288599:upscaled`
 await conn.sendFile(m.chat, img, 'thumbnail.jpg', txt, m, null, fake)
 }
 handler.help = ['info']
