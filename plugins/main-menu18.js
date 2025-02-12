@@ -1,12 +1,13 @@
 let handler = async (m, { isPrems, conn }) => {
 
-let img = 'https://yt3.googleusercontent.com/ytc/AIdro_kB66I1YRcn08ooGEQbmdwteh5w8MNbWcBuh2czxf0kDw=s900-c-k-c0x00ffffff-no-rj' 
+let img = 'https://masterpiecer-images.s3.yandex.net/8b141c383f5611eeb12e6a2aaa288599:upscaled' 
 let texto = `🌟 𝐌𝐄𝐍𝐔 🌟
 *˚₊·˚₊· ͟͟͞͞➳❥ @${m.sender.split("@")[0]}*
 *│* ┊▸ ✦ 
 *│* ╰∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙ ∙ ∙ ∙ ∙ 
 *│*
-*│ ㊂ ▸▸ _
+*│ ㊂ ▸▸ _Создатель Серёга  
+*│ ㊂ ▸▸ _Номер +79883576985
 *╰∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙ ∙ ∙ ∙ ∙
 *│* ┊*│* ┊▸ ✦,
 *│* ┊▸ ✦ вызов 
