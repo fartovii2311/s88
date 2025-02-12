@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!global.db.data.chats[m.chat].nsfw) {
-    return conn.reply(m.chat, `🚩 El grupo no admite contenido *Nsfw.*\n\n> Para activarlo un *Administrador* debe usar el comando */on nsfw*`, m);
+    return conn.reply(m.chat, `🚩 El grupo no admite contenido *Nsfw.*\n\n> Чтобы активировать его, *Администратор* должен использовать команду * / on nsfw*`, m);
   }
   
   if (!text) return conn.reply(m.chat, 'Ingresa el texto de lo que quieres buscar en Xvideo 🤍', m);

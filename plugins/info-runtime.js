@@ -6,7 +6,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
     let muptime = clockString(_muptime * 1000);
     
-    m.reply(`*» El bot ha estado activo durante:* \n${muptime}`);
+    m.reply(`*» Бот был активен в течение:* \n${muptime}`);
 }
 
 handler.help = ['runtime']

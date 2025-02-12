@@ -16,7 +16,7 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
         const response = await axios.get('https://delirius-apiofc.vercel.app/tools/movistar');
         const { status, data } = response.data;
 
-        if (!status) return conn.reply(m.chat, '🚩 No se pudo obtener la información, inténtalo de nuevo más tarde.', m);
+        if (!status) return conn.reply(m.chat, '🚩 Не удалось получить информацию, повторите попытку позже.', m);
 
         // Filtrar resultados que contengan el texto especificado
         const filteredData = data.filter(item =>

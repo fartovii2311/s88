@@ -9,7 +9,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     var nDays = 86400000 * args[0]
     var now = new Date() * 1
     
-    m.reply(`🚩 Срок вашей аренды истекает в *${msToDate(global.db.data.chats[who].expired - now)}.*\n\n_После этого бот автоматически выйдет из группы._`) 
+    m.reply(`🚩 Срок вашей аренды истекает через *${msToDate(global.db.data.chats[who].expired - now)}.*\n\n_После этого бот автоматически выйдет из группы._`) 
     
 }
 handler.help = ['checkexpired']
@@ -24,5 +24,5 @@ function msToDate(ms) {
   let h = isNaN(ms) ? '--' : Math.floor(ms / 3600000) % 24
   let m = isNaN(ms) ? '--' : Math.floor(ms / 60000) % 60
   let s = isNaN(ms) ? '--' : Math.floor(ms / 1000) % 60
-  return [d, ' *День*\n ', h, ' *Часы*\n ', m, ' *Минуты*\n ', s, ' *Секунды* '].map(v => v.toString().padStart(2, 0)).join('')
+  return [d, ' *Дней*\n ', h, ' *Часов*\n ', m, ' *Минут*\n ', s, ' *Секунд* '].map(v => v.toString().padStart(2, 0)).join('')
 }

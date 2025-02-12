@@ -15,7 +15,7 @@ global.conns.splice(i, 1)
 return 
 }}
 } else {
-resp = '*Este comando sólo puede ser ejecutado por un usuario que sea Sub-Bot*.'
+resp = '*Эта команда может быть выполнена только пользователем, который является суб-ботом*.'
 return conn.sendMessage(m.chat, { text: resp }, { quoted: m })
 }} catch (e) {
 resp = '*Hubo un error al intentar apagar el Sub-Bot.*'
@@ -23,7 +23,7 @@ console.log('Error al intentar apagar el Sub-Bot: ', e)
 return conn.sendMessage(m.chat, { text: resp }, { quoted: m })
 }}
 
-handler.command = /^(berhenti|stop|detener)$/i
+handler.command = /^(вуерлвепрланглароьбвпарланглд)$/i
 handler.private = true  
 export default handler
 
