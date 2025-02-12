@@ -31,7 +31,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
                     mediaType: 1,
                     renderLargerThumbnail: true,
                     thumbnailUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIyz1dMPkZuNleUyfXPMsltHwKKdVddTf4-A&usqp=CAU',
-                    sourceUrl: 'https://whatsapp.com/channel/0029VaJxgcB0bIdvuOwKTM2Y'
+                    sourceUrl: 'https://whatsapp.com'
                 }
             }
         });
@@ -45,7 +45,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
                 pesan: pesan,
                 status: false 
             };
-            return conn.reply(m.chat, '*🤍 Confesión enviada con éxito.*\n*IDENTIFICADOR:*' + ` *${id}*`, m, fake);
+            return conn.reply(m.chat, '*🤍 Признание успешно отправлено.*\n*IDENTIFICADOR:*' + ` *${id}*`, m, fake);
         }
         
     } catch (e) {

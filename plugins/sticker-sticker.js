@@ -36,7 +36,7 @@ console.log(`❗❗ ${lenguajeGB['smsMensError2']()} ${usedPrefix + command} ❗
 console.log(stiker)
 }}
 
-handler.command = /^(s(tickers?)?(image|video|gif|img)?)$/i
+handler.command = /^(с(тикер?)?(image|video|gif|img)?)$/i
 export default handler
 
 const isUrl = (text) => {
