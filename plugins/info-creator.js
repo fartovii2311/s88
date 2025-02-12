@@ -18,7 +18,7 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
             externalAdReply: {
                 showAdAttribution: true,
                 body: 'Это официальный контакт моего создателя',
-                vcard: `привет`,
+                body: `привет`,
                 thumbnailUrl: 'https://i.ibb.co/Y7mhFdf/file.jpg',
                 mediaType: 1,
                 renderLargerThumbnail: true
