@@ -34,9 +34,6 @@ await conn.groupRequestParticipantsUpdate(m.chat, [m.sender], 'reject')}
 if (m.sender.startsWith('94')) {
 await conn.groupRequestParticipantsUpdate(m.chat, [m.sender], 'reject')}
 
-if (m.sender.startsWith('7')) {
-await conn.groupRequestParticipantsUpdate(m.chat, [m.sender], 'reject')}
-
 if (m.sender.startsWith('49')) {
 await conn.groupRequestParticipantsUpdate(m.chat, [m.sender], 'reject')}
 
