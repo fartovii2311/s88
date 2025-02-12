@@ -32,7 +32,7 @@ let handler = async (m, { conn, text, args, groupMetadata }) => {
         return conn.reply(m.chat, `🤍 Используйте команду с параметрами:\n1. \`.неактивные list\` чтобы пометить участников как выключенных\n2. \`.неактивный удар\` чтобы исключить участников из списка`, m)
     }
 
-    if (args[0] === 'list') {
+    if (args[0] === 'лист') {
         if (total === 0) return conn.reply(m.chat, `🤍 *В этой группе нет сторон.*`, m)
         
         const groupName = await conn.getName(m.chat)
@@ -45,7 +45,7 @@ let handler = async (m, { conn, text, args, groupMetadata }) => {
         })
     }
 
-    if (args[0] === 'kick') {
+    if (args[0] === 'снести') {
         if (total === 0) return conn.reply(m.chat, `🤍 *В этой группе нет сторон, по которым можно было бы ударить.*`, m)
 
         for (const user of sider) {
@@ -64,7 +64,7 @@ let handler = async (m, { conn, text, args, groupMetadata }) => {
 
 handler.help = ['inactivos']
 handler.tags = ['group']
-handler.command = /^(inactivos|gcinactivos)$/i
+handler.command = /^(молчуны|gcinactivos)$/i
 handler.group = true
 handler.admin = true
 handler.botAdmin = true
