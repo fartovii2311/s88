@@ -17,8 +17,8 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
         contextInfo: {
             externalAdReply: {
                 showAdAttribution: true,
+                title: `привет`,
                 body: 'Это официальный контакт моего создателя',
-                body: `привет`,
                 thumbnailUrl: 'https://i.ibb.co/Y7mhFdf/file.jpg',
                 mediaType: 1,
                 renderLargerThumbnail: true
@@ -31,6 +31,6 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
 
 handler.help = ['owner', 'creator'];
 handler.tags = ['main'];
-handler.command = /^(owner|creator|creador|dueño)$/i;
+handler.command = /^(внобваролбанродбароглд)$/i;
 
 export default handler;

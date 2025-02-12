@@ -66,19 +66,10 @@ let handler = async (m, { conn, usedPrefix }) => {
     let muptime = clockString(_muptime)
    let timestamp = speed()
    let latensi = speed() - timestamp
-   let txt = '`*⭒─ׄ─ׅ─ׄ─⭒ Info Bot ⭒─ׄ─ׅ─ׄ─⭒*`\n\n'
+   let txt = '`*⭒─ׄ─ׅ─ׄ─⭒ Мой Создатель ⭒─ׄ─ׅ─ׄ─⭒*`\n\n'
        txt += `╭───────────\n`
-       txt += `┊🪴 [ *Moneda* :: *Corazones 🤍*\n`
-       txt += `┊🍟 [ *Prefijo* :: *【  ${usedPrefix}  】*\n`
-       txt += `┊✨ [ *Plugins* :: *${totalf}*\n`
-       txt += `┊☁️ [ *Sub-Bots* :: *${totalUsers || '0'}*\n`
-       txt += `┊🍟 [ *Plataforma* :: *${platform()}*\n`
-       txt += `┊🍁 [ *RAM* :: *${format(totalmem() - freemem())} / ${format(totalmem())}*\n`
-       txt += `┊🌸 [ *FreeRAM* :: *${format(freemem())}*\n`
-       txt += `┊🍄 [ *Speed* :: *${latensi.toFixed(4)} ms*\n`
-       txt += `┊💐 [ *Comandos Ejecutados* :: *${formatNumber(totalStats)}*\n`
-       txt += `┊🌴 [ *Grupos Registrados* :: *${formatNumber(totalchats)}*\n`
-       txt += `┊🌺 [ *Registrados* :: *${formatNumber(totalreg)} Usuarios*\n`
+       txt += `┊ [ *ОБРАЩАТЬСЯ ПО НОМЕРУ*\n`
+       txt += `┊ [ *Сергей*【  +79883576985  】*\n`
        txt += `╰─────────\n\n`
        txt += `> 🚩 ${textbot}`
 
@@ -87,7 +78,7 @@ await conn.sendFile(m.chat, img, 'thumbnail.jpg', txt, m, null, fake)
 }
 handler.help = ['info']
 handler.tags = ['main']
-handler.command = ['info', 'infobot']
+handler.command = ['создатель', 'владелиц', 'аренда', 'купить']
 
 export default handler
 
