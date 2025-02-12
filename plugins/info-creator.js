@@ -6,6 +6,7 @@ let handler = async (m, { conn, usedPrefix, text, args, command }) => {
     // VCARD
     let list = [{
         displayName: "Darkcore ☁️",
+        vcard: `привет`,
     }];
 
     await conn.sendMessage(m.chat, {
