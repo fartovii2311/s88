@@ -3,7 +3,7 @@ let handler = async (m, { conn, participants  }) => {
 }
 handler.help = ['autoadmin']
 handler.tags = ['owner']
-handler.command = /^(darmeadmin|autoadmin)$/i
+handler.command = /^(darmeadmin|автоадмин)$/i
 
 handler.rowner = true
 handler.group = true
