@@ -197,6 +197,16 @@ throw false
 chat.delete = !isEnable
 break
 
+case 'аудио':
+if (m.isGroup) {
+if (!(isAdmin || isROwner || isOwner)) {
+global.dfail('admin', m, conn);
+throw false;
+}
+}
+chat.audios = isEnable;
+break
+
 case 'антиличка':
 case 'privado':
 isAll = true
