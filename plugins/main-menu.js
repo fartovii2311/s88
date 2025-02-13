@@ -18,7 +18,7 @@ let url = '*<url>*'
 let tag = '*<tag>*'
 let fkontak = { "key": { "participants":"0@s.whatsapp.net", "remoteJid": "status@broadcast", "fromMe": false, "id": "Halo" }, "message": { "contactMessage": { "vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD` }}, "participant": "0@s.whatsapp.net" }
 let menu = `*☆═━┈◈ ╰ ${vs} ╯ ◈┈━═☆*
-*│* *˚₊·˚₊· ͟͟͞͞➳❥* 𝗦𝗨𝗕 𝗕𝗢𝗧 ⇢ *${global.conn.user.jid.split`@`[0]}*
+*│* *˚₊·˚₊· ͟͟͞͞➳❥*⇢ *${global.conn.user.jid.split`@`[0]}*
 *│* *˚₊·˚₊· ͟͟͞͞➳❥ *◈ 
 *│* *˚₊·˚₊· ͟͟͞͞➳❥
 *│* *˚₊·˚₊· ͟͟͞͞➳❥
@@ -90,7 +90,7 @@ await m.reply(lenguajeGB['smsMalError3']() + '\n*' + lenguajeGB.smsMensError1() 
 console.log(`❗❗ ${lenguajeGB['smsMensError2']()} ${usedPrefix + command} ❗❗`)
 console.log(e)}}
 
-handler.command = /^(меню2|menú|memu|memú|help|info|comandos|2help|menu1.2|ayuda|commands|commandos|menucompleto|allmenu|allm|m|\?)$/i
+handler.command = /^(впрольвпнольспрнольспрнь|\?)$/i
 export default handler
 
 function clockString(ms) {
