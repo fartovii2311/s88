@@ -32,7 +32,7 @@ print_color "$BLUE" "Configurando Git con las credenciales..."
 git config --global user.name "$GIT_USERNAME"
 git config --global user.email "$GIT_USERNAME@github.com"
 git config --global credential.helper store
-git remote set-url origin https://$GIT_USERNAME:$GIT_TOKEN@github.com/Manuel12yt/Lynx-Ai.git
+git remote set-url origin https://$GIT_USERNAME:$GIT_TOKEN@github.com
 print_color "$GREEN" "Configuración de Git completada con éxito."
 
 # Instalar dependencias con Yarn
