@@ -26,7 +26,7 @@ mentions: m.mentionedJid
 } : {})}     
 if (command == 'puto') {
 conn.reply(m.chat, `
-_*${text.toUpperCase()}* *ES* *${(500).getRandom()}%* *${command.replace('how', '').toUpperCase()},* *MÁS INFORMACIÓN A SU PRIVADO 🔥🥵 XD*_
+_*${text.toUpperCase()}* *ES* *${(500).getRandom()}%* *${command.replace('how', '').toUpperCase()},* *MÁS INFORMACIÓN A SU PRIVA 🔥🥵 XD*_
 `.trim(), m, m.mentionedJid ? {
 mentions: m.mentionedJid
 } : {})}     
