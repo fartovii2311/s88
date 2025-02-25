@@ -1,7 +1,7 @@
 # Lynx-Ai
 
 ---------
-<img src="https://steamuserimages-a.akamaihd.net/ugc/895511849408015946/214FBCFBB51CFC88629DE8E2E89067607ABE5FF9/?imw=512&amp;imh=320&amp;ima=fit&amp;impolicy=Letterbox&amp;imcolor=%23000000&amp;letterbox=true" alt="Lynx Logo">
+<img src="https://steamuserimages-a.akamaihd.net/ugc/895511849408015946/214FBCFBB51CFC88629DE8E2E89067607ABE5FF9/?imw=512&amp;imh=320&amp;ima=fit&amp;impolicy=Letterbox&amp;imcolor=%23000000&amp;letterbox=true" alt="Demon">
 
 ---------
 
